@@ -9,22 +9,17 @@ import astrogeist.store.ObservationStore;
 public final class SharpCapScanner implements Scanner {
 
 	@Override
-	public void scan(ObservationStore store, File dir) {
-		scanRootDir(store, dir);// TODO Auto-generated method stub
-	}
+	public void scan(ObservationStore store, File dir) { scanRootDir(store, dir); }
 
 	private static void scanRootDir(ObservationStore store, File dir) {
 		var files = dir.listFiles();
-		if (files == null)
-			return;
+		if (files == null) return;
 
 		for (var file : files) {
-			if (file.isFile())
-				continue;
+			if (file.isFile()) continue;
 
 			var date = DateUtils.tryParseDate(file.getName());
-			if (date == null)
-				continue;
+			if (date == null) continue;
 
 			scanSubjectsDir(store, file, date);
 		}
@@ -32,12 +27,10 @@ public final class SharpCapScanner implements Scanner {
 
 	private static void scanSubjectsDir(ObservationStore store, File dir, LocalDate date) {
 		var files = dir.listFiles();
-		if (files == null)
-			return;
+		if (files == null) return;
 
 		for (var file : files) {
-			if (file.isFile())
-				continue;
+			if (file.isFile()) continue;
 
 			var subject = file.getName();
 			scanSubjectDir(store, file, date, subject);
@@ -51,53 +44,42 @@ public final class SharpCapScanner implements Scanner {
 
 	private static void parseCameraSettingsFiles(ObservationStore store, File dir, LocalDate date, String subject) {
 		var files = dir.listFiles();
-		if (files == null)
-			return;
+		if (files == null) return;
 
 		for (var file : files) {
-			if (file.isDirectory())
-				continue;
+			if (file.isDirectory()) continue;
 
-			if (!file.getName().endsWith(".CameraSettings.txt"))
-				continue;
+			if (!file.getName().endsWith(".CameraSettings.txt")) continue;
 			parseCameraSettingFile(store, file, date, subject);
 		}
 	}
 
 	private static void parseCameraSettingFile(ObservationStore store, File file, LocalDate date, String subject) {
 		var time = TimeParser.parseTimeFromFilename(file.getName(), date);
-		if (time == null)
-			return;
+		if (time == null) return;
 
 		store.put(time, "subject", subject);
 
 		var content = CameraSettingParser.parseFile(file);
-
-		var camera = content.get("camera");
-		if (camera != null) {
-			store.put(time, "movie:camera", camera);
-		}
+		store.put(time, "movie:camera", content.get("camera"));
+		store.put(time, "movie:binning", content.get("Binning"));
 	}
 
 	private static void parseSerFiles(ObservationStore store, File dir, LocalDate date, String subject) {
 		var files = dir.listFiles();
-		if (files == null)
-			return;
+		if (files == null) return;
 
 		for (var file : files) {
-			if (file.isDirectory())
-				continue;
+			if (file.isDirectory()) continue;
 
-			if (!file.getName().endsWith(".ser"))
-				continue;
+			if (!file.getName().endsWith(".ser")) continue;
 			parseSerFile(store, file, date, subject);
 		}
 	}
 
 	private static void parseSerFile(ObservationStore store, File file, LocalDate date, String subject) {
 		var time = TimeParser.parseTimeFromFilename(file.getName(), date);
-		if (time == null)
-			return;
+		if (time == null) return;
 
 		store.put(time, "movie:ser-file", file.getAbsolutePath());
 	}

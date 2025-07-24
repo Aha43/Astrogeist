@@ -26,16 +26,8 @@ public final class ObservationTablePanel extends JPanel {
 		this.add(scrollPane, BorderLayout.CENTER);
 	}
 
-	public void setStore(ObservationStore store) {
-		tableModel.setStore(store);
-	}
-
-	public JTable getTable() {
-		return table;
-	}
-
-	public ObservationTableModel getTableModel() {
-		return tableModel;
-	}
+	public void setStore(ObservationStore store) { tableModel.setStore(store); }
+	public JTable getTable() { return table; }
+	public ObservationTableModel getTableModel() { return tableModel; }
 
 }

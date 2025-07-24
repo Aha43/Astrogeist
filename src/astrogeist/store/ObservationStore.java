@@ -10,20 +10,13 @@ public class ObservationStore {
 	private final Map<Instant, Map<String, String>> store = new HashMap<>();
 
     public void put(Instant time, String key, String value) {
+    	if (value == null) return;
         store.computeIfAbsent(time, t -> new HashMap<>()).put(key, value);
     }
 
-    public String get(Instant time, String key) {
-        return store.getOrDefault(time, Map.of()).get(key);
-    }
-
-    public Map<String, String> snapshot(Instant time) {
-        return store.getOrDefault(time, Map.of());
-    }
-    
-    public Set<Instant> timestamps() {
-        return new TreeSet<>(store.keySet());
-    }
+    public String get(Instant time, String key) { return store.getOrDefault(time, Map.of()).get(key); }
+    public Map<String, String> snapshot(Instant time) { return store.getOrDefault(time, Map.of()); }
+    public Set<Instant> timestamps() { return new TreeSet<>(store.keySet()); }
     
     public static ObservationStore createDummyStore() {
         var store = new ObservationStore();

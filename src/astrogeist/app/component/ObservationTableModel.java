@@ -16,7 +16,7 @@ public final class ObservationTableModel extends AbstractTableModel {
 	private static final String TIME_COLUMN = "Time";
 
 	private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-			.withZone(ZoneId.systemDefault());
+		.withZone(ZoneId.systemDefault());
 
 	public void setStore(ObservationStore store) {
 		timestamps.clear();
@@ -40,19 +40,11 @@ public final class ObservationTableModel extends AbstractTableModel {
 	}
 
 	@Override
-	public int getRowCount() {
-		return timestamps.size();
-	}
-
+	public int getRowCount() { return timestamps.size(); }
 	@Override
-	public int getColumnCount() {
-		return columns.size();
-	}
-
+	public int getColumnCount() { return columns.size(); }
 	@Override
-	public String getColumnName(int column) {
-		return columns.get(column);
-	}
+	public String getColumnName(int column) { return columns.get(column); }
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
@@ -67,8 +59,6 @@ public final class ObservationTableModel extends AbstractTableModel {
 		return data.getOrDefault(column, "");
 	}
 
-	public Instant getTimestampAt(int rowIndex) {
-		return timestamps.get(rowIndex);
-	}
+	public Instant getTimestampAt(int rowIndex) { return timestamps.get(rowIndex); }
 
 }

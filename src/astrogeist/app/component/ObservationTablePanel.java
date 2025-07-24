@@ -1,10 +1,16 @@
 package astrogeist.app.component;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+
 import astrogeist.store.ObservationStore;
 
-public class ObservationTablePanel extends JPanel {
+public final class ObservationTablePanel extends JPanel {
+	private static final long serialVersionUID = 1L;
+	
 	private final JTable table;
 	private final ObservationTableModel tableModel;
 
@@ -16,7 +22,7 @@ public class ObservationTablePanel extends JPanel {
 		table.setFillsViewportHeight(true);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-		JScrollPane scrollPane = new JScrollPane(table);
+		var scrollPane = new JScrollPane(table);
 		this.add(scrollPane, BorderLayout.CENTER);
 	}
 

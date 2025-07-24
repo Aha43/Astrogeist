@@ -2,6 +2,7 @@ package astrogeist.app;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.io.File;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -17,6 +18,7 @@ import javax.swing.JTextField;
 import javax.swing.JToolBar;
 
 import astrogeist.app.component.ObservationTablePanel;
+import astrogeist.scanner.sharpcap.SharpCapScanner;
 import astrogeist.store.ObservationStore;
 
 public final class App {
@@ -69,7 +71,13 @@ public final class App {
 		file.add(loadItem);
 		loadItem.addActionListener(e -> {
 			System.out.println("Load clicked");
-			tablePanel.setStore(ObservationStore.createDummyStore());
+			
+			var path = "/Volumes/Extreme SSD/SharpCap";
+			var scanner = new SharpCapScanner();
+			var store = new ObservationStore();
+			scanner.scan(store, new File(path));
+			
+			tablePanel.setStore(store);
 		});
 		
 		file.add(new JMenuItem("Exit"));

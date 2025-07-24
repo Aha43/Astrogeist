@@ -7,7 +7,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import astrogeist.store.*;
 
-public class ObservationTableModel extends AbstractTableModel {
+public final class ObservationTableModel extends AbstractTableModel {
+	private static final long serialVersionUID = 1L;
+	
 	private final List<Instant> timestamps = new ArrayList<>();
 	private final List<String> columns = new ArrayList<>();
 	private final Map<Instant, Map<String, String>> rows = new LinkedHashMap<>();
@@ -22,9 +24,9 @@ public class ObservationTableModel extends AbstractTableModel {
 		rows.clear();
 
 		// Discover columns from all properties
-		Set<String> dynamicColumns = new TreeSet<>();
+		var dynamicColumns = new TreeSet<String>();
 		for (Instant t : store.timestamps()) {
-			Map<String, String> snapshot = store.snapshot(t);
+			var snapshot = store.snapshot(t);
 			timestamps.add(t);
 			rows.put(t, snapshot);
 			dynamicColumns.addAll(snapshot.keySet());

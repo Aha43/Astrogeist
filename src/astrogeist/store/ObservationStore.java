@@ -22,15 +22,14 @@ public class ObservationStore {
     }
     
     public Set<Instant> timestamps() {
-        // Return a sorted set of all timestamps
         return new TreeSet<>(store.keySet());
     }
     
     public static ObservationStore createDummyStore() {
-        ObservationStore store = new ObservationStore();
+        var store = new ObservationStore();
 
         for (int i = 0; i < 5; i++) {
-            Instant timestamp = Instant.now().minusSeconds(i * 3600); // 1 hour apart
+            var timestamp = Instant.now().minusSeconds(i * 3600); // 1 hour apart
 
             store.put(timestamp, "subject", "Sun");
             store.put(timestamp, "movie:exposure", String.valueOf(10 + i));

@@ -3,13 +3,15 @@ package astrogeist.scanner.sharpcap;
 import java.io.File;
 import java.time.LocalDate;
 
-import astrogeist.scanner.Scanner;
+import astrogeist.scanner.AbstractScanner;
 import astrogeist.store.ObservationStore;
 
-public final class SharpCapScanner implements Scanner {
+public final class SharpCapScanner extends AbstractScanner {
+	
+	public SharpCapScanner(File root) { super(root); }
 
 	@Override
-	public void scan(ObservationStore store, File dir) { scanRootDir(store, dir); }
+	public void scan(ObservationStore store) { scanRootDir(store, getRootDir()); }
 
 	private static void scanRootDir(ObservationStore store, File dir) {
 		var files = dir.listFiles();

@@ -26,6 +26,7 @@ import astrogeist.app.component.ObservationFilesPanel;
 import astrogeist.app.component.ObservationTablePanel;
 import astrogeist.app.component.PropertiesTablePanel;
 import astrogeist.app.dialog.ConfigDialog;
+import astrogeist.scanner.CompositeScanner;
 import astrogeist.scanner.sharpcap.SharpCapScanner;
 import astrogeist.store.ObservationStore;
 
@@ -71,7 +72,6 @@ public final class App {
 		
 		addSelectedObservationListener();
 		
-		
 		URL url = getClass().getResource("/astrogeist/app/logo.png");
 		System.out.println("Icon URL: " + url);
 		var icon = new ImageIcon(url).getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH);;
@@ -89,10 +89,9 @@ public final class App {
 		loadItem.addActionListener(e -> {
 			
 			// Needs to be refactored...
-			var path = "/Volumes/Extreme SSD/SharpCap";
-			var scanner = new SharpCapScanner();
+			var scanner = new CompositeScanner();
 			var store = new ObservationStore();
-			scanner.scan(store, new File(path));
+			scanner.scan(store);
 			
 			_tablePanel.setStore(store);
 		});

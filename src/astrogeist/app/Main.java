@@ -1,8 +1,22 @@
 package astrogeist.app;
 
+import java.io.IOException;
+
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+
+import astrogeist.config.AstrogeistConfig;
+
 public class Main {
 	public static void main(String[] args) {
-		var app = new App();
-		app.createGUI();
+		try {
+			AstrogeistConfig.loadOrCreate();
+			var app = new App();
+			SwingUtilities.invokeLater(() -> app.createGUI());
+		} catch (IOException e) {
+			e.printStackTrace();
+	        JOptionPane.showMessageDialog(null, "Failed to load configuration.", "Error", JOptionPane.ERROR_MESSAGE);
+	        System.exit(1);
+		}
 	}
 }

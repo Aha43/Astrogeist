@@ -22,6 +22,7 @@ import javax.swing.JToolBar;
 import astrogeist.app.component.ObservationFilesPanel;
 import astrogeist.app.component.ObservationTablePanel;
 import astrogeist.app.component.PropertiesTablePanel;
+import astrogeist.app.dialog.ConfigDialog;
 import astrogeist.scanner.sharpcap.SharpCapScanner;
 import astrogeist.store.ObservationStore;
 
@@ -77,14 +78,21 @@ public final class App {
 		var loadItem = new JMenuItem("Load");
 		file.add(loadItem);
 		loadItem.addActionListener(e -> {
-			System.out.println("Load clicked");
 			
+			// Needs to be refactored...
 			var path = "/Volumes/Extreme SSD/SharpCap";
 			var scanner = new SharpCapScanner();
 			var store = new ObservationStore();
 			scanner.scan(store, new File(path));
 			
 			_tablePanel.setStore(store);
+		});
+		
+		var settingsItem = new JMenuItem("Settings");
+		file.add(settingsItem);
+		settingsItem.addActionListener(e -> {
+			ConfigDialog dialog = new ConfigDialog(null);
+			dialog.setVisible(true);
 		});
 		
 		file.add(new JMenuItem("Exit"));

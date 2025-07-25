@@ -8,11 +8,6 @@ import java.time.ZoneOffset;
 
 public final class TimeParser {
 
-    // Private constructor prevents instantiation
-    private TimeParser() {
-        throw new AssertionError("Cannot instantiate utility class");
-    }
-
     public static Instant parseTimeFromFilename(String timePart, LocalDate date) {
         try {
             String[] parts = timePart.split("\\.");
@@ -26,5 +21,7 @@ public final class TimeParser {
             return null;
         }
     }
+    
+    private TimeParser() { throw new AssertionError("Cannot instantiate utility class"); }
     
 }

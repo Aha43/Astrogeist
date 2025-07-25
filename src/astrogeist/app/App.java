@@ -3,6 +3,8 @@ package astrogeist.app;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.io.File;
+import java.time.Instant;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -17,13 +19,17 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 
+import astrogeist.app.component.ObservationFilesPanel;
 import astrogeist.app.component.ObservationTablePanel;
+import astrogeist.app.component.PropertiesTablePanel;
 import astrogeist.scanner.sharpcap.SharpCapScanner;
 import astrogeist.store.ObservationStore;
 
 public final class App {
 	
-	private final ObservationTablePanel tablePanel = new ObservationTablePanel();
+	private final ObservationTablePanel _tablePanel = new ObservationTablePanel();
+	private final PropertiesTablePanel _propertiesPanel = new PropertiesTablePanel();
+	private final ObservationFilesPanel _filesPanel = new ObservationFilesPanel();
 	
 	public void createGUI() {
 		var frame = new JFrame("Astrogeist");
@@ -40,13 +46,13 @@ public final class App {
 
 		// Table (Center)
 		// Replace with your model later
-		var tableScroll = new JScrollPane(tablePanel);
+		var tableScroll = new JScrollPane(_tablePanel);
 		
 
 		// Left: Tabbed Pane
 		var leftTabs = new JTabbedPane();
 		leftTabs.setMinimumSize(new Dimension(200, 100));
-		leftTabs.addTab("Properties", new JPanel());
+		leftTabs.addTab("Properties", _propertiesPanel);
 		leftTabs.addTab("Issues", new JPanel());
 		leftTabs.addTab("Tasks", new JPanel());
 
@@ -56,9 +62,10 @@ public final class App {
 		frame.add(splitPane, BorderLayout.CENTER);
 
 		// Bottom: File panel
-		var filePanel = new JPanel();
-		filePanel.setPreferredSize(new Dimension(100, 120));
-		frame.add(filePanel, BorderLayout.SOUTH);
+		_filesPanel.setPreferredSize(new Dimension(100, 120));
+		frame.add(_filesPanel, BorderLayout.SOUTH);
+		
+		addSelectedObservationListener();
 
 		frame.setVisible(true);
 	}
@@ -77,7 +84,7 @@ public final class App {
 			var store = new ObservationStore();
 			scanner.scan(store, new File(path));
 			
-			tablePanel.setStore(store);
+			_tablePanel.setStore(store);
 		});
 		
 		file.add(new JMenuItem("Exit"));
@@ -104,6 +111,20 @@ public final class App {
 		toolBar.add(new JTextField(10));
 
 		return toolBar;
+	}
+	
+	private void addSelectedObservationListener() {
+		_tablePanel.addSelectionListener(e -> {
+			if (!e.getValueIsAdjusting()) {
+		        int selectedRow = _tablePanel.getTable().getSelectedRow();
+		        if (selectedRow >= 0) {
+		            Instant timestamp = _tablePanel.getTableModel().getTimestampAt(selectedRow);
+		            Map<String, String> observation = _tablePanel.getStore().snapshot(timestamp);
+		            _propertiesPanel.setProperties(observation);
+		            _filesPanel.setObservation(observation);
+		        }
+		    }
+		});
 	}
 
 }

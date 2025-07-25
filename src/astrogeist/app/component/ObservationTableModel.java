@@ -10,6 +10,8 @@ import astrogeist.store.*;
 public final class ObservationTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
 	
+	private ObservationStore _store = null;
+	
 	private final List<Instant> timestamps = new ArrayList<>();
 	private final List<String> columns = new ArrayList<>();
 	private final Map<Instant, Map<String, String>> rows = new LinkedHashMap<>();
@@ -19,6 +21,8 @@ public final class ObservationTableModel extends AbstractTableModel {
 		.withZone(ZoneId.systemDefault());
 
 	public void setStore(ObservationStore store) {
+		_store = store;
+		
 		timestamps.clear();
 		columns.clear();
 		rows.clear();
@@ -38,6 +42,8 @@ public final class ObservationTableModel extends AbstractTableModel {
 
 		fireTableStructureChanged();
 	}
+	
+	public ObservationStore getStore() { return _store; }
 
 	@Override
 	public int getRowCount() { return timestamps.size(); }

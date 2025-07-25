@@ -20,27 +20,35 @@ public final class ObservationTableModel extends AbstractTableModel {
 	private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
 		.withZone(ZoneId.systemDefault());
 
+	private List<String> _columnsToShow = new ArrayList<String>();
+	
+	public ObservationTableModel() {
+		_columnsToShow.add("subject");
+	}
+	
 	public void setStore(ObservationStore store) {
-		_store = store;
-		
-		timestamps.clear();
-		columns.clear();
-		rows.clear();
+	    _store = store;
 
-		// Discover columns from all properties
-		var dynamicColumns = new TreeSet<String>();
-		for (Instant t : store.timestamps()) {
-			var snapshot = store.snapshot(t);
-			timestamps.add(t);
-			rows.put(t, snapshot);
-			dynamicColumns.addAll(snapshot.keySet());
-		}
+	    timestamps.clear();
+	    columns.clear();
+	    rows.clear();
 
-		// Always include "Time" as first column
-		columns.add(TIME_COLUMN);
-		columns.addAll(dynamicColumns);
+	    // Always include "Time" as the first column
+	    columns.add(TIME_COLUMN);
 
-		fireTableStructureChanged();
+	    // Add only columns listed in _columnsToShow (if any)
+	    if (_columnsToShow != null && !_columnsToShow.isEmpty()) {
+	        columns.addAll(_columnsToShow);
+	    }
+
+	    // Load rows
+	    for (Instant t : store.timestamps()) {
+	        var snapshot = store.snapshot(t);
+	        timestamps.add(t);
+	        rows.put(t, snapshot);
+	    }
+
+	    fireTableStructureChanged();
 	}
 	
 	public ObservationStore getStore() { return _store; }

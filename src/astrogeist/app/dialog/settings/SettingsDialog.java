@@ -1,8 +1,4 @@
-package astrogeist.app.dialog;
-
-
-
-import astrogeist.config.AstrogeistConfig;
+package astrogeist.app.dialog.settings;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -19,20 +15,22 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 
-public final class ConfigDialog extends JDialog {
+import astrogeist.setting.AstrogeistSettings;
+
+public final class SettingsDialog extends JDialog {
     private static final long serialVersionUID = 1L;
 
     private final JTabbedPane tabs = new JTabbedPane();
-    private final Map<String, GroupTableModel> models = new LinkedHashMap<>();
+    private final Map<String, SettingsTableModel> models = new LinkedHashMap<>();
 
-    public ConfigDialog(Frame owner) {
+    public SettingsDialog(Frame owner) {
         super(owner, "Astrogeist Configuration", true);
         setSize(600, 400);
         setLocationRelativeTo(owner);
         setLayout(new BorderLayout());
 
         try {
-            var grouped = AstrogeistConfig.loadGrouped();
+            var grouped = AstrogeistSettings.loadGrouped();
             buildTabs(grouped);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(this, "Failed to load config: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -45,7 +43,7 @@ public final class ConfigDialog extends JDialog {
     private void buildTabs(Map<String, Map<String, String>> grouped) {
         for (var entry : grouped.entrySet()) {
             String group = entry.getKey();
-            GroupTableModel model = new GroupTableModel(entry.getValue());
+            SettingsTableModel model = new SettingsTableModel(entry.getValue());
             JTable table = new JTable(model);
             table.setFillsViewportHeight(true);
 
@@ -81,7 +79,7 @@ public final class ConfigDialog extends JDialog {
         for (var entry : models.entrySet()) {
             all.put(entry.getKey(), entry.getValue().toMap());
         }
-        AstrogeistConfig.saveGrouped(all);
+        AstrogeistSettings.saveGrouped(all);
     }
 
     private String capitalize(String s) {

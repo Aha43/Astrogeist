@@ -1,4 +1,4 @@
-package astrogeist.app.dialog;
+package astrogeist.app.dialog.settings;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -7,13 +7,13 @@ import java.util.Map;
 
 import javax.swing.table.AbstractTableModel;
 
-public final class GroupTableModel extends AbstractTableModel {
+public final class SettingsTableModel extends AbstractTableModel {
     private static final long serialVersionUID = 1L;
     
     private final List<String> keys;
     private final List<String> values;
 
-    public GroupTableModel(Map<String, String> data) {
+    public SettingsTableModel(Map<String, String> data) {
         keys = new ArrayList<>(data.keySet());
         values = new ArrayList<>();
         for (String k : keys) values.add(data.get(k));

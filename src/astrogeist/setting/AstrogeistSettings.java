@@ -1,4 +1,4 @@
-package astrogeist.config;
+package astrogeist.setting;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -9,7 +9,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public final class AstrogeistConfig {
+public final class AstrogeistSettings {
     private static final String FILE_NAME = ".astrogeist.conf.txt";
     private static final Path CONFIG_PATH = Paths.get(System.getProperty("user.home"), FILE_NAME);
 
@@ -82,7 +82,7 @@ public final class AstrogeistConfig {
         return result;
     }
     
-    private AstrogeistConfig() { throw new AssertionError("Cannot instantiate utility class"); }
+    private AstrogeistSettings() { throw new AssertionError("Cannot instantiate utility class"); }
 }
 
 

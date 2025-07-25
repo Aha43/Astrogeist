@@ -2,10 +2,13 @@ package astrogeist.app;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.io.File;
+import java.net.URL;
 import java.time.Instant;
 import java.util.Map;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -67,6 +70,12 @@ public final class App {
 		frame.add(_filesPanel, BorderLayout.SOUTH);
 		
 		addSelectedObservationListener();
+		
+		
+		URL url = getClass().getResource("/astrogeist/app/logo.png");
+		System.out.println("Icon URL: " + url);
+		var icon = new ImageIcon(url).getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH);;
+		frame.setIconImage(icon);
 
 		frame.setVisible(true);
 	}

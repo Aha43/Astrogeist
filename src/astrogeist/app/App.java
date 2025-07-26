@@ -8,26 +8,17 @@ import java.time.Instant;
 import java.util.Map;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
-import javax.swing.JTextField;
-import javax.swing.JToolBar;
 
 import astrogeist.app.component.ObservationFilesPanel;
 import astrogeist.app.component.ObservationTablePanel;
 import astrogeist.app.component.PropertiesTablePanel;
-import astrogeist.app.dialog.AboutDialog;
-import astrogeist.app.dialog.settings.SettingsDialog;
-import astrogeist.scanner.CompositeScanner;
-import astrogeist.store.ObservationStore;
+import astrogeist.app.menubar.MenuBarFactory;
+import astrogeist.app.toolbar.ToolBarFactory;
 
 public final class App {
 	
@@ -42,16 +33,14 @@ public final class App {
 		frame.setLayout(new BorderLayout());
 
 		// Menu Bar
-		frame.setJMenuBar(createMenuBar());
+		frame.setJMenuBar(MenuBarFactory.createMenuBar(_tablePanel));
 
 		// Toolbar
-		var toolBar = createToolBar();
+		var toolBar = ToolBarFactory.createToolBar();
 		frame.add(toolBar, BorderLayout.NORTH);
 
 		// Table (Center)
-		// Replace with your model later
 		var tableScroll = new JScrollPane(_tablePanel);
-		
 
 		// Left: Tabbed Pane
 		var leftTabs = new JTabbedPane();
@@ -77,62 +66,6 @@ public final class App {
 		frame.setIconImage(icon);
 
 		frame.setVisible(true);
-	}
-
-	private JMenuBar createMenuBar() {
-		var menuBar = new JMenuBar();
-
-		var file = new JMenu("File");
-		var loadItem = new JMenuItem("Load");
-		file.add(loadItem);
-		loadItem.addActionListener(e -> {
-			
-			// Needs to be refactored...
-			var scanner = new CompositeScanner();
-			var store = new ObservationStore();
-			scanner.scan(store);
-			
-			_tablePanel.setStore(store);
-		});
-		
-		var settingsItem = new JMenuItem("Settings");
-		file.add(settingsItem);
-		settingsItem.addActionListener(e -> {
-			SettingsDialog dialog = new SettingsDialog(null);
-			dialog.setVisible(true);
-		});
-		
-		file.add(new JMenuItem("Exit"));
-
-		var view = new JMenu("View");
-		var tools = new JMenu("Tools");
-		var help = new JMenu("Help");
-		
-		var aboutItem = new JMenuItem("About...");
-		aboutItem.addActionListener(e -> {
-		    var dialog = new AboutDialog(null); // Replace with your main window
-		    dialog.setVisible(true);
-		});
-		help.add(aboutItem);
-
-		menuBar.add(file);
-		menuBar.add(view);
-		menuBar.add(tools);
-		menuBar.add(help);
-
-		return menuBar;
-	}
-
-	private JToolBar createToolBar() {
-		var toolBar = new JToolBar();
-
-		toolBar.add(new JButton("Rescan"));
-		toolBar.add(new JButton("Export"));
-		toolBar.addSeparator();
-		toolBar.add(new JLabel("Filter: "));
-		toolBar.add(new JTextField(10));
-
-		return toolBar;
 	}
 	
 	private void addSelectedObservationListener() {

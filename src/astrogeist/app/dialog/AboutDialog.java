@@ -27,14 +27,14 @@ public final class AboutDialog extends JDialog {
         setLayout(new BorderLayout());
 
         // Top section with title and version
-        JPanel header = new JPanel();
+        var header = new JPanel();
         header.setLayout(new BoxLayout(header, BoxLayout.Y_AXIS));
 
-        JLabel title = new JLabel("Astrogeist", SwingConstants.CENTER);
+        var title = new JLabel("Astrogeist", SwingConstants.CENTER);
         title.setFont(new Font("Serif", Font.BOLD, 24));
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JLabel version = new JLabel("Version 0.1", SwingConstants.CENTER);
+        var version = new JLabel("Version 0.1", SwingConstants.CENTER);
         version.setFont(new Font("SansSerif", Font.PLAIN, 14));
         version.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -58,15 +58,15 @@ public final class AboutDialog extends JDialog {
         text.setWrapStyleWord(true);
         text.setBackground(getBackground());
 
-        JScrollPane scrollPane = new JScrollPane(text);
+        var scrollPane = new JScrollPane(text);
         scrollPane.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
         scrollPane.setPreferredSize(new Dimension(380, 120));
 
         // Close button
-        JButton close = new JButton("Close");
+        var close = new JButton("Close");
         close.addActionListener(e -> dispose());
 
-        JPanel buttonPanel = new JPanel();
+        var buttonPanel = new JPanel();
         buttonPanel.add(close);
 
         add(header, BorderLayout.NORTH);

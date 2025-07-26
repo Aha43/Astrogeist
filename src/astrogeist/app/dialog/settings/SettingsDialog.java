@@ -24,7 +24,7 @@ public final class SettingsDialog extends JDialog {
     private final Map<String, SettingsTableModel> models = new LinkedHashMap<>();
 
     public SettingsDialog(Frame owner) {
-        super(owner, "Astrogeist Configuration", true);
+        super(owner, "Astrogeist Settings", true);
         setSize(600, 400);
         setLocationRelativeTo(owner);
         setLayout(new BorderLayout());

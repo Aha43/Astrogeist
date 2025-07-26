@@ -1,35 +1,39 @@
 package astrogeist.store;
 
+import static astrogeist.Common.requireNonEmpty;
+import static java.util.Objects.requireNonNull;
+
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import astrogeist.scanner.NormalizedProperties;
+
 public class ObservationStore {
 	private final Map<Instant, Map<String, String>> store = new HashMap<>();
 
     public void put(Instant time, String key, String value) {
-    	if (value == null) return;
+    	time = requireNonNull(time, "time");
+    	key = requireNonEmpty(key, "key");
+    	
+    	value = value == null ? "" : value.trim();
+    	
+    	var normalizedKey = NormalizedProperties.getNormalized(key);
+    	key = normalizedKey == null ? key : normalizedKey;
+    	
         store.computeIfAbsent(time, t -> new HashMap<>()).put(key, value);
+    }
+    
+    public void put(Instant time, Map<String, String> values) {
+    	for (var e : values.entrySet()) {
+    		var key = NormalizedProperties.getNormalized(e.getKey());
+    		if (key != null) put(time, key, e.getValue());
+    	}
     }
 
     public String get(Instant time, String key) { return store.getOrDefault(time, Map.of()).get(key); }
     public Map<String, String> snapshot(Instant time) { return store.getOrDefault(time, Map.of()); }
     public Set<Instant> timestamps() { return new TreeSet<>(store.keySet()); }
-    
-    public static ObservationStore createDummyStore() {
-        var store = new ObservationStore();
-
-        for (int i = 0; i < 5; i++) {
-            var timestamp = Instant.now().minusSeconds(i * 3600); // 1 hour apart
-
-            store.put(timestamp, "subject", "Sun");
-            store.put(timestamp, "movie:exposure", String.valueOf(10 + i));
-            store.put(timestamp, "scope", "Lunt 60MT");
-        }
-
-        return store;
-    }
-
 }

@@ -40,7 +40,7 @@ public final class MenuBarFactory {
 			dialog.setVisible(true);
 		});
 		
-		var exitItem = new JMenuItem();
+		var exitItem = new JMenuItem("Exit");
 		exitItem.addActionListener(e -> System.exit(0));
 		fileMenu.add(exitItem);
 		

@@ -5,6 +5,8 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+
+import astrogeist.scanner.NormalizedProperties;
 import astrogeist.store.*;
 
 public final class ObservationTableModel extends AbstractTableModel {
@@ -23,7 +25,8 @@ public final class ObservationTableModel extends AbstractTableModel {
 	private List<String> _columnsToShow = new ArrayList<String>();
 	
 	public ObservationTableModel() {
-		_columnsToShow.add("subject");
+		//_columnsToShow.add("subject");
+		for (var s : NormalizedProperties.getNormalizedNames()) _columnsToShow.add(s);
 	}
 	
 	public void setStore(ObservationStore store) {

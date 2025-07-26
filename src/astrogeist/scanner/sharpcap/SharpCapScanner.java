@@ -60,11 +60,10 @@ public final class SharpCapScanner extends AbstractScanner {
 		var time = TimeParser.parseTimeFromFilename(file.getName(), date);
 		if (time == null) return;
 
-		store.put(time, "subject", subject);
+		store.put(time, "Subject", subject);
 
 		var content = CameraSettingParser.parseFile(file);
-		store.put(time, "movie:camera", content.get("camera"));
-		store.put(time, "movie:binning", content.get("Binning"));
+		store.put(time, content);
 	}
 
 	private static void parseSerFiles(ObservationStore store, File dir, LocalDate date, String subject) {
@@ -83,7 +82,7 @@ public final class SharpCapScanner extends AbstractScanner {
 		var time = TimeParser.parseTimeFromFilename(file.getName(), date);
 		if (time == null) return;
 
-		store.put(time, "movie:ser-file", file.getAbsolutePath());
+		store.put(time, "SerFile", file.getAbsolutePath());
 	}
 
 }

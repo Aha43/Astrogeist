@@ -24,6 +24,7 @@ import javax.swing.JToolBar;
 import astrogeist.app.component.ObservationFilesPanel;
 import astrogeist.app.component.ObservationTablePanel;
 import astrogeist.app.component.PropertiesTablePanel;
+import astrogeist.app.dialog.AboutDialog;
 import astrogeist.app.dialog.settings.SettingsDialog;
 import astrogeist.scanner.CompositeScanner;
 import astrogeist.store.ObservationStore;
@@ -106,6 +107,13 @@ public final class App {
 		var view = new JMenu("View");
 		var tools = new JMenu("Tools");
 		var help = new JMenu("Help");
+		
+		var aboutItem = new JMenuItem("About...");
+		aboutItem.addActionListener(e -> {
+		    var dialog = new AboutDialog(null); // Replace with your main window
+		    dialog.setVisible(true);
+		});
+		help.add(aboutItem);
 
 		menuBar.add(file);
 		menuBar.add(view);

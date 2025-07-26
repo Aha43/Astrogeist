@@ -55,6 +55,9 @@ public final class SettingsDialog extends JDialog {
     }
 
     private JPanel buildButtons() {
+    	JButton edit = new JButton("Edit");
+    	edit.addActionListener(e -> onEdit());
+    	
         JButton save = new JButton("Save");
         save.addActionListener(e -> {
             try {
@@ -68,11 +71,46 @@ public final class SettingsDialog extends JDialog {
         JButton cancel = new JButton("Cancel");
         cancel.addActionListener(e -> dispose());
 
-        JPanel panel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        panel.add(edit);
         panel.add(save);
         panel.add(cancel);
         return panel;
     }
+    
+    private void onEdit() {
+        int selectedTab = tabs.getSelectedIndex();
+        if (selectedTab < 0) return;
+
+        String group = tabs.getTitleAt(selectedTab).toLowerCase(); // undo capitalize
+        JScrollPane scrollPane = (JScrollPane) tabs.getComponentAt(selectedTab);
+        JTable table = (JTable) scrollPane.getViewport().getView();
+        int selectedRow = table.getSelectedRow();
+
+        if (selectedRow < 0) return;
+
+        SettingsTableModel model = models.get(group);
+        String key = (String) model.getValueAt(selectedRow, 0);
+        String value = (String) model.getValueAt(selectedRow, 1);
+
+        String scopedKey = group.equals("general") ? key : group + ":" + key;
+        SettingsEditor editor = SettingsEditorProvider.getEditor(scopedKey);
+        var component = editor.getEditorComponent(value);
+
+        int result = JOptionPane.showConfirmDialog(
+            this,
+            component,
+            "Edit Setting: " + key,
+            JOptionPane.OK_CANCEL_OPTION,
+            JOptionPane.PLAIN_MESSAGE
+        );
+
+        if (result == JOptionPane.OK_OPTION) {
+            String newValue = editor.getEditedValue();
+            model.setValueAt(newValue, selectedRow, 1);
+        }
+    }
+
 
     private void saveAll() throws IOException {
         Map<String, Map<String, String>> all = new LinkedHashMap<>();

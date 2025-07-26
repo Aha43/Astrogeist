@@ -16,7 +16,8 @@ public final class AstrogeistSettings {
     public static final Map<String, String> DEFAULTS = Map.ofEntries(
         Map.entry("ui:columns", "Time,subject,scope,exposure"),
         Map.entry("general:language", "en"),
-        Map.entry("general:theme", "light")
+        Map.entry("general:theme", "light"),
+        Map.entry("scanner:roots", "")
         // Add more defaults here
     );
 

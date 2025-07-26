@@ -3,7 +3,6 @@ package astrogeist.app;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Image;
-import java.io.File;
 import java.net.URL;
 import java.time.Instant;
 import java.util.Map;
@@ -27,7 +26,6 @@ import astrogeist.app.component.ObservationTablePanel;
 import astrogeist.app.component.PropertiesTablePanel;
 import astrogeist.app.dialog.settings.SettingsDialog;
 import astrogeist.scanner.CompositeScanner;
-import astrogeist.scanner.sharpcap.SharpCapScanner;
 import astrogeist.store.ObservationStore;
 
 public final class App {

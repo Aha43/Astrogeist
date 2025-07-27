@@ -20,10 +20,4 @@ public final class Main {
 		}
 	}
 	
-	private static void ensureAstrogeistDirExists() {
-		/*
-		 
-		 */
-	}
-	
 }

@@ -15,6 +15,7 @@ public final class PropertiesTablePanel extends JPanel {
 
 	public PropertiesTablePanel() {
 		super(new BorderLayout());
+		
 		_tableModel = new PropertiesTableModel();
 		_table = new JTable(_tableModel);
 

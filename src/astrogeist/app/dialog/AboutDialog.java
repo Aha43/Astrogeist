@@ -5,10 +5,13 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Frame;
+import java.awt.Image;
+import java.net.URL;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -22,13 +25,24 @@ public final class AboutDialog extends JDialog {
 
     public AboutDialog(Frame owner) {
         super(owner, "About Astrogeist", true);
-        setSize(400, 300);
+        setSize(400, 450); // Adjusted for logo
         setLocationRelativeTo(owner);
         setLayout(new BorderLayout());
 
-        // Top section with title and version
+        // Top section with logo, title, and version
         var header = new JPanel();
         header.setLayout(new BoxLayout(header, BoxLayout.Y_AXIS));
+
+        // Load logo (assuming it's in /resources/logo.png)
+        URL logoUrl = getClass().getResource("/astrogeist/app/logo.png");
+        if (logoUrl != null) {
+            var icon = new ImageIcon(logoUrl);
+            Image scaledImage = icon.getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH);
+            var logo = new JLabel(new ImageIcon(scaledImage));
+            logo.setAlignmentX(Component.CENTER_ALIGNMENT);
+            header.add(Box.createVerticalStrut(10));
+            header.add(logo);
+        }
 
         var title = new JLabel("Astrogeist", SwingConstants.CENTER);
         title.setFont(new Font("Serif", Font.BOLD, 24));
@@ -38,7 +52,7 @@ public final class AboutDialog extends JDialog {
         version.setFont(new Font("SansSerif", Font.PLAIN, 14));
         version.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        header.add(Box.createVerticalStrut(10));
+        header.add(Box.createVerticalStrut(5));
         header.add(title);
         header.add(Box.createVerticalStrut(5));
         header.add(version);

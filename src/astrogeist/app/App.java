@@ -14,9 +14,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 
-import astrogeist.app.component.ObservationFilesPanel;
 import astrogeist.app.component.ObservationTablePanel;
-import astrogeist.app.component.PropertiesTablePanel;
+import astrogeist.app.component.fileview.ObservationFilesPanel;
+import astrogeist.app.component.propertiesview.PropertiesTablePanel;
 import astrogeist.app.menubar.MenuBarFactory;
 import astrogeist.app.toolbar.ToolBarFactory;
 

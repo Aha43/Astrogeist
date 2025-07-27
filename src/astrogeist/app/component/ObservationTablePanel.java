@@ -7,6 +7,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionListener;
 
+import astrogeist.app.component.fileview.ObservationFilesPanel;
+import astrogeist.app.component.propertiesview.PropertiesTablePanel;
 import astrogeist.store.ObservationStore;
 
 public final class ObservationTablePanel extends JPanel {

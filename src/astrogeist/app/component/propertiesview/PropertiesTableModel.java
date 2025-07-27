@@ -1,4 +1,4 @@
-package astrogeist.app.component;
+package astrogeist.app.component.propertiesview;
 
 import java.util.ArrayList;
 import java.util.List;

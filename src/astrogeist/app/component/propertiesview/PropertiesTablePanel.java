@@ -1,4 +1,4 @@
-package astrogeist.app.component;
+package astrogeist.app.component.propertiesview;
 
 import java.awt.BorderLayout;
 import java.util.Map;

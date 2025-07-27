@@ -14,9 +14,19 @@ public final class ObservationTablePanel extends JPanel {
 	
 	private final JTable _table;
 	private final ObservationTableModel _tableModel;
+	
+	private final PropertiesTablePanel _propertiesTablePanel;
+	private final ObservationFilesPanel _observationFilesPanel;
 
-	public ObservationTablePanel() {
+	public ObservationTablePanel(
+		PropertiesTablePanel propertiesTablePanel,
+		ObservationFilesPanel observationFilesPanel) {
+		
 		super(new BorderLayout());
+		
+		_propertiesTablePanel = propertiesTablePanel;
+		_observationFilesPanel = observationFilesPanel;
+		
 		_tableModel = new ObservationTableModel();
 		_table = new JTable(_tableModel);
 
@@ -27,7 +37,12 @@ public final class ObservationTablePanel extends JPanel {
 		this.add(scrollPane, BorderLayout.CENTER);
 	}
 
-	public void setStore(ObservationStore store) { _tableModel.setStore(store); }
+	public void setStore(ObservationStore store) { 
+		_tableModel.setStore(store); 
+		_propertiesTablePanel.clear();
+		_observationFilesPanel.clear();
+	}
+	
 	public ObservationStore getStore() { return _tableModel.getStore(); }
 	public JTable getTable() { return _table; }
 	public ObservationTableModel getTableModel() { return _tableModel; }

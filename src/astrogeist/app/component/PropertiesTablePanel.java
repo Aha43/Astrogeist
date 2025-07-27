@@ -8,26 +8,27 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 public final class PropertiesTablePanel extends JPanel {
-
 	private static final long serialVersionUID = 1L;
 	
-	private final JTable table;
-	private final PropertiesTableModel tableModel;
+	private final JTable _table;
+	private final PropertiesTableModel _tableModel;
 
 	public PropertiesTablePanel() {
 		super(new BorderLayout());
-		tableModel = new PropertiesTableModel();
-		table = new JTable(tableModel);
+		_tableModel = new PropertiesTableModel();
+		_table = new JTable(_tableModel);
 
-		table.setFillsViewportHeight(true);
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		_table.setFillsViewportHeight(true);
+		_table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-		var scrollPane = new JScrollPane(table);
+		var scrollPane = new JScrollPane(_table);
 		this.add(scrollPane, BorderLayout.CENTER);
 	}
 
-	public void setProperties(Map<String, String> properties) { tableModel.setData(properties);; }
-	public JTable getTable() { return table; }
-	public PropertiesTableModel getTableModel() { return tableModel; }
+	public void setProperties(Map<String, String> properties) { _tableModel.setData(properties); }
+	public JTable getTable() { return _table; }
+	public PropertiesTableModel getTableModel() { return _tableModel; }
+	
+	public void clear() { _tableModel.clear(); }
 
 }

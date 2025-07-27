@@ -22,13 +22,14 @@ public final class ObservationFilesPanel extends JPanel {
 		setFiles(filePaths);
 	}
 	
+	public void clear() { setFiles(null); }
+	
 	private void setFiles(List<String> filePaths) {
-        this.removeAll();
-
-        for (var path : filePaths) this.add(new FileLabel(new File(path)));
-
-        this.revalidate();
-        this.repaint();
+        removeAll();
+        if (filePaths != null)
+        	for (var path : filePaths) this.add(new FileLabel(new File(path)));
+        revalidate();
+        repaint();
     }
 
 }

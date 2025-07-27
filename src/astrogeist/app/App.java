@@ -22,9 +22,10 @@ import astrogeist.app.toolbar.ToolBarFactory;
 
 public final class App {
 	
-	private final ObservationTablePanel _tablePanel = new ObservationTablePanel();
 	private final PropertiesTablePanel _propertiesPanel = new PropertiesTablePanel();
 	private final ObservationFilesPanel _filesPanel = new ObservationFilesPanel();
+	private final ObservationTablePanel _tablePanel = 
+		new ObservationTablePanel(_propertiesPanel, _filesPanel);
 	
 	public void createGUI() {
 		var frame = new JFrame("Astrogeist");

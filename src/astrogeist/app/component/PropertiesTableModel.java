@@ -7,7 +7,6 @@ import java.util.Map;
 import javax.swing.table.AbstractTableModel;
 
 public class PropertiesTableModel extends AbstractTableModel {
-
     private static final long serialVersionUID = 1L;
     
 	private final List<Map.Entry<String, String>> _entries = new ArrayList<>();
@@ -33,14 +32,10 @@ public class PropertiesTableModel extends AbstractTableModel {
     }
 
     @Override
-    public String getColumnName(int column) {
-        return column == 0 ? "Property" : "Value";
-    }
+    public String getColumnName(int column) { return column == 0 ? "Property" : "Value"; }
 
     @Override
-    public boolean isCellEditable(int row, int column) {
-        return column == 1; // only allow editing values
-    }
+    public boolean isCellEditable(int row, int column) { return false; }
 
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
@@ -49,4 +44,6 @@ public class PropertiesTableModel extends AbstractTableModel {
             fireTableCellUpdated(rowIndex, columnIndex);
         }
     }
+    
+    public void clear() { _entries.clear(); fireTableDataChanged(); }
 }

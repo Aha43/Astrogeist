@@ -14,18 +14,19 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 
-import astrogeist.app.component.ObservationTablePanel;
 import astrogeist.app.component.fileview.ObservationFilesPanel;
+import astrogeist.app.component.observationstoreview.ObservationStoreTablePanel;
 import astrogeist.app.component.propertiesview.PropertiesTablePanel;
 import astrogeist.app.menubar.MenuBarFactory;
+import astrogeist.app.resources.Resources;
 import astrogeist.app.toolbar.ToolBarFactory;
 
 public final class App {
 	
 	private final PropertiesTablePanel _propertiesPanel = new PropertiesTablePanel();
 	private final ObservationFilesPanel _filesPanel = new ObservationFilesPanel();
-	private final ObservationTablePanel _tablePanel = 
-		new ObservationTablePanel(_propertiesPanel, _filesPanel);
+	private final ObservationStoreTablePanel _tablePanel = 
+		new ObservationStoreTablePanel(_propertiesPanel, _filesPanel);
 	
 	public void createGUI() {
 		var frame = new JFrame("Astrogeist");
@@ -56,8 +57,7 @@ public final class App {
 		
 		addSelectedObservationListener();
 		
-		URL url = getClass().getResource("/astrogeist/app/logo.png");
-		System.out.println("Icon URL: " + url);
+		URL url = Resources.getLogoUrl(this);
 		var icon = new ImageIcon(url).getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH);;
 		frame.setIconImage(icon);
 

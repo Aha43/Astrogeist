@@ -60,5 +60,5 @@ public final class MenuBarFactory {
 		return aboutItem;
 	}
 
-	private MenuBarFactory() { throw new AssertionError("Can not instanciate static class"); }
+	private MenuBarFactory() { throw new AssertionError("Can not instantiate static class"); }
 }

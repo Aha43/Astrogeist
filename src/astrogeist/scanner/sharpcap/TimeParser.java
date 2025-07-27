@@ -7,7 +7,6 @@ import java.time.LocalTime;
 import java.time.ZoneOffset;
 
 public final class TimeParser {
-
     public static Instant parseTimeFromFilename(String timePart, LocalDate date) {
         try {
             String[] parts = timePart.split("\\.");
@@ -22,6 +21,5 @@ public final class TimeParser {
         }
     }
     
-    private TimeParser() { throw new AssertionError("Cannot instantiate utility class"); }
-    
+    private TimeParser() { throw new AssertionError("Cannot instantiate static class"); }
 }

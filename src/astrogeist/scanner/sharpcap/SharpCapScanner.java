@@ -11,7 +11,6 @@ import astrogeist.setting.Settings;
 import astrogeist.store.ObservationStore;
 
 public final class SharpCapScanner extends AbstractScanner {
-	
 	private SharpCapScanner(File root) { super(root); }
 
 	@Override

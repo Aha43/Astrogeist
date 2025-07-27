@@ -5,13 +5,12 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 
-import astrogeist.app.component.ObservationTablePanel;
+import astrogeist.app.component.observationstoreview.ObservationStoreTablePanel;
 import astrogeist.scanner.CompositeScanner;
 import astrogeist.store.ObservationStore;
 
 public final class ToolBarFactory {
-	
-	public static JToolBar createToolBar(ObservationTablePanel tablePanel) {
+	public static JToolBar createToolBar(ObservationStoreTablePanel tablePanel) {
 		var toolBar = new JToolBar();
 
 		toolBar.add(createScanButton(tablePanel));
@@ -22,11 +21,10 @@ public final class ToolBarFactory {
 		return toolBar;
 	}
 	
-	private static JButton createScanButton(ObservationTablePanel tablePanel) {
+	private static JButton createScanButton(ObservationStoreTablePanel tablePanel) {
 		var button = new JButton("Scan");
 		
 		button.addActionListener(e -> {
-			// Needs to be refactored...
 			var scanner = new CompositeScanner();
 			var store = new ObservationStore();
 			scanner.scan(store);
@@ -37,5 +35,5 @@ public final class ToolBarFactory {
 		return button;
 	}
 
-	private ToolBarFactory() { throw new AssertionError("Can not instanciate static class"); }
+	private ToolBarFactory() { throw new AssertionError("Can not instantiate static class"); }
 }

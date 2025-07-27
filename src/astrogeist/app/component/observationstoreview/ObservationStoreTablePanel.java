@@ -1,4 +1,4 @@
-package astrogeist.app.component;
+package astrogeist.app.component.observationstoreview;
 
 import java.awt.BorderLayout;
 
@@ -11,16 +11,16 @@ import astrogeist.app.component.fileview.ObservationFilesPanel;
 import astrogeist.app.component.propertiesview.PropertiesTablePanel;
 import astrogeist.store.ObservationStore;
 
-public final class ObservationTablePanel extends JPanel {
+public final class ObservationStoreTablePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
 	private final JTable _table;
-	private final ObservationTableModel _tableModel;
+	private final ObservationStoreTableModel _tableModel;
 	
 	private final PropertiesTablePanel _propertiesTablePanel;
 	private final ObservationFilesPanel _observationFilesPanel;
 
-	public ObservationTablePanel(
+	public ObservationStoreTablePanel(
 		PropertiesTablePanel propertiesTablePanel,
 		ObservationFilesPanel observationFilesPanel) {
 		
@@ -29,7 +29,7 @@ public final class ObservationTablePanel extends JPanel {
 		_propertiesTablePanel = propertiesTablePanel;
 		_observationFilesPanel = observationFilesPanel;
 		
-		_tableModel = new ObservationTableModel();
+		_tableModel = new ObservationStoreTableModel();
 		_table = new JTable(_tableModel);
 
 		_table.setFillsViewportHeight(true);
@@ -47,7 +47,7 @@ public final class ObservationTablePanel extends JPanel {
 	
 	public ObservationStore getStore() { return _tableModel.getStore(); }
 	public JTable getTable() { return _table; }
-	public ObservationTableModel getTableModel() { return _tableModel; }
+	public ObservationStoreTableModel getTableModel() { return _tableModel; }
 	
 	public void addSelectionListener(ListSelectionListener l) {
 		_table.getSelectionModel().addListSelectionListener(l);

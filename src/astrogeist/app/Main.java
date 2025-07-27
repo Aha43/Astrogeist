@@ -7,7 +7,7 @@ import javax.swing.SwingUtilities;
 
 import astrogeist.setting.SettingsIO;
 
-public class Main {
+public final class Main {
 	public static void main(String[] args) {
 		try {
 			SettingsIO.loadOrCreate();
@@ -19,4 +19,11 @@ public class Main {
 	        System.exit(1);
 		}
 	}
+	
+	private static void ensureAstrogeistDirExists() {
+		/*
+		 
+		 */
+	}
+	
 }

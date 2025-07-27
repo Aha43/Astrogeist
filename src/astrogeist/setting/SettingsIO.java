@@ -81,7 +81,7 @@ public final class SettingsIO {
         return result;
     }
     
-    private SettingsIO() { throw new AssertionError("Cannot instantiate utility class"); }
+    private SettingsIO() { throw new AssertionError("Cannot instantiate static class"); }
 }
 
 

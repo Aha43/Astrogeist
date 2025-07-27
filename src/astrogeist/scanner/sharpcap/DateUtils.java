@@ -4,10 +4,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
 public final class DateUtils {
-	private DateUtils() {
-		throw new AssertionError("Cannot instantiate utility class");
-	}
-	
 	public static LocalDate tryParseDate(String input) {
         try {
             return LocalDate.parse(input); // expects format yyyy-MM-dd
@@ -15,4 +11,6 @@ public final class DateUtils {
             return null; // return null if parsing fails
         }
     }
+	
+	private DateUtils() { throw new AssertionError("Can not instantiate utility class"); }
 }

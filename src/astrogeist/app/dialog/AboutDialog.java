@@ -20,6 +20,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
+import astrogeist.app.resources.Resources;
+
 public final class AboutDialog extends JDialog {
     private static final long serialVersionUID = 1L;
 
@@ -33,8 +35,7 @@ public final class AboutDialog extends JDialog {
         var header = new JPanel();
         header.setLayout(new BoxLayout(header, BoxLayout.Y_AXIS));
 
-        // Load logo (assuming it's in /resources/logo.png)
-        URL logoUrl = getClass().getResource("/astrogeist/app/logo.png");
+        URL logoUrl = Resources.getLogoUrl(this);
         if (logoUrl != null) {
             var icon = new ImageIcon(logoUrl);
             Image scaledImage = icon.getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH);

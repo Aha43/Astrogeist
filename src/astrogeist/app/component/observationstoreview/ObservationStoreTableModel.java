@@ -1,4 +1,4 @@
-package astrogeist.app.component;
+package astrogeist.app.component.observationstoreview;
 
 import javax.swing.table.AbstractTableModel;
 import java.time.Instant;
@@ -9,7 +9,7 @@ import java.util.*;
 import astrogeist.scanner.NormalizedProperties;
 import astrogeist.store.*;
 
-public final class ObservationTableModel extends AbstractTableModel {
+public final class ObservationStoreTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
 	
 	private ObservationStore _store = null;
@@ -24,7 +24,7 @@ public final class ObservationTableModel extends AbstractTableModel {
 
 	private List<String> _columnsToShow = new ArrayList<String>();
 	
-	public ObservationTableModel() {
+	public ObservationStoreTableModel() {
 		for (var s : NormalizedProperties.getNormalizedNames()) _columnsToShow.add(s);
 	}
 	

@@ -7,7 +7,6 @@ import astrogeist.scanner.sharpcap.SharpCapScanner;
 import astrogeist.store.ObservationStore;
 
 public final class CompositeScanner implements Scanner {
-	
 	private final List<Scanner> _scanners = new ArrayList<>();
 	
 	public CompositeScanner() {

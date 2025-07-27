@@ -9,15 +9,13 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public final class AstrogeistSettings {
+public final class SettingsIO {
     private static final String FILE_NAME = ".astrogeist.conf.txt";
     private static final Path CONFIG_PATH = Paths.get(System.getProperty("user.home"), FILE_NAME);
 
     public static final Map<String, String> DEFAULTS = Map.ofEntries(
         Map.entry("ui:columns", "Time,subject,scope,exposure"),
-        Map.entry("general:language", "en"),
-        Map.entry("general:theme", "light"),
-        Map.entry("scanner:roots", "")
+        Map.entry(SettingKeys.DATA_ROOTS, "")
         // Add more defaults here
     );
 
@@ -83,7 +81,7 @@ public final class AstrogeistSettings {
         return result;
     }
     
-    private AstrogeistSettings() { throw new AssertionError("Cannot instantiate utility class"); }
+    private SettingsIO() { throw new AssertionError("Cannot instantiate utility class"); }
 }
 
 

@@ -1,6 +1,5 @@
 package astrogeist.scanner;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +11,7 @@ public final class CompositeScanner implements Scanner {
 	private final List<Scanner> _scanners = new ArrayList<>();
 	
 	public CompositeScanner() {
-		addScanner(new SharpCapScanner(new File("/Volumes/Extreme SSD/SharpCap")));
+		addScanners(SharpCapScanner.createScanners());
 	}
 
 	@Override
@@ -20,6 +19,8 @@ public final class CompositeScanner implements Scanner {
 		for (var scanner : _scanners) scanner.scan(store);
 	}
 	
-	public void addScanner(Scanner scanner) { _scanners.add(scanner); }
+	public void addScanners(Scanner... scanners) { 
+		for (var scanner : scanners) _scanners.add(scanner); 
+	}
 
 }

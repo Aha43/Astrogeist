@@ -25,7 +25,6 @@ public final class ObservationTableModel extends AbstractTableModel {
 	private List<String> _columnsToShow = new ArrayList<String>();
 	
 	public ObservationTableModel() {
-		//_columnsToShow.add("subject");
 		for (var s : NormalizedProperties.getNormalizedNames()) _columnsToShow.add(s);
 	}
 	

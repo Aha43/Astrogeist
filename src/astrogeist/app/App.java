@@ -32,17 +32,12 @@ public final class App {
 		frame.setSize(1200, 800);
 		frame.setLayout(new BorderLayout());
 
-		// Menu Bar
-		frame.setJMenuBar(MenuBarFactory.createMenuBar(_tablePanel));
+		frame.setJMenuBar(MenuBarFactory.createMenuBar());
+		
+		frame.add(ToolBarFactory.createToolBar(_tablePanel), BorderLayout.NORTH);
 
-		// Toolbar
-		var toolBar = ToolBarFactory.createToolBar();
-		frame.add(toolBar, BorderLayout.NORTH);
-
-		// Table (Center)
 		var tableScroll = new JScrollPane(_tablePanel);
 
-		// Left: Tabbed Pane
 		var leftTabs = new JTabbedPane();
 		leftTabs.setMinimumSize(new Dimension(200, 100));
 		leftTabs.addTab("Properties", _propertiesPanel);

@@ -4,60 +4,60 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-import astrogeist.app.component.ObservationTablePanel;
 import astrogeist.app.dialog.AboutDialog;
 import astrogeist.app.dialog.settings.SettingsDialog;
-import astrogeist.scanner.CompositeScanner;
-import astrogeist.store.ObservationStore;
 
 public final class MenuBarFactory {
 	
-	public static JMenuBar createMenuBar(ObservationTablePanel tablePanel) {
+	public static JMenuBar createMenuBar() {
 		var menuBar = new JMenuBar();
-		menuBar.add(createFileMenu(tablePanel));
+		menuBar.add(createFileMenu());
 		menuBar.add(createHelpMenu());
 		return menuBar;
 	}
 	
-	private static JMenu createFileMenu(ObservationTablePanel tablePanel) {
+	private static JMenu createFileMenu() {
 		var fileMenu = new JMenu("File");
-		var loadItem = new JMenuItem("Load");
-		fileMenu.add(loadItem);
-		loadItem.addActionListener(e -> {
-			
-			// Needs to be refactored...
-			var scanner = new CompositeScanner();
-			var store = new ObservationStore();
-			scanner.scan(store);
-			
-			tablePanel.setStore(store);
-		});
 		
+		fileMenu.add(createSettingsItem());
+		fileMenu.add(createExitItem());
+		
+		return fileMenu;
+	}
+	
+	private static JMenuItem createSettingsItem() {
 		var settingsItem = new JMenuItem("Settings");
-		fileMenu.add(settingsItem);
 		settingsItem.addActionListener(e -> {
 			SettingsDialog dialog = new SettingsDialog(null);
 			dialog.setVisible(true);
 		});
 		
+		return settingsItem;
+	}
+	
+	private static JMenuItem createExitItem() {
 		var exitItem = new JMenuItem("Exit");
 		exitItem.addActionListener(e -> System.exit(0));
-		fileMenu.add(exitItem);
 		
-		return fileMenu;
+		return exitItem;
 	}
 	
 	private static JMenu createHelpMenu() {
 		var helpMenu = new JMenu("Help");
 		
+		helpMenu.add(createAboutItem());
+		
+		return helpMenu;
+	}
+	
+	private static JMenuItem createAboutItem() {
 		var aboutItem = new JMenuItem("About...");
 		aboutItem.addActionListener(e -> {
 		    var dialog = new AboutDialog(null); // Replace with your main window
 		    dialog.setVisible(true);
 		});
-		helpMenu.add(aboutItem);
 		
-		return helpMenu;
+		return aboutItem;
 	}
 
 	private MenuBarFactory() { throw new AssertionError("Can not instanciate static class"); }

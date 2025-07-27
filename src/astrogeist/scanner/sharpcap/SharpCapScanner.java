@@ -2,13 +2,17 @@ package astrogeist.scanner.sharpcap;
 
 import java.io.File;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import astrogeist.scanner.AbstractScanner;
+import astrogeist.scanner.Scanner;
+import astrogeist.setting.SettingKeys;
+import astrogeist.setting.Settings;
 import astrogeist.store.ObservationStore;
 
 public final class SharpCapScanner extends AbstractScanner {
 	
-	public SharpCapScanner(File root) { super(root); }
+	private SharpCapScanner(File root) { super(root); }
 
 	@Override
 	public void scan(ObservationStore store) { scanRootDir(store, getRootDir()); }
@@ -83,6 +87,15 @@ public final class SharpCapScanner extends AbstractScanner {
 		if (time == null) return;
 
 		store.put(time, "SerFile", file.getAbsolutePath());
+	}
+	
+	public static Scanner[] createScanners(){
+		var retVal = new ArrayList<Scanner>();
+		
+		var roots = Settings.getPaths(SettingKeys.DATA_ROOTS);
+		for (var root : roots) retVal.add(new SharpCapScanner(root));
+		
+		return retVal.toArray(Scanner.EmptyArray);
 	}
 
 }

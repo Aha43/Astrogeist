@@ -15,7 +15,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 
-import astrogeist.setting.AstrogeistSettings;
+import astrogeist.setting.Settings;
+import astrogeist.setting.SettingsIO;
 
 public final class SettingsDialog extends JDialog {
     private static final long serialVersionUID = 1L;
@@ -30,7 +31,7 @@ public final class SettingsDialog extends JDialog {
         setLayout(new BorderLayout());
 
         try {
-            var grouped = AstrogeistSettings.loadGrouped();
+            var grouped = SettingsIO.loadGrouped();
             buildTabs(grouped);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(this, "Failed to load config: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -111,13 +112,13 @@ public final class SettingsDialog extends JDialog {
         }
     }
 
-
     private void saveAll() throws IOException {
         Map<String, Map<String, String>> all = new LinkedHashMap<>();
         for (var entry : models.entrySet()) {
             all.put(entry.getKey(), entry.getValue().toMap());
         }
-        AstrogeistSettings.saveGrouped(all);
+        SettingsIO.saveGrouped(all);
+        Settings.load();
     }
 
     private String capitalize(String s) {

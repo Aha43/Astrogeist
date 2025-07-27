@@ -5,12 +5,12 @@ import java.io.IOException;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
-import astrogeist.setting.AstrogeistSettings;
+import astrogeist.setting.SettingsIO;
 
 public class Main {
 	public static void main(String[] args) {
 		try {
-			AstrogeistSettings.loadOrCreate();
+			SettingsIO.loadOrCreate();
 			var app = new App();
 			SwingUtilities.invokeLater(() -> app.createGUI());
 		} catch (IOException e) {

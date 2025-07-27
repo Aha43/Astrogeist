@@ -9,7 +9,6 @@ import java.util.Map;
 import javax.swing.JPanel;
 
 public final class ObservationFilesPanel extends JPanel {
-
 	private static final long serialVersionUID = 1L;
 	
 	public ObservationFilesPanel() { super(new FlowLayout(FlowLayout.LEFT)); }
@@ -17,7 +16,7 @@ public final class ObservationFilesPanel extends JPanel {
 	public void setObservation(Map<String, String> observation) {
 		var filePaths = new ArrayList<String>();
 		
-		var serFilePath = observation.get("movie:ser-file");
+		var serFilePath = observation.get("SerFile");
 		if (serFilePath != null) filePaths.add(serFilePath);
 		
 		setFiles(filePaths);
@@ -26,7 +25,7 @@ public final class ObservationFilesPanel extends JPanel {
 	private void setFiles(List<String> filePaths) {
         this.removeAll();
 
-        for (String path : filePaths) this.add(new FileLabel(new File(path)));
+        for (var path : filePaths) this.add(new FileLabel(new File(path)));
 
         this.revalidate();
         this.repaint();

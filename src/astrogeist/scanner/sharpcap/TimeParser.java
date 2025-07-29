@@ -6,6 +6,8 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneOffset;
 
+import astrogeist.Common;
+
 public final class TimeParser {
     public static Instant parseTimeFromFilename(String timePart, LocalDate date) {
         try {
@@ -21,5 +23,5 @@ public final class TimeParser {
         }
     }
     
-    private TimeParser() { throw new AssertionError("Cannot instantiate static class"); }
+    private TimeParser() { Common.throwStaticClassInstantiateError(); }
 }

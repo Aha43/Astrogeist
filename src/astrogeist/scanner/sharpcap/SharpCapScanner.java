@@ -6,8 +6,6 @@ import java.util.ArrayList;
 
 import astrogeist.scanner.AbstractScanner;
 import astrogeist.scanner.Scanner;
-import astrogeist.setting.SettingKeys;
-import astrogeist.setting.Settings;
 import astrogeist.store.ObservationStore;
 
 public final class SharpCapScanner extends AbstractScanner {
@@ -91,10 +89,10 @@ public final class SharpCapScanner extends AbstractScanner {
 	public static Scanner[] createScanners(){
 		var retVal = new ArrayList<Scanner>();
 		
-		var roots = Settings.getPaths(SettingKeys.DATA_ROOTS);
+		var roots = getRoots();
 		for (var root : roots) retVal.add(new SharpCapScanner(root));
 		
 		return retVal.toArray(Scanner.EmptyArray);
 	}
-
+	
 }

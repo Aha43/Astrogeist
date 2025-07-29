@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import astrogeist.Common;
+
 public final class Settings {
     private static Map<String, String> current;
 
@@ -46,5 +48,5 @@ public final class Settings {
         return result;
     }
 
-    private Settings() { throw new AssertionError("Can not instantiate static class"); }
+    private Settings() { Common.throwStaticClassInstantiateError(); }
 }

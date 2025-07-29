@@ -1,7 +1,9 @@
 package astrogeist.setting;
 
+import astrogeist.Common;
+
 public final class SettingKeys {
 	public static final String DATA_ROOTS="scanner:roots";
 	
-	private SettingKeys() { throw new AssertionError("Cannot instantiate static class"); }
+	private SettingKeys() { Common.throwStaticClassInstantiateError(); }
 }

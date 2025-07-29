@@ -5,6 +5,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 
+import astrogeist.Common;
 import astrogeist.app.component.observationstoreview.ObservationStoreTablePanel;
 import astrogeist.scanner.CompositeScanner;
 import astrogeist.store.ObservationStore;
@@ -35,5 +36,5 @@ public final class ToolBarFactory {
 		return button;
 	}
 
-	private ToolBarFactory() { throw new AssertionError("Can not instantiate static class"); }
+	private ToolBarFactory() { Common.throwStaticClassInstantiateError(); }
 }

@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import astrogeist.Common;
+
 public final class CameraSettingParser {
 	public static Map<String, String> parseFile(File file) {
 	    Map<String, String> map = new LinkedHashMap<>();
@@ -44,6 +46,5 @@ public final class CameraSettingParser {
 	    return map;
 	}
 	
-	private CameraSettingParser() { throw new AssertionError("Cannot instantiate static class"); }
-
+	private CameraSettingParser() { Common.throwStaticClassInstantiateError(); }
 }

@@ -2,17 +2,15 @@ package astrogeist.setting;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public final class SettingsIO {
-    private static final String FILE_NAME = ".astrogeist.conf.txt";
-    private static final Path CONFIG_PATH = Paths.get(System.getProperty("user.home"), FILE_NAME);
+import astrogeist.Common;
+import astrogeist.app.resources.Resources;
 
+public final class SettingsIO {
     public static final Map<String, String> DEFAULTS = Map.ofEntries(
         Map.entry("ui:columns", "Time,subject,scope,exposure"),
         Map.entry(SettingKeys.DATA_ROOTS, "")
@@ -20,7 +18,7 @@ public final class SettingsIO {
     );
 
     public static Map<String, String> loadOrCreate() throws IOException {
-        Map<String, String> props = Files.exists(CONFIG_PATH) ? load(CONFIG_PATH) : new LinkedHashMap<>();
+        Map<String, String> props = Resources.getSettingsFile().exists() ? load() : new LinkedHashMap<>();
 
         // Add missing defaults
         for (var entry : DEFAULTS.entrySet()) {
@@ -38,7 +36,7 @@ public final class SettingsIO {
             lines.add(entry.getKey());
             lines.add(entry.getValue());
         }
-        Files.write(CONFIG_PATH, lines);
+        Files.write(Resources.getSettingsFile().toPath(), lines);
     }
     
     public static void saveGrouped(Map<String, Map<String, String>> groupedProps) throws IOException {
@@ -65,11 +63,12 @@ public final class SettingsIO {
     }
 
     public static Map<String, Map<String, String>> loadGrouped() throws IOException {
-        return groupByPrefix(load(CONFIG_PATH));
+        return groupByPrefix(load());
     }
 
-    private static Map<String, String> load(Path path) throws IOException {
-        List<String> lines = Files.readAllLines(path);
+    private static Map<String, String> load() throws IOException {
+    	var settingsFile = Resources.getSettingsFile();
+        List<String> lines = Files.readAllLines(settingsFile.toPath());
         Map<String, String> result = new LinkedHashMap<>();
         for (int i = 0; i < lines.size() - 1; i += 2) {
             String key = lines.get(i).trim();
@@ -81,7 +80,7 @@ public final class SettingsIO {
         return result;
     }
     
-    private SettingsIO() { throw new AssertionError("Cannot instantiate static class"); }
+    private SettingsIO() { Common.throwStaticClassInstantiateError(); }
 }
 
 

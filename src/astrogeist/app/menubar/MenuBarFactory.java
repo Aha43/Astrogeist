@@ -4,6 +4,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+import astrogeist.Common;
 import astrogeist.app.dialog.AboutDialog;
 import astrogeist.app.dialog.settings.SettingsDialog;
 
@@ -60,5 +61,5 @@ public final class MenuBarFactory {
 		return aboutItem;
 	}
 
-	private MenuBarFactory() { throw new AssertionError("Can not instantiate static class"); }
+	private MenuBarFactory() { Common.throwStaticClassInstantiateError(); }
 }

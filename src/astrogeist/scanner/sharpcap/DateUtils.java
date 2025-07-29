@@ -3,6 +3,8 @@ package astrogeist.scanner.sharpcap;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
+import astrogeist.Common;
+
 public final class DateUtils {
 	public static LocalDate tryParseDate(String input) {
         try {
@@ -12,5 +14,5 @@ public final class DateUtils {
         }
     }
 	
-	private DateUtils() { throw new AssertionError("Can not instantiate utility class"); }
+	private DateUtils() { Common.throwStaticClassInstantiateError(); }
 }

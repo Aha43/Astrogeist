@@ -9,5 +9,7 @@ public final class Common {
 	    return value;
 	}
 	
-	private  Common() { throw new AssertionError("Can not instantiate static class"); }
+	public static void throwStaticClassInstantiateError() { throw new AssertionError("Can not instantiate static class"); }
+	
+	private Common() { throwStaticClassInstantiateError(); }
 }

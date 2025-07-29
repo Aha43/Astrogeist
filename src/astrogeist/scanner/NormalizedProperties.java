@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import astrogeist.Common;
+
 public final class NormalizedProperties {
 	static {
 		_mapping = new HashMap<>();
@@ -36,5 +38,5 @@ public final class NormalizedProperties {
 	
 	public static Set<String> getNormalizedNames() { return _mapping.keySet(); }
 	
-	private NormalizedProperties() { throw new AssertionError("Can not instantiate static class"); }
+	private NormalizedProperties() { Common.throwStaticClassInstantiateError(); }
 }

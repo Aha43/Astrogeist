@@ -1,10 +1,9 @@
 package astrogeist.setting;
 
-import java.util.List;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import astrogeist.Common;
@@ -15,13 +14,13 @@ public final class Settings {
     static {
         try {
             current = SettingsIO.loadOrCreate();
-        } catch (IOException e) {
+        } catch (Exception e) {
             System.err.println("Failed to load settings: " + e.getMessage());
             current = new LinkedHashMap<>(SettingsIO.DEFAULTS);
         }
     }
     
-    public static void load() throws IOException { current = SettingsIO.loadOrCreate(); }
+    public static void load() throws Exception { current = SettingsIO.loadOrCreate(); }
 
     public static String get(String key) {
         return current.getOrDefault(key, SettingsIO.DEFAULTS.get(key));
@@ -29,7 +28,7 @@ public final class Settings {
 
     public static void set(String key, String value) { current.put(key, value); }
 
-    public static void save() throws IOException { SettingsIO.save(current); }
+    public static void save() throws Exception { SettingsIO.save(current); }
 
     public static Map<String, String> raw() { return current; }
     

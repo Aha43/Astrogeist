@@ -39,7 +39,7 @@ public final class Resources {
 	public static File getSettingsFile() {
 		checkGotAstrogeistDir();
 		if (_settingsFile != null) return _settingsFile;
-		_settingsFile = new File(_astrogeistDir, "astrogeist.settings.txt");
+		_settingsFile = new File(_astrogeistDir, "astrogeist.settings.xml");
 		return _settingsFile;
 	}
 	

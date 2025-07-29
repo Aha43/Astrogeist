@@ -3,7 +3,6 @@ package astrogeist.app.dialog.settings;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Frame;
-import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -15,6 +14,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 
+import astrogeist.app.dialog.message.MessageDialogs;
 import astrogeist.setting.Settings;
 import astrogeist.setting.SettingsIO;
 
@@ -33,8 +33,8 @@ public final class SettingsDialog extends JDialog {
         try {
             var grouped = SettingsIO.loadGrouped();
             buildTabs(grouped);
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(this, "Failed to load config: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            MessageDialogs.showError(this, "Failed to load config: " + e.getMessage());
         }
 
         add(tabs, BorderLayout.CENTER);
@@ -64,8 +64,8 @@ public final class SettingsDialog extends JDialog {
             try {
                 saveAll();
                 dispose();
-            } catch (IOException ex) {
-                JOptionPane.showMessageDialog(this, "Failed to save config: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (Exception ex) {
+                MessageDialogs.showError(this, "Failed to save config: " + ex.getMessage());
             }
         });
 
@@ -112,7 +112,7 @@ public final class SettingsDialog extends JDialog {
         }
     }
 
-    private void saveAll() throws IOException {
+    private void saveAll() throws Exception {
         Map<String, Map<String, String>> all = new LinkedHashMap<>();
         for (var entry : models.entrySet()) {
             all.put(entry.getKey(), entry.getValue().toMap());

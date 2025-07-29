@@ -1,10 +1,6 @@
 package astrogeist.setting;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import astrogeist.Common;
@@ -17,7 +13,7 @@ public final class SettingsIO {
         // Add more defaults here
     );
 
-    public static Map<String, String> loadOrCreate() throws IOException {
+    public static Map<String, String> loadOrCreate() throws Exception {
         Map<String, String> props = Resources.getSettingsFile().exists() ? load() : new LinkedHashMap<>();
 
         // Add missing defaults
@@ -30,16 +26,12 @@ public final class SettingsIO {
         return props;
     }
 
-    public static void save(Map<String, String> props) throws IOException {
-        List<String> lines = new ArrayList<>();
-        for (var entry : props.entrySet()) {
-            lines.add(entry.getKey());
-            lines.add(entry.getValue());
-        }
-        Files.write(Resources.getSettingsFile().toPath(), lines);
+    public static void save(Map<String, String> props) throws Exception {
+    	var settingsFile = Resources.getSettingsFile();
+    	SettingsXml.saveSettings(props, settingsFile);
     }
     
-    public static void saveGrouped(Map<String, Map<String, String>> groupedProps) throws IOException {
+    public static void saveGrouped(Map<String, Map<String, String>> groupedProps) throws Exception {
         Map<String, String> flat = new LinkedHashMap<>();
         for (var groupEntry : groupedProps.entrySet()) {
             String group = groupEntry.getKey();
@@ -62,25 +54,15 @@ public final class SettingsIO {
         return grouped;
     }
 
-    public static Map<String, Map<String, String>> loadGrouped() throws IOException {
+    public static Map<String, Map<String, String>> loadGrouped() throws Exception {
         return groupByPrefix(load());
     }
 
-    private static Map<String, String> load() throws IOException {
+    private static Map<String, String> load() throws Exception {
     	var settingsFile = Resources.getSettingsFile();
-        List<String> lines = Files.readAllLines(settingsFile.toPath());
-        Map<String, String> result = new LinkedHashMap<>();
-        for (int i = 0; i < lines.size() - 1; i += 2) {
-            String key = lines.get(i).trim();
-            String value = lines.get(i + 1).trim();
-            if (!key.isEmpty()) {
-                result.put(key, value);
-            }
-        }
-        return result;
+    	var retValue = SettingsXml.loadSettings(settingsFile);
+        return retValue;
     }
     
     private SettingsIO() { Common.throwStaticClassInstantiateError(); }
 }
-
-

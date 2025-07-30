@@ -15,6 +15,7 @@ import astrogeist.app.component.fileview.ObservationFilesPanel;
 import astrogeist.app.component.propertiesview.PropertiesTablePanel;
 import astrogeist.app.dialog.message.MessageDialogs;
 import astrogeist.app.dialog.selection.SelectionDialog;
+import astrogeist.app.dialog.userprops.UserPropsDialog;
 import astrogeist.scanner.NormalizedProperties;
 import astrogeist.setting.SettingKeys;
 import astrogeist.setting.Settings;
@@ -61,6 +62,7 @@ public final class ObservationStoreTablePanel extends JPanel {
 	
 	private void createButtonPanel() {
 		var buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		
 		var columnsButton = new JButton("Select properties to show");
 		
 		columnsButton.addActionListener(e -> {
@@ -72,7 +74,14 @@ public final class ObservationStoreTablePanel extends JPanel {
 		});
 		
 		buttonPanel.add(columnsButton);
-		this.add(columnsButton, BorderLayout.SOUTH);
+		
+		var userPropsButton = new JButton("User properties");
+		userPropsButton.addActionListener(e -> {
+			UserPropsDialog.ShowDialog(_app);
+		});
+		buttonPanel.add(userPropsButton);
+		
+		this.add(buttonPanel, BorderLayout.SOUTH);
 	}
 	
 	private static void saveSelectedColumns(List<String> selected) {

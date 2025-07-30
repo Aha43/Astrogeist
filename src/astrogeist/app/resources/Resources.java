@@ -14,8 +14,9 @@ public final class Resources {
 		return _logoUrl;
 	}
 	
-	public static File _astrogeistDir = null;
-	public static File _settingsFile = null;
+	private static File _astrogeistDir = null;
+	private static File _settingsFile = null;
+	private static File _userPropsFile = null;
 	
 	public static File ensureAstrogeistDirectoryExist() throws IOException {
 		if (_astrogeistDir != null) return _astrogeistDir;
@@ -41,6 +42,13 @@ public final class Resources {
 		if (_settingsFile != null) return _settingsFile;
 		_settingsFile = new File(_astrogeistDir, "astrogeist.settings.xml");
 		return _settingsFile;
+	}
+	
+	public static File getUserPropsFile() {
+		checkGotAstrogeistDir();
+		if (_userPropsFile != null) return _userPropsFile;
+		_userPropsFile = new File(_astrogeistDir, "astrogeist.userpropsdef.xml");
+		return _userPropsFile;
 	}
 	
 	private static void checkGotAstrogeistDir() {

@@ -16,7 +16,7 @@ public final class SelectionDialog extends JDialog {
 
     private final SelectionTablePanel selectionPanel;
 
-    public SelectionDialog(App app, String title, List<String> selectedItems, Set<String> allItems) {
+    private SelectionDialog(App app, String title, List<String> selectedItems, Set<String> allItems) {
     	super(app.getFrame(), title, true);
     	
     	setLayout(new BorderLayout());

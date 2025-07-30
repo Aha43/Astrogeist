@@ -1,6 +1,6 @@
 # Astrogeist
 
-**Astrogeist** is a desktop application for organizing and analyzing astrophotography data — especially focused on **solar imaging sessions** using tools like SharpCap. It’s a practical companion for the astrophotographer who wants to stay close to the raw data, yet bring structure and insight into their workflow.
+**Astrogeist** is a desktop application for organizing and analyzing astrophotography data. It’s a practical companion for the astrophotographer who wants to stay close to the raw data, yet bring structure and insight into their workflow.
 
 ### 🌌 What Is Astrogeist?
 

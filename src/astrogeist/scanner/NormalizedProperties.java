@@ -24,6 +24,7 @@ public final class NormalizedProperties {
 		AddMapping("JpgFile");
 		AddMapping("PngFile");
 		AddMapping("Temperature");
+		AddMapping("Subject");
 	}
 	
 	private static final Map<String, String> _mapping;

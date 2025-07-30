@@ -2,7 +2,6 @@ package astrogeist.app.dialog.settings;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.awt.Frame;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -14,7 +13,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 
+import astrogeist.app.App;
 import astrogeist.app.dialog.message.MessageDialogs;
+import astrogeist.app.dialog.settings.editors.SettingsEditor;
 import astrogeist.setting.Settings;
 import astrogeist.setting.SettingsIO;
 
@@ -23,12 +24,16 @@ public final class SettingsDialog extends JDialog {
 
     private final JTabbedPane tabs = new JTabbedPane();
     private final Map<String, SettingsTableModel> models = new LinkedHashMap<>();
+    
+    private final App _app;
 
-    public SettingsDialog(Frame owner) {
-        super(owner, "Astrogeist Settings", true);
+    public SettingsDialog(App app) {
+        super(app.getFrame(), "Astrogeist Settings", true);
         setSize(600, 400);
-        setLocationRelativeTo(owner);
+        setLocationRelativeTo(app.getFrame());
         setLayout(new BorderLayout());
+        
+        _app = app;
 
         try {
             var grouped = SettingsIO.loadGrouped();
@@ -115,10 +120,13 @@ public final class SettingsDialog extends JDialog {
     private void saveAll() throws Exception {
         Map<String, Map<String, String>> all = new LinkedHashMap<>();
         for (var entry : models.entrySet()) {
-            all.put(entry.getKey(), entry.getValue().toMap());
+        	var key = entry.getKey();
+        	var value = entry.getValue().toMap();
+            all.put(key, value);
         }
         SettingsIO.saveGrouped(all);
         Settings.load();
+        _app.seetingsUpdated();
     }
 
     private String capitalize(String s) {

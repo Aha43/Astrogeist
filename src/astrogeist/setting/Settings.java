@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import astrogeist.Common;
+import astrogeist.util.Strings;
 
 public final class Settings {
     private static Map<String, String> current;
@@ -20,17 +21,27 @@ public final class Settings {
         }
     }
     
+    // I/O
+    
     public static void load() throws Exception { current = SettingsIO.loadOrCreate(); }
-
-    public static String get(String key) {
-        return current.getOrDefault(key, SettingsIO.DEFAULTS.get(key));
-    }
-
-    public static void set(String key, String value) { current.put(key, value); }
 
     public static void save() throws Exception { SettingsIO.save(current); }
 
     public static Map<String, String> raw() { return current; }
+    
+    // Set methods
+    
+    public static void set(String key, String value) { current.put(key, value); }
+    
+    public static void setCsv(String key, List<String> l) { current.put(key, Strings.toCsv(l)); }
+    
+    // Get methods
+    
+    public static String get(String key) {
+        return current.getOrDefault(key, SettingsIO.DEFAULTS.get(key));
+    }
+    
+    public static List<String> getCsv(String key) { return Strings.fromCsv(Settings.get(key)); }
     
     public static List<File> getPaths(String key) {
         var raw = get(key);
@@ -46,6 +57,8 @@ public final class Settings {
 
         return result;
     }
+    
+    //
 
     private Settings() { Common.throwStaticClassInstantiateError(); }
 }

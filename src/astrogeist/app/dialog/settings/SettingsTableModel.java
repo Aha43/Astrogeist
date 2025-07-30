@@ -37,8 +37,7 @@ public final class SettingsTableModel extends AbstractTableModel {
     public Object getValueAt(int row, int column) {
         return column == 0 ? keys.get(row) : values.get(row); }
     @Override
-    public boolean isCellEditable(int row, int column) { return column == 1; }
-
+    public boolean isCellEditable(int row, int column) { return false; } // all done with dialogs.
     @Override
     public void setValueAt(Object aValue, int row, int column) {
         if (column == 1) values.set(row, String.valueOf(aValue)); }

@@ -23,20 +23,22 @@ import astrogeist.app.toolbar.ToolBarFactory;
 
 public final class App {
 	
+	private JFrame _frame = null;
+	
 	private final PropertiesTablePanel _propertiesPanel = new PropertiesTablePanel();
 	private final ObservationFilesPanel _filesPanel = new ObservationFilesPanel();
 	private final ObservationStoreTablePanel _tablePanel = 
-		new ObservationStoreTablePanel(_propertiesPanel, _filesPanel);
+		new ObservationStoreTablePanel(this, _propertiesPanel, _filesPanel);
 	
 	public void createGUI() {
-		var frame = new JFrame("Astrogeist");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(1200, 800);
-		frame.setLayout(new BorderLayout());
+		_frame = new JFrame("Astrogeist");
+		_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		_frame.setSize(1200, 800);
+		_frame.setLayout(new BorderLayout());
 
-		frame.setJMenuBar(MenuBarFactory.createMenuBar());
+		_frame.setJMenuBar(MenuBarFactory.createMenuBar(this));
 		
-		frame.add(ToolBarFactory.createToolBar(_tablePanel), BorderLayout.NORTH);
+		_frame.add(ToolBarFactory.createToolBar(_tablePanel), BorderLayout.NORTH);
 
 		var tableScroll = new JScrollPane(_tablePanel);
 
@@ -49,20 +51,24 @@ public final class App {
 		// Split Pane: Left (tabs) + Center (table)
 		var splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftTabs, tableScroll);
 		splitPane.setDividerLocation(250); // Initial size of left pane
-		frame.add(splitPane, BorderLayout.CENTER);
+		_frame.add(splitPane, BorderLayout.CENTER);
 
 		// Bottom: File panel
 		_filesPanel.setPreferredSize(new Dimension(100, 120));
-		frame.add(_filesPanel, BorderLayout.SOUTH);
+		_frame.add(_filesPanel, BorderLayout.SOUTH);
 		
 		addSelectedObservationListener();
 		
 		URL url = Resources.getLogoUrl(this);
 		var icon = new ImageIcon(url).getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH);;
-		frame.setIconImage(icon);
+		_frame.setIconImage(icon);
 
-		frame.setVisible(true);
+		_frame.setVisible(true);
 	}
+	
+	public JFrame getFrame() { return _frame; }
+	
+	public void seetingsUpdated() { _tablePanel.settingsUpdated(); }
 	
 	private void addSelectedObservationListener() {
 		_tablePanel.addSelectionListener(e -> {

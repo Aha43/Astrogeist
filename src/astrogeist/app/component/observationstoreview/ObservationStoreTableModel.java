@@ -1,80 +1,78 @@
 package astrogeist.app.component.observationstoreview;
 
-import javax.swing.table.AbstractTableModel;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
-import astrogeist.scanner.NormalizedProperties;
-import astrogeist.store.*;
+import javax.swing.table.AbstractTableModel;
+
+import astrogeist.store.ObservationStore;
 
 public final class ObservationStoreTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
 	
 	private ObservationStore _store = null;
 	
-	private final List<Instant> timestamps = new ArrayList<>();
-	private final List<String> columns = new ArrayList<>();
-	private final Map<Instant, Map<String, String>> rows = new LinkedHashMap<>();
+	private final List<Instant> _timestamps = new ArrayList<>();
+	private final List<String> _columns = new ArrayList<>();
+	private final Map<Instant, Map<String, String>> _rows = new LinkedHashMap<>();
 	private static final String TIME_COLUMN = "Time";
 
 	private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
 		.withZone(ZoneId.systemDefault());
 
-	private List<String> _columnsToShow = new ArrayList<String>();
-	
-	public ObservationStoreTableModel() {
-		for (var s : NormalizedProperties.getNormalizedNames()) _columnsToShow.add(s);
-	}
-	
 	public void setStore(ObservationStore store) {
 	    _store = store;
 
-	    timestamps.clear();
-	    columns.clear();
-	    rows.clear();
+	    _timestamps.clear();
+	    _columns.clear();
+	    _rows.clear();
 
 	    // Always include "Time" as the first column
-	    columns.add(TIME_COLUMN);
-
-	    // Add only columns listed in _columnsToShow (if any)
-	    if (_columnsToShow != null && !_columnsToShow.isEmpty()) {
-	        columns.addAll(_columnsToShow);
-	    }
+	    _columns.add(TIME_COLUMN);
 
 	    // Load rows
 	    for (Instant t : store.timestamps()) {
 	        var snapshot = store.snapshot(t);
-	        timestamps.add(t);
-	        rows.put(t, snapshot);
+	        _timestamps.add(t);
+	        _rows.put(t, snapshot);
 	    }
-
 	    fireTableStructureChanged();
+	}
+	
+	public void setColumnsToShow(List<String> columns) {
+		_columns.clear();
+		_columns.add(TIME_COLUMN);
+		_columns.addAll(columns);
+		fireTableStructureChanged();
 	}
 	
 	public ObservationStore getStore() { return _store; }
 
 	@Override
-	public int getRowCount() { return timestamps.size(); }
+	public int getRowCount() { return _timestamps.size(); }
 	@Override
-	public int getColumnCount() { return columns.size(); }
+	public int getColumnCount() { return _columns.size(); }
 	@Override
-	public String getColumnName(int column) { return columns.get(column); }
+	public String getColumnName(int column) { return _columns.get(column); }
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		var timestamp = timestamps.get(rowIndex);
-		var column = columns.get(columnIndex);
+		var timestamp = _timestamps.get(rowIndex);
+		var column = _columns.get(columnIndex);
 
 		if (TIME_COLUMN.equals(column)) {
 			return timeFormatter.format(timestamp);
 		}
 
-		var data = rows.getOrDefault(timestamp, Collections.emptyMap());
+		var data = _rows.getOrDefault(timestamp, Collections.emptyMap());
 		return data.getOrDefault(column, "");
 	}
 
-	public Instant getTimestampAt(int rowIndex) { return timestamps.get(rowIndex); }
-
+	public Instant getTimestampAt(int rowIndex) { return _timestamps.get(rowIndex); }
 }

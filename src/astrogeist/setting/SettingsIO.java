@@ -8,9 +8,8 @@ import astrogeist.app.resources.Resources;
 
 public final class SettingsIO {
     public static final Map<String, String> DEFAULTS = Map.ofEntries(
-        Map.entry("ui:columns", "Time,subject,scope,exposure"),
-        Map.entry(SettingKeys.DATA_ROOTS, "")
-        // Add more defaults here
+        Map.entry(SettingKeys.DATA_ROOTS, ""),
+        Map.entry(SettingKeys.TABLE_COLUMNS, "")
     );
 
     public static Map<String, String> loadOrCreate() throws Exception {

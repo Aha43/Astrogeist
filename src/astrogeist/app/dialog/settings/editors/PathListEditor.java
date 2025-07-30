@@ -1,4 +1,4 @@
-package astrogeist.app.dialog.settings;
+package astrogeist.app.dialog.settings.editors;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;

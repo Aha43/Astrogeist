@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Frame;
 import java.awt.Image;
 import java.net.URL;
 
@@ -20,15 +19,16 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
+import astrogeist.app.App;
 import astrogeist.app.resources.Resources;
 
 public final class AboutDialog extends JDialog {
     private static final long serialVersionUID = 1L;
 
-    public AboutDialog(Frame owner) {
-        super(owner, "About Astrogeist", true);
-        setSize(400, 450); // Adjusted for logo
-        setLocationRelativeTo(owner);
+    public AboutDialog(App app) {
+        super(app.getFrame(), "About Astrogeist", true);
+        setSize(400, 450);
+        setLocationRelativeTo(app.getFrame());
         setLayout(new BorderLayout());
 
         // Top section with logo, title, and version
@@ -38,7 +38,7 @@ public final class AboutDialog extends JDialog {
         URL logoUrl = Resources.getLogoUrl(this);
         if (logoUrl != null) {
             var icon = new ImageIcon(logoUrl);
-            Image scaledImage = icon.getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH);
+            var scaledImage = icon.getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH);
             var logo = new JLabel(new ImageIcon(scaledImage));
             logo.setAlignmentX(Component.CENTER_ALIGNMENT);
             header.add(Box.createVerticalStrut(10));
@@ -89,4 +89,3 @@ public final class AboutDialog extends JDialog {
         add(buttonPanel, BorderLayout.SOUTH);
     }
 }
-

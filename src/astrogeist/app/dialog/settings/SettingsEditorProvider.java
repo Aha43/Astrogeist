@@ -3,6 +3,10 @@ package astrogeist.app.dialog.settings;
 import java.util.HashMap;
 import java.util.Map;
 
+import astrogeist.app.dialog.settings.editors.PathListEditor;
+import astrogeist.app.dialog.settings.editors.SettingsEditor;
+import astrogeist.app.dialog.settings.editors.TablePropertiesEditor;
+import astrogeist.app.dialog.settings.editors.TextEditor;
 import astrogeist.setting.SettingKeys;
 
 public final class SettingsEditorProvider {
@@ -11,10 +15,8 @@ public final class SettingsEditorProvider {
     private static final SettingsEditor _defaultEditor = new TextEditor();
 
     static {
-        // Register editors here
         _editors.put(SettingKeys.DATA_ROOTS, new PathListEditor());
-        //register("center:columnsToShow", ColumnPickerEditor::new);
-        // fallback to text
+        _editors.put(SettingKeys.TABLE_COLUMNS, new TablePropertiesEditor());
     }
 
     public static SettingsEditor getEditor(String scopedKey) {

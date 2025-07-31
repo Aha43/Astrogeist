@@ -48,7 +48,7 @@ public final class UserDataEditor extends JPanel {
                 UserDataDefinition def = defs.get(row);
                 if (!def.values().isEmpty()) {
                 	var values = new ArrayList<>(def.values());
-                	values.addFirst("-");
+                	values.add(0, "-");
                     JComboBox<String> combo = new JComboBox<>(values.toArray(Empty.StringArray));
                     return new DefaultCellEditor(combo);
                 }

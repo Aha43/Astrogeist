@@ -4,13 +4,13 @@ import javax.swing.JComponent;
 import javax.swing.JTextField;
 
 public final class TextEditor implements SettingsEditor {
-	private final JTextField _textField;
+	private final JTextField textField;
 
-    public TextEditor() { _textField = new JTextField(30); }
+    public TextEditor() { this.textField = new JTextField(30); }
 
     @Override public JComponent getEditorComponent(String currentValue) { 
-    	_textField.setText(currentValue != null ? currentValue : "");
-        return _textField; 
+    	this.textField.setText(currentValue != null ? currentValue : "");
+        return this.textField; 
     }
-    @Override public String getEditedValue() { return _textField.getText(); }
+    @Override public String getEditedValue() { return this.textField.getText(); }
 }

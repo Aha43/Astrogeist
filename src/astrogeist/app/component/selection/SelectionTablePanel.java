@@ -57,23 +57,15 @@ public final class SelectionTablePanel extends JPanel {
         }
 
         @Override
-        public int getRowCount() {
-            return allItems.size();
-        }
+        public int getRowCount() { return this.allItems.size(); }
 
         @Override
-        public int getColumnCount() {
-            return 2;
-        }
+        public int getColumnCount() { return 2; }
 
         @Override
         public Object getValueAt(int rowIndex, int columnIndex) {
-            String item = allItems.get(rowIndex);
-            if (columnIndex == 0) {
-                return item;
-            } else {
-                return selectionMap.get(item);
-            }
+            var item = this.allItems.get(rowIndex);
+            return columnIndex == 0 ? item : this.selectionMap.get(item);
         }
 
         @Override

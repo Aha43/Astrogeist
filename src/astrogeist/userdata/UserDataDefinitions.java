@@ -1,4 +1,4 @@
-package astrogeist.userprops;
+package astrogeist.userdata;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -8,14 +8,16 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.w3c.dom.Element;
 
-public class UserPropDefs {
-    private final List<UserPropDef> properties = new ArrayList<>();
+public class UserDataDefinitions {
+    private final List<UserDataDefinition> properties = new ArrayList<>();
 
-    public static UserPropDefs fromXml(Path path) throws Exception {
+    public List<UserDataDefinition> getProperties() { return properties; }
+    
+    public static UserDataDefinitions fromXml(Path path) throws Exception {
         var doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(path.toFile());
-        var sidecar = new UserPropDefs();
+        var sidecar = new UserDataDefinitions();
         
-        var nodes = doc.getElementsByTagName("UserPropDef");
+        var nodes = doc.getElementsByTagName("Def");
         for (int i = 0; i < nodes.getLength(); i++) {
             var element = (Element) nodes.item(i);
             String name = element.getAttribute("name");
@@ -28,11 +30,9 @@ public class UserPropDefs {
                 values.add(valueNodes.item(j).getTextContent().trim());
             }
 
-            sidecar.properties.add(new UserPropDef(name, type, values));
+            sidecar.properties.add(new UserDataDefinition(name, type, values));
         }
 
         return sidecar;
     }
-
-    public List<UserPropDef> getProperties() { return properties; }
 }

@@ -14,18 +14,18 @@ public final class Settings {
 
     static {
         try {
-            current = SettingsIO.loadOrCreate();
+            current = SettingsIo.loadOrCreate();
         } catch (Exception e) {
             System.err.println("Failed to load settings: " + e.getMessage());
-            current = new LinkedHashMap<>(SettingsIO.DEFAULTS);
+            current = new LinkedHashMap<>(SettingsIo.DEFAULTS);
         }
     }
     
     // I/O
     
-    public static void load() throws Exception { current = SettingsIO.loadOrCreate(); }
+    public static void load() throws Exception { current = SettingsIo.loadOrCreate(); }
 
-    public static void save() throws Exception { SettingsIO.save(current); }
+    public static void save() throws Exception { SettingsIo.save(current); }
 
     public static Map<String, String> raw() { return current; }
     
@@ -38,7 +38,7 @@ public final class Settings {
     // Get methods
     
     public static String get(String key) {
-        return current.getOrDefault(key, SettingsIO.DEFAULTS.get(key));
+        return current.getOrDefault(key, SettingsIo.DEFAULTS.get(key));
     }
     
     public static List<String> getCsv(String key) { return Strings.fromCsv(Settings.get(key)); }

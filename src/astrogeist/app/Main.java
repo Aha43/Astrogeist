@@ -4,7 +4,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import astrogeist.app.resources.Resources;
-import astrogeist.setting.SettingsIO;
+import astrogeist.setting.SettingsIo;
 
 public final class Main {
 	public static void main(String[] args) {
@@ -21,7 +21,7 @@ public final class Main {
 	
 	private static void initialize() throws Exception {
 		Resources.ensureAstrogeistDirectoryExist();
-		SettingsIO.loadOrCreate();
+		SettingsIo.loadOrCreate();
 	}
 	
 }

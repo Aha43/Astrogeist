@@ -3,8 +3,10 @@ package astrogeist.app.resources;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.time.Instant;
 
 import astrogeist.Common;
+import astrogeist.util.Instants;
 
 public final class Resources {
 	private static URL _logoUrl = null;
@@ -16,7 +18,8 @@ public final class Resources {
 	
 	private static File _astrogeistDir = null;
 	private static File _settingsFile = null;
-	private static File _userPropsFile = null;
+	private static File _userDataDefinitionsFile = null;
+	private static File _userDataDir = null;
 	
 	public static File ensureAstrogeistDirectoryExist() throws IOException {
 		if (_astrogeistDir != null) return _astrogeistDir;
@@ -44,11 +47,26 @@ public final class Resources {
 		return _settingsFile;
 	}
 	
-	public static File getUserPropsFile() {
+	public static File getUserDataDefinitionsFile() {
 		checkGotAstrogeistDir();
-		if (_userPropsFile != null) return _userPropsFile;
-		_userPropsFile = new File(_astrogeistDir, "astrogeist.userpropsdef.xml");
-		return _userPropsFile;
+		if (_userDataDefinitionsFile != null) return _userDataDefinitionsFile;
+		_userDataDefinitionsFile = new File(_astrogeistDir, "astrogeist.userdatadef.xml");
+		return _userDataDefinitionsFile;
+	}
+	
+	public static File getUserDataDir() {
+		checkGotAstrogeistDir();
+		if (_userDataDir != null) return _userDataDir;
+		var dir = new File(_astrogeistDir, "userdata");
+		dir.mkdirs();
+		_userDataDir = dir;
+		return _userDataDir;
+	}
+	
+	public static File getUserDataFile(Instant instant) {
+		var dir = getUserDataDir();
+		var fname = Instants.toFileSafeString(instant);
+		return new File(dir, fname + ".xml");
 	}
 	
 	private static void checkGotAstrogeistDir() {

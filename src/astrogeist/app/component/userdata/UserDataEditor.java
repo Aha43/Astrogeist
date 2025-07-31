@@ -1,4 +1,4 @@
-package astrogeist.app.component.userprops;
+package astrogeist.app.component.userdata;
 
 import java.awt.BorderLayout;
 import java.util.List;
@@ -13,32 +13,30 @@ import javax.swing.JScrollPane;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellEditor;
 
-import astrogeist.userprops.UserPropDef;
+import astrogeist.userdata.UserDataDefinition;
 
-public final class UserPropsEditor extends JPanel {
+public final class UserDataEditor extends JPanel {
     private static final long serialVersionUID = 1L;
 	private final JTable table;
-    private final PropTableModel model;
+    private final UserDataDefinitionsTableModel model;
 
-    public UserPropsEditor(List<UserPropDef> definitions, Map<String, String> currentValues) {
+    public UserDataEditor(List<UserDataDefinition> definitions, Map<String, String> currentValues) {
         super(new BorderLayout());
-        this.model = new PropTableModel(definitions, currentValues);
+        this.model = new UserDataDefinitionsTableModel(definitions, currentValues);
         this.table = new JTableWithPerRowEditor(model, definitions);
         this.table.setFillsViewportHeight(true);
 
         add(new JScrollPane(table), BorderLayout.CENTER);
     }
 
-    public Map<String, String> getValues() {
-        return model.getValues();
-    }
+    public Map<String, String> getValues() { return model.getValues(); }
 
     // Custom JTable that installs per-row editors
     private static final class JTableWithPerRowEditor extends JTable {
         private static final long serialVersionUID = 1L;
-		private final List<UserPropDef> defs;
+		private final List<UserDataDefinition> defs;
 
-        public JTableWithPerRowEditor(PropTableModel model, List<UserPropDef> defs) {
+        public JTableWithPerRowEditor(UserDataDefinitionsTableModel model, List<UserDataDefinition> defs) {
             super(model);
             this.defs = defs;
         }
@@ -46,7 +44,7 @@ public final class UserPropsEditor extends JPanel {
         @Override
         public TableCellEditor getCellEditor(int row, int column) {
             if (column == 1) {
-                UserPropDef def = defs.get(row);
+                UserDataDefinition def = defs.get(row);
                 if (!def.values().isEmpty()) {
                     JComboBox<String> combo = new JComboBox<>(def.values().toArray(new String[0]));
                     return new DefaultCellEditor(combo);
@@ -56,14 +54,13 @@ public final class UserPropsEditor extends JPanel {
         }
     }
 
-    // Your table model stays the same
-    private static final class PropTableModel extends AbstractTableModel {
+    private static final class UserDataDefinitionsTableModel extends AbstractTableModel {
         private static final long serialVersionUID = 1L;
         
-		private final List<UserPropDef> defs;
+		private final List<UserDataDefinition> defs;
         private final Map<String, String> values;
 
-        public PropTableModel(List<UserPropDef> defs, Map<String, String> initialValues) {
+        public UserDataDefinitionsTableModel(List<UserDataDefinition> defs, Map<String, String> initialValues) {
             this.defs = defs;
             this.values = new LinkedHashMap<>();
             for (var def : defs) {

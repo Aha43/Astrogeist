@@ -23,7 +23,7 @@ public class ObservationStore {
     	var normalizedKey = NormalizedProperties.getNormalized(key);
     	key = normalizedKey == null ? key : normalizedKey;
     	
-        store.computeIfAbsent(time, t -> new HashMap<>()).put(key, value);
+        this.store.computeIfAbsent(time, t -> new HashMap<>()).put(key, value);
     }
     
     public void put(Instant time, Map<String, String> values) {
@@ -33,7 +33,7 @@ public class ObservationStore {
     	}
     }
 
-    public String get(Instant time, String key) { return store.getOrDefault(time, Map.of()).get(key); }
-    public Map<String, String> snapshot(Instant time) { return store.getOrDefault(time, Map.of()); }
-    public Set<Instant> timestamps() { return new TreeSet<>(store.keySet()); }
+    public String get(Instant time, String key) { return this.store.getOrDefault(time, Map.of()).get(key); }
+    public Map<String, String> snapshot(Instant time) { return this.store.getOrDefault(time, Map.of()); }
+    public Set<Instant> timestamps() { return new TreeSet<>(this.store.keySet()); }
 }

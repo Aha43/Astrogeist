@@ -15,12 +15,12 @@ import javax.swing.JPopupMenu;
 public final class FileLabel extends JLabel {
 	private static final long serialVersionUID = 1L;
 	
-	private final File _file;
+	private final File file;
 	
 	public FileLabel(File file) {
 		super(file.getName());
 		
-		_file = file;
+		this.file = file;
 		
 		setBorder(BorderFactory.createLineBorder(Color.GRAY));
         setOpaque(true);
@@ -46,11 +46,8 @@ public final class FileLabel extends JLabel {
 		    private void showPopup(MouseEvent e) {
 		        JPopupMenu menu = new JPopupMenu();
 
-		        //JMenuItem openTerminal = new JMenuItem("Open in Terminal");
-		        //openTerminal.addActionListener(ev -> openInTerminal(file));
-
 		        JMenuItem showInExplorer = new JMenuItem("Show in File Browser");
-		        showInExplorer.addActionListener(ev -> openInFileBrowser(_file));
+		        showInExplorer.addActionListener(ev -> openInFileBrowser(file));
 
 		        //menu.add(openTerminal);
 		        menu.add(showInExplorer);

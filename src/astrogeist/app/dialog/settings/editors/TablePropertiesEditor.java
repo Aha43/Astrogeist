@@ -7,19 +7,19 @@ import astrogeist.scanner.NormalizedProperties;
 import astrogeist.util.Strings;
 
 public class TablePropertiesEditor implements SettingsEditor {
-	private SelectionTablePanel _component;
+	private SelectionTablePanel component;
 	
 	@Override
 	public JComponent getEditorComponent(String currentValue) {
 		var all = NormalizedProperties.getNormalizedNames();
 		var selected = Strings.fromCsv(currentValue);
-		_component = new SelectionTablePanel(selected, all);
-		return _component;
+		this.component = new SelectionTablePanel(selected, all);
+		return this.component;
 	}
 
 	@Override
 	public String getEditedValue() {
-		var selected = _component.getSelectedItems();
+		var selected = this.component.getSelectedItems();
 		return Strings.toCsv(selected);
 	}
 

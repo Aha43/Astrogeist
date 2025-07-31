@@ -9,25 +9,23 @@ import javax.swing.table.AbstractTableModel;
 public class PropertiesTableModel extends AbstractTableModel {
     private static final long serialVersionUID = 1L;
     
-	private final List<Map.Entry<String, String>> _entries = new ArrayList<>();
+	private final List<Map.Entry<String, String>> entries = new ArrayList<>();
 
     public void setData(Map<String, String> map) {
-        _entries.clear();
-        if (map != null) {
-            _entries.addAll(map.entrySet());
-        }
+    	this.entries.clear();
+        if (map != null) { this.entries.addAll(map.entrySet()); }
         fireTableDataChanged();
     }
 
     @Override
-    public int getRowCount() { return _entries.size(); }
+    public int getRowCount() { return this.entries.size(); }
 
     @Override
     public int getColumnCount() { return 2; }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Map.Entry<String, String> entry = _entries.get(rowIndex);
+        Map.Entry<String, String> entry = this.entries.get(rowIndex);
         return columnIndex == 0 ? entry.getKey() : entry.getValue();
     }
 
@@ -40,10 +38,10 @@ public class PropertiesTableModel extends AbstractTableModel {
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
         if (columnIndex == 1) {
-            _entries.get(rowIndex).setValue(String.valueOf(aValue));
+        	this.entries.get(rowIndex).setValue(String.valueOf(aValue));
             fireTableCellUpdated(rowIndex, columnIndex);
         }
     }
     
-    public void clear() { _entries.clear(); fireTableDataChanged(); }
+    public void clear() { this.entries.clear(); fireTableDataChanged(); }
 }

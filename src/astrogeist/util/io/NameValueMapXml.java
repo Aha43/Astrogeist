@@ -1,4 +1,4 @@
-package astrogeist.setting;
+package astrogeist.util.io;
 
 import java.io.File;
 import java.util.HashMap;
@@ -18,18 +18,18 @@ import org.w3c.dom.NodeList;
 
 import astrogeist.Common;
 
-public final class SettingsXml {
-	public static void saveSettings(Map<String, String> settings, File file) throws Exception {
+public final class NameValueMapXml {
+	public static void save(Map<String, String> settings, File file) throws Exception {
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 
         // Root element
         Document doc = docBuilder.newDocument();
-        Element rootElement = doc.createElement("settings");
+        Element rootElement = doc.createElement("data");
         doc.appendChild(rootElement);
 
         for (Map.Entry<String, String> entry : settings.entrySet()) {
-            Element setting = doc.createElement("setting");
+            Element setting = doc.createElement("e");
             setting.setAttribute("key", entry.getKey());
             setting.setAttribute("value", entry.getValue());
             rootElement.appendChild(setting);
@@ -43,15 +43,17 @@ public final class SettingsXml {
         transformer.transform(source, result);
     }
 	
-	public static Map<String, String> loadSettings(File file) throws Exception {
+	public static Map<String, String> load(File file) throws Exception {
         Map<String, String> settings = new HashMap<>();
+        
+        if (file.length() == 0L) return settings;
 
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
         Document doc = docBuilder.parse(file);
         doc.getDocumentElement().normalize();
 
-        NodeList list = doc.getElementsByTagName("setting");
+        NodeList list = doc.getElementsByTagName("e");
         for (int i = 0; i < list.getLength(); i++) {
             Element elem = (Element) list.item(i);
             String key = elem.getAttribute("key");
@@ -62,5 +64,5 @@ public final class SettingsXml {
         return settings;
     }
 
-	private SettingsXml() { Common.throwStaticClassInstantiateError(); }
+	private NameValueMapXml() { Common.throwStaticClassInstantiateError(); }
 }

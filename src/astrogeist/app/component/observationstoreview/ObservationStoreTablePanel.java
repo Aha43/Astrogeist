@@ -2,6 +2,7 @@ package astrogeist.app.component.observationstoreview;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.time.Instant;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -15,22 +16,23 @@ import astrogeist.app.component.fileview.ObservationFilesPanel;
 import astrogeist.app.component.propertiesview.PropertiesTablePanel;
 import astrogeist.app.dialog.message.MessageDialogs;
 import astrogeist.app.dialog.selection.SelectionDialog;
-import astrogeist.app.dialog.userprops.UserPropsDialog;
+import astrogeist.app.dialog.userdata.UserDataDialog;
 import astrogeist.scanner.NormalizedProperties;
 import astrogeist.setting.SettingKeys;
 import astrogeist.setting.Settings;
 import astrogeist.store.ObservationStore;
+import astrogeist.userdata.UserDataIo;
 
 public final class ObservationStoreTablePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
-	private final JTable _table;
-	private final ObservationStoreTableModel _tableModel;
+	private final JTable table;
+	private final ObservationStoreTableModel tableModel;
 	
-	private final PropertiesTablePanel _propertiesTablePanel;
-	private final ObservationFilesPanel _observationFilesPanel;
+	private final PropertiesTablePanel propertiesTablePanel;
+	private final ObservationFilesPanel observationFilesPanel;
 	
-	private final App _app;
+	private final App app;
 
 	public ObservationStoreTablePanel(
 		App app,
@@ -39,26 +41,26 @@ public final class ObservationStoreTablePanel extends JPanel {
 		
 		super(new BorderLayout());
 		
-		_app = app;
+		this.app = app;
 		
-		_propertiesTablePanel = propertiesTablePanel;
-		_observationFilesPanel = observationFilesPanel;
+		this.propertiesTablePanel = propertiesTablePanel;
+		this.observationFilesPanel = observationFilesPanel;
 		
-		_tableModel = new ObservationStoreTableModel();
-		_table = new JTable(_tableModel);
+		this.tableModel = new ObservationStoreTableModel();
+		this.table = new JTable(this.tableModel);
 
-		_table.setFillsViewportHeight(true);
-		_table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		this.table.setFillsViewportHeight(true);
+		this.table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-		var scrollPane = new JScrollPane(_table);
+		var scrollPane = new JScrollPane(this.table);
 		this.add(scrollPane, BorderLayout.CENTER);
 		
-		_tableModel.setColumnsToShow(Settings.getCsv(SettingKeys.TABLE_COLUMNS));
+		this.tableModel.setColumnsToShow(Settings.getCsv(SettingKeys.TABLE_COLUMNS));
 		
 		createButtonPanel();
 	}
 	
-	public void settingsUpdated() { _tableModel.setColumnsToShow(Settings.getCsv(SettingKeys.TABLE_COLUMNS)); }
+	public void settingsUpdated() { this.tableModel.setColumnsToShow(Settings.getCsv(SettingKeys.TABLE_COLUMNS)); }
 	
 	private void createButtonPanel() {
 		var buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -68,17 +70,15 @@ public final class ObservationStoreTablePanel extends JPanel {
 		columnsButton.addActionListener(e -> {
 			var all = NormalizedProperties.getNormalizedNames();
 			var selected = Settings.getCsv(SettingKeys.TABLE_COLUMNS);
-			SelectionDialog.showDialog(_app, "Select Columns", selected, all);
-			_tableModel.setColumnsToShow(selected);
+			SelectionDialog.showDialog(this.app, "Select Columns", selected, all);
+			this.tableModel.setColumnsToShow(selected);
 			saveSelectedColumns(selected);
 		});
 		
 		buttonPanel.add(columnsButton);
 		
-		var userPropsButton = new JButton("User properties");
-		userPropsButton.addActionListener(e -> {
-			UserPropsDialog.ShowDialog(_app);
-		});
+		var userPropsButton = new JButton("User data");
+		userPropsButton.addActionListener(e -> editUserData());
 		buttonPanel.add(userPropsButton);
 		
 		this.add(buttonPanel, BorderLayout.SOUTH);
@@ -90,23 +90,46 @@ public final class ObservationStoreTablePanel extends JPanel {
 			Settings.set(SettingKeys.TABLE_COLUMNS, setting);
 			Settings.save();
 		} catch (Exception x) {
-			MessageDialogs.showError(null, "Failed saving selection");
+			MessageDialogs.showError(null, x, "Failed saving selection");
 		}	
+	}
+	
+	private void editUserData() {
+		try {
+			var selectedRow = this.getSelectedRow();
+			if (selectedRow == -1) return;
+		
+			var t = this.getTimestampAtRow(selectedRow);
+			var userData = UserDataIo.load(t);
+			
+			UserDataDialog.ShowDialog(this.app, t, userData);
+		} catch(Exception x) {
+			MessageDialogs.showError(this, x, "Failed to load user data");
+		}
 	}
 
 	public void setStore(ObservationStore store) { 
-		_tableModel.setStore(store); 
-		_propertiesTablePanel.clear();
-		_observationFilesPanel.clear();
-		_tableModel.setColumnsToShow(Settings.getCsv(SettingKeys.TABLE_COLUMNS));
+		this.tableModel.setStore(store); 
+		this.propertiesTablePanel.clear();
+		this.observationFilesPanel.clear();
+		this.tableModel.setColumnsToShow(Settings.getCsv(SettingKeys.TABLE_COLUMNS));
 	}
 	
-	public ObservationStore getStore() { return _tableModel.getStore(); }
-	public JTable getTable() { return _table; }
-	public ObservationStoreTableModel getTableModel() { return _tableModel; }
+	public ObservationStore getStore() { return this.tableModel.getStore(); }
+	public JTable getTable() { return this.table; }
+	public ObservationStoreTableModel getTableModel() { return this.tableModel; }
 	
 	public void addSelectionListener(ListSelectionListener l) {
-		_table.getSelectionModel().addListSelectionListener(l);
+		this.table.getSelectionModel().addListSelectionListener(l);
 	}
-
+	
+	public int getSelectedRow() {
+		int selectedRow = this.table.getSelectedRow();
+		if (selectedRow == -1) return -1;
+		int modelRow = this.table.convertRowIndexToModel(selectedRow);
+		return modelRow;
+	}
+	
+	public Instant getTimestampAtRow(int rowIndex) { return this.tableModel.getTimestampAt(rowIndex); }
+	
 }

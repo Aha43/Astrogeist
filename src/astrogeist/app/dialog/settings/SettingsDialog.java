@@ -17,7 +17,7 @@ import astrogeist.app.App;
 import astrogeist.app.dialog.message.MessageDialogs;
 import astrogeist.app.dialog.settings.editors.SettingsEditor;
 import astrogeist.setting.Settings;
-import astrogeist.setting.SettingsIO;
+import astrogeist.setting.SettingsIo;
 
 public final class SettingsDialog extends JDialog {
     private static final long serialVersionUID = 1L;
@@ -36,10 +36,10 @@ public final class SettingsDialog extends JDialog {
         _app = app;
 
         try {
-            var grouped = SettingsIO.loadGrouped();
+            var grouped = SettingsIo.loadGrouped();
             buildTabs(grouped);
-        } catch (Exception e) {
-            MessageDialogs.showError(this, "Failed to load config: " + e.getMessage());
+        } catch (Exception x) {
+            MessageDialogs.showError(this, x, "Failed to load config");
         }
 
         add(tabs, BorderLayout.CENTER);
@@ -69,8 +69,8 @@ public final class SettingsDialog extends JDialog {
             try {
                 saveAll();
                 dispose();
-            } catch (Exception ex) {
-                MessageDialogs.showError(this, "Failed to save config: " + ex.getMessage());
+            } catch (Exception x) {
+                MessageDialogs.showError(this, x, "Failed to save config");
             }
         });
 
@@ -124,7 +124,7 @@ public final class SettingsDialog extends JDialog {
         	var value = entry.getValue().toMap();
             all.put(key, value);
         }
-        SettingsIO.saveGrouped(all);
+        SettingsIo.saveGrouped(all);
         Settings.load();
         _app.seetingsUpdated();
     }

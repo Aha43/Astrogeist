@@ -5,8 +5,9 @@ import java.util.Map;
 
 import astrogeist.Common;
 import astrogeist.app.resources.Resources;
+import astrogeist.util.io.NameValueMapXml;
 
-public final class SettingsIO {
+public final class SettingsIo {
     public static final Map<String, String> DEFAULTS = Map.ofEntries(
         Map.entry(SettingKeys.DATA_ROOTS, ""),
         Map.entry(SettingKeys.TABLE_COLUMNS, "")
@@ -27,7 +28,7 @@ public final class SettingsIO {
 
     public static void save(Map<String, String> props) throws Exception {
     	var settingsFile = Resources.getSettingsFile();
-    	SettingsXml.saveSettings(props, settingsFile);
+    	NameValueMapXml.save(props, settingsFile);
     }
     
     public static void saveGrouped(Map<String, Map<String, String>> groupedProps) throws Exception {
@@ -53,15 +54,13 @@ public final class SettingsIO {
         return grouped;
     }
 
-    public static Map<String, Map<String, String>> loadGrouped() throws Exception {
-        return groupByPrefix(load());
-    }
+    public static Map<String, Map<String, String>> loadGrouped() throws Exception { return groupByPrefix(load()); }
 
     private static Map<String, String> load() throws Exception {
     	var settingsFile = Resources.getSettingsFile();
-    	var retValue = SettingsXml.loadSettings(settingsFile);
+    	var retValue = NameValueMapXml.load(settingsFile);
         return retValue;
     }
     
-    private SettingsIO() { Common.throwStaticClassInstantiateError(); }
+    private SettingsIo() { Common.throwStaticClassInstantiateError(); }
 }

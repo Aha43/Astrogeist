@@ -10,26 +10,26 @@ import javax.swing.JTable;
 public final class PropertiesTablePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
-	private final JTable _table;
-	private final PropertiesTableModel _tableModel;
+	private final JTable table;
+	private final PropertiesTableModel tableModel;
 
 	public PropertiesTablePanel() {
 		super(new BorderLayout());
 		
-		_tableModel = new PropertiesTableModel();
-		_table = new JTable(_tableModel);
+		this.tableModel = new PropertiesTableModel();
+		this.table = new JTable(this.tableModel);
 
-		_table.setFillsViewportHeight(true);
-		_table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		this.table.setFillsViewportHeight(true);
+		this.table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-		var scrollPane = new JScrollPane(_table);
+		var scrollPane = new JScrollPane(this.table);
 		this.add(scrollPane, BorderLayout.CENTER);
 	}
 
-	public void setProperties(Map<String, String> properties) { _tableModel.setData(properties); }
-	public JTable getTable() { return _table; }
-	public PropertiesTableModel getTableModel() { return _tableModel; }
+	public void setProperties(Map<String, String> properties) { this.tableModel.setData(properties); }
+	public JTable getTable() { return this.table; }
+	public PropertiesTableModel getTableModel() { return this.tableModel; }
 	
-	public void clear() { _tableModel.clear(); }
+	public void clear() { this.tableModel.clear(); }
 
 }

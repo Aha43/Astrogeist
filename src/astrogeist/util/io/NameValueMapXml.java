@@ -1,7 +1,7 @@
 package astrogeist.util.io;
 
 import java.io.File;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -19,7 +19,7 @@ import org.w3c.dom.NodeList;
 import astrogeist.Common;
 
 public final class NameValueMapXml {
-	public static void save(Map<String, String> settings, File file) throws Exception {
+	public static void save(LinkedHashMap<String, String> settings, File file) throws Exception {
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 
@@ -43,8 +43,8 @@ public final class NameValueMapXml {
         transformer.transform(source, result);
     }
 	
-	public static Map<String, String> load(File file) throws Exception {
-        Map<String, String> settings = new HashMap<>();
+	public static LinkedHashMap<String, String> load(File file) throws Exception {
+        LinkedHashMap<String, String> settings = new LinkedHashMap<>();
         
         if (file.length() == 0L) return settings;
 

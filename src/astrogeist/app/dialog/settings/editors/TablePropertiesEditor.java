@@ -11,7 +11,7 @@ public class TablePropertiesEditor implements SettingsEditor {
 	
 	@Override
 	public JComponent getEditorComponent(String currentValue) {
-		var all = NormalizedProperties.getNormalizedNames();
+		var all = NormalizedProperties.getNormalizedNamesAndUserDataNames();
 		var selected = Strings.fromCsv(currentValue);
 		this.component = new SelectionTablePanel(selected, all);
 		return this.component;

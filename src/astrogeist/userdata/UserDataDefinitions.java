@@ -3,36 +3,44 @@ package astrogeist.userdata;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.w3c.dom.Element;
 
 public class UserDataDefinitions {
-    private final List<UserDataDefinition> properties = new ArrayList<>();
+    private final List<UserDataDefinition> userDataDefinitions = new ArrayList<>();
 
-    public List<UserDataDefinition> getProperties() { return properties; }
+    public List<UserDataDefinition> getUserDataDefinitions() { return userDataDefinitions; }
+    
+    public List<String> getUserDataNames(){
+    	var names = userDataDefinitions.stream()
+    		.map(UserDataDefinition::name)
+    		.collect(Collectors.toList());
+    	return names;
+    }
     
     public static UserDataDefinitions fromXml(Path path) throws Exception {
         var doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(path.toFile());
-        var sidecar = new UserDataDefinitions();
+        var defs = new UserDataDefinitions();
         
         var nodes = doc.getElementsByTagName("Def");
-        for (int i = 0; i < nodes.getLength(); i++) {
+        for (var i = 0; i < nodes.getLength(); i++) {
             var element = (Element) nodes.item(i);
-            String name = element.getAttribute("name");
-            String type = element.getAttribute("type");
+            var name = element.getAttribute("name");
+            var type = element.getAttribute("type");
             if (type == null || type.isBlank()) type = "String";
 
             List<String> values = new ArrayList<>();
             var valueNodes = element.getElementsByTagName("Value");
-            for (int j = 0; j < valueNodes.getLength(); j++) {
+            for (var j = 0; j < valueNodes.getLength(); j++) {
                 values.add(valueNodes.item(j).getTextContent().trim());
             }
 
-            sidecar.properties.add(new UserDataDefinition(name, type, values));
+            defs.userDataDefinitions.add(new UserDataDefinition(name, type, values));
         }
 
-        return sidecar;
+        return defs;
     }
 }

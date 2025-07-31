@@ -1,18 +1,19 @@
 package astrogeist.app.component.userdata;
 
 import java.awt.BorderLayout;
-import java.util.List;
-import java.util.Map;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
-import javax.swing.JTable;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellEditor;
 
+import astrogeist.Empty;
 import astrogeist.userdata.UserDataDefinition;
 
 public final class UserDataEditor extends JPanel {
@@ -20,7 +21,7 @@ public final class UserDataEditor extends JPanel {
 	private final JTable table;
     private final UserDataDefinitionsTableModel model;
 
-    public UserDataEditor(List<UserDataDefinition> definitions, Map<String, String> currentValues) {
+    public UserDataEditor(List<UserDataDefinition> definitions, LinkedHashMap<String, String> currentValues) {
         super(new BorderLayout());
         this.model = new UserDataDefinitionsTableModel(definitions, currentValues);
         this.table = new JTableWithPerRowEditor(model, definitions);
@@ -29,7 +30,7 @@ public final class UserDataEditor extends JPanel {
         add(new JScrollPane(table), BorderLayout.CENTER);
     }
 
-    public Map<String, String> getValues() { return model.getValues(); }
+    public LinkedHashMap<String, String> getValues() { return model.getValues(); }
 
     // Custom JTable that installs per-row editors
     private static final class JTableWithPerRowEditor extends JTable {
@@ -46,7 +47,9 @@ public final class UserDataEditor extends JPanel {
             if (column == 1) {
                 UserDataDefinition def = defs.get(row);
                 if (!def.values().isEmpty()) {
-                    JComboBox<String> combo = new JComboBox<>(def.values().toArray(new String[0]));
+                	var values = new ArrayList<>(def.values());
+                	values.addFirst("-");
+                    JComboBox<String> combo = new JComboBox<>(values.toArray(Empty.StringArray));
                     return new DefaultCellEditor(combo);
                 }
             }
@@ -58,9 +61,9 @@ public final class UserDataEditor extends JPanel {
         private static final long serialVersionUID = 1L;
         
 		private final List<UserDataDefinition> defs;
-        private final Map<String, String> values;
+        private final LinkedHashMap<String, String> values;
 
-        public UserDataDefinitionsTableModel(List<UserDataDefinition> defs, Map<String, String> initialValues) {
+        public UserDataDefinitionsTableModel(List<UserDataDefinition> defs, LinkedHashMap<String, String> initialValues) {
             this.defs = defs;
             this.values = new LinkedHashMap<>();
             for (var def : defs) {
@@ -87,8 +90,8 @@ public final class UserDataEditor extends JPanel {
         @Override public boolean isCellEditable(int row, int col) { return col == 1; }
         @Override public String getColumnName(int col) { return (col == 0) ? "Property" : "Value"; }
 
-        public Map<String, String> getValues() {
-            Map<String, String> cleaned = new LinkedHashMap<>();
+        public LinkedHashMap<String, String> getValues() {
+            LinkedHashMap<String, String> cleaned = new LinkedHashMap<>();
             for (var def : defs) {
                 String name = def.name();
                 String val = values.get(name);

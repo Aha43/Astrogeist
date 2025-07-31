@@ -1,7 +1,7 @@
 package astrogeist.app.component.propertiesview;
 
 import java.awt.BorderLayout;
-import java.util.Map;
+import java.util.LinkedHashMap;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -26,7 +26,7 @@ public final class PropertiesTablePanel extends JPanel {
 		this.add(scrollPane, BorderLayout.CENTER);
 	}
 
-	public void setProperties(Map<String, String> properties) { this.tableModel.setData(properties); }
+	public void setProperties(LinkedHashMap<String, String> properties) { this.tableModel.setData(properties); }
 	public JTable getTable() { return this.table; }
 	public PropertiesTableModel getTableModel() { return this.tableModel; }
 	

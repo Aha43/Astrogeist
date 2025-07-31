@@ -3,6 +3,7 @@ package astrogeist.app.component.observationstoreview;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.time.Instant;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -62,13 +63,15 @@ public final class ObservationStoreTablePanel extends JPanel {
 	
 	public void settingsUpdated() { this.tableModel.setColumnsToShow(Settings.getCsv(SettingKeys.TABLE_COLUMNS)); }
 	
+	public void update(Instant t, LinkedHashMap<String, String> values) { this.tableModel.update(t, values); }
+	
 	private void createButtonPanel() {
 		var buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		
-		var columnsButton = new JButton("Select properties to show");
+		var columnsButton = new JButton("Select columns to show");
 		
 		columnsButton.addActionListener(e -> {
-			var all = NormalizedProperties.getNormalizedNames();
+			var all = NormalizedProperties.getNormalizedNamesAndUserDataNames();
 			var selected = Settings.getCsv(SettingKeys.TABLE_COLUMNS);
 			SelectionDialog.showDialog(this.app, "Select Columns", selected, all);
 			this.tableModel.setColumnsToShow(selected);
@@ -77,7 +80,7 @@ public final class ObservationStoreTablePanel extends JPanel {
 		
 		buttonPanel.add(columnsButton);
 		
-		var userPropsButton = new JButton("User data");
+		var userPropsButton = new JButton("Edit User Data");
 		userPropsButton.addActionListener(e -> editUserData());
 		buttonPanel.add(userPropsButton);
 		

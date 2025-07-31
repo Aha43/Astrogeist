@@ -4,13 +4,12 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import astrogeist.Common;
 import astrogeist.util.Strings;
 
 public final class Settings {
-    private static Map<String, String> current;
+    private static LinkedHashMap<String, String> current;
 
     static {
         try {
@@ -27,7 +26,7 @@ public final class Settings {
 
     public static void save() throws Exception { SettingsIo.save(current); }
 
-    public static Map<String, String> raw() { return current; }
+    public static LinkedHashMap<String, String> raw() { return current; }
     
     // Set methods
     

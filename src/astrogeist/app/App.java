@@ -5,7 +5,7 @@ import java.awt.Dimension;
 import java.awt.Image;
 import java.net.URL;
 import java.time.Instant;
-import java.util.Map;
+import java.util.LinkedHashMap;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -29,6 +29,8 @@ public final class App {
 	private final ObservationFilesPanel filesPanel = new ObservationFilesPanel();
 	private final ObservationStoreTablePanel tablePanel = 
 		new ObservationStoreTablePanel(this, propertiesPanel, filesPanel);
+	
+	public ObservationStoreTablePanel getObservationStoreTablePanel() { return this.tablePanel; }
 	
 	public void createGUI() {
 		this.frame = new JFrame("Astrogeist");
@@ -76,7 +78,7 @@ public final class App {
 		        int selectedRow = this.tablePanel.getTable().getSelectedRow();
 		        if (selectedRow >= 0) {
 		            Instant timestamp = this.tablePanel.getTableModel().getTimestampAt(selectedRow);
-		            Map<String, String> observation = this.tablePanel.getStore().snapshot(timestamp);
+		            LinkedHashMap<String, String> observation = this.tablePanel.getStore().snapshot(timestamp);
 		            this.propertiesPanel.setProperties(observation);
 		            this.filesPanel.setObservation(observation);
 		        }

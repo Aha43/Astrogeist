@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import astrogeist.scanner.sharpcap.SharpCapScanner;
+import astrogeist.scanner.userdata.UserDataScanner;
 import astrogeist.store.ObservationStore;
 
 public final class CompositeScanner implements Scanner {
@@ -11,6 +12,7 @@ public final class CompositeScanner implements Scanner {
 	
 	public CompositeScanner() {
 		addScanners(SharpCapScanner.createScanners());
+		addScanners(new UserDataScanner());
 	}
 
 	@Override

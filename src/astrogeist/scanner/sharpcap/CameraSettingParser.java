@@ -5,13 +5,12 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 import astrogeist.Common;
 
 public final class CameraSettingParser {
-	public static Map<String, String> parseFile(File file) {
-	    Map<String, String> map = new LinkedHashMap<>();
+	public static LinkedHashMap<String, String> parseFile(File file) {
+	    LinkedHashMap<String, String> map = new LinkedHashMap<>();
 	    
 	    try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
 	        String line;

@@ -4,10 +4,8 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.table.AbstractTableModel;
 
@@ -20,7 +18,7 @@ public final class ObservationStoreTableModel extends AbstractTableModel {
 	
 	private final List<Instant> timestamps = new ArrayList<>();
 	private final List<String> columns = new ArrayList<>();
-	private final Map<Instant, Map<String, String>> rows = new LinkedHashMap<>();
+	private final LinkedHashMap<Instant, LinkedHashMap<String, String>> rows = new LinkedHashMap<>();
 	private static final String TIME_COLUMN = "Time";
 
 	private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
@@ -53,6 +51,27 @@ public final class ObservationStoreTableModel extends AbstractTableModel {
 	}
 	
 	public ObservationStore getStore() { return this.store; }
+	
+	public void update(Instant t, LinkedHashMap<String, String> values) {
+		var existing = rows.get(t);
+		if (existing == null) return;
+
+		for (var entry : values.entrySet()) {
+			String key = entry.getKey();
+			String value = entry.getValue();
+
+			if (value == null || value.isEmpty() || value.equals("-")) {
+				existing.remove(key); // delete
+			} else {
+				existing.put(key, value); // add/update
+			}
+		}
+
+		int rowIndex = timestamps.indexOf(t);
+		if (rowIndex >= 0) {
+			fireTableRowsUpdated(rowIndex, rowIndex);
+		}
+	}
 
 	@Override
 	public int getRowCount() { return this.timestamps.size(); }
@@ -70,7 +89,7 @@ public final class ObservationStoreTableModel extends AbstractTableModel {
 			return timeFormatter.format(timestamp);
 		}
 
-		var data = this.rows.getOrDefault(timestamp, Collections.emptyMap());
+		var data = this.rows.getOrDefault(timestamp, new LinkedHashMap<String, String>());
 		return data.getOrDefault(column, "");
 	}
 

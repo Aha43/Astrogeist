@@ -1,20 +1,21 @@
 package astrogeist.setting;
 
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 import astrogeist.Common;
 import astrogeist.app.resources.Resources;
 import astrogeist.util.io.NameValueMapXml;
 
 public final class SettingsIo {
-    public static final Map<String, String> DEFAULTS = Map.ofEntries(
-        Map.entry(SettingKeys.DATA_ROOTS, ""),
-        Map.entry(SettingKeys.TABLE_COLUMNS, "")
-    );
+    public static final LinkedHashMap<String, String> DEFAULTS = new LinkedHashMap<>();
+    
+    static {
+    	DEFAULTS.put(SettingKeys.DATA_ROOTS, "");
+    	DEFAULTS.put(SettingKeys.TABLE_COLUMNS, "");
+    }
 
-    public static Map<String, String> loadOrCreate() throws Exception {
-        Map<String, String> props = Resources.getSettingsFile().exists() ? load() : new LinkedHashMap<>();
+    public static LinkedHashMap<String, String> loadOrCreate() throws Exception {
+    	LinkedHashMap<String, String> props = Resources.getSettingsFile().exists() ? load() : new LinkedHashMap<>();
 
         // Add missing defaults
         for (var entry : DEFAULTS.entrySet()) {
@@ -26,13 +27,13 @@ public final class SettingsIo {
         return props;
     }
 
-    public static void save(Map<String, String> props) throws Exception {
+    public static void save(LinkedHashMap<String, String> props) throws Exception {
     	var settingsFile = Resources.getSettingsFile();
     	NameValueMapXml.save(props, settingsFile);
     }
     
-    public static void saveGrouped(Map<String, Map<String, String>> groupedProps) throws Exception {
-        Map<String, String> flat = new LinkedHashMap<>();
+    public static void saveGrouped(LinkedHashMap<String, LinkedHashMap<String, String>> groupedProps) throws Exception {
+    	LinkedHashMap<String, String> flat = new LinkedHashMap<>();
         for (var groupEntry : groupedProps.entrySet()) {
             String group = groupEntry.getKey();
             for (var entry : groupEntry.getValue().entrySet()) {
@@ -43,8 +44,8 @@ public final class SettingsIo {
         save(flat);
     }
 
-    public static Map<String, Map<String, String>> groupByPrefix(Map<String, String> flat) {
-        Map<String, Map<String, String>> grouped = new LinkedHashMap<>();
+    public static LinkedHashMap<String, LinkedHashMap<String, String>> groupByPrefix(LinkedHashMap<String, String> flat) {
+    	LinkedHashMap<String, LinkedHashMap<String, String>> grouped = new LinkedHashMap<>();
         for (var entry : flat.entrySet()) {
             String[] parts = entry.getKey().split(":", 2);
             String group = parts.length == 2 ? parts[0] : "general";
@@ -54,9 +55,9 @@ public final class SettingsIo {
         return grouped;
     }
 
-    public static Map<String, Map<String, String>> loadGrouped() throws Exception { return groupByPrefix(load()); }
+    public static LinkedHashMap<String, LinkedHashMap<String, String>> loadGrouped() throws Exception { return groupByPrefix(load()); }
 
-    private static Map<String, String> load() throws Exception {
+    private static LinkedHashMap<String, String> load() throws Exception {
     	var settingsFile = Resources.getSettingsFile();
     	var retValue = NameValueMapXml.load(settingsFile);
         return retValue;

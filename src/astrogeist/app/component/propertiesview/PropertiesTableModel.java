@@ -1,6 +1,7 @@
 package astrogeist.app.component.propertiesview;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,7 +12,7 @@ public class PropertiesTableModel extends AbstractTableModel {
     
 	private final List<Map.Entry<String, String>> entries = new ArrayList<>();
 
-    public void setData(Map<String, String> map) {
+    public void setData(LinkedHashMap<String, String> map) {
     	this.entries.clear();
         if (map != null) { this.entries.addAll(map.entrySet()); }
         fireTableDataChanged();

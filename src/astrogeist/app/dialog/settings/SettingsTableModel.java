@@ -3,7 +3,6 @@ package astrogeist.app.dialog.settings;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.table.AbstractTableModel;
 
@@ -13,14 +12,14 @@ public final class SettingsTableModel extends AbstractTableModel {
     private final List<String> keys;
     private final List<String> values;
 
-    public SettingsTableModel(Map<String, String> data) {
+    public SettingsTableModel(LinkedHashMap<String, String> data) {
         keys = new ArrayList<>(data.keySet());
         values = new ArrayList<>();
         for (String k : keys) values.add(data.get(k));
     }
 
-    public Map<String, String> toMap() {
-        Map<String, String> map = new LinkedHashMap<>();
+    public LinkedHashMap<String, String> toMap() {
+        LinkedHashMap<String, String> map = new LinkedHashMap<>();
         for (int i = 0; i < keys.size(); i++) {
             map.put(keys.get(i), values.get(i));
         }

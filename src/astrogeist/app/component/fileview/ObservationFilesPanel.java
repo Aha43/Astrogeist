@@ -3,8 +3,8 @@ package astrogeist.app.component.fileview;
 import java.awt.FlowLayout;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.JPanel;
 
@@ -13,7 +13,7 @@ public final class ObservationFilesPanel extends JPanel {
 	
 	public ObservationFilesPanel() { super(new FlowLayout(FlowLayout.LEFT)); }
 	
-	public void setObservation(Map<String, String> observation) {
+	public void setObservation(LinkedHashMap<String, String> observation) {
 		var filePaths = new ArrayList<String>();
 		
 		var serFilePath = observation.get("SerFile");

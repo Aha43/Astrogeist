@@ -9,11 +9,11 @@ import astrogeist.setting.Settings;
 
 public abstract class AbstractScanner implements Scanner {
 	
-	private final File _rootDir;
+	private final File rootDir;
 	
-	protected AbstractScanner(File rootDir) { _rootDir = rootDir; }
+	protected AbstractScanner(File rootDir) { this.rootDir = rootDir; }
 	
-	protected File getRootDir() { return _rootDir; }
+	protected File getRootDir() { return this.rootDir; }
 	
 	protected static List<File> getRoots() {
 		var roots = Settings.getPaths(SettingKeys.DATA_ROOTS);

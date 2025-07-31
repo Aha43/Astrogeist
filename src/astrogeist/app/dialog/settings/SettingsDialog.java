@@ -3,7 +3,6 @@ package astrogeist.app.dialog.settings;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -23,7 +22,7 @@ public final class SettingsDialog extends JDialog {
     private static final long serialVersionUID = 1L;
 
     private final JTabbedPane tabs = new JTabbedPane();
-    private final Map<String, SettingsTableModel> models = new LinkedHashMap<>();
+    private final LinkedHashMap<String, SettingsTableModel> models = new LinkedHashMap<>();
     
     private final App _app;
 
@@ -46,7 +45,7 @@ public final class SettingsDialog extends JDialog {
         add(buildButtons(), BorderLayout.SOUTH);
     }
 
-    private void buildTabs(Map<String, Map<String, String>> grouped) {
+    private void buildTabs(LinkedHashMap<String, LinkedHashMap<String, String>> grouped) {
         for (var entry : grouped.entrySet()) {
             String group = entry.getKey();
             SettingsTableModel model = new SettingsTableModel(entry.getValue());
@@ -118,7 +117,7 @@ public final class SettingsDialog extends JDialog {
     }
 
     private void saveAll() throws Exception {
-        Map<String, Map<String, String>> all = new LinkedHashMap<>();
+        LinkedHashMap<String, LinkedHashMap<String, String>> all = new LinkedHashMap<>();
         for (var entry : models.entrySet()) {
         	var key = entry.getKey();
         	var value = entry.getValue().toMap();
@@ -129,7 +128,5 @@ public final class SettingsDialog extends JDialog {
         _app.seetingsUpdated();
     }
 
-    private String capitalize(String s) {
-        return s.substring(0, 1).toUpperCase() + s.substring(1);
-    }
+    private String capitalize(String s) { return s.substring(0, 1).toUpperCase() + s.substring(1); }
 }

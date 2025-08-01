@@ -3,7 +3,7 @@ package astrogeist.setting;
 import java.util.LinkedHashMap;
 
 import astrogeist.Common;
-import astrogeist.app.resources.Resources;
+import astrogeist.resources.Resources;
 import astrogeist.util.io.NameValueMapXml;
 
 public final class SettingsIo {

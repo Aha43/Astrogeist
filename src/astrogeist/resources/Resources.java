@@ -1,4 +1,4 @@
-package astrogeist.app.resources;
+package astrogeist.resources;
 
 import java.io.File;
 import java.io.IOException;

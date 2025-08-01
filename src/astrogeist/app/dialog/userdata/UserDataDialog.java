@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import astrogeist.app.App;
 import astrogeist.app.component.userdata.UserDataEditor;
 import astrogeist.app.dialog.message.MessageDialogs;
-import astrogeist.app.resources.Resources;
+import astrogeist.resources.Resources;
 import astrogeist.userdata.UserDataDefinitions;
 import astrogeist.userdata.UserDataIo;
 

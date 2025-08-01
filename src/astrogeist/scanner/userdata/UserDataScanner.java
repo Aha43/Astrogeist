@@ -1,6 +1,6 @@
 package astrogeist.scanner.userdata;
 
-import astrogeist.app.resources.Resources;
+import astrogeist.resources.Resources;
 import astrogeist.scanner.AbstractScanner;
 import astrogeist.store.ObservationStore;
 import astrogeist.userdata.UserDataIo;

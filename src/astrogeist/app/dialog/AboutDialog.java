@@ -20,7 +20,7 @@ import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
 import astrogeist.app.App;
-import astrogeist.app.resources.Resources;
+import astrogeist.resources.Resources;
 
 public final class AboutDialog extends JDialog {
     private static final long serialVersionUID = 1L;

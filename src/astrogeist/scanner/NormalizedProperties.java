@@ -5,7 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.Set;
 
 import astrogeist.Common;
-import astrogeist.app.resources.Resources;
+import astrogeist.resources.Resources;
 import astrogeist.userdata.UserDataDefinitions;
 
 public final class NormalizedProperties {

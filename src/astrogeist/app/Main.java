@@ -3,7 +3,7 @@ package astrogeist.app;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
-import astrogeist.app.resources.Resources;
+import astrogeist.resources.Resources;
 import astrogeist.setting.SettingsIo;
 
 public final class Main {

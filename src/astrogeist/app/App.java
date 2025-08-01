@@ -18,8 +18,8 @@ import astrogeist.app.component.fileview.ObservationFilesPanel;
 import astrogeist.app.component.observationstoreview.ObservationStoreTablePanel;
 import astrogeist.app.component.propertiesview.PropertiesTablePanel;
 import astrogeist.app.menubar.MenuBarFactory;
-import astrogeist.app.resources.Resources;
 import astrogeist.app.toolbar.ToolBarFactory;
+import astrogeist.resources.Resources;
 
 public final class App {
 	

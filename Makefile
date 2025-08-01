@@ -21,6 +21,9 @@ $(JAR_NAME): $(MANIFEST)
 run: $(JAR_NAME)
 	java -jar $(JAR_NAME)
 
+run-prod: $(JAR_NAME)
+	java -jar $(JAR_NAME) /Users/arnehalvorsen/astrolab-data
+
 clean:
 	@echo "Cleaning build artifacts..."
 	rm -rf $(OUT_DIR) $(JAR_NAME) sources.txt

@@ -9,7 +9,7 @@ import astrogeist.setting.SettingsIo;
 public final class Main {
 	public static void main(String[] args) {
 		try {
-			initialize();
+			initialize(args);
 			var app = new App();
 			SwingUtilities.invokeLater(() -> app.createGUI());
 		} catch (Exception e) {
@@ -19,8 +19,9 @@ public final class Main {
 		}
 	}
 	
-	private static void initialize() throws Exception {
-		Resources.ensureAstrogeistDirectoryExist();
+	private static void initialize(String[] arg) throws Exception {
+		String path = arg.length > 0 ? arg[0] : null;
+		Resources.ensureAstrogeistDirectoryExist(path);
 		SettingsIo.loadOrCreate();
 	}
 	

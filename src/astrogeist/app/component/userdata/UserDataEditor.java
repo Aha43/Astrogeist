@@ -45,7 +45,7 @@ public final class UserDataEditor extends JPanel {
         @Override
         public TableCellEditor getCellEditor(int row, int column) {
             if (column == 1) {
-                UserDataDefinition def = defs.get(row);
+                var def = defs.get(row);
                 if (!def.values().isEmpty()) {
                 	var values = new ArrayList<>(def.values());
                 	values.add(0, "-");

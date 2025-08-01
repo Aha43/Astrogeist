@@ -21,10 +21,10 @@ public final class Resources {
 	private static File _userDataDefinitionsFile = null;
 	private static File _userDataDir = null;
 	
-	public static File ensureAstrogeistDirectoryExist() throws IOException {
+	public static File ensureAstrogeistDirectoryExist(String path) throws IOException {
 		if (_astrogeistDir != null) return _astrogeistDir;
 		
-		var homeDir = new File(System.getProperty("user.home"));
+		var homeDir = path != null ? new File(path) : new File(System.getProperty("user.home"));
 		var astrogeistDir = new File(homeDir, ".astrogeist");
 		if (astrogeistDir.exists()) {
 			_astrogeistDir = astrogeistDir;

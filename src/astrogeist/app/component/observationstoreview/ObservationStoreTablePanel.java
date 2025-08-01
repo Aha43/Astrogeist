@@ -93,7 +93,7 @@ public final class ObservationStoreTablePanel extends JPanel {
 			Settings.set(SettingKeys.TABLE_COLUMNS, setting);
 			Settings.save();
 		} catch (Exception x) {
-			MessageDialogs.showError(null, x, "Failed saving selection");
+			MessageDialogs.showError(null, "Failed saving selection", x);
 		}	
 	}
 	
@@ -107,7 +107,7 @@ public final class ObservationStoreTablePanel extends JPanel {
 			
 			UserDataDialog.ShowDialog(this.app, t, userData);
 		} catch(Exception x) {
-			MessageDialogs.showError(this, x, "Failed to load user data");
+			MessageDialogs.showError(this, "Failed to load user data", x);
 		}
 	}
 

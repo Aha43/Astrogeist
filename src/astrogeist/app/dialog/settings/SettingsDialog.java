@@ -38,7 +38,7 @@ public final class SettingsDialog extends JDialog {
             var grouped = SettingsIo.loadGrouped();
             buildTabs(grouped);
         } catch (Exception x) {
-            MessageDialogs.showError(this, x, "Failed to load config");
+            MessageDialogs.showError(this, "Failed to load config", x);
         }
 
         add(tabs, BorderLayout.CENTER);
@@ -69,7 +69,7 @@ public final class SettingsDialog extends JDialog {
                 saveAll();
                 dispose();
             } catch (Exception x) {
-                MessageDialogs.showError(this, x, "Failed to save config");
+                MessageDialogs.showError(this, "Failed to save config", x);
             }
         });
 

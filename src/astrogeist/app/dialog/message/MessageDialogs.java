@@ -1,20 +1,25 @@
 package astrogeist.app.dialog.message;
 
 import java.awt.Component;
+import java.util.logging.Level;
 
 import javax.swing.JOptionPane;
 
 import astrogeist.Common;
+import astrogeist.logging.Log;
 
 public final class MessageDialogs {
-	public static void showError(String message, Exception x) { showError(null, x, message); }
+	public static void showError(String message, Exception x) { showError(null, message, x); }
 
     public static void showWarning(String message) { showWarning(null, message); }
 
     public static void showInfo(String message) { showInfo(null, message); }
 	
-	public static void showError(Component parent, Exception x, String message) {
-		System.err.println(message + ":" + x.getLocalizedMessage());
+	public static void showError(Component parent, String message, Exception x) {
+		if (parent == null) 
+			Log.error(message, x);
+		else
+			Log.get(parent).log(Level.SEVERE, message, x);
         JOptionPane.showMessageDialog(parent, message, "Error", JOptionPane.ERROR_MESSAGE);
     }
 

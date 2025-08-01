@@ -46,7 +46,7 @@ public class UserDataDialog extends JDialog {
 			
 			pack();
 		} catch (Exception x) {
-			MessageDialogs.showError(this, x, "Failed to open user data definition file");
+			MessageDialogs.showError(this, "Failed to open user data definition file", x);
 		}
 	}
 	
@@ -70,7 +70,7 @@ public class UserDataDialog extends JDialog {
 			UserDataIo.save(this.t, values);
 			this.app.getObservationStoreTablePanel().update(t, values);
 		} catch (Exception x) {
-			MessageDialogs.showError(this, x, "Failed to save user data");
+			MessageDialogs.showError(this, "Failed to save user data", x);
 		}
 	}
 	

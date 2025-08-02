@@ -14,5 +14,7 @@ public final class Strings {
 	
 	public static String toCsv(List<String> l) { return String.join(", ", l); }
 	
+	public static boolean isNullOrBlank(String s) { return s == null || s.trim().isEmpty(); }
+	
 	private Strings() { Common.throwStaticClassInstantiateError(); }
 }

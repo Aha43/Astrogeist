@@ -8,17 +8,28 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
+import astrogeist.store.TimelineValue;
+
 public final class ObservationFilesPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
 	public ObservationFilesPanel() { super(new FlowLayout(FlowLayout.LEFT)); }
 	
-	public void setObservation(LinkedHashMap<String, String> observation) {
+	public void setObservationOld(LinkedHashMap<String, String> observation) {
 		var filePaths = new ArrayList<String>();
 		
 		var serFilePath = observation.get("SerFile");
 		if (serFilePath != null) filePaths.add(serFilePath);
 		
+		setFiles(filePaths);
+	}
+	
+	public void set(List<TimelineValue> values) {
+		var filePaths = new ArrayList<String>();
+		for (var v : values) {
+			if (!v.type().equals("file")) continue;
+			filePaths.add(v.value());
+		}
 		setFiles(filePaths);
 	}
 	

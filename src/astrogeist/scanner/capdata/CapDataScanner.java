@@ -32,9 +32,8 @@ public class CapDataScanner extends AbstractScanner {
 			
 			var extension = FilesUtil.getExtension(path);
 			
-			store.put(instant, extension, path.toString());
+			store.put(instant, extension, path.toString(), "file");
 		}
-		
 	}
 	
 	private static List<Path> getPaths(File dir) throws Exception {

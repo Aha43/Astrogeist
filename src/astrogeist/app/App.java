@@ -77,10 +77,12 @@ public final class App {
 			if (!e.getValueIsAdjusting()) {
 		        int selectedRow = this.tablePanel.getTable().getSelectedRow();
 		        if (selectedRow >= 0) {
-		            Instant timestamp = this.tablePanel.getTableModel().getTimestampAt(selectedRow);
+		            var timestamp = this.tablePanel.getTableModel().getTimestampAt(selectedRow);
+		            var values = this.tablePanel.getStore().getOfType(timestamp, "file");
+		            this.filesPanel.set(values);
 		            LinkedHashMap<String, String> observation = this.tablePanel.getStore().snapshot(timestamp);
 		            this.propertiesPanel.setProperties(observation);
-		            this.filesPanel.setObservation(observation);
+		            //this.filesPanel.setObservation(observation);
 		        }
 		    }
 		});

@@ -12,7 +12,7 @@ public final class Resources {
 	private static URL _logoUrl = null;
 	public static URL getLogoUrl(Object o) { 
 		if (_logoUrl != null) return _logoUrl;
-		_logoUrl = o.getClass().getResource("/astrogeist/app/resources/logo.png");
+		_logoUrl = o.getClass().getResource("/astrogeist/resources/logo.png");
 		return _logoUrl;
 	}
 	
@@ -20,6 +20,7 @@ public final class Resources {
 	private static File _settingsFile = null;
 	private static File _userDataDefinitionsFile = null;
 	private static File _userDataDir = null;
+	private static File _regexScannerPatternFile = null;
 	
 	public static File ensureAstrogeistDirectoryExist(String path) throws IOException {
 		if (_astrogeistDir != null) return _astrogeistDir;
@@ -67,6 +68,13 @@ public final class Resources {
 		var dir = getUserDataDir();
 		var fname = Instants.toFileSafeString(instant);
 		return new File(dir, fname + ".xml");
+	}
+	
+	public static File getRegexScannerPatternFile() {
+		checkGotAstrogeistDir();
+		if (_regexScannerPatternFile != null) return _regexScannerPatternFile;
+		_regexScannerPatternFile = new File(_astrogeistDir, "astrogeist.scan-regex.xml");
+		return _regexScannerPatternFile;
 	}
 	
 	private static void checkGotAstrogeistDir() {

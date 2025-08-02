@@ -3,6 +3,8 @@ package astrogeist.scanner;
 import java.util.ArrayList;
 import java.util.List;
 
+import astrogeist.scanner.capdata.CapDataScanner;
+import astrogeist.scanner.regex.RegexScanner;
 import astrogeist.scanner.sharpcap.SharpCapScanner;
 import astrogeist.scanner.userdata.UserDataScanner;
 import astrogeist.store.ObservationStore;
@@ -11,12 +13,14 @@ public final class CompositeScanner implements Scanner {
 	private final List<Scanner> _scanners = new ArrayList<>();
 	
 	public CompositeScanner() {
-		addScanners(SharpCapScanner.createScanners());
+		//addScanners(SharpCapScanner.createScanners());
+		//addScanners(RegexScanner.createScanners());
+		addScanners(CapDataScanner.createScanners());
 		addScanners(new UserDataScanner());
 	}
 
 	@Override
-	public void scan(ObservationStore store) {
+	public void scan(ObservationStore store) throws Exception {
 		for (var scanner : _scanners) scanner.scan(store);
 	}
 	

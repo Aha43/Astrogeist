@@ -15,7 +15,7 @@ public final class UserDataScanner extends AbstractScanner {
 		try {
 			var files = super.getRootDir().listFiles();
 			for (var file : files) {
-				var name = FilesUtil.getFilenameNoExt(file);
+				var name = FilesUtil.getBaseName(file);
 				var t = Instants.fromFileSafeString(name);
 				var userData = UserDataIo.load(t);
 				store.put(t, userData);

@@ -7,6 +7,7 @@ import javax.swing.JToolBar;
 
 import astrogeist.Common;
 import astrogeist.app.component.observationstoreview.ObservationStoreTablePanel;
+import astrogeist.app.dialog.message.MessageDialogs;
 import astrogeist.scanner.CompositeScanner;
 import astrogeist.store.ObservationStore;
 
@@ -26,11 +27,16 @@ public final class ToolBarFactory {
 		var button = new JButton("Scan");
 		
 		button.addActionListener(e -> {
-			var scanner = new CompositeScanner();
-			var store = new ObservationStore();
-			scanner.scan(store);
-						
-			tablePanel.setStore(store);
+			try {
+				var scanner = new CompositeScanner();
+				var store = new ObservationStore();
+				scanner.scan(store);
+							
+				tablePanel.setStore(store);
+			} catch (Exception x) {
+				MessageDialogs.showError("Failed to scan", x);
+			}
+			
 		});
 		
 		return button;

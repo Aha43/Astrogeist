@@ -79,10 +79,10 @@ public final class App {
 		        if (selectedRow >= 0) {
 		            var timestamp = this.tablePanel.getTableModel().getTimestampAt(selectedRow);
 		            var values = this.tablePanel.getStore().getOfType(timestamp, "file");
+		            var data = this.tablePanel.getStore().snapshotRaw(timestamp);
 		            this.filesPanel.set(values);
-		            LinkedHashMap<String, String> observation = this.tablePanel.getStore().snapshot(timestamp);
-		            this.propertiesPanel.setProperties(observation);
-		            //this.filesPanel.setObservation(observation);
+		            //LinkedHashMap<String, String> observation = this.tablePanel.getStore().snapshot(timestamp);
+		            this.propertiesPanel.setData(data);
 		        }
 		    }
 		});

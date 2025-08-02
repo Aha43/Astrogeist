@@ -7,42 +7,59 @@ import java.util.Map;
 
 import javax.swing.table.AbstractTableModel;
 
+import astrogeist.store.TimelineValue;
+
 public class PropertiesTableModel extends AbstractTableModel {
     private static final long serialVersionUID = 1L;
-    
-	private final List<Map.Entry<String, String>> entries = new ArrayList<>();
 
-    public void setData(LinkedHashMap<String, String> map) {
-    	this.entries.clear();
-        if (map != null) { this.entries.addAll(map.entrySet()); }
+    private final List<Map.Entry<String, TimelineValue>> entries = new ArrayList<>();
+
+    public void setData(LinkedHashMap<String, TimelineValue> map) {
+        this.entries.clear();
+        if (map != null) {
+            this.entries.addAll(map.entrySet());
+        }
         fireTableDataChanged();
     }
 
     @Override
-    public int getRowCount() { return this.entries.size(); }
+    public int getRowCount() {
+        return this.entries.size();
+    }
 
     @Override
-    public int getColumnCount() { return 2; }
+    public int getColumnCount() {
+        return 3; // Property, Value, Type
+    }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Map.Entry<String, String> entry = this.entries.get(rowIndex);
-        return columnIndex == 0 ? entry.getKey() : entry.getValue();
+        Map.Entry<String, TimelineValue> entry = this.entries.get(rowIndex);
+        return switch (columnIndex) {
+            case 0 -> entry.getKey();
+            case 1 -> entry.getValue().value();
+            case 2 -> entry.getValue().type();
+            default -> null;
+        };
     }
 
     @Override
-    public String getColumnName(int column) { return column == 0 ? "Property" : "Value"; }
-
-    @Override
-    public boolean isCellEditable(int row, int column) { return false; }
-
-    @Override
-    public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-        if (columnIndex == 1) {
-        	this.entries.get(rowIndex).setValue(String.valueOf(aValue));
-            fireTableCellUpdated(rowIndex, columnIndex);
-        }
+    public String getColumnName(int column) {
+        return switch (column) {
+            case 0 -> "Property";
+            case 1 -> "Value";
+            case 2 -> "Type";
+            default -> "";
+        };
     }
-    
-    public void clear() { this.entries.clear(); fireTableDataChanged(); }
+
+    @Override
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
+        return false; // all columns read-only
+    }
+
+    public void clear() {
+        this.entries.clear();
+        fireTableDataChanged();
+    }
 }

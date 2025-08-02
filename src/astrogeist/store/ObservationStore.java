@@ -57,6 +57,10 @@ public class ObservationStore {
         return result;
     }
     
+    public LinkedHashMap<String, TimelineValue> snapshotRaw(Instant time) {
+        return this.store.getOrDefault(time, new LinkedHashMap<>());
+    }
+    
     public List<TimelineValue> getOfType(Instant time, String type) {
         return store.getOrDefault(time, new LinkedHashMap<>()).values().stream()
             .filter(v -> type.equals(v.type()))

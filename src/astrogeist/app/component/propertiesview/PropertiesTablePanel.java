@@ -7,6 +7,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import astrogeist.store.TimelineValue;
+
 public final class PropertiesTablePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
@@ -26,7 +28,7 @@ public final class PropertiesTablePanel extends JPanel {
 		this.add(scrollPane, BorderLayout.CENTER);
 	}
 
-	public void setProperties(LinkedHashMap<String, String> properties) { this.tableModel.setData(properties); }
+	public void setData(LinkedHashMap<String, TimelineValue> map) { this.tableModel.setData(map); }
 	public JTable getTable() { return this.table; }
 	public PropertiesTableModel getTableModel() { return this.tableModel; }
 	

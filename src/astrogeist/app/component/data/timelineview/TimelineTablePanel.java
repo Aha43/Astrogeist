@@ -30,21 +30,21 @@ public final class TimelineTablePanel extends JPanel {
 	private final JTable table;
 	private final TimelineTableModel tableModel;
 	
-	private final MetadataTablePanel propertiesTablePanel;
+	private final MetadataTablePanel metadataTablePanel;
 	private final FilesPanel observationFilesPanel;
 	
 	private final App app;
 
 	public TimelineTablePanel(
 		App app,
-		MetadataTablePanel propertiesTablePanel,
+		MetadataTablePanel metadataTablePanel,
 		FilesPanel observationFilesPanel) {
 		
 		super(new BorderLayout());
 		
 		this.app = app;
 		
-		this.propertiesTablePanel = propertiesTablePanel;
+		this.metadataTablePanel = metadataTablePanel;
 		this.observationFilesPanel = observationFilesPanel;
 		
 		this.tableModel = new TimelineTableModel();
@@ -113,7 +113,7 @@ public final class TimelineTablePanel extends JPanel {
 
 	public void setData(Timeline data) { 
 		this.tableModel.setData(data); 
-		this.propertiesTablePanel.clear();
+		this.metadataTablePanel.clear();
 		this.observationFilesPanel.clear();
 		this.tableModel.setColumnsToShow(Settings.getCsv(SettingKeys.TABLE_COLUMNS));
 	}

@@ -23,10 +23,10 @@ public final class App {
 	
 	private JFrame frame = null;
 	
-	private final MetadataTablePanel propertiesPanel = new MetadataTablePanel();
+	private final MetadataTablePanel metadataPanel = new MetadataTablePanel();
 	private final FilesPanel filesPanel = new FilesPanel();
 	private final TimelineTablePanel tablePanel = 
-		new TimelineTablePanel(this, propertiesPanel, filesPanel);
+		new TimelineTablePanel(this, metadataPanel, filesPanel);
 	
 	public TimelineTablePanel getTimelineTablePanel() { return this.tablePanel; }
 	
@@ -44,9 +44,7 @@ public final class App {
 
 		var leftTabs = new JTabbedPane();
 		leftTabs.setMinimumSize(new Dimension(200, 100));
-		leftTabs.addTab("Properties", this.propertiesPanel);
-		leftTabs.addTab("Issues", new JPanel());
-		leftTabs.addTab("Tasks", new JPanel());
+		leftTabs.addTab("Metadata", this.metadataPanel);
 
 		// Split Pane: Left (tabs) + Center (table)
 		var splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftTabs, tableScroll);
@@ -77,7 +75,7 @@ public final class App {
 		        if (selectedRow >= 0) {
 		            var timestamp = this.tablePanel.getTableModel().getTimestampAt(selectedRow);
 		            var data = this.tablePanel.getData().snapshotRaw(timestamp);
-		            this.propertiesPanel.setData(data);
+		            this.metadataPanel.setData(data);
 		            this.filesPanel.setData(data);
 		        }
 		    }

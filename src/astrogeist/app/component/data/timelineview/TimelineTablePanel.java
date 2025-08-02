@@ -1,4 +1,4 @@
-package astrogeist.app.component.observationstoreview;
+package astrogeist.app.component.data.timelineview;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -13,32 +13,32 @@ import javax.swing.JTable;
 import javax.swing.event.ListSelectionListener;
 
 import astrogeist.app.App;
-import astrogeist.app.component.fileview.ObservationFilesPanel;
-import astrogeist.app.component.propertiesview.PropertiesTablePanel;
+import astrogeist.app.component.data.fileview.FilesPanel;
+import astrogeist.app.component.data.metadataview.MetadataTablePanel;
+import astrogeist.app.dialog.data.userdata.UserDataDialog;
 import astrogeist.app.dialog.message.MessageDialogs;
 import astrogeist.app.dialog.selection.SelectionDialog;
-import astrogeist.app.dialog.userdata.UserDataDialog;
 import astrogeist.scanner.NormalizedProperties;
 import astrogeist.setting.SettingKeys;
 import astrogeist.setting.Settings;
-import astrogeist.store.ObservationStore;
+import astrogeist.timeline.Timeline;
 import astrogeist.userdata.UserDataIo;
 
-public final class ObservationStoreTablePanel extends JPanel {
+public final class TimelineTablePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
 	private final JTable table;
-	private final ObservationStoreTableModel tableModel;
+	private final TimelineTableModel tableModel;
 	
-	private final PropertiesTablePanel propertiesTablePanel;
-	private final ObservationFilesPanel observationFilesPanel;
+	private final MetadataTablePanel propertiesTablePanel;
+	private final FilesPanel observationFilesPanel;
 	
 	private final App app;
 
-	public ObservationStoreTablePanel(
+	public TimelineTablePanel(
 		App app,
-		PropertiesTablePanel propertiesTablePanel,
-		ObservationFilesPanel observationFilesPanel) {
+		MetadataTablePanel propertiesTablePanel,
+		FilesPanel observationFilesPanel) {
 		
 		super(new BorderLayout());
 		
@@ -47,7 +47,7 @@ public final class ObservationStoreTablePanel extends JPanel {
 		this.propertiesTablePanel = propertiesTablePanel;
 		this.observationFilesPanel = observationFilesPanel;
 		
-		this.tableModel = new ObservationStoreTableModel();
+		this.tableModel = new TimelineTableModel();
 		this.table = new JTable(this.tableModel);
 
 		this.table.setFillsViewportHeight(true);
@@ -111,16 +111,16 @@ public final class ObservationStoreTablePanel extends JPanel {
 		}
 	}
 
-	public void setStore(ObservationStore store) { 
-		this.tableModel.setStore(store); 
+	public void setData(Timeline data) { 
+		this.tableModel.setData(data); 
 		this.propertiesTablePanel.clear();
 		this.observationFilesPanel.clear();
 		this.tableModel.setColumnsToShow(Settings.getCsv(SettingKeys.TABLE_COLUMNS));
 	}
 	
-	public ObservationStore getStore() { return this.tableModel.getStore(); }
+	public Timeline getData() { return this.tableModel.getData(); }
 	public JTable getTable() { return this.table; }
-	public ObservationStoreTableModel getTableModel() { return this.tableModel; }
+	public TimelineTableModel getTableModel() { return this.tableModel; }
 	
 	public void addSelectionListener(ListSelectionListener l) {
 		this.table.getSelectionModel().addListSelectionListener(l);

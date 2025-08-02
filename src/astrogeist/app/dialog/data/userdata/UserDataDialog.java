@@ -1,4 +1,4 @@
-package astrogeist.app.dialog.userdata;
+package astrogeist.app.dialog.data.userdata;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -10,7 +10,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 
 import astrogeist.app.App;
-import astrogeist.app.component.userdata.UserDataEditor;
+import astrogeist.app.component.data.userdata.UserDataEditor;
 import astrogeist.app.dialog.message.MessageDialogs;
 import astrogeist.resources.Resources;
 import astrogeist.userdata.UserDataDefinitions;
@@ -68,7 +68,7 @@ public class UserDataDialog extends JDialog {
 		try {
 			var values = this.editor.getValues();
 			UserDataIo.save(this.t, values);
-			this.app.getObservationStoreTablePanel().update(t, values);
+			this.app.getTimelineTablePanel().update(t, values);
 		} catch (Exception x) {
 			MessageDialogs.showError(this, "Failed to save user data", x);
 		}

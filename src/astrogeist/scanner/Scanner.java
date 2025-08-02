@@ -1,9 +1,9 @@
 package astrogeist.scanner;
 
-import astrogeist.store.ObservationStore;
+import astrogeist.timeline.Timeline;
 
 public interface Scanner {
-	void scan(ObservationStore store) throws Exception;
+	void scan(Timeline timeline) throws Exception;
 	
 	Scanner[] EmptyArray = new Scanner[0];
 }

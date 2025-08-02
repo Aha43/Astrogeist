@@ -1,4 +1,4 @@
-package astrogeist.app.component.userdata;
+package astrogeist.app.component.data.userdata;
 
 import java.awt.BorderLayout;
 import java.util.ArrayList;

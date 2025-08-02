@@ -1,4 +1,4 @@
-package astrogeist.app.component.observationstoreview;
+package astrogeist.app.component.data.timelineview;
 
 import java.time.Instant;
 import java.time.ZoneId;
@@ -9,12 +9,12 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
-import astrogeist.store.ObservationStore;
+import astrogeist.timeline.Timeline;
 
-public final class ObservationStoreTableModel extends AbstractTableModel {
+public final class TimelineTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
 	
-	private ObservationStore store = null;
+	private Timeline timeline = null;
 	
 	private final List<Instant> timestamps = new ArrayList<>();
 	private final List<String> columns = new ArrayList<>();
@@ -24,8 +24,8 @@ public final class ObservationStoreTableModel extends AbstractTableModel {
 	private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
 		.withZone(ZoneId.systemDefault());
 
-	public void setStore(ObservationStore store) {
-		this.store = store;
+	public void setData(Timeline data) {
+		this.timeline = data;
 
 		this.timestamps.clear();
 		this.columns.clear();
@@ -35,8 +35,8 @@ public final class ObservationStoreTableModel extends AbstractTableModel {
 		this.columns.add(TIME_COLUMN);
 
 	    // Load rows
-	    for (Instant t : store.timestamps()) {
-	        var snapshot = store.snapshot(t);
+	    for (Instant t : data.timestamps()) {
+	        var snapshot = data.snapshot(t);
 	        this.timestamps.add(t);
 	        this.rows.put(t, snapshot);
 	    }
@@ -50,7 +50,7 @@ public final class ObservationStoreTableModel extends AbstractTableModel {
 		fireTableStructureChanged();
 	}
 	
-	public ObservationStore getStore() { return this.store; }
+	public Timeline getData() { return this.timeline; }
 	
 	public void update(Instant t, LinkedHashMap<String, String> values) {
 		var existing = rows.get(t);

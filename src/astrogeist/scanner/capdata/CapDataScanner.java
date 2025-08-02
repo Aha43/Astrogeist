@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 import astrogeist.logging.Log;
 import astrogeist.scanner.AbstractScanner;
 import astrogeist.scanner.Scanner;
-import astrogeist.store.ObservationStore;
+import astrogeist.timeline.Timeline;
 import astrogeist.util.FilesUtil;
 
 public class CapDataScanner extends AbstractScanner {
@@ -21,7 +21,7 @@ public class CapDataScanner extends AbstractScanner {
 	protected CapDataScanner(File rootDir) { super(rootDir); }
 
 	@Override
-	public void scan(ObservationStore store) throws Exception {
+	public void scan(Timeline timeline) throws Exception {
 		var paths = getPaths(super.getRootDir());
 		for (var path : paths) {
 			this.logger.info("analyze path: " + path.toString());
@@ -32,7 +32,7 @@ public class CapDataScanner extends AbstractScanner {
 			
 			var extension = FilesUtil.getExtension(path);
 			
-			store.put(instant, extension, path.toString(), "file");
+			timeline.put(instant, extension, path.toString(), "file");
 		}
 	}
 	

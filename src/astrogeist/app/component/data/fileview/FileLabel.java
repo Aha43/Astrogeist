@@ -1,4 +1,4 @@
-package astrogeist.app.component.fileview;
+package astrogeist.app.component.data.fileview;
 
 import java.awt.Color;
 import java.awt.Desktop;

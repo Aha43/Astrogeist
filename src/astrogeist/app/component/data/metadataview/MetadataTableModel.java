@@ -1,4 +1,4 @@
-package astrogeist.app.component.propertiesview;
+package astrogeist.app.component.data.metadataview;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -7,30 +7,25 @@ import java.util.Map;
 
 import javax.swing.table.AbstractTableModel;
 
-import astrogeist.store.TimelineValue;
+import astrogeist.timeline.TimelineValue;
 
-public class PropertiesTableModel extends AbstractTableModel {
+public class MetadataTableModel extends AbstractTableModel {
     private static final long serialVersionUID = 1L;
 
     private final List<Map.Entry<String, TimelineValue>> entries = new ArrayList<>();
 
-    public void setData(LinkedHashMap<String, TimelineValue> map) {
+    public void setData(LinkedHashMap<String, TimelineValue> data) {
         this.entries.clear();
-        if (map != null) {
-            this.entries.addAll(map.entrySet());
+        if (data != null) {
+            this.entries.addAll(data.entrySet());
         }
         fireTableDataChanged();
     }
 
     @Override
-    public int getRowCount() {
-        return this.entries.size();
-    }
-
+    public int getRowCount() { return this.entries.size(); }
     @Override
-    public int getColumnCount() {
-        return 3; // Property, Value, Type
-    }
+    public int getColumnCount() { return 3; } // Property, Value, Type
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
@@ -54,12 +49,7 @@ public class PropertiesTableModel extends AbstractTableModel {
     }
 
     @Override
-    public boolean isCellEditable(int rowIndex, int columnIndex) {
-        return false; // all columns read-only
-    }
+    public boolean isCellEditable(int rowIndex, int columnIndex) { return false; } // all columns read-only
 
-    public void clear() {
-        this.entries.clear();
-        fireTableDataChanged();
-    }
+    public void clear() { this.entries.clear(); fireTableDataChanged(); }
 }

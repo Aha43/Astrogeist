@@ -6,13 +6,13 @@ import javax.swing.JTextField;
 import javax.swing.JToolBar;
 
 import astrogeist.Common;
-import astrogeist.app.component.observationstoreview.ObservationStoreTablePanel;
+import astrogeist.app.component.data.timelineview.TimelineTablePanel;
 import astrogeist.app.dialog.message.MessageDialogs;
 import astrogeist.scanner.CompositeScanner;
-import astrogeist.store.ObservationStore;
+import astrogeist.timeline.Timeline;
 
 public final class ToolBarFactory {
-	public static JToolBar createToolBar(ObservationStoreTablePanel tablePanel) {
+	public static JToolBar createToolBar(TimelineTablePanel tablePanel) {
 		var toolBar = new JToolBar();
 
 		toolBar.add(createScanButton(tablePanel));
@@ -23,16 +23,16 @@ public final class ToolBarFactory {
 		return toolBar;
 	}
 	
-	private static JButton createScanButton(ObservationStoreTablePanel tablePanel) {
+	private static JButton createScanButton(TimelineTablePanel tablePanel) {
 		var button = new JButton("Scan");
 		
 		button.addActionListener(e -> {
 			try {
 				var scanner = new CompositeScanner();
-				var store = new ObservationStore();
-				scanner.scan(store);
+				var timeline = new Timeline();
+				scanner.scan(timeline);
 							
-				tablePanel.setStore(store);
+				tablePanel.setData(timeline);
 			} catch (Exception x) {
 				MessageDialogs.showError("Failed to scan", x);
 			}

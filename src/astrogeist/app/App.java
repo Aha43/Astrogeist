@@ -4,8 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.net.URL;
-import java.time.Instant;
-import java.util.LinkedHashMap;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -14,9 +12,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 
-import astrogeist.app.component.fileview.ObservationFilesPanel;
-import astrogeist.app.component.observationstoreview.ObservationStoreTablePanel;
-import astrogeist.app.component.propertiesview.PropertiesTablePanel;
+import astrogeist.app.component.data.fileview.FilesPanel;
+import astrogeist.app.component.data.metadataview.MetadataTablePanel;
+import astrogeist.app.component.data.timelineview.TimelineTablePanel;
 import astrogeist.app.menubar.MenuBarFactory;
 import astrogeist.app.toolbar.ToolBarFactory;
 import astrogeist.resources.Resources;
@@ -25,12 +23,12 @@ public final class App {
 	
 	private JFrame frame = null;
 	
-	private final PropertiesTablePanel propertiesPanel = new PropertiesTablePanel();
-	private final ObservationFilesPanel filesPanel = new ObservationFilesPanel();
-	private final ObservationStoreTablePanel tablePanel = 
-		new ObservationStoreTablePanel(this, propertiesPanel, filesPanel);
+	private final MetadataTablePanel propertiesPanel = new MetadataTablePanel();
+	private final FilesPanel filesPanel = new FilesPanel();
+	private final TimelineTablePanel tablePanel = 
+		new TimelineTablePanel(this, propertiesPanel, filesPanel);
 	
-	public ObservationStoreTablePanel getObservationStoreTablePanel() { return this.tablePanel; }
+	public TimelineTablePanel getTimelineTablePanel() { return this.tablePanel; }
 	
 	public void createGUI() {
 		this.frame = new JFrame("Astrogeist");
@@ -78,11 +76,9 @@ public final class App {
 		        int selectedRow = this.tablePanel.getTable().getSelectedRow();
 		        if (selectedRow >= 0) {
 		            var timestamp = this.tablePanel.getTableModel().getTimestampAt(selectedRow);
-		            var values = this.tablePanel.getStore().getOfType(timestamp, "file");
-		            var data = this.tablePanel.getStore().snapshotRaw(timestamp);
-		            this.filesPanel.set(values);
-		            //LinkedHashMap<String, String> observation = this.tablePanel.getStore().snapshot(timestamp);
+		            var data = this.tablePanel.getData().snapshotRaw(timestamp);
 		            this.propertiesPanel.setData(data);
+		            this.filesPanel.setData(data);
 		        }
 		    }
 		});

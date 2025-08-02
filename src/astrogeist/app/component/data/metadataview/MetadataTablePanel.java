@@ -1,4 +1,4 @@
-package astrogeist.app.component.propertiesview;
+package astrogeist.app.component.data.metadataview;
 
 import java.awt.BorderLayout;
 import java.util.LinkedHashMap;
@@ -7,18 +7,18 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-import astrogeist.store.TimelineValue;
+import astrogeist.timeline.TimelineValue;
 
-public final class PropertiesTablePanel extends JPanel {
+public final class MetadataTablePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
 	private final JTable table;
-	private final PropertiesTableModel tableModel;
+	private final MetadataTableModel tableModel;
 
-	public PropertiesTablePanel() {
+	public MetadataTablePanel() {
 		super(new BorderLayout());
 		
-		this.tableModel = new PropertiesTableModel();
+		this.tableModel = new MetadataTableModel();
 		this.table = new JTable(this.tableModel);
 
 		this.table.setFillsViewportHeight(true);
@@ -28,9 +28,9 @@ public final class PropertiesTablePanel extends JPanel {
 		this.add(scrollPane, BorderLayout.CENTER);
 	}
 
-	public void setData(LinkedHashMap<String, TimelineValue> map) { this.tableModel.setData(map); }
+	public void setData(LinkedHashMap<String, TimelineValue> data) { this.tableModel.setData(data); }
 	public JTable getTable() { return this.table; }
-	public PropertiesTableModel getTableModel() { return this.tableModel; }
+	public MetadataTableModel getTableModel() { return this.tableModel; }
 	
 	public void clear() { this.tableModel.clear(); }
 

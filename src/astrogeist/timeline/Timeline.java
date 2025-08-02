@@ -1,4 +1,4 @@
-package astrogeist.store;
+package astrogeist.timeline;
 
 import static astrogeist.Common.requireNonEmpty;
 import static java.util.Objects.requireNonNull;
@@ -9,13 +9,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.stream.Collectors;
 
 import astrogeist.scanner.NormalizedProperties;
 import astrogeist.util.Strings;
 
-public class ObservationStore {
-	private final LinkedHashMap<Instant, LinkedHashMap<String, TimelineValue>> store = new LinkedHashMap<>();
+public class Timeline {
+	private final LinkedHashMap<Instant, LinkedHashMap<String, TimelineValue>> timeline = new LinkedHashMap<>();
 
 	public void put(Instant time, String key, String value) { this.put(time, key, value, null); }
 	
@@ -30,7 +29,7 @@ public class ObservationStore {
     	var normalizedKey = NormalizedProperties.getNormalized(key);
     	key = normalizedKey == null ? key : normalizedKey;
     	
-        this.store.computeIfAbsent(time, t -> new LinkedHashMap<>()).put(key, new TimelineValue(value, type));
+        this.timeline.computeIfAbsent(time, t -> new LinkedHashMap<>()).put(key, new TimelineValue(value, type));
     }
     
     public void put(Instant time, LinkedHashMap<String, String> values) {
@@ -41,13 +40,12 @@ public class ObservationStore {
     }
     
     public String get(Instant time, String key) { 
-    	var record = this.store.getOrDefault(time, new LinkedHashMap<>()).get(key);
+    	var record = this.timeline.getOrDefault(time, new LinkedHashMap<>()).get(key);
     	return (record == null) ? null : record.value();
     }
     
-    
     public LinkedHashMap<String, String> snapshot(Instant time) {
-        LinkedHashMap<String, TimelineValue> row = this.store.get(time);
+        LinkedHashMap<String, TimelineValue> row = this.timeline.get(time);
         LinkedHashMap<String, String> result = new LinkedHashMap<>();
         if (row != null) {
             for (Map.Entry<String, TimelineValue> entry : row.entrySet()) {
@@ -58,14 +56,12 @@ public class ObservationStore {
     }
     
     public LinkedHashMap<String, TimelineValue> snapshotRaw(Instant time) {
-        return this.store.getOrDefault(time, new LinkedHashMap<>());
+        return this.timeline.getOrDefault(time, new LinkedHashMap<>());
     }
     
     public List<TimelineValue> getOfType(Instant time, String type) {
-        return store.getOrDefault(time, new LinkedHashMap<>()).values().stream()
-            .filter(v -> type.equals(v.type()))
-            .collect(Collectors.toList());
+        return TimelineUtil.getOfType(timeline.getOrDefault(time, new LinkedHashMap<>()), type);
     }
     
-    public Set<Instant> timestamps() { return new TreeSet<>(this.store.keySet()); }
+    public Set<Instant> timestamps() { return new TreeSet<>(this.timeline.keySet()); }
 }

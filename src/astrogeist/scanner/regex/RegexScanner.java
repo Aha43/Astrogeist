@@ -11,7 +11,7 @@ import astrogeist.logging.Log;
 import astrogeist.resources.Resources;
 import astrogeist.scanner.AbstractScanner;
 import astrogeist.scanner.Scanner;
-import astrogeist.store.ObservationStore;
+import astrogeist.timeline.Timeline;
 
 public class RegexScanner extends AbstractScanner {
 	private final Logger logger = Log.get(this);
@@ -19,7 +19,7 @@ public class RegexScanner extends AbstractScanner {
 	protected RegexScanner(File rootDir) { super(rootDir); }
 
 	@Override
-	public void scan(ObservationStore store) throws Exception {
+	public void scan(Timeline timeline) throws Exception {
 		var xmlFile = Resources.getRegexScannerPatternFile();
 		var scanConfig = ScanConfigParser.parse(xmlFile);
 		

@@ -6,15 +6,15 @@ import java.util.ArrayList;
 
 import astrogeist.scanner.AbstractScanner;
 import astrogeist.scanner.Scanner;
-import astrogeist.store.ObservationStore;
+import astrogeist.timeline.Timeline;
 
 public final class SharpCapScanner extends AbstractScanner {
 	private SharpCapScanner(File root) { super(root); }
 
 	@Override
-	public void scan(ObservationStore store) { scanRootDir(store, getRootDir()); }
+	public void scan(Timeline timeline) { scanRootDir(timeline, getRootDir()); }
 
-	private static void scanRootDir(ObservationStore store, File dir) {
+	private static void scanRootDir(Timeline timeline, File dir) {
 		var files = dir.listFiles();
 		if (files == null) return;
 
@@ -24,11 +24,11 @@ public final class SharpCapScanner extends AbstractScanner {
 			var date = DateUtils.tryParseDate(file.getName());
 			if (date == null) continue;
 
-			scanSubjectsDir(store, file, date);
+			scanSubjectsDir(timeline, file, date);
 		}
 	}
 
-	private static void scanSubjectsDir(ObservationStore store, File dir, LocalDate date) {
+	private static void scanSubjectsDir(Timeline timeline, File dir, LocalDate date) {
 		var files = dir.listFiles();
 		if (files == null) return;
 
@@ -36,16 +36,16 @@ public final class SharpCapScanner extends AbstractScanner {
 			if (file.isFile()) continue;
 
 			var subject = file.getName();
-			scanSubjectDir(store, file, date, subject);
+			scanSubjectDir(timeline, file, date, subject);
 		}
 	}
 
-	private static void scanSubjectDir(ObservationStore store, File dir, LocalDate date, String subject) {
-		parseCameraSettingsFiles(store, dir, date, subject);
-		parseSerFiles(store, dir, date, subject);
+	private static void scanSubjectDir(Timeline rename, File dir, LocalDate date, String subject) {
+		parseCameraSettingsFiles(rename, dir, date, subject);
+		parseSerFiles(rename, dir, date, subject);
 	}
 
-	private static void parseCameraSettingsFiles(ObservationStore store, File dir, LocalDate date, String subject) {
+	private static void parseCameraSettingsFiles(Timeline rename, File dir, LocalDate date, String subject) {
 		var files = dir.listFiles();
 		if (files == null) return;
 
@@ -53,21 +53,21 @@ public final class SharpCapScanner extends AbstractScanner {
 			if (file.isDirectory()) continue;
 
 			if (!file.getName().endsWith(".CameraSettings.txt")) continue;
-			parseCameraSettingFile(store, file, date, subject);
+			parseCameraSettingFile(rename, file, date, subject);
 		}
 	}
 
-	private static void parseCameraSettingFile(ObservationStore store, File file, LocalDate date, String subject) {
+	private static void parseCameraSettingFile(Timeline timeline, File file, LocalDate date, String subject) {
 		var time = TimeParser.parseTimeFromFilename(file.getName(), date);
 		if (time == null) return;
 
-		store.put(time, "Subject", subject);
+		timeline.put(time, "Subject", subject);
 
 		var content = CameraSettingParser.parseFile(file);
-		store.put(time, content);
+		timeline.put(time, content);
 	}
 
-	private static void parseSerFiles(ObservationStore store, File dir, LocalDate date, String subject) {
+	private static void parseSerFiles(Timeline rename, File dir, LocalDate date, String subject) {
 		var files = dir.listFiles();
 		if (files == null) return;
 
@@ -75,15 +75,15 @@ public final class SharpCapScanner extends AbstractScanner {
 			if (file.isDirectory()) continue;
 
 			if (!file.getName().endsWith(".ser")) continue;
-			parseSerFile(store, file, date, subject);
+			parseSerFile(rename, file, date, subject);
 		}
 	}
 
-	private static void parseSerFile(ObservationStore store, File file, LocalDate date, String subject) {
+	private static void parseSerFile(Timeline rename, File file, LocalDate date, String subject) {
 		var time = TimeParser.parseTimeFromFilename(file.getName(), date);
 		if (time == null) return;
 
-		store.put(time, "SerFile", file.getAbsolutePath());
+		rename.put(time, "SerFile", file.getAbsolutePath());
 	}
 	
 	public static Scanner[] createScanners(){

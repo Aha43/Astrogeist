@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.swing.table.AbstractTableModel;
 
+import astrogeist.timeline.TimelineUtil;
 import astrogeist.timeline.TimelineValue;
 
 public class MetadataTableModel extends AbstractTableModel {
@@ -17,7 +18,8 @@ public class MetadataTableModel extends AbstractTableModel {
     public void setData(LinkedHashMap<String, TimelineValue> data) {
         this.entries.clear();
         if (data != null) {
-            this.entries.addAll(data.entrySet());
+        	var withNoFiles = TimelineUtil.getExcludingTypeMap(data, "file");
+            this.entries.addAll(withNoFiles.entrySet());
         }
         fireTableDataChanged();
     }

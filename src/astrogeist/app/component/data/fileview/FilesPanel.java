@@ -1,7 +1,6 @@
 package astrogeist.app.component.data.fileview;
 
 import java.awt.FlowLayout;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -10,6 +9,7 @@ import javax.swing.JPanel;
 
 import astrogeist.timeline.TimelineUtil;
 import astrogeist.timeline.TimelineValue;
+import astrogeist.util.FilesUtil;
 
 public final class FilesPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -26,8 +26,16 @@ public final class FilesPanel extends JPanel {
 	
 	private void setFiles(List<String> filePaths) {
         removeAll();
-        if (filePaths != null)
-        	for (var path : filePaths) this.add(new FileLabel(new File(path)));
+        
+        if (filePaths == null || filePaths.isEmpty()) return;
+        
+        var files = FilesUtil.stringsToFiles(filePaths);
+        var grouped = FilesUtil.groupByExtension(files);
+        for (var group : grouped.entrySet()) {
+        	var comp = FileTypeGroupComponent.ofFiles(group.getKey(), group.getValue());
+        	this.add(comp);
+        }
+        
         revalidate();
         repaint();
     }

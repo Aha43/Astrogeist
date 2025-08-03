@@ -1,0 +1,50 @@
+<timestamp>
+
+<!-- 
+  <timestamp>
+    <pattern>.*/(\d{4})-(\d{2})-(\d{2})/.*/(\d{2})_(\d{2})_(\d{2})_.*\.fit</pattern>
+    <assembly>
+      <yyyy group="1" />
+      <MM group="2" />
+      <dd group="3" />
+      <HH group="4" />
+      <mm group="5" />
+      <ss group="6" />
+    </assembly>
+  </timestamp>
+
+  <timestamp>
+    <pattern>.*/(\d{4})-(\d{2})-(\d{2})_(\d{2})_(\d{2})_(\d{2})Z/.*</pattern>
+    <assembly>
+      <yyyy group="1" />
+      <MM group="2" />
+      <dd group="3" />
+      <HH group="4" />
+      <mm group="5" />
+      <ss group="6" />
+    </assembly>
+  </timestamp> -->
+
+  <timestamp>
+    <!-- <pattern>.*/(\d{4})-(\d{2})-(\d{2})/.*/(\d{2})_(\d{2})_(\d{2})\\..*</pattern> -->
+    <pattern>.*/(\d{4})-(\d{2})-(\d{2})/.*/(\d{2})_(\d{2})_(\d{2})[^/]*</pattern>
+    <assembly>
+        <yyyy group="1" />
+        <MM group="2" />
+        <dd group="3" />
+        <HH group="4" />
+        <mm group="5" />
+        <ss group="6" />
+    </assembly>
+  </timestamp>
+
+  <!-- A simpler fallback: date only, assume time = 00:00:00 -->
+  <!-- <timestamp>
+    <pattern>.*/(\d{4})-(\d{2})-(\d{2})/.*</pattern>
+    <assembly>
+      <yyyy group="1" />
+      <MM group="2" />
+      <dd group="3" />
+    </assembly>
+  </timestamp> -->
+</timestamp>

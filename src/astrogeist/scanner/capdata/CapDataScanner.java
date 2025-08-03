@@ -10,13 +10,15 @@ import java.util.logging.Logger;
 import astrogeist.logging.Log;
 import astrogeist.scanner.AbstractScanner;
 import astrogeist.scanner.Scanner;
+import astrogeist.scanner.capdata.fileparsers.CompositeFileParser;
 import astrogeist.timeline.Timeline;
-import astrogeist.util.FilesUtil;
 
 public class CapDataScanner extends AbstractScanner {
 	private final Logger logger = Log.get(this);
 	
 	private final UtcExtractor utcExtractor = new DefaultUtcExtractor();
+	
+	private final CompositeFileParser fileParser = new CompositeFileParser();
 	
 	protected CapDataScanner(File rootDir) { super(rootDir); }
 
@@ -30,9 +32,11 @@ public class CapDataScanner extends AbstractScanner {
 			
 			this.logger.info("  extracted time: " + instant.toString());
 			
-			var extension = FilesUtil.getExtension(path);
+			var fileName = path.getFileName().toString();
 			
-			timeline.put(instant, extension, path.toString(), "file");
+			timeline.put(instant, fileName, path.toString(), "file");
+			
+			fileParser.parse(instant, path.toFile(), timeline);
 		}
 	}
 	

@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import astrogeist.issues.Issues;
 import astrogeist.scanner.NormalizedProperties;
 import astrogeist.util.Strings;
 
@@ -56,12 +57,14 @@ public class Timeline {
     }
     
     public LinkedHashMap<String, TimelineValue> snapshotRaw(Instant time) {
-        return this.timeline.getOrDefault(time, new LinkedHashMap<>());
-    }
+        return this.timeline.getOrDefault(time, new LinkedHashMap<>()); }
     
     public List<TimelineValue> getOfType(Instant time, String type) {
-        return TimelineUtil.getOfType(timeline.getOrDefault(time, new LinkedHashMap<>()), type);
-    }
+        return TimelineUtil.getOfType(timeline.getOrDefault(time, new LinkedHashMap<>()), type); }
     
     public Set<Instant> timestamps() { return new TreeSet<>(this.timeline.keySet()); }
+    
+    private Issues issues = new Issues();
+    
+    public Issues getIssues() { return this.issues; }
 }

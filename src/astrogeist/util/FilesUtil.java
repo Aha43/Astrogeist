@@ -1,7 +1,11 @@
 package astrogeist.util;
 
+import java.util.List;
 import java.io.File;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import astrogeist.Common;
 
@@ -24,6 +28,35 @@ public final class FilesUtil {
 	    int dotIndex = name.lastIndexOf('.');
 	    return (dotIndex == -1) ? "" : name.substring(dotIndex + 1);
 	}
+	
+	public static List<File> pathsToFiles(List<Path> paths) { 
+		return paths.stream().map(Path::toFile).toList(); }
+	
+	public static List<File> stringsToFiles(List<String> paths) { 
+		return paths.stream().map(File::new).toList(); }
+	
+	public static List<Path> filesToPaths(List<File> paths) { 
+		return paths.stream().map(File::toPath).toList(); }
+	
+	public static Map<String, List<File>> groupByExtension(List<File> files) {
+        Map<String, List<File>> grouped = new LinkedHashMap<>();
+
+        for (File file : files) {
+            if (!file.isFile()) continue;
+
+            String name = file.getName();
+            String ext = "";
+
+            int i = name.lastIndexOf('.');
+            if (i >= 0 && i < name.length() - 1) {
+                ext = name.substring(i + 1).toLowerCase();
+            }
+
+            grouped.computeIfAbsent(ext, k -> new ArrayList<>()).add(file);
+        }
+
+        return grouped;
+    }
 	
 	private FilesUtil() { Common.throwStaticClassInstantiateError(); }
 }

@@ -7,7 +7,6 @@ import java.net.URL;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
@@ -25,10 +24,10 @@ public final class App {
 	
 	private final MetadataTablePanel metadataPanel = new MetadataTablePanel();
 	private final FilesPanel filesPanel = new FilesPanel();
-	private final TimelineTablePanel tablePanel = 
+	private final TimelineTablePanel timelinePanel = 
 		new TimelineTablePanel(this, metadataPanel, filesPanel);
 	
-	public TimelineTablePanel getTimelineTablePanel() { return this.tablePanel; }
+	public TimelineTablePanel getTimelineTablePanel() { return this.timelinePanel; }
 	
 	public void createGUI() {
 		this.frame = new JFrame("Astrogeist");
@@ -38,16 +37,19 @@ public final class App {
 
 		this.frame.setJMenuBar(MenuBarFactory.createMenuBar(this));
 		
-		this.frame.add(ToolBarFactory.createToolBar(this.tablePanel), BorderLayout.NORTH);
+		this.frame.add(ToolBarFactory.createToolBar(this.timelinePanel), BorderLayout.NORTH);
 
-		var tableScroll = new JScrollPane(this.tablePanel);
+		var timelineScroll = new JScrollPane(this.timelinePanel);
 
 		var leftTabs = new JTabbedPane();
 		leftTabs.setMinimumSize(new Dimension(200, 100));
 		leftTabs.addTab("Metadata", this.metadataPanel);
+		
+		var centerTabs = new JTabbedPane();
+		centerTabs.addTab("Timeline", timelineScroll);
 
 		// Split Pane: Left (tabs) + Center (table)
-		var splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftTabs, tableScroll);
+		var splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftTabs, centerTabs);
 		splitPane.setDividerLocation(250); // Initial size of left pane
 		this.frame.add(splitPane, BorderLayout.CENTER);
 
@@ -66,15 +68,15 @@ public final class App {
 	
 	public JFrame getFrame() { return this.frame; }
 	
-	public void seetingsUpdated() { this.tablePanel.settingsUpdated(); }
+	public void seetingsUpdated() { this.timelinePanel.settingsUpdated(); }
 	
 	private void addSelectedObservationListener() {
-		this.tablePanel.addSelectionListener(e -> {
+		this.timelinePanel.addSelectionListener(e -> {
 			if (!e.getValueIsAdjusting()) {
-		        int selectedRow = this.tablePanel.getTable().getSelectedRow();
+		        int selectedRow = this.timelinePanel.getTable().getSelectedRow();
 		        if (selectedRow >= 0) {
-		            var timestamp = this.tablePanel.getTableModel().getTimestampAt(selectedRow);
-		            var data = this.tablePanel.getData().snapshotRaw(timestamp);
+		            var timestamp = this.timelinePanel.getTableModel().getTimestampAt(selectedRow);
+		            var data = this.timelinePanel.getData().snapshotRaw(timestamp);
 		            this.metadataPanel.setData(data);
 		            this.filesPanel.setData(data);
 		        }

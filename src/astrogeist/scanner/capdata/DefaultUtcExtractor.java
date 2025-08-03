@@ -40,7 +40,7 @@ public class DefaultUtcExtractor implements UtcExtractor  {
                 Instant instant = ldt.atZone(ZoneId.of("UTC")).toInstant();
                 return instant;
             } catch (DateTimeException e) {
-            	this.logger.log(Level.WARNING, "Failed to extract time for path: " + path.toString(), e);
+            	this.logger.log(Level.WARNING, "Failed to extract time for path: " + path.toString());
             }
         } else {
         	this.logger.log(Level.WARNING, "Failed to extract time for path: " + path.toString());

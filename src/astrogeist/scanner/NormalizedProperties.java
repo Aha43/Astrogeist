@@ -32,7 +32,7 @@ public final class NormalizedProperties {
 	
 	private static final LinkedHashMap<String, String> _mapping;
 	
-	public static void AddMapping(String normalized, String ...synonyms) {
+	private static void AddMapping(String normalized, String ...synonyms) {
 		_mapping.put(normalized, normalized);
 		if (synonyms != null)
 			for (var s : synonyms) { _mapping.put(s, normalized); }

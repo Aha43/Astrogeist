@@ -7,7 +7,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -74,7 +73,7 @@ public final class TimelineTablePanel extends JPanel {
 		columnsButton.addActionListener(e -> {
 			var all = NormalizedProperties.getNormalizedNamesAndUserDataNames();
 			var selected = Settings.getCsv(SettingKeys.TABLE_COLUMNS);
-			SelectionDialog.showDialog(this.app, "Select Columns", selected, all);
+			SelectionDialog.show(this.app, "Select Columns", selected, all);
 			this.tableModel.setColumnsToShow(selected);
 			saveSelectedColumns(selected);
 		});
@@ -106,7 +105,7 @@ public final class TimelineTablePanel extends JPanel {
 			var t = this.getTimestampAtRow(selectedRow);
 			var userData = UserDataIo.load(t);
 			
-			UserDataDialog.ShowDialog(this.app, t, userData);
+			UserDataDialog.show(this.app, t, userData);
 		} catch(Exception x) {
 			MessageDialogs.showError(this, "Failed to load user data", x);
 		}

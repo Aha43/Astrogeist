@@ -14,23 +14,20 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import astrogeist.app.App;
 import astrogeist.app.dialog.files.FileListDialog;
 import astrogeist.resources.FileTypeColorMap;
 import astrogeist.util.FilesUtil;
 
 public class FileTypeGroupComponent extends JPanel {
     private static final long serialVersionUID = 1L;
-	private final String extension;
-    private final List<Path> files;
     
-    public static FileTypeGroupComponent ofFiles(String extension, List<File> files) {
+	public static FileTypeGroupComponent ofFiles(App app, String extension, List<File> files) {
     	var paths = FilesUtil.filesToPaths(files);
-    	return new FileTypeGroupComponent(extension, paths);
+    	return new FileTypeGroupComponent(app, extension, paths);
     }
 
-    public FileTypeGroupComponent(String extension, List<Path> files) {
-        this.extension = extension;
-        this.files = files;
+    private FileTypeGroupComponent(App app, String extension, List<Path> files) {
         setLayout(new BorderLayout());
         setBorder(BorderFactory.createLineBorder(Color.GRAY));
 
@@ -41,7 +38,7 @@ public class FileTypeGroupComponent extends JPanel {
         );
         setBackground(bg);
 
-        JLabel header = new JLabel(extension.toUpperCase() + " Files", SwingConstants.CENTER);
+        JLabel header = new JLabel(" " + extension.toUpperCase() + " Files ", SwingConstants.CENTER);
         header.setFont(header.getFont().deriveFont(Font.BOLD));
         add(header, BorderLayout.NORTH);
 
@@ -52,7 +49,7 @@ public class FileTypeGroupComponent extends JPanel {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                FileListDialog.showDialog(extension, files);
+                FileListDialog.show(app, extension, files);
             }
         });
     }

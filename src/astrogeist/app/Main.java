@@ -23,6 +23,5 @@ public final class Main {
 		String path = arg.length > 0 ? arg[0] : null;
 		Resources.ensureAstrogeistDirectoryExist(path);
 		SettingsIo.loadOrCreate();
-	}
-	
+	}	
 }

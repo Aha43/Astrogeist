@@ -19,11 +19,10 @@ import astrogeist.app.toolbar.ToolBarFactory;
 import astrogeist.resources.Resources;
 
 public final class App {
-	
 	private JFrame frame = null;
 	
 	private final MetadataTablePanel metadataPanel = new MetadataTablePanel();
-	private final FilesPanel filesPanel = new FilesPanel();
+	private final FilesPanel filesPanel = new FilesPanel(this);
 	private final TimelineTablePanel timelinePanel = 
 		new TimelineTablePanel(this, metadataPanel, filesPanel);
 	
@@ -54,8 +53,10 @@ public final class App {
 		this.frame.add(splitPane, BorderLayout.CENTER);
 
 		// Bottom: File panel
+		var southTabs = new JTabbedPane();
+		southTabs.addTab("Files", filesPanel);
 		this.filesPanel.setPreferredSize(new Dimension(100, 120));
-		this.frame.add(this.filesPanel, BorderLayout.SOUTH);
+		this.frame.add(southTabs, BorderLayout.SOUTH);
 		
 		addSelectedObservationListener();
 		

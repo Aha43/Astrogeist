@@ -5,7 +5,6 @@ import java.awt.FlowLayout;
 import java.util.LinkedHashMap;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -13,26 +12,22 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 
 import astrogeist.app.App;
+import astrogeist.app.dialog.ModalDialogBase;
 import astrogeist.app.dialog.message.MessageDialogs;
 import astrogeist.app.dialog.settings.editors.SettingsEditor;
 import astrogeist.setting.Settings;
 import astrogeist.setting.SettingsIo;
 
-public final class SettingsDialog extends JDialog {
+public final class SettingsDialog extends ModalDialogBase {
     private static final long serialVersionUID = 1L;
 
     private final JTabbedPane tabs = new JTabbedPane();
     private final LinkedHashMap<String, SettingsTableModel> models = new LinkedHashMap<>();
-    
-    private final App _app;
 
-    public SettingsDialog(App app) {
-        super(app.getFrame(), "Astrogeist Settings", true);
-        setSize(600, 400);
-        setLocationRelativeTo(app.getFrame());
-        setLayout(new BorderLayout());
-        
-        _app = app;
+    private SettingsDialog(App app) {
+        super(app, "Astrogeist Settings");
+        super.setSize(600, 400);
+        super.setLayout(new BorderLayout());
 
         try {
             var grouped = SettingsIo.loadGrouped();
@@ -125,8 +120,10 @@ public final class SettingsDialog extends JDialog {
         }
         SettingsIo.saveGrouped(all);
         Settings.load();
-        _app.seetingsUpdated();
+        super.app.seetingsUpdated();
     }
 
     private String capitalize(String s) { return s.substring(0, 1).toUpperCase() + s.substring(1); }
+    
+    public static void show(App app) { new SettingsDialog(app).setVisible(true); }
 }

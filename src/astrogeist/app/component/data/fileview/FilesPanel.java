@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
+import astrogeist.app.App;
 import astrogeist.timeline.TimelineUtil;
 import astrogeist.timeline.TimelineValue;
 import astrogeist.util.FilesUtil;
@@ -14,7 +15,9 @@ import astrogeist.util.FilesUtil;
 public final class FilesPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
-	public FilesPanel() { super(new FlowLayout(FlowLayout.LEFT)); }
+	private App app;
+	
+	public FilesPanel(App app) { super.setLayout(new FlowLayout(FlowLayout.LEFT)); this.app = app; }
 	
 	public void setData(LinkedHashMap<String, TimelineValue> data) {
 		var filePaths = new ArrayList<String>();
@@ -25,15 +28,15 @@ public final class FilesPanel extends JPanel {
 	public void clear() { setFiles(null); }
 	
 	private void setFiles(List<String> filePaths) {
-        removeAll();
+        super.removeAll();
         
         if (filePaths == null || filePaths.isEmpty()) return;
         
         var files = FilesUtil.stringsToFiles(filePaths);
         var grouped = FilesUtil.groupByExtension(files);
         for (var group : grouped.entrySet()) {
-        	var comp = FileTypeGroupComponent.ofFiles(group.getKey(), group.getValue());
-        	this.add(comp);
+        	var comp = FileTypeGroupComponent.ofFiles(app, group.getKey(), group.getValue());
+        	super.add(comp);
         }
         
         revalidate();

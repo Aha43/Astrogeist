@@ -6,47 +6,38 @@ import java.time.Instant;
 import java.util.LinkedHashMap;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JPanel;
 
 import astrogeist.app.App;
 import astrogeist.app.component.data.userdata.UserDataEditor;
+import astrogeist.app.dialog.ModalDialogBase;
 import astrogeist.app.dialog.message.MessageDialogs;
 import astrogeist.resources.Resources;
 import astrogeist.userdata.UserDataDefinitions;
 import astrogeist.userdata.UserDataIo;
 
-public class UserDataDialog extends JDialog {
+public final class UserDataDialog extends ModalDialogBase {
 	private static final long serialVersionUID = 1L;
 	
-	private App app;
-	
 	private UserDataDefinitions userDataDefs;
-	private Instant t;
+	private Instant time;
 	
 	private UserDataEditor editor;
 	
-	private UserDataDialog(App app, Instant t, LinkedHashMap<String, String> userData) {
-		super(app.getFrame(), "User Data");
+	private UserDataDialog(App app, Instant time, LinkedHashMap<String, String> userData) {
+		super(app, "User Data");
 		
-		this.app = app;
-		
-		this.t = t;
-		
-		setLayout(new BorderLayout());
+		this.time = time;
 		
 		var path = Resources.getUserDataDefinitionsFile().toPath();
 		try {
 			this.userDataDefs = UserDataDefinitions.fromXml(path);
-			
 			this.editor = new UserDataEditor(this.userDataDefs.getUserDataDefinitions(), userData);
-			add(this.editor, BorderLayout.CENTER);
-			
-			createButtons();
-			
-			pack();
+			super.add(this.editor, BorderLayout.CENTER);
+			this.createButtons();
+			super.pack();
 		} catch (Exception x) {
-			MessageDialogs.showError(this, "Failed to open user data definition file", x);
+			MessageDialogs.showError(this, "Failed to open user data definition file", x); 
 		}
 	}
 	
@@ -67,14 +58,13 @@ public class UserDataDialog extends JDialog {
 	private void save() {
 		try {
 			var values = this.editor.getValues();
-			UserDataIo.save(this.t, values);
-			this.app.getTimelineTablePanel().update(t, values);
+			UserDataIo.save(this.time, values);
+			super.app.getTimelineTablePanel().update(this.time, values);
 		} catch (Exception x) {
-			MessageDialogs.showError(this, "Failed to save user data", x);
+			MessageDialogs.showError(this, "Failed to save user data", x); 
 		}
 	}
 	
-	public static void ShowDialog(App app, Instant t, LinkedHashMap<String, String> userData) { 
-		new UserDataDialog(app, t, userData).setVisible(true); 
-	}
+	public static void show(App app, Instant t, LinkedHashMap<String, String> userData) { 
+		new UserDataDialog(app, t, userData).setVisible(true); }
 }

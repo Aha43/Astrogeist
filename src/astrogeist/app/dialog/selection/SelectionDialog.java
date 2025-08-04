@@ -24,9 +24,9 @@ public final class SelectionDialog extends JDialog {
         selectionPanel = new SelectionTablePanel(selectedItems, allItems);
         add(selectionPanel, BorderLayout.CENTER);
 
-        JPanel buttonPanel = new JPanel();
-        JButton ok = new JButton("OK");
-        JButton cancel = new JButton("Cancel");
+        var buttonPanel = new JPanel();
+        var ok = new JButton("OK");
+        var cancel = new JButton("Cancel");
         buttonPanel.add(ok);
         buttonPanel.add(cancel);
         add(buttonPanel, BorderLayout.SOUTH);
@@ -44,8 +44,7 @@ public final class SelectionDialog extends JDialog {
         setLocationRelativeTo(app.getFrame());
     }
 
-    public static void showDialog(App app, String title, List<String> selectedItems, Set<String> allItems) {
-        new SelectionDialog(app, title, selectedItems, allItems).setVisible(true);
-    }
+    public static void show(App app, String title, List<String> selectedItems, Set<String> allItems) {
+        new SelectionDialog(app, title, selectedItems, allItems).setVisible(true); }
 }
 

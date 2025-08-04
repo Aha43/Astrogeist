@@ -1,4 +1,4 @@
-package astrogeist.app.dialog;
+package astrogeist.app.dialog.about;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -12,7 +12,6 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -20,16 +19,15 @@ import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
 import astrogeist.app.App;
+import astrogeist.app.dialog.ModalDialogBase;
 import astrogeist.resources.Resources;
 
-public final class AboutDialog extends JDialog {
+public final class AboutDialog extends ModalDialogBase {
     private static final long serialVersionUID = 1L;
 
-    public AboutDialog(App app) {
-        super(app.getFrame(), "About Astrogeist", true);
+    private AboutDialog(App app) {
+        super(app, "About Astrogeist");
         setSize(400, 450);
-        setLocationRelativeTo(app.getFrame());
-        setLayout(new BorderLayout());
 
         // Top section with logo, title, and version
         var header = new JPanel();
@@ -88,4 +86,6 @@ public final class AboutDialog extends JDialog {
         add(scrollPane, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
     }
+    
+    public static void show(App app) { new AboutDialog(app).setVisible(true);} 
 }

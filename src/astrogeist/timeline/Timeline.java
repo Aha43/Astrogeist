@@ -12,18 +12,16 @@ import java.util.TreeSet;
 
 import astrogeist.issues.Issues;
 import astrogeist.scanner.NormalizedProperties;
-import astrogeist.util.Strings;
+import astrogeist.typesystem.Type;
 
 public class Timeline {
 	private final LinkedHashMap<Instant, LinkedHashMap<String, TimelineValue>> timeline = new LinkedHashMap<>();
 
 	public void put(Instant time, String key, String value) { this.put(time, key, value, null); }
 	
-    public void put(Instant time, String key, String value, String type) {
+    public void put(Instant time, String key, String value, Type type) {
     	time = requireNonNull(time, "time");
     	key = requireNonEmpty(key, "key");
-    	
-    	type = Strings.isNullOrBlank(type) ? "string" : type;
     	
     	value = value == null ? "" : value.trim();
     	
@@ -59,7 +57,7 @@ public class Timeline {
     public LinkedHashMap<String, TimelineValue> snapshotRaw(Instant time) {
         return this.timeline.getOrDefault(time, new LinkedHashMap<>()); }
     
-    public List<TimelineValue> getOfType(Instant time, String type) {
+    public List<TimelineValue> getOfType(Instant time, Type type) {
         return TimelineUtil.getOfType(timeline.getOrDefault(time, new LinkedHashMap<>()), type); }
     
     public Set<Instant> timestamps() { return new TreeSet<>(this.timeline.keySet()); }

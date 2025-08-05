@@ -1,3 +1,5 @@
 package astrogeist.timeline;
 
-public record TimelineValue(String value, String type) { }
+import astrogeist.typesystem.Type;
+
+public record TimelineValue(String value, Type type) { }

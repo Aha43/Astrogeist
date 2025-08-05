@@ -9,6 +9,7 @@ import javax.swing.table.AbstractTableModel;
 
 import astrogeist.timeline.TimelineUtil;
 import astrogeist.timeline.TimelineValue;
+import astrogeist.typesystem.Type;
 
 public class MetadataTableModel extends AbstractTableModel {
     private static final long serialVersionUID = 1L;
@@ -18,7 +19,7 @@ public class MetadataTableModel extends AbstractTableModel {
     public void setData(LinkedHashMap<String, TimelineValue> data) {
         this.entries.clear();
         if (data != null) {
-        	var withNoFiles = TimelineUtil.getExcludingTypeMap(data, "file");
+        	var withNoFiles = TimelineUtil.getExcludingTypeMap(data, Type.DiskFile());
             this.entries.addAll(withNoFiles.entrySet());
         }
         fireTableDataChanged();

@@ -17,28 +17,26 @@ import javax.swing.SwingConstants;
 import astrogeist.app.App;
 import astrogeist.app.dialog.files.FileListDialog;
 import astrogeist.resources.FileTypeColorMap;
+import astrogeist.typesystem.Type;
 import astrogeist.util.FilesUtil;
 
 public class FileTypeGroupComponent extends JPanel {
     private static final long serialVersionUID = 1L;
     
-	public static FileTypeGroupComponent ofFiles(App app, String extension, List<File> files) {
+	public static FileTypeGroupComponent ofFiles(App app, Type.DiskFile fileType, List<File> files) {
     	var paths = FilesUtil.filesToPaths(files);
-    	return new FileTypeGroupComponent(app, extension, paths);
+    	return new FileTypeGroupComponent(app, fileType, paths);
     }
 
-    private FileTypeGroupComponent(App app, String extension, List<Path> files) {
+    private FileTypeGroupComponent(App app, Type.DiskFile fileType, List<Path> files) {
         setLayout(new BorderLayout());
         setBorder(BorderFactory.createLineBorder(Color.GRAY));
 
         // Lookup background color
-        Color bg = FileTypeColorMap.EXTENSION_COLORS.getOrDefault(
-            extension.toLowerCase(),
-            Color.WHITE
-        );
+        Color bg = FileTypeColorMap.EXTENSION_COLORS.getOrDefault(fileType, Color.WHITE);
         setBackground(bg);
 
-        JLabel header = new JLabel(" " + extension.toUpperCase() + " Files ", SwingConstants.CENTER);
+        JLabel header = new JLabel(" " + fileType.getFileTypeName() + " Files ", SwingConstants.CENTER);
         header.setFont(header.getFont().deriveFont(Font.BOLD));
         add(header, BorderLayout.NORTH);
 
@@ -49,7 +47,7 @@ public class FileTypeGroupComponent extends JPanel {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                FileListDialog.show(app, extension, files);
+                FileListDialog.show(app, fileType.getFileTypeName(), files);
             }
         });
     }

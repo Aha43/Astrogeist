@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import astrogeist.app.App;
 import astrogeist.timeline.TimelineUtil;
 import astrogeist.timeline.TimelineValue;
+import astrogeist.typesystem.Type;
 import astrogeist.util.FilesUtil;
 
 public final class FilesPanel extends JPanel {
@@ -21,7 +22,7 @@ public final class FilesPanel extends JPanel {
 	
 	public void setData(LinkedHashMap<String, TimelineValue> data) {
 		var filePaths = new ArrayList<String>();
-		for (var v : TimelineUtil.getOfType(data, "file")) filePaths.add(v.value());
+		for (var v : TimelineUtil.getOfType(data, Type.DiskFile())) filePaths.add(v.value());
 		setFiles(filePaths);
 	}
 	

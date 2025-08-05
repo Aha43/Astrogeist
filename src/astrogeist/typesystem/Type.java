@@ -20,6 +20,18 @@ public abstract class Type {
 	
 	@Override public String toString() { return getName(); }
 	
+	public boolean isA(Type type) 
+	{ 
+		if (type == null) return false;
+		return type.getClass().isAssignableFrom(this.getClass());
+	}
+	
+	public static boolean isA(Type a, Type b) {
+		if (a == null) return false;
+		if (b == null) return false;
+		return a.isA(b);
+	}
+	
 	private String breadcrumbs = null;
 	
 	public final String toBreadcrumbString() {
@@ -154,6 +166,7 @@ public abstract class Type {
 	public static final DiskFile DiskFile() { return DISKFILE_INSTANCE; } 
 	public static class DiskFile extends Type {
 		protected DiskFile() {}
+		
 		public final DiskFile resolve(String path) {
 			return (path == null) ? null : resolve(Path.of(path)); }
 		public final DiskFile resolve(File file) { 
@@ -173,6 +186,8 @@ public abstract class Type {
 				default : return Type.DiskFile();
 			}
 		}
+		
+		public String getFileTypeName() { return "UNKNOWN"; }
 	}
 	
 	private static final TxtFile TXTFILE_INSTANCE = new TxtFile();
@@ -180,6 +195,7 @@ public abstract class Type {
 	public static final class TxtFile extends DiskFile {
 		private TxtFile() {}
 		@Override public Type getParentType() { return Type.DiskFile(); }
+		@Override public String getFileTypeName() { return "TXT"; }
 	}
 	
 	private static final SerFile SERFILE_INSTANCE = new SerFile();
@@ -187,6 +203,7 @@ public abstract class Type {
 	public static final class SerFile extends DiskFile {
 		private SerFile() {}
 		@Override public Type getParentType() { return Type.DiskFile(); }
+		@Override public String getFileTypeName() { return "SER"; }
 	}
 	
 	private static final FitsFile FITSFILE_INSTANCE = new FitsFile();
@@ -194,6 +211,7 @@ public abstract class Type {
 	public static final class FitsFile extends DiskFile {
 		private FitsFile() {}
 		@Override public Type getParentType() { return Type.DiskFile(); }
+		@Override public String getFileTypeName() { return "FIT"; }
 	}
 	
 	private static final TifFile TIFFILE_INSTANCE = new TifFile();
@@ -201,6 +219,7 @@ public abstract class Type {
 	public static final class TifFile extends DiskFile {
 		private TifFile() {}
 		@Override public Type getParentType() { return Type.DiskFile(); }
+		@Override public String getFileTypeName() { return "TIF"; }
 	}
 	
 	private static final JpgFile JPGFILE_INSTANCE = new JpgFile();
@@ -208,6 +227,7 @@ public abstract class Type {
 	public static final class JpgFile extends DiskFile {
 		private JpgFile() {}
 		@Override public Type getParentType() { return Type.DiskFile(); }
+		@Override public String getFileTypeName() { return "JPG"; }
 	}
 	
 	private static final PngFile PNGFILE_INSTANCE = new PngFile();
@@ -215,6 +235,7 @@ public abstract class Type {
 	public static final class PngFile extends DiskFile {
 		private PngFile() {}	
 		@Override public Type getParentType() { return Type.DiskFile(); }
+		@Override public String getFileTypeName() { return "PNG"; }
 	}
 	
 	private static final GifFile GIFFILE_INSTANCE = new GifFile();
@@ -222,6 +243,7 @@ public abstract class Type {
 	public static final class GifFile extends DiskFile {
 		private GifFile() {}
 		@Override public Type getParentType() { return Type.DiskFile(); }
+		@Override public String getFileTypeName() { return "GIF"; }
 	}
 	
 	public static Optional<ParsedValue> parseNumberWithSuffix(String input) {

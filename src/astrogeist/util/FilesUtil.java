@@ -8,6 +8,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import astrogeist.Common;
+import astrogeist.typesystem.Type;
 
 public final class FilesUtil {
 	public static String getBaseName(File file) {
@@ -18,14 +19,14 @@ public final class FilesUtil {
 	}
 	
 	public static String getExtension(File file) {
-	    String name = file.getName();
+	    var name = file.getName();
 	    int dotIndex = name.lastIndexOf('.');
 	    return (dotIndex == -1) ? null : name.substring(dotIndex + 1);
 	}
 	
 	public static String getExtension(Path path) {
-	    String name = path.getFileName().toString();
-	    int dotIndex = name.lastIndexOf('.');
+	    var name = path.getFileName().toString();
+	    var dotIndex = name.lastIndexOf('.');
 	    return (dotIndex == -1) ? "" : name.substring(dotIndex + 1);
 	}
 	
@@ -38,21 +39,13 @@ public final class FilesUtil {
 	public static List<Path> filesToPaths(List<File> paths) { 
 		return paths.stream().map(File::toPath).toList(); }
 	
-	public static Map<String, List<File>> groupByExtension(List<File> files) {
-        Map<String, List<File>> grouped = new LinkedHashMap<>();
+	public static Map<Type.DiskFile, List<File>> groupByExtension(List<File> files) {
+        Map<Type.DiskFile, List<File>> grouped = new LinkedHashMap<>();
 
-        for (File file : files) {
+        for (var file : files) {
             if (!file.isFile()) continue;
-
-            String name = file.getName();
-            String ext = "";
-
-            int i = name.lastIndexOf('.');
-            if (i >= 0 && i < name.length() - 1) {
-                ext = name.substring(i + 1).toLowerCase();
-            }
-
-            grouped.computeIfAbsent(ext, k -> new ArrayList<>()).add(file);
+            var type = Type.DiskFile().resolve(file);
+            grouped.computeIfAbsent(type, k -> new ArrayList<>()).add(file);
         }
 
         return grouped;

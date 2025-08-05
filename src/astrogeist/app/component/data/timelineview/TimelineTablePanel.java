@@ -18,6 +18,7 @@ import astrogeist.app.component.data.metadataview.MetadataTablePanel;
 import astrogeist.app.dialog.data.userdata.UserDataDialog;
 import astrogeist.app.dialog.message.MessageDialogs;
 import astrogeist.app.dialog.selection.SelectionDialog;
+import astrogeist.app.dialog.timeline.mapping.TimelineMappingDialog;
 import astrogeist.scanner.NormalizedProperties;
 import astrogeist.setting.SettingKeys;
 import astrogeist.setting.Settings;
@@ -67,6 +68,10 @@ public final class TimelineTablePanel extends JPanel {
 	
 	private void createButtonPanel() {
 		var buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		
+		var mappingButton = new JButton("Mapping");
+		mappingButton.addActionListener(e -> TimelineMappingDialog.show(this.app));
+		buttonPanel.add(mappingButton);
 		
 		var columnsButton = new JButton("Select columns to show");
 		

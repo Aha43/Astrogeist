@@ -21,6 +21,7 @@ public final class Resources {
 	private static File _userDataDefinitionsFile = null;
 	private static File _userDataDir = null;
 	private static File _regexScannerPatternFile = null;
+	private static File _timelineMappingFile = null;
 	
 	public static File ensureAstrogeistDirectoryExist(String path) throws IOException {
 		if (_astrogeistDir != null) return _astrogeistDir;
@@ -75,6 +76,13 @@ public final class Resources {
 		if (_regexScannerPatternFile != null) return _regexScannerPatternFile;
 		_regexScannerPatternFile = new File(_astrogeistDir, "astrogeist.scan-regex.xml");
 		return _regexScannerPatternFile;
+	}
+	
+	public static File getTimelineMappingPatternFile() {
+		checkGotAstrogeistDir();
+		if (_timelineMappingFile != null) return _timelineMappingFile;
+		_timelineMappingFile = new File(_astrogeistDir, "timeline.mapping.xml");
+		return _timelineMappingFile;
 	}
 	
 	private static void checkGotAstrogeistDir() {

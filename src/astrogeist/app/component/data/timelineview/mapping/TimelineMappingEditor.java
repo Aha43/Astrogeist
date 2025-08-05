@@ -9,17 +9,17 @@ import java.util.Map;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import astrogeist.app.dialog.message.MessageDialogs;
+import astrogeist.resources.Resources;
 import astrogeist.timeline.mapping.TimelineMappingEntry;
 import astrogeist.timeline.mapping.TimelineMappingIo;
 
@@ -41,7 +41,7 @@ public final class TimelineMappingEditor extends JPanel {
         JSplitPane split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, buildFieldPanel(), buildAliasPanel());
         split.setResizeWeight(0.3);
         add(split, BorderLayout.CENTER);
-        add(buildButtonBar(), BorderLayout.SOUTH);
+        //add(buildButtonBar(), BorderLayout.SOUTH);
 
         fieldList.addListSelectionListener(e -> refreshAliasList());
     }
@@ -122,13 +122,44 @@ public final class TimelineMappingEditor extends JPanel {
         panel.add(buttonPanel, BorderLayout.SOUTH);
         return panel;
     }
+    
+    public void load() {
+    	var file = Resources.getTimelineMappingPatternFile();
+    	try {
+    		
+    		var entries = TimelineMappingIo.load(file);
+    		this.mapping.clear();
+            this.fieldListModel.clear();
+            for (var entry : entries) {
+                this.mapping.put(entry.timelineField(), new ArrayList<>(entry.aliases()));
+                this.fieldListModel.addElement(entry.timelineField());
+            }
+    	} catch (Exception x) {
+    		MessageDialogs.showError("Failed to load " + file.toString(), x);
+    	}
+    }
+    
+    public void save() {
+    	var file = Resources.getTimelineMappingPatternFile();
+    	try {
+    		List<TimelineMappingEntry> entries = new ArrayList<>();
+            for (var entry : mapping.entrySet()) {
+                entries.add(new TimelineMappingEntry(entry.getKey(), entry.getValue()));
+            }
+            TimelineMappingIo.save(file, entries);
+    	} catch (Exception x) {
+    		MessageDialogs.showError("Failed to save " + file.toString(), x);
+    	}
+    }
 
-    private JPanel buildButtonBar() {
-        var bar = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        var load = new JButton("Load XML");
-        var save = new JButton("Save XML");
-        var export = new JButton("Export as Code...");
+    
+    //private JPanel buildButtonBar() {
+      //  var bar = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        //var load = new JButton("Load XML");
+        //var save = new JButton("Save XML");
+        //var export = new JButton("Export as Code...");
 
+        /*
         load.addActionListener(e -> {
             var fc = new JFileChooser();
             if (fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
@@ -145,7 +176,9 @@ public final class TimelineMappingEditor extends JPanel {
                 }
             }
         });
+        */
 
+    /*
         save.addActionListener(e -> {
             var fc = new JFileChooser();
             if (fc.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
@@ -159,8 +192,9 @@ public final class TimelineMappingEditor extends JPanel {
                     JOptionPane.showMessageDialog(this, "Failed to save XML:\n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
-        });
+        });*/
 
+        /*
         export.addActionListener(e -> {
             StringBuilder out = new StringBuilder();
             for (var entry : mapping.entrySet()) {
@@ -178,12 +212,14 @@ public final class TimelineMappingEditor extends JPanel {
             area.setCaretPosition(0);
             JOptionPane.showMessageDialog(this, new JScrollPane(area), "Exported Code", JOptionPane.PLAIN_MESSAGE);
         });
+        */
 
-        bar.add(load);
-        bar.add(save);
-        bar.add(export);
-        return bar;
-    }
+        //bar.add(load);
+    //    bar.add(save);
+        //bar.add(export);
+  //      return bar;
+//    }
+
 
     private void refreshAliasList() {
         aliasListModel.clear();

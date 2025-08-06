@@ -16,15 +16,16 @@ public final class TimelineValueRenderers {
         return new DefaultListCellRenderer() {
             private static final long serialVersionUID = 1L;
 
-            @Override
-            public Component getListCellRendererComponent(
-                    JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+            @Override public Component getListCellRendererComponent(
+                JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
 
                 super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 
                 if (value instanceof TimelineValue tv) {
-                	if (tv == TimelineValue.Empty) setText("Empty");
-                	else                           setText(tv.value()); // or tv.value() + " (" + tv.type().name() + ")" if needed
+                	if (tv == TimelineValue.Empty) 
+                		setText("Empty");
+                	else                           
+                		setText(tv.value());
                 }
 
                 return this;
@@ -36,14 +37,11 @@ public final class TimelineValueRenderers {
         return new DefaultTableCellRenderer() {
             private static final long serialVersionUID = 1L;
 
-            @Override
-            protected void setValue(Object value) {
-                if (value instanceof TimelineValue tv) {
-                	System.out.println("GOT TVL > " + tv.toString() + " < : SETS v: " + tv.value());
-                    setText(tv.value());
-                } else {
-                    super.setValue(value);
-                }
+            @Override protected void setValue(Object value) {
+                if (value instanceof TimelineValue tv) 
+                	setText(tv.value());
+                else                                   
+                	super.setValue(value);
             }
         };
     }

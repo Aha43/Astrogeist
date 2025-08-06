@@ -1,27 +1,29 @@
 package astrogeist.ui.swing;
 
-import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
+import astrogeist.Common;
 import astrogeist.engine.resources.Resources;
 import astrogeist.engine.setting.SettingsIo;
+import astrogeist.ui.swing.dialog.message.MessageDialogs;
 
 public final class Main {
 	public static void main(String[] args) {
 		try {
-			initialize(args);
+			initialize();
 			var app = new App();
 			SwingUtilities.invokeLater(() -> app.createGUI());
 		} catch (Exception e) {
 			e.printStackTrace();
-	        JOptionPane.showMessageDialog(null, "Failed to load configuration.", "Error", JOptionPane.ERROR_MESSAGE);
+			MessageDialogs.showError("Failed to launch Astrogeist", e);
 	        System.exit(1);
 		}
 	}
 	
-	private static void initialize(String[] arg) throws Exception {
-		String path = arg.length > 0 ? arg[0] : null;
-		Resources.ensureAstrogeistDirectoryExist(path);
+	private static void initialize() throws Exception {
+		Resources.ensureAstrogeistDirectoryExist();
 		SettingsIo.loadOrCreate();
-	}	
+	}
+	
+	private Main() { Common.throwStaticClassInstantiateError(); }
 }

@@ -9,6 +9,8 @@ import astrogeist.Common;
 import astrogeist.engine.util.Instants;
 
 public final class Resources {
+	private static boolean _dev = true;
+	
 	private static URL _logoUrl = null;
 	public static URL getLogoUrl(Object o) { 
 		if (_logoUrl != null) return _logoUrl;
@@ -23,11 +25,13 @@ public final class Resources {
 	private static File _regexScannerPatternFile = null;
 	private static File _timelineMappingFile = null;
 	
-	public static File ensureAstrogeistDirectoryExist(String path) throws IOException {
+	public static File ensureAstrogeistDirectoryExist() throws IOException {
 		if (_astrogeistDir != null) return _astrogeistDir;
 		
-		var homeDir = path != null ? new File(path) : new File(System.getProperty("user.home"));
-		var astrogeistDir = new File(homeDir, ".astrogeist");
+		var homeDir = new File(System.getProperty("user.home"));
+		
+		var astrogeistDir = _dev ? new File(homeDir, "Astrogeist.Dev") : new File(homeDir, "Astrogeist");
+		
 		if (astrogeistDir.exists()) {
 			_astrogeistDir = astrogeistDir;
 			return _astrogeistDir;
@@ -45,14 +49,14 @@ public final class Resources {
 	public static File getSettingsFile() {
 		checkGotAstrogeistDir();
 		if (_settingsFile != null) return _settingsFile;
-		_settingsFile = new File(_astrogeistDir, "astrogeist.settings.xml");
+		_settingsFile = new File(_astrogeistDir, "settings.xml");
 		return _settingsFile;
 	}
 	
 	public static File getUserDataDefinitionsFile() {
 		checkGotAstrogeistDir();
 		if (_userDataDefinitionsFile != null) return _userDataDefinitionsFile;
-		_userDataDefinitionsFile = new File(_astrogeistDir, "astrogeist.userdatadef.xml");
+		_userDataDefinitionsFile = new File(_astrogeistDir, "userdatadef.xml");
 		return _userDataDefinitionsFile;
 	}
 	
@@ -74,7 +78,7 @@ public final class Resources {
 	public static File getRegexScannerPatternFile() {
 		checkGotAstrogeistDir();
 		if (_regexScannerPatternFile != null) return _regexScannerPatternFile;
-		_regexScannerPatternFile = new File(_astrogeistDir, "astrogeist.scan-regex.xml");
+		_regexScannerPatternFile = new File(_astrogeistDir, "scan-regex.xml");
 		return _regexScannerPatternFile;
 	}
 	

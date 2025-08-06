@@ -2,11 +2,10 @@ package astrogeist.engine.typesystem;
 
 import java.io.File;
 import java.nio.file.Path;
-import java.util.Optional;
 import java.util.Stack;
-import java.util.regex.Pattern;
 
 import astrogeist.engine.util.FilesUtil;
+import astrogeist.engine.util.Strings;
 
 public abstract class Type {
 	
@@ -134,7 +133,7 @@ public abstract class Type {
 		@Override public final boolean canBeNegative() { return false; }
 		public Exposure resolve(String s) {
 			if (s == null || s.trim().length() == 0) return null;
-			var parsed = parseNumberWithSuffix(s);
+			var parsed = Strings.parseNumberWithSuffix(s);
 			if (parsed.isEmpty()) return null;
 			var suffix = parsed.get().suffix().toLowerCase();
 			return (suffix.equals("ms") ? Type.ExposureInMilliseconds() : 
@@ -248,19 +247,6 @@ public abstract class Type {
 		private GifFile() {}
 		@Override public Type getParentType() { return Type.DiskFile(); }
 		@Override public String getFileTypeName() { return "GIF"; }
-	}
-	
-	public static Optional<ParsedValue> parseNumberWithSuffix(String input) {
-	    var pattern = Pattern.compile("^\\s*([+-]?\\d+(\\.\\d+)?)\\s*(.*)$");
-	    var matcher = pattern.matcher(input);
-
-	    if (matcher.matches()) {
-	        double number = Double.parseDouble(matcher.group(1));
-	        String suffix = matcher.group(3).trim();
-	        return Optional.of(new ParsedValue(number, suffix));
-	    }
-
-	    return Optional.empty(); // not a valid number at the beginning
 	}
 	
 }

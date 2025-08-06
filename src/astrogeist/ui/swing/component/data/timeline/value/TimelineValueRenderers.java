@@ -1,9 +1,10 @@
-package astrogeist.ui.swing.component.data.userdata;
+package astrogeist.ui.swing.component.data.timeline.value;
 
 import java.awt.Component;
 
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
+import javax.swing.ListCellRenderer;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
@@ -11,7 +12,7 @@ import astrogeist.Common;
 import astrogeist.engine.timeline.TimelineValue;
 
 public final class TimelineValueRenderers {
-    public static DefaultListCellRenderer comboBoxRenderer() {
+    public static ListCellRenderer<Object> listCellRenderer() {
         return new DefaultListCellRenderer() {
             private static final long serialVersionUID = 1L;
 

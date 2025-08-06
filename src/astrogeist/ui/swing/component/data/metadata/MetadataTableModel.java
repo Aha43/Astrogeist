@@ -1,4 +1,4 @@
-package astrogeist.ui.swing.component.data.metadataview;
+package astrogeist.ui.swing.component.data.metadata;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

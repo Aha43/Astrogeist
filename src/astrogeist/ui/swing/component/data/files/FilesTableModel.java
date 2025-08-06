@@ -1,4 +1,4 @@
-package astrogeist.ui.swing.component.data.fileview;
+package astrogeist.ui.swing.component.data.files;
 
 import javax.swing.table.AbstractTableModel;
 

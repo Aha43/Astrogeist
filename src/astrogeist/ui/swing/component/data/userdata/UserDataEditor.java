@@ -17,6 +17,7 @@ import javax.swing.table.TableCellEditor;
 import astrogeist.engine.timeline.TimelineValue;
 import astrogeist.engine.typesystem.Type;
 import astrogeist.engine.userdata.UserDataDefinition;
+import astrogeist.ui.swing.component.data.timeline.value.TimelineValueRenderers;
 
 public final class UserDataEditor extends JPanel {
     private static final long serialVersionUID = 1L;
@@ -68,7 +69,7 @@ public final class UserDataEditor extends JPanel {
         	comboValues.add(TimelineValue.Empty);
         	def.values().forEach(v -> comboValues.add(new TimelineValue(v, Type.Text())));
         	var combo = new JComboBox<>(comboValues.toArray(TimelineValue.EmptyArray));
-        	combo.setRenderer(TimelineValueRenderers.comboBoxRenderer());
+        	combo.setRenderer(TimelineValueRenderers.listCellRenderer());
         	return new DefaultCellEditor(combo) {
         	    private static final long serialVersionUID = 1L;
 
@@ -106,23 +107,22 @@ public final class UserDataEditor extends JPanel {
             
             var tlv = values.get(def.name());
             return tlv;
-            //return (col == 0) ? def.name() : values.get(def.name()).value();
         }
 
         @Override public void setValueAt(Object value, int row, int col) {
-            if (col == 1) {
-                var def = defs.get(row);
+            if (col != 1) return;
+            
+            var def = defs.get(row);
                 
-                if (value instanceof TimelineValue tlv) {
-                	values.put(def.name(), tlv);
-                	return;
-                }
-                
-                var svalue = value == null ? "" : value.toString().trim();
-                var tlv = svalue.length() == 0 ? TimelineValue.Empty : new TimelineValue(svalue, Type.Text());
-                
-                values.put(def.name(), tlv);
+            if (value instanceof TimelineValue tlv) {
+            	values.put(def.name(), tlv);
+                return;
             }
+                
+            var svalue = value == null ? "" : value.toString().trim();
+            var tlv = svalue.length() == 0 ? TimelineValue.Empty : new TimelineValue(svalue, Type.Text());
+                
+            values.put(def.name(), tlv);
         }
 
         @Override public boolean isCellEditable(int row, int col) { return col == 1; }

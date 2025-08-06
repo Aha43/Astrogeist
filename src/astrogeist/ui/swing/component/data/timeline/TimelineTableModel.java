@@ -1,4 +1,4 @@
-package astrogeist.ui.swing.component.data.timelineview;
+package astrogeist.ui.swing.component.data.timeline;
 
 import java.time.Instant;
 import java.time.ZoneId;

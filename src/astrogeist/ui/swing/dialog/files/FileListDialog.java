@@ -5,7 +5,7 @@ import java.nio.file.Path;
 import java.util.List;
 
 import astrogeist.ui.swing.App;
-import astrogeist.ui.swing.component.data.fileview.FilesTablePanel;
+import astrogeist.ui.swing.component.data.files.FilesTablePanel;
 import astrogeist.ui.swing.dialog.ModalDialogBase;
 
 public final class FileListDialog extends ModalDialogBase {

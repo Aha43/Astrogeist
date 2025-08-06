@@ -12,9 +12,9 @@ import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 
 import astrogeist.engine.resources.Resources;
-import astrogeist.ui.swing.component.data.fileview.FilesPanel;
-import astrogeist.ui.swing.component.data.metadataview.MetadataTablePanel;
-import astrogeist.ui.swing.component.data.timelineview.TimelineTablePanel;
+import astrogeist.ui.swing.component.data.files.FilesPanel;
+import astrogeist.ui.swing.component.data.metadata.MetadataTablePanel;
+import astrogeist.ui.swing.component.data.timeline.TimelineTablePanel;
 import astrogeist.ui.swing.menubar.MenuBarFactory;
 import astrogeist.ui.swing.toolbar.ToolBarFactory;
 

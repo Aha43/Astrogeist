@@ -8,7 +8,7 @@ import javax.swing.JToolBar;
 import astrogeist.Common;
 import astrogeist.engine.scanner.CompositeScanner;
 import astrogeist.engine.timeline.Timeline;
-import astrogeist.ui.swing.component.data.timelineview.TimelineTablePanel;
+import astrogeist.ui.swing.component.data.timeline.TimelineTablePanel;
 import astrogeist.ui.swing.dialog.message.MessageDialogs;
 
 public final class ToolBarFactory {

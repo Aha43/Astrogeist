@@ -1,4 +1,4 @@
-package astrogeist.ui.swing.component.data.timelineview;
+package astrogeist.ui.swing.component.data.timeline;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -19,8 +19,8 @@ import astrogeist.engine.timeline.Timeline;
 import astrogeist.engine.timeline.TimelineValue;
 import astrogeist.engine.userdata.UserDataIo;
 import astrogeist.ui.swing.App;
-import astrogeist.ui.swing.component.data.fileview.FilesPanel;
-import astrogeist.ui.swing.component.data.metadataview.MetadataTablePanel;
+import astrogeist.ui.swing.component.data.files.FilesPanel;
+import astrogeist.ui.swing.component.data.metadata.MetadataTablePanel;
 import astrogeist.ui.swing.dialog.data.userdata.UserDataDialog;
 import astrogeist.ui.swing.dialog.message.MessageDialogs;
 import astrogeist.ui.swing.dialog.selection.SelectionDialog;

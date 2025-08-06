@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 import astrogeist.Common;
-import astrogeist.Empty;
 import astrogeist.engine.resources.Resources;
+import astrogeist.engine.timeline.TimelineValue;
 import astrogeist.engine.util.io.NameValueMapXml;
 
 public final class UserDataIo {
@@ -19,18 +19,17 @@ public final class UserDataIo {
 		return retVal;
 	}
 	
-	public static void save(Instant t, LinkedHashMap<String, String> userData) throws Exception {
+	public static void save(Instant t, LinkedHashMap<String, TimelineValue> userData) throws Exception {
 		var file = Resources.getUserDataFile(t);
 		var valuesToSave = new LinkedHashMap<>(userData);
 		removeDeleted(valuesToSave);
-		NameValueMapXml.save(valuesToSave,file);
+		NameValueMapXml.saveTimelineValues(valuesToSave, file);
 	}
 	
-	private static void removeDeleted(LinkedHashMap<String, String> userData) {
+	private static void removeDeleted(LinkedHashMap<String, TimelineValue> userData) {
 		var keys = new ArrayList<String>();
 		for (var e : userData.entrySet()) {
-			var val = e.getValue();
-			if (val == null || val == Empty.String || val.equals("-")) keys.add(e.getKey());
+			if (e.getValue().noData()) keys.add(e.getKey());
 		}
 		for (var k : keys) userData.remove(k);
 	}

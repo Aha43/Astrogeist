@@ -6,7 +6,6 @@ import static java.util.Objects.requireNonNull;
 import java.time.Instant;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -43,18 +42,7 @@ public class Timeline {
     	return (record == null) ? null : record.value();
     }
     
-    public LinkedHashMap<String, String> snapshot(Instant time) {
-        LinkedHashMap<String, TimelineValue> row = this.timeline.get(time);
-        LinkedHashMap<String, String> result = new LinkedHashMap<>();
-        if (row != null) {
-            for (Map.Entry<String, TimelineValue> entry : row.entrySet()) {
-                result.put(entry.getKey(), entry.getValue().value());
-            }
-        }
-        return result;
-    }
-    
-    public LinkedHashMap<String, TimelineValue> snapshotRaw(Instant time) {
+    public LinkedHashMap<String, TimelineValue> snapshot(Instant time) {
         return this.timeline.getOrDefault(time, new LinkedHashMap<>()); }
     
     public List<TimelineValue> getOfType(Instant time, Type type) {

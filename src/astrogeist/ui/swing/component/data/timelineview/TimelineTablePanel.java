@@ -16,6 +16,7 @@ import astrogeist.engine.scanner.NormalizedProperties;
 import astrogeist.engine.setting.SettingKeys;
 import astrogeist.engine.setting.Settings;
 import astrogeist.engine.timeline.Timeline;
+import astrogeist.engine.timeline.TimelineValue;
 import astrogeist.engine.userdata.UserDataIo;
 import astrogeist.ui.swing.App;
 import astrogeist.ui.swing.component.data.fileview.FilesPanel;
@@ -64,7 +65,7 @@ public final class TimelineTablePanel extends JPanel {
 	
 	public void settingsUpdated() { this.tableModel.setColumnsToShow(Settings.getCsv(SettingKeys.TABLE_COLUMNS)); }
 	
-	public void update(Instant t, LinkedHashMap<String, String> values) { this.tableModel.update(t, values); }
+	public void update(Instant t, LinkedHashMap<String, TimelineValue> values) { this.tableModel.update(t, values); }
 	
 	private void createButtonPanel() {
 		var buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));

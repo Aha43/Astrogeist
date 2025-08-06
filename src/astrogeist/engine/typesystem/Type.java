@@ -55,6 +55,10 @@ public abstract class Type {
 	
 	// TYPES
 	
+	private static final Void VOID_INSTANCE = new Void();
+	public static final Void Void() { return VOID_INSTANCE; }
+	public static final class Void extends Type { private Void() {} }
+	
 	private static final Text TEXT_INSTANCE = new Text();
 	public static Text Text() { return TEXT_INSTANCE; }
 	public static final class Text extends Type {

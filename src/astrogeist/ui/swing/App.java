@@ -77,7 +77,7 @@ public final class App {
 		        int selectedRow = this.timelinePanel.getTable().getSelectedRow();
 		        if (selectedRow >= 0) {
 		            var timestamp = this.timelinePanel.getTableModel().getTimestampAt(selectedRow);
-		            var data = this.timelinePanel.getData().snapshotRaw(timestamp);
+		            var data = this.timelinePanel.getData().snapshot(timestamp);
 		            this.metadataPanel.setData(data);
 		            this.filesPanel.setData(data);
 		        }

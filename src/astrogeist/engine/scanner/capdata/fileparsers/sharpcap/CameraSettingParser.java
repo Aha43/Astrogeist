@@ -17,9 +17,9 @@ public final class CameraSettingParser {
 	public static LinkedHashMap<String, String> parseFile(File file) {
 	    LinkedHashMap<String, String> data = new LinkedHashMap<>();
 	    
-	    try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-	        String line;
-	        boolean firstLine = true;
+	    try (var reader = new BufferedReader(new FileReader(file))) {
+	        var line = "";
+	        var firstLine = true;
 
 	        while ((line = reader.readLine()) != null) {
 	            line = line.trim();
@@ -28,7 +28,7 @@ public final class CameraSettingParser {
 	            if (firstLine) {
 	                firstLine = false;
 	                if (line.startsWith("[") && line.endsWith("]")) {
-	                    String cameraType = line.substring(1, line.length() - 1).trim();
+	                    var cameraType = line.substring(1, line.length() - 1).trim();
 	                    data.put("camera", cameraType);
 	                }
 	                continue;
@@ -36,8 +36,8 @@ public final class CameraSettingParser {
 
 	            int equalsIndex = line.indexOf('=');
 	            if (equalsIndex != -1) {
-	                String key = line.substring(0, equalsIndex).trim();
-	                String value = line.substring(equalsIndex + 1).trim();
+	                var key = line.substring(0, equalsIndex).trim();
+	                var value = line.substring(equalsIndex + 1).trim();
 	                data.put(key, value);
 	            }
 	        }

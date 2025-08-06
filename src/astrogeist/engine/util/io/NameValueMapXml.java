@@ -17,9 +17,10 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import astrogeist.Common;
+import astrogeist.engine.timeline.TimelineValue;
 
 public final class NameValueMapXml {
-	public static void save(LinkedHashMap<String, String> settings, File file) throws Exception {
+	public static void save(LinkedHashMap<String, String> data, File file) throws Exception {
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 
@@ -28,7 +29,7 @@ public final class NameValueMapXml {
         Element rootElement = doc.createElement("data");
         doc.appendChild(rootElement);
 
-        for (Map.Entry<String, String> entry : settings.entrySet()) {
+        for (Map.Entry<String, String> entry : data.entrySet()) {
             Element setting = doc.createElement("e");
             setting.setAttribute("key", entry.getKey());
             setting.setAttribute("value", entry.getValue());
@@ -43,10 +44,39 @@ public final class NameValueMapXml {
         transformer.transform(source, result);
     }
 	
+	public static void saveTimelineValues(LinkedHashMap<String, TimelineValue> data, File file) throws Exception {
+        DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+
+        // Root element
+        Document doc = docBuilder.newDocument();
+        Element rootElement = doc.createElement("data");
+        doc.appendChild(rootElement);
+
+        for (Map.Entry<String, TimelineValue> entry : data.entrySet()) {
+            Element setting = doc.createElement("e");
+            
+            setting.setAttribute("key", entry.getKey());
+            
+            var tlv = entry.getValue();
+            var v = tlv.value();
+            setting.setAttribute("value", v);
+            
+            rootElement.appendChild(setting);
+        }
+
+        // Write to file
+        Transformer transformer = TransformerFactory.newInstance().newTransformer();
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes"); // Pretty print
+        DOMSource source = new DOMSource(doc);
+        StreamResult result = new StreamResult(file);
+        transformer.transform(source, result);
+    }
+	
 	public static LinkedHashMap<String, String> load(File file) throws Exception {
-        LinkedHashMap<String, String> settings = new LinkedHashMap<>();
+        LinkedHashMap<String, String> retVal = new LinkedHashMap<>();
         
-        if (file.length() == 0L) return settings;
+        if (file.length() == 0L) return retVal;
 
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
@@ -58,10 +88,10 @@ public final class NameValueMapXml {
             Element elem = (Element) list.item(i);
             String key = elem.getAttribute("key");
             String value = elem.getAttribute("value");
-            settings.put(key, value);
+            retVal.put(key, value);
         }
 
-        return settings;
+        return retVal;
     }
 
 	private NameValueMapXml() { Common.throwStaticClassInstantiateError(); }

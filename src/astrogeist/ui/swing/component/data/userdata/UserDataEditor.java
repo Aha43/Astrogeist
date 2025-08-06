@@ -10,10 +10,12 @@ import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellEditor;
 
-import astrogeist.Empty;
+import astrogeist.engine.timeline.TimelineValue;
+import astrogeist.engine.typesystem.Type;
 import astrogeist.engine.userdata.UserDataDefinition;
 
 public final class UserDataEditor extends JPanel {
@@ -26,11 +28,13 @@ public final class UserDataEditor extends JPanel {
         this.model = new UserDataDefinitionsTableModel(definitions, currentValues);
         this.table = new JTableWithPerRowEditor(model, definitions);
         this.table.setFillsViewportHeight(true);
+        
+        this.table.setDefaultRenderer(TimelineValue.class, TimelineValueRenderers.tableCellRenderer());
 
         add(new JScrollPane(table), BorderLayout.CENTER);
     }
 
-    public LinkedHashMap<String, String> getValues() { return model.getValues(); }
+    public LinkedHashMap<String, TimelineValue> getValues() { return model.getValues(); }
 
     // Custom JTable that installs per-row editors
     private static final class JTableWithPerRowEditor extends JTable {
@@ -41,19 +45,38 @@ public final class UserDataEditor extends JPanel {
             super(model);
             this.defs = defs;
         }
-
+        
         @Override
-        public TableCellEditor getCellEditor(int row, int column) {
-            if (column == 1) {
-                var def = defs.get(row);
-                if (!def.values().isEmpty()) {
-                	var values = new ArrayList<>(def.values());
-                	values.add(0, "-");
-                    JComboBox<String> combo = new JComboBox<>(values.toArray(Empty.StringArray));
-                    return new DefaultCellEditor(combo);
-                }
-            }
-            return super.getCellEditor(row, column);
+        public TableCellEditor getCellEditor(int row, int col){
+        	if (col != 1) return super.getCellEditor();
+        	
+        	var def = defs.get(row);
+        	
+        	if (def.values().isEmpty()) {
+        		var textField = new JTextField();
+        	    return new DefaultCellEditor(textField) {
+        	        private static final long serialVersionUID = 1L;
+					@Override
+        	        public Object getCellEditorValue() {
+        	            String text = textField.getText().trim();
+        	            return new TimelineValue(text, Type.Text());
+        	        }
+        	    };
+        	}
+        	
+        	var comboValues = new ArrayList<TimelineValue>();
+        	comboValues.add(TimelineValue.Empty);
+        	def.values().forEach(v -> comboValues.add(new TimelineValue(v, Type.Text())));
+        	var combo = new JComboBox<>(comboValues.toArray(TimelineValue.EmptyArray));
+        	combo.setRenderer(TimelineValueRenderers.comboBoxRenderer());
+        	return new DefaultCellEditor(combo) {
+        	    private static final long serialVersionUID = 1L;
+
+        	    @Override
+        	    public Object getCellEditorValue() {
+        	        return combo.getSelectedItem(); // This returns the actual TimelineValue
+        	    }
+        	};
         }
     }
 
@@ -61,14 +84,15 @@ public final class UserDataEditor extends JPanel {
         private static final long serialVersionUID = 1L;
         
 		private final List<UserDataDefinition> defs;
-        private final LinkedHashMap<String, String> values;
+        private final LinkedHashMap<String, TimelineValue> values;
 
         public UserDataDefinitionsTableModel(List<UserDataDefinition> defs, LinkedHashMap<String, String> initialValues) {
             this.defs = defs;
             this.values = new LinkedHashMap<>();
             for (var def : defs) {
-                String name = def.name();
-                values.put(name, initialValues.getOrDefault(name, ""));
+                var name = def.name();
+                var initialValue = initialValues.getOrDefault(name, ""); 
+                values.put(name, new TimelineValue(initialValue, Type.Text()));
             }
         }
 
@@ -77,29 +101,45 @@ public final class UserDataEditor extends JPanel {
 
         @Override public Object getValueAt(int row, int col) {
             var def = defs.get(row);
-            return (col == 0) ? def.name() : values.get(def.name());
+            
+            if (col == 0) return def.name();
+            
+            var tlv = values.get(def.name());
+            return tlv;
+            //return (col == 0) ? def.name() : values.get(def.name()).value();
         }
 
         @Override public void setValueAt(Object value, int row, int col) {
             if (col == 1) {
                 var def = defs.get(row);
-                values.put(def.name(), value != null ? value.toString().trim() : "");
+                
+                if (value instanceof TimelineValue tlv) {
+                	values.put(def.name(), tlv);
+                	return;
+                }
+                
+                var svalue = value == null ? "" : value.toString().trim();
+                var tlv = svalue.length() == 0 ? TimelineValue.Empty : new TimelineValue(svalue, Type.Text());
+                
+                values.put(def.name(), tlv);
             }
         }
 
         @Override public boolean isCellEditable(int row, int col) { return col == 1; }
-        @Override public String getColumnName(int col) { return (col == 0) ? "Property" : "Value"; }
+        @Override public String getColumnName(int col) { return (col == 0) ? "Name" : "Value"; }
+        @Override public Class<?> getColumnClass(int col) { return (col == 0) ? String.class : TimelineValue.class; }
 
-        public LinkedHashMap<String, String> getValues() {
-            LinkedHashMap<String, String> cleaned = new LinkedHashMap<>();
+        public LinkedHashMap<String, TimelineValue> getValues() {
+            LinkedHashMap<String, TimelineValue> cleaned = new LinkedHashMap<>();
             for (var def : defs) {
                 String name = def.name();
-                String val = values.get(name);
-                if (val != null && !val.isBlank()) {
-                    cleaned.put(name, val);
+                TimelineValue tvl = values.get(name);
+                if (tvl != null && tvl.value() != null && !tvl.value().isBlank()) {
+                    cleaned.put(name, tvl);
                 }
             }
             return cleaned;
         }
     }
+    
 }

@@ -10,6 +10,7 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 import astrogeist.engine.timeline.Timeline;
+import astrogeist.engine.timeline.TimelineValue;
 
 public final class TimelineTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
@@ -18,7 +19,7 @@ public final class TimelineTableModel extends AbstractTableModel {
 	
 	private final List<Instant> timestamps = new ArrayList<>();
 	private final List<String> columns = new ArrayList<>();
-	private final LinkedHashMap<Instant, LinkedHashMap<String, String>> rows = new LinkedHashMap<>();
+	private final LinkedHashMap<Instant, LinkedHashMap<String, TimelineValue>> rows = new LinkedHashMap<>();
 	private static final String TIME_COLUMN = "Time";
 
 	private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
@@ -52,18 +53,19 @@ public final class TimelineTableModel extends AbstractTableModel {
 	
 	public Timeline getData() { return this.timeline; }
 	
-	public void update(Instant t, LinkedHashMap<String, String> values) {
+	public void update(Instant t, LinkedHashMap<String, TimelineValue> values) {
 		var existing = rows.get(t);
 		if (existing == null) return;
 
 		for (var entry : values.entrySet()) {
 			String key = entry.getKey();
-			String value = entry.getValue();
-
+			TimelineValue tlv = entry.getValue();
+			var value = tlv.value();
+			
 			if (value == null || value.isEmpty() || value.equals("-")) {
 				existing.remove(key); // delete
 			} else {
-				existing.put(key, value); // add/update
+				existing.put(key, tlv); // add/update
 			}
 		}
 
@@ -89,8 +91,9 @@ public final class TimelineTableModel extends AbstractTableModel {
 			return timeFormatter.format(timestamp);
 		}
 
-		var data = this.rows.getOrDefault(timestamp, new LinkedHashMap<String, String>());
-		return data.getOrDefault(column, "");
+		var data = this.rows.getOrDefault(timestamp, new LinkedHashMap<String, TimelineValue>());
+		var tlv = data.getOrDefault(column, TimelineValue.Empty);
+		return tlv.value();
 	}
 
 	public Instant getTimestampAt(int rowIndex) { return this.timestamps.get(rowIndex); }

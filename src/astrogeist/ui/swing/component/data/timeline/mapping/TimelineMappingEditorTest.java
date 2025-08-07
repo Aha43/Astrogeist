@@ -1,4 +1,4 @@
-package astrogeist.ui.swing.component.data.timelineview.mapping;
+package astrogeist.ui.swing.component.data.timeline.mapping;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;

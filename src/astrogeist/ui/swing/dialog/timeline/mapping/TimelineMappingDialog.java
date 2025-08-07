@@ -7,7 +7,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import astrogeist.ui.swing.App;
-import astrogeist.ui.swing.component.data.timelineview.mapping.TimelineMappingEditor;
+import astrogeist.ui.swing.component.data.timeline.mapping.TimelineMappingEditor;
 import astrogeist.ui.swing.dialog.ModalDialogBase;
 
 public final class TimelineMappingDialog extends ModalDialogBase {

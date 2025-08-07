@@ -59,7 +59,7 @@ public abstract class Type {
 	public static final class Void extends Type { private Void() {} }
 	
 	private static final Text TEXT_INSTANCE = new Text();
-	public static Text Text() { return TEXT_INSTANCE; }
+	public static final Text Text() { return TEXT_INSTANCE; }
 	public static final class Text extends Type {
 		protected Text() {}
 		public final Text resolve(String s) {
@@ -67,7 +67,7 @@ public abstract class Type {
 	}
 	
 	private static final Number NUMBER_INSTANCE = new Number();
-	public static Number Number() { return NUMBER_INSTANCE; }
+	public static final Number Number() { return NUMBER_INSTANCE; }
 	public static class Number extends Type { 
 		protected Number() {}
 		
@@ -101,31 +101,39 @@ public abstract class Type {
 	}
 	
 	private static final Decimal DECIMAL_INSTANCE = new Decimal();
-	public static Decimal Decimal() { return DECIMAL_INSTANCE; }
+	public static final Decimal Decimal() { return DECIMAL_INSTANCE; }
 	public static class Decimal extends Number {
 		protected Decimal() {}
 		@Override public Type getParentType() { return Type.Number(); }
-		
 	}
 	
 	private static final Integer INTEGER_INSTANCE = new Integer();
-	public static Integer Integer() { return INTEGER_INSTANCE; }
+	public static final Integer Integer() { return INTEGER_INSTANCE; }
 	public static class Integer extends Number {
 		protected Integer() {}
 		@Override public Type getParentType() { return Type.Number(); }
 	}
 	
+	private static final Bin BIN_INSTANCE = new Bin();
+	public static final Bin Bin() { return BIN_INSTANCE; }
+	public static final class Bin extends Number {
+		private Bin() {}
+		@Override public final Type getParentType() { return Type.Integer(); }
+		@Override public final boolean canBeZero() { return false; }
+		@Override public final boolean canBeNegative() { return false; }
+	}
+	
 	private static final FrameCount FRAMECOUNT_INSTANCE = new FrameCount();
-	public static FrameCount FrameCount() { return FRAMECOUNT_INSTANCE; }
+	public static final FrameCount FrameCount() { return FRAMECOUNT_INSTANCE; }
 	public static final class FrameCount extends Integer {
 		private FrameCount() {}
-		@Override public Type getParentType() { return Type.Integer(); }
+		@Override public final Type getParentType() { return Type.Integer(); }
 		@Override public final boolean canBeZero() { return false; }
 		@Override public final boolean canBeNegative() { return false; }
 	}
 	
 	private static final Exposure EXPOSURE_INSTANCE = new Exposure();
-	public static Exposure Exposure() { return EXPOSURE_INSTANCE; }
+	public static final Exposure Exposure() { return EXPOSURE_INSTANCE; }
 	public static class Exposure extends Decimal {
 		protected Exposure() {}
 		@Override public Type getParentType() { return Type.Decimal(); }
@@ -142,10 +150,10 @@ public abstract class Type {
 	}
 	
 	private static final ExposureInMilliseconds EXPOSUREINMILLISECONDS_INSTANCE = new ExposureInMilliseconds();
-	public static ExposureInMilliseconds ExposureInMilliseconds() { return EXPOSUREINMILLISECONDS_INSTANCE; }
+	public static final ExposureInMilliseconds ExposureInMilliseconds() { return EXPOSUREINMILLISECONDS_INSTANCE; }
 	public static final class ExposureInMilliseconds extends Exposure {
 		private ExposureInMilliseconds() { }
-		@Override public Type getParentType() { return Type.Exposure(); }
+		@Override public final Type getParentType() { return Type.Exposure(); }
 		@Override public final String getUnit() { return "ms"; }
 	}
 	
@@ -153,7 +161,7 @@ public abstract class Type {
 	public static ExposureInSeconds ExposureInSeconds() { return EXPOSUREINSECONDS_INSTANCE; }
 	public static final class ExposureInSeconds extends Exposure {
 		private ExposureInSeconds() { }
-		@Override public Type getParentType() { return Type.Exposure(); }
+		@Override public final Type getParentType() { return Type.Exposure(); }
 		@Override public final String getUnit() { return "s"; }
 	}
 	
@@ -161,8 +169,8 @@ public abstract class Type {
 	public static final Gain Gain() { return GAIN_INSTANCE; } 
 	public static final class Gain extends Integer {
 		private Gain() {}
-		@Override public Type getParentType() { return Type.Integer(); }
-		@Override public boolean canBeNegative() { return false; }
+		@Override final public Type getParentType() { return Type.Integer(); }
+		@Override final public boolean canBeNegative() { return false; }
 	}
 	
 	private static final DiskFile DISKFILE_INSTANCE = new DiskFile();
@@ -197,56 +205,56 @@ public abstract class Type {
 	public static final TxtFile TxtFile() { return TXTFILE_INSTANCE; } 
 	public static final class TxtFile extends DiskFile {
 		private TxtFile() {}
-		@Override public Type getParentType() { return Type.DiskFile(); }
-		@Override public String getFileTypeName() { return "TXT"; }
+		@Override public final Type getParentType() { return Type.DiskFile(); }
+		@Override public final String getFileTypeName() { return "TXT"; }
 	}
 	
 	private static final SerFile SERFILE_INSTANCE = new SerFile();
 	public static final SerFile SerFile() { return SERFILE_INSTANCE; }
 	public static final class SerFile extends DiskFile {
 		private SerFile() {}
-		@Override public Type getParentType() { return Type.DiskFile(); }
-		@Override public String getFileTypeName() { return "SER"; }
+		@Override public final Type getParentType() { return Type.DiskFile(); }
+		@Override public final String getFileTypeName() { return "SER"; }
 	}
 	
 	private static final FitsFile FITSFILE_INSTANCE = new FitsFile();
 	public static final FitsFile FitsFile() { return FITSFILE_INSTANCE; }
 	public static final class FitsFile extends DiskFile {
 		private FitsFile() {}
-		@Override public Type getParentType() { return Type.DiskFile(); }
-		@Override public String getFileTypeName() { return "FIT"; }
+		@Override public final Type getParentType() { return Type.DiskFile(); }
+		@Override public final String getFileTypeName() { return "FIT"; }
 	}
 	
 	private static final TifFile TIFFILE_INSTANCE = new TifFile();
 	public static final TifFile TifFile() { return TIFFILE_INSTANCE; }
 	public static final class TifFile extends DiskFile {
 		private TifFile() {}
-		@Override public Type getParentType() { return Type.DiskFile(); }
-		@Override public String getFileTypeName() { return "TIF"; }
+		@Override public final Type getParentType() { return Type.DiskFile(); }
+		@Override public final String getFileTypeName() { return "TIF"; }
 	}
 	
 	private static final JpgFile JPGFILE_INSTANCE = new JpgFile();
 	public static final JpgFile JpgFile() { return JPGFILE_INSTANCE; }
 	public static final class JpgFile extends DiskFile {
 		private JpgFile() {}
-		@Override public Type getParentType() { return Type.DiskFile(); }
-		@Override public String getFileTypeName() { return "JPG"; }
+		@Override public final Type getParentType() { return Type.DiskFile(); }
+		@Override public final String getFileTypeName() { return "JPG"; }
 	}
 	
 	private static final PngFile PNGFILE_INSTANCE = new PngFile();
 	public static final PngFile PngFile() { return PNGFILE_INSTANCE; }
 	public static final class PngFile extends DiskFile {
 		private PngFile() {}	
-		@Override public Type getParentType() { return Type.DiskFile(); }
-		@Override public String getFileTypeName() { return "PNG"; }
+		@Override public final Type getParentType() { return Type.DiskFile(); }
+		@Override public final String getFileTypeName() { return "PNG"; }
 	}
 	
 	private static final GifFile GIFFILE_INSTANCE = new GifFile();
 	public static final GifFile GifFile() { return GIFFILE_INSTANCE; }
 	public static final class GifFile extends DiskFile {
 		private GifFile() {}
-		@Override public Type getParentType() { return Type.DiskFile(); }
-		@Override public String getFileTypeName() { return "GIF"; }
+		@Override public final Type getParentType() { return Type.DiskFile(); }
+		@Override public final String getFileTypeName() { return "GIF"; }
 	}
 	
 }

@@ -7,6 +7,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.nio.file.Path;
+import java.time.Instant;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -20,16 +21,15 @@ import astrogeist.engine.util.FilesUtil;
 import astrogeist.ui.swing.App;
 import astrogeist.ui.swing.dialog.files.FileListDialog;
 
-public class FileTypeGroupComponent extends JPanel {
+public class FilesTypeGroupComponent extends JPanel {
     private static final long serialVersionUID = 1L;
     
-	public static FileTypeGroupComponent ofFiles(App app, Type.DiskFile fileType, List<File> files) {
-    	var paths = FilesUtil.filesToPaths(files);
-    	return new FileTypeGroupComponent(app, fileType, paths);
-    }
-
-    private FileTypeGroupComponent(App app, Type.DiskFile fileType, List<Path> files) {
-        setLayout(new BorderLayout());
+    private final Type.DiskFile fileType;
+    
+    private FilesTypeGroupComponent(App app, Type.DiskFile fileType, Instant timestamp, List<Path> files) {
+        this.fileType = fileType;
+        
+    	setLayout(new BorderLayout());
         setBorder(BorderFactory.createLineBorder(Color.GRAY));
 
         // Lookup background color
@@ -47,8 +47,14 @@ public class FileTypeGroupComponent extends JPanel {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                FileListDialog.show(app, fileType.getFileTypeName(), files);
-            }
+                FileListDialog.show(app, fileType, timestamp, files); }
         });
+    }
+    
+    public Type.DiskFile getFileType() { return this.fileType; }
+    
+    public static FilesTypeGroupComponent ofFiles(App app, Type.DiskFile fileType, Instant timestamp, List<File> files) {
+    	var paths = FilesUtil.filesToPaths(files);
+    	return new FilesTypeGroupComponent(app, fileType, timestamp, paths);
     }
 }

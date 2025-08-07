@@ -1,6 +1,7 @@
 package astrogeist.ui.swing.component.data.files;
 
 import java.awt.FlowLayout;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -20,15 +21,15 @@ public final class FilesPanel extends JPanel {
 	
 	public FilesPanel(App app) { super.setLayout(new FlowLayout(FlowLayout.LEFT)); this.app = app; }
 	
-	public void setData(LinkedHashMap<String, TimelineValue> data) {
+	public void setData(Instant timestamp, LinkedHashMap<String, TimelineValue> data) {
 		var filePaths = new ArrayList<String>();
 		for (var v : TimelineUtil.getOfType(data, Type.DiskFile())) filePaths.add(v.value());
-		setFiles(filePaths);
+		setFiles(timestamp, filePaths);
 	}
 	
-	public void clear() { setFiles(null); }
+	public void clear() { super.removeAll(); revalidate(); repaint(); }
 	
-	private void setFiles(List<String> filePaths) {
+	private void setFiles(Instant timestamp, List<String> filePaths) {
         super.removeAll();
         
         if (filePaths == null || filePaths.isEmpty()) return;
@@ -36,7 +37,7 @@ public final class FilesPanel extends JPanel {
         var files = FilesUtil.stringsToFiles(filePaths);
         var grouped = FilesUtil.groupByExtension(files);
         for (var group : grouped.entrySet()) {
-        	var comp = FileTypeGroupComponent.ofFiles(app, group.getKey(), group.getValue());
+        	var comp = FilesTypeGroupComponent.ofFiles(app, group.getKey(), timestamp, group.getValue());
         	super.add(comp);
         }
         

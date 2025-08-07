@@ -79,7 +79,7 @@ public final class App {
 		            var timestamp = this.timelinePanel.getTableModel().getTimestampAt(selectedRow);
 		            var data = this.timelinePanel.getData().snapshot(timestamp);
 		            this.metadataPanel.setData(data);
-		            this.filesPanel.setData(data);
+		            this.filesPanel.setData(timestamp, data);
 		        }
 		    }
 		});

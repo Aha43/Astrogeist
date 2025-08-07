@@ -1,14 +1,13 @@
 package astrogeist.ui.swing.component.data.timeline;
 
 import java.time.Instant;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
+import astrogeist.engine.resources.Time;
 import astrogeist.engine.timeline.Timeline;
 import astrogeist.engine.timeline.TimelineValue;
 
@@ -20,10 +19,8 @@ public final class TimelineTableModel extends AbstractTableModel {
 	private final List<Instant> timestamps = new ArrayList<>();
 	private final List<String> columns = new ArrayList<>();
 	private final LinkedHashMap<Instant, LinkedHashMap<String, TimelineValue>> rows = new LinkedHashMap<>();
+	
 	private static final String TIME_COLUMN = "Time";
-
-	private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-		.withZone(ZoneId.systemDefault());
 
 	public void setData(Timeline data) {
 		this.timeline = data;
@@ -70,26 +67,18 @@ public final class TimelineTableModel extends AbstractTableModel {
 		}
 
 		int rowIndex = timestamps.indexOf(t);
-		if (rowIndex >= 0) {
-			fireTableRowsUpdated(rowIndex, rowIndex);
-		}
+		if (rowIndex >= 0) fireTableRowsUpdated(rowIndex, rowIndex);
 	}
 
-	@Override
-	public int getRowCount() { return this.timestamps.size(); }
-	@Override
-	public int getColumnCount() { return this.columns.size(); }
-	@Override
-	public String getColumnName(int column) { return this.columns.get(column); }
+	@Override public int getRowCount() { return this.timestamps.size(); }
+	@Override public int getColumnCount() { return this.columns.size(); }
+	@Override public String getColumnName(int column) { return this.columns.get(column); }
 
-	@Override
-	public Object getValueAt(int rowIndex, int columnIndex) {
+	@Override public Object getValueAt(int rowIndex, int columnIndex) {
 		var timestamp = this.timestamps.get(rowIndex);
 		var column = this.columns.get(columnIndex);
 
-		if (TIME_COLUMN.equals(column)) {
-			return timeFormatter.format(timestamp);
-		}
+		if (TIME_COLUMN.equals(column)) return Time.TimeFormatter.format(timestamp); 
 
 		var data = this.rows.getOrDefault(timestamp, new LinkedHashMap<String, TimelineValue>());
 		var tlv = data.getOrDefault(column, TimelineValue.Empty);

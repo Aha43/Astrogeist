@@ -9,6 +9,7 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 import astrogeist.engine.file.FileRecord;
+import astrogeist.engine.resources.Time;
 import astrogeist.engine.typesystem.Type;
 
 public class FilesTableModel extends AbstractTableModel {
@@ -18,13 +19,15 @@ public class FilesTableModel extends AbstractTableModel {
 	private static final short TYPE      = NAME      + 1;
 	private static final short EXTENSION = TYPE      + 1;
 	private static final short SIZE      = EXTENSION + 1;
-	private static final short MODIFIED  = SIZE      + 1;
+	private static final short TIMESTAMP = SIZE      + 1;
+	private static final short MODIFIED  = TIMESTAMP + 1;
 
 	private final String[] columns = {
 		"Name", 
 		"Type", 
 		"Extension", 
-		"Size (KB)", 
+		"Size (KB)",
+		"Timestamp",
 		"Last Modified" };
 	
 	private final List<FileRecord> entries = new ArrayList<>();
@@ -40,6 +43,7 @@ public class FilesTableModel extends AbstractTableModel {
 			case TYPE      -> entry.fileType().getFileTypeName();
 			case EXTENSION -> entry.getExtension();
 			case SIZE      -> entry.sizeKB();
+			case TIMESTAMP -> Time.TimeFormatter.format(entry.timestamp());
 			case MODIFIED  -> entry.lastModified();
 			default -> null;
 		};

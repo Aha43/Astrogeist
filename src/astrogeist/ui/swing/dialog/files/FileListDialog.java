@@ -12,7 +12,7 @@ import astrogeist.ui.swing.dialog.ModalDialogBase;
 public final class FileListDialog extends ModalDialogBase {
 	private static final long serialVersionUID = 1L;
 	
-	private final FilesTablePanel tablePanel = new FilesTablePanel(); 
+	private final FilesTablePanel tablePanel = new FilesTablePanel(super.app); 
 
 	private FileListDialog(
 		App app, 

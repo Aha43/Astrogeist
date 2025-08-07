@@ -12,7 +12,7 @@ import astrogeist.engine.file.FileRecord;
 import astrogeist.engine.resources.Time;
 import astrogeist.engine.typesystem.Type;
 
-public class FilesTableModel extends AbstractTableModel {
+public final class FilesTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
 	
 	private static final short NAME      =             0;
@@ -32,11 +32,11 @@ public class FilesTableModel extends AbstractTableModel {
 	
 	private final List<FileRecord> entries = new ArrayList<>();
 
-	@Override public int getRowCount() { return entries.size(); }
-	@Override public int getColumnCount() { return columns.length; }
-	@Override public String getColumnName(int col) { return columns[col]; }
+	@Override public final int getRowCount() { return entries.size(); }
+	@Override public final int getColumnCount() { return columns.length; }
+	@Override public final String getColumnName(int col) { return columns[col]; }
 
-	@Override public Object getValueAt(int row, int col) {
+	@Override public final Object getValueAt(int row, int col) {
 		var entry = entries.get(row);
 		return switch (col) {
 			case NAME      -> entry.getName().toString();
@@ -49,12 +49,12 @@ public class FilesTableModel extends AbstractTableModel {
 		};
 	}
 
-	public FileRecord getEntry(int row) {
+	public final FileRecord getEntry(int row) {
 		if (row >= 0 && row < entries.size()) return entries.get(row);
 		return null;
 	}
 
-	public void setFiles(Type.DiskFile fileType, Instant timestamp, List<Path> files) {
+	public final void setFiles(Type.DiskFile fileType, Instant timestamp, List<Path> files) {
 		entries.clear();
 		for (Path path : files) {
 			try {
@@ -69,4 +69,3 @@ public class FilesTableModel extends AbstractTableModel {
 	}
 	
 }
-

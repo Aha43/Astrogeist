@@ -13,16 +13,22 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import astrogeist.engine.typesystem.Type;
+import astrogeist.ui.swing.App;
+import astrogeist.ui.swing.dialog.files.FilePropertiesDialog;
 import astrogeist.ui.swing.dialog.message.MessageDialogs;
 
 public class FilesTablePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
+	
+	private final App app;
 
 	private final FilesTableModel model;
 	private final JTable table;
 
-	public FilesTablePanel() {
+	public FilesTablePanel(App app) {
 		super.setLayout(new BorderLayout());
+		
+		this.app = app;
 
 		this.model = new FilesTableModel();
 		this.table = new JTable(model);
@@ -38,9 +44,13 @@ public class FilesTablePanel extends JPanel {
 
 		var openFile = new JMenuItem("Open File");
 		openFile.addActionListener(e -> openFile());
+		
+		var properties = new JMenuItem("Properties");
+		properties.addActionListener(e -> openPropertiesDialog());
 
 		popupMenu.add(openInLocation);
 		popupMenu.add(openFile);
+		popupMenu.add(properties);
 
 		table.setComponentPopupMenu(popupMenu);
 	}
@@ -67,6 +77,13 @@ public class FilesTablePanel extends JPanel {
 			} catch (Exception x) {
 				MessageDialogs.showError("Failed to open location: ", x);
 			}
+		}
+	}
+	
+	private void openPropertiesDialog() {
+		var entry = model.getEntry(table.getSelectedRow());
+		if (entry != null) {
+			FilePropertiesDialog.show(app, entry);
 		}
 	}
 }

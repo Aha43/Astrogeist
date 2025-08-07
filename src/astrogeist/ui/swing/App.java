@@ -12,7 +12,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 
 import astrogeist.engine.resources.Resources;
-import astrogeist.ui.swing.component.data.files.FilesPanel;
+import astrogeist.ui.swing.component.data.files.FilesTypeGroupComponentPanel;
 import astrogeist.ui.swing.component.data.metadata.MetadataTablePanel;
 import astrogeist.ui.swing.component.data.timeline.TimelineTablePanel;
 import astrogeist.ui.swing.menubar.MenuBarFactory;
@@ -22,7 +22,7 @@ public final class App {
 	private JFrame frame = null;
 	
 	private final MetadataTablePanel metadataPanel = new MetadataTablePanel();
-	private final FilesPanel filesPanel = new FilesPanel(this);
+	private final FilesTypeGroupComponentPanel filesPanel = new FilesTypeGroupComponentPanel(this);
 	private final TimelineTablePanel timelinePanel = 
 		new TimelineTablePanel(this, metadataPanel, filesPanel);
 	

@@ -28,4 +28,11 @@ public abstract class DialogBase extends JDialog {
 		if (addCloseButton) this.buttonPannel.add(new CloseDialogButton(this));
 	}
 	
+	protected final void showIt() {
+		super.setAlwaysOnTop(true);
+		super.toFront();
+		super.setVisible(true);
+		super.setAlwaysOnTop(false);
+	}
+	
 }

@@ -14,12 +14,12 @@ import astrogeist.engine.typesystem.Type;
 import astrogeist.engine.util.FilesUtil;
 import astrogeist.ui.swing.App;
 
-public final class FilesPanel extends JPanel {
+public final class FilesTypeGroupComponentPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
 	private App app;
 	
-	public FilesPanel(App app) { super.setLayout(new FlowLayout(FlowLayout.LEFT)); this.app = app; }
+	public FilesTypeGroupComponentPanel(App app) { super.setLayout(new FlowLayout(FlowLayout.LEFT)); this.app = app; }
 	
 	public void setData(Instant timestamp, LinkedHashMap<String, TimelineValue> data) {
 		var filePaths = new ArrayList<String>();

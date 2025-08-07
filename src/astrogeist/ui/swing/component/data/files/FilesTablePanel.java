@@ -2,10 +2,12 @@ package astrogeist.ui.swing.component.data.files;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.nio.file.Path;
 import java.time.Instant;
 import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
@@ -51,8 +53,24 @@ public class FilesTablePanel extends JPanel {
 		popupMenu.add(openInLocation);
 		popupMenu.add(openFile);
 		popupMenu.add(properties);
-
+		
 		table.setComponentPopupMenu(popupMenu);
+		
+		var buttons = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		
+		var openInLocationButton = new JButton("Open in Location");
+		openInLocationButton.addActionListener(e -> openInLocation());
+		buttons.add(openInLocationButton);
+		
+		var openFileButton = new JButton("Open");
+		openFileButton.addActionListener(e -> openFile());
+		buttons.add(openFileButton);
+		
+		var propertiesButton = new JButton("Properties");
+		propertiesButton.addActionListener(e -> openPropertiesDialog());
+		buttons.add(propertiesButton);
+		
+		super.add(buttons, BorderLayout.SOUTH);
 	}
 
 	public void setFiles(Type.DiskFile fileType, Instant timestamp, List<Path> files) { 
@@ -66,7 +84,10 @@ public class FilesTablePanel extends JPanel {
 			} catch (Exception x) {
 				MessageDialogs.showError("Failed to open file: ", x);
 			}
+		} else {
+			MessageDialogs.showInfo(this, NO_FILE_SELECTED_MESSAGE);
 		}
+		
 	}
 
 	private void openInLocation() {
@@ -77,6 +98,8 @@ public class FilesTablePanel extends JPanel {
 			} catch (Exception x) {
 				MessageDialogs.showError("Failed to open location: ", x);
 			}
+		} else {
+			MessageDialogs.showInfo(this, NO_FILE_SELECTED_MESSAGE);
 		}
 	}
 	
@@ -84,6 +107,10 @@ public class FilesTablePanel extends JPanel {
 		var entry = model.getEntry(table.getSelectedRow());
 		if (entry != null) {
 			FilePropertiesDialog.show(app, entry);
+		} else {
+			MessageDialogs.showInfo(this, NO_FILE_SELECTED_MESSAGE);
 		}
 	}
+	
+	private final static String NO_FILE_SELECTED_MESSAGE = "No file selected"; 
 }

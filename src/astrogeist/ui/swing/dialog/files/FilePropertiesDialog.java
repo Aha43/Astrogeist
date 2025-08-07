@@ -18,6 +18,6 @@ public class FilePropertiesDialog extends ModalDialogBase {
 		this.setLocationRelativeTo(app.getFrame());
 	}
 
-	public static final void show(App app, FileRecord file) { 
-		new FilePropertiesDialog(app, file).setVisible(true); }
+	public static final void show(App app, FileRecord file) {
+		new FilePropertiesDialog(app, file).showIt(); }
 }

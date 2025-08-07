@@ -19,7 +19,7 @@ import astrogeist.engine.timeline.Timeline;
 import astrogeist.engine.timeline.TimelineValue;
 import astrogeist.engine.userdata.UserDataIo;
 import astrogeist.ui.swing.App;
-import astrogeist.ui.swing.component.data.files.FilesPanel;
+import astrogeist.ui.swing.component.data.files.FilesTypeGroupComponentPanel;
 import astrogeist.ui.swing.component.data.metadata.MetadataTablePanel;
 import astrogeist.ui.swing.dialog.data.userdata.UserDataDialog;
 import astrogeist.ui.swing.dialog.message.MessageDialogs;
@@ -33,14 +33,14 @@ public final class TimelineTablePanel extends JPanel {
 	private final TimelineTableModel tableModel;
 	
 	private final MetadataTablePanel metadataTablePanel;
-	private final FilesPanel observationFilesPanel;
+	private final FilesTypeGroupComponentPanel observationFilesPanel;
 	
 	private final App app;
 
 	public TimelineTablePanel(
 		App app,
 		MetadataTablePanel metadataTablePanel,
-		FilesPanel observationFilesPanel) {
+		FilesTypeGroupComponentPanel observationFilesPanel) {
 		
 		super(new BorderLayout());
 		

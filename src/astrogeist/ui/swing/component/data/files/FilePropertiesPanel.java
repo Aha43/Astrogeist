@@ -1,10 +1,8 @@
 package astrogeist.ui.swing.component.data.files;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -25,21 +23,20 @@ public class FilePropertiesPanel extends JPanel {
 		add(scroll, BorderLayout.CENTER);
 
 		model.setProperties(new String[][]{
+			{"Type", file.fileType().getFileTypeName()},
 			{"Name", file.getName()},
 			{"Full Name", file.path().getFileName().toString()},
-			{"Extension", file.getExtension()},
-			{"Type", file.fileType().getFileTypeName()},
+			{"Path", file.path().toString()},
 			{"Size (KB)", Long.toString(file.sizeKB())},
 			{"Timestamp", file.timestamp().toString()},
-			{"Last Modified", file.lastModified()},
-			{"Path", file.path().toString()}
+			{"Last Modified", file.lastModified()}
 		});
 
 		// Future button bar for actions
-		var actionBar = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-		actionBar.add(new JButton("Open"));      // placeholder
-		actionBar.add(new JButton("Delete"));    // future
-		actionBar.add(new JButton("Rename"));    // future
-		add(actionBar, BorderLayout.SOUTH);
+		//var actionBar = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		//actionBar.add(new JButton("Open"));      // placeholder
+		//actionBar.add(new JButton("Delete"));    // future
+		//actionBar.add(new JButton("Rename"));    // future
+		//add(actionBar, BorderLayout.SOUTH);
 	}
 }

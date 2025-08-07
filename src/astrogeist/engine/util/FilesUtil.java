@@ -11,9 +11,11 @@ import astrogeist.Common;
 import astrogeist.engine.typesystem.Type;
 
 public final class FilesUtil {
-	public static String getBaseName(File file) {
-		var name = file.getName();
-		var dotIndex = name.lastIndexOf('.');
+	public static String getBaseName(File file) { return getBaseName(file.getName()); }
+	public static String getBaseName(Path path) { return getBaseName(path.getFileName().toString()); }
+	
+	private static String getBaseName(String name) {
+		int dotIndex = name.lastIndexOf('.');
 		var baseName = (dotIndex == -1) ? name : name.substring(0, dotIndex);
 		return baseName;
 	}

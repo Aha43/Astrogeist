@@ -20,9 +20,9 @@ public final class TimelineTableModel extends AbstractTableModel {
 	private final List<String> columns = new ArrayList<>();
 	private final LinkedHashMap<Instant, LinkedHashMap<String, TimelineValue>> rows = new LinkedHashMap<>();
 	
-	private static final String TIME_COLUMN = "Time";
+	private static final String TIME_COLUMN = "UTC";
 
-	public void setData(Timeline data) {
+	public final void setData(Timeline data) {
 		this.timeline = data;
 
 		this.timestamps.clear();
@@ -41,16 +41,16 @@ public final class TimelineTableModel extends AbstractTableModel {
 	    fireTableStructureChanged();
 	}
 	
-	public void setColumnsToShow(List<String> columns) {
+	public final void setColumnsToShow(List<String> columns) {
 		this.columns.clear();
 		this.columns.add(TIME_COLUMN);
 		this.columns.addAll(columns);
 		fireTableStructureChanged();
 	}
 	
-	public Timeline getData() { return this.timeline; }
+	public final Timeline getData() { return this.timeline; }
 	
-	public void update(Instant t, LinkedHashMap<String, TimelineValue> values) {
+	public final void update(Instant t, LinkedHashMap<String, TimelineValue> values) {
 		var existing = rows.get(t);
 		if (existing == null) return;
 
@@ -70,11 +70,11 @@ public final class TimelineTableModel extends AbstractTableModel {
 		if (rowIndex >= 0) fireTableRowsUpdated(rowIndex, rowIndex);
 	}
 
-	@Override public int getRowCount() { return this.timestamps.size(); }
-	@Override public int getColumnCount() { return this.columns.size(); }
-	@Override public String getColumnName(int column) { return this.columns.get(column); }
+	@Override public final int getRowCount() { return this.timestamps.size(); }
+	@Override public final int getColumnCount() { return this.columns.size(); }
+	@Override public final String getColumnName(int column) { return this.columns.get(column); }
 
-	@Override public Object getValueAt(int rowIndex, int columnIndex) {
+	@Override public final  Object getValueAt(int rowIndex, int columnIndex) {
 		var timestamp = this.timestamps.get(rowIndex);
 		var column = this.columns.get(columnIndex);
 
@@ -85,5 +85,5 @@ public final class TimelineTableModel extends AbstractTableModel {
 		return tlv.value();
 	}
 
-	public Instant getTimestampAt(int rowIndex) { return this.timestamps.get(rowIndex); }
+	public final Instant getTimestampAt(int rowIndex) { return this.timestamps.get(rowIndex); }
 }

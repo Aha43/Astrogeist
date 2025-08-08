@@ -28,7 +28,7 @@ public final class ToolBarFactory {
 		
 		button.addActionListener(e -> {
 			try {
-				var scanner = new CompositeScanner();
+				var scanner = new CompositeScanner(app.getUserDataIo());
 				app.getTimeline().clear();
 				scanner.scan(app.getTimeline());
 				tablePanel.setData(app.getTimeline());

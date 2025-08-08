@@ -23,15 +23,15 @@ public final class DefaultTimeline implements Timeline {
 	
 	public DefaultTimeline(TimelineValuePool timelineValuePool) { this.timelineValuePool = timelineValuePool; }
 	
-	public void clear() { this.timeline.clear(); }
+	@Override public void clear() { this.timeline.clear(); }
 	
-	public void put(Instant time, Path path) {
+	@Override public void put(Instant time, Path path) {
 		var fileName = path.getFileName().toString();
 		var tlv = this.timelineValuePool.get("file", path.toString());
 		this.timeline.computeIfAbsent(time, t -> new LinkedHashMap<>()).put(fileName, tlv);
 	}
 	
-	public void put(Instant time, LinkedHashMap<String, String> values) {
+	@Override public void put(Instant time, LinkedHashMap<String, String> values) {
 		var snapshot = this.timeline.get(time);
 		if (snapshot == null) {
 			snapshot = new LinkedHashMap<>();
@@ -47,7 +47,7 @@ public final class DefaultTimeline implements Timeline {
 		}
 	}
 	
-    public void put(Instant time, String key, String value) {
+	@Override public void put(Instant time, String key, String value) {
     	time = requireNonNull(time, "time");
     	key = requireNonEmpty(key, "key");
     	
@@ -58,20 +58,26 @@ public final class DefaultTimeline implements Timeline {
         this.timeline.computeIfAbsent(time, t -> new LinkedHashMap<>()).put(key, tlv);
     }
     
-    public void put(Instant)
+    @Override public void putTimelinesValues(Instant time, LinkedHashMap<String, TimelineValue> values) {
+    	for (var e : values.entrySet()) {
+    		var key = e.getKey();
+    		var tlv = e.getValue();
+    		this.timeline.computeIfAbsent(time, t -> new LinkedHashMap<>()).put(key, tlv);
+    	}
+    }
     
-    public String get(Instant time, String key) { 
+    @Override public String get(Instant time, String key) { 
     	var record = this.timeline.getOrDefault(time, new LinkedHashMap<>()).get(key);
     	return (record == null) ? null : record.value();
     }
     
-    public LinkedHashMap<String, TimelineValue> snapshot(Instant time) {
+    @Override public LinkedHashMap<String, TimelineValue> snapshot(Instant time) {
         return this.timeline.getOrDefault(time, new LinkedHashMap<>()); }
     
-    public List<TimelineValue> getOfType(Instant time, Type type) {
+    @Override public List<TimelineValue> getOfType(Instant time, Type type) {
         return TimelineUtil.getOfType(timeline.getOrDefault(time, new LinkedHashMap<>()), type); }
     
-    public Set<Instant> timestamps() { return new TreeSet<>(this.timeline.keySet()); }
+    @Override public Set<Instant> timestamps() { return new TreeSet<>(this.timeline.keySet()); }
     
     private Issues issues = new Issues();
     

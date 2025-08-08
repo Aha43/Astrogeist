@@ -11,7 +11,6 @@ import javax.swing.JPanel;
 import astrogeist.engine.resources.Resources;
 import astrogeist.engine.timeline.TimelineValue;
 import astrogeist.engine.userdata.UserDataDefinitions;
-import astrogeist.engine.userdata.UserDataIo;
 import astrogeist.ui.swing.App;
 import astrogeist.ui.swing.component.data.userdata.UserDataEditor;
 import astrogeist.ui.swing.dialog.ModalDialogBase;
@@ -59,7 +58,7 @@ public final class UserDataDialog extends ModalDialogBase {
 	private void save() {
 		try {
 			var values = this.editor.getValues();
-			UserDataIo.save(this.time, values);
+			app.getUserDataIo().save(this.time, values);
 			super.app.getTimelineTablePanel().update(this.time, values);
 		} catch (Exception x) {
 			MessageDialogs.showError(this, "Failed to save user data", x); 

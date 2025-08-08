@@ -16,7 +16,9 @@ public class UnitTest {
 			"100 ms",
 			"10.35ms",
 			"20.020 ms",
-			"20.020 mS");}
+			"20.020 mS",
+			"3,14ms",
+			"33,33 mS");}
 	public static void exposureShouldResolveMsStrings_(String... strings) {
 		for (var s : strings) {
 			var resolvedType = Type.Exposure().resolve(s);
@@ -31,7 +33,9 @@ public class UnitTest {
 			"100 s",
 			"10.35s",
 			"20.020 s",
-			"12.5S");}
+			"12.5S",
+			"3,14s",
+			"33,33 s");}
 	public static void exposureShouldResolveSecondsStrings_(String... strings) {
 		for (var s : strings) {
 			var resolvedType = Type.Exposure().resolve(s);
@@ -69,7 +73,5 @@ public class UnitTest {
 		that(result).isTrue();
 		System.out.println(Type.ExposureInSeconds() + " is a " + Type.ExposureInSeconds());
 	}
-	
-	//public static void is
 
 }

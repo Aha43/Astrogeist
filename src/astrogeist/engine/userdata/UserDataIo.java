@@ -10,12 +10,12 @@ import astrogeist.engine.timeline.TimelineValue;
 import astrogeist.engine.util.io.NameValueMapXml;
 
 public final class UserDataIo {
-	public static LinkedHashMap<String, String> load(Instant t) throws Exception {
+	public static LinkedHashMap<String, TimelineValue> load(Instant t) throws Exception {
 		var file = Resources.getUserDataFile(t);
 		if (!file.exists()) {
 			file.createNewFile();
 		}
-		var retVal = NameValueMapXml.load(file);
+		var retVal = NameValueMapXml.loadTimeKineValues(file);
 		return retVal;
 	}
 	

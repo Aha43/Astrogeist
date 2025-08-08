@@ -18,6 +18,7 @@ import org.w3c.dom.NodeList;
 
 import astrogeist.Common;
 import astrogeist.engine.timeline.TimelineValue;
+import astrogeist.engine.typesystem.Type;
 
 public final class NameValueMapXml {
 	public static void save(LinkedHashMap<String, String> data, File file) throws Exception {
@@ -93,6 +94,27 @@ public final class NameValueMapXml {
 
         return retVal;
     }
+	
+	public static LinkedHashMap<String, TimelineValue> loadTimeKineValues(File file) throws Exception {
+		LinkedHashMap<String, TimelineValue> retVal = new LinkedHashMap<>();
+        
+        if (file.length() == 0L) return retVal;
+
+        DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+        Document doc = docBuilder.parse(file);
+        doc.getDocumentElement().normalize();
+
+        NodeList list = doc.getElementsByTagName("e");
+        for (int i = 0; i < list.getLength(); i++) {
+            Element elem = (Element) list.item(i);
+            String key = elem.getAttribute("key");
+            String value = elem.getAttribute("value");
+            retVal.put(key, new TimelineValue(value, Type.Text()));
+        }
+
+        return retVal;
+	}
 
 	private NameValueMapXml() { Common.throwStaticClassInstantiateError(); }
 }

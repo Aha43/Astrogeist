@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import astrogeist.engine.resources.Resources;
+import astrogeist.engine.timeline.TimelineValue;
 import astrogeist.engine.userdata.UserDataDefinitions;
 import astrogeist.engine.userdata.UserDataIo;
 import astrogeist.ui.swing.App;
@@ -24,7 +25,7 @@ public final class UserDataDialog extends ModalDialogBase {
 	
 	private UserDataEditor editor;
 	
-	private UserDataDialog(App app, Instant time, LinkedHashMap<String, String> userData) {
+	private UserDataDialog(App app, Instant time, LinkedHashMap<String, TimelineValue> userData) {
 		super(app, "User Data");
 		
 		this.time = time;
@@ -65,6 +66,6 @@ public final class UserDataDialog extends ModalDialogBase {
 		}
 	}
 	
-	public static void show(App app, Instant t, LinkedHashMap<String, String> userData) { 
+	public static void show(App app, Instant t, LinkedHashMap<String, TimelineValue> userData) { 
 		new UserDataDialog(app, t, userData).setVisible(true); }
 }

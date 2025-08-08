@@ -15,22 +15,18 @@ import astrogeist.engine.typesystem.Type;
 
 public class Timeline {
 	private final LinkedHashMap<Instant, LinkedHashMap<String, TimelineValue>> timeline = new LinkedHashMap<>();
-
-	public void put(Instant time, String key, String value) { this.put(time, key, value, null); }
 	
-    public void put(Instant time, String key, String value, Type type) {
+    public void put(Instant time, String key, TimelineValue tlv) {
     	time = requireNonNull(time, "time");
     	key = requireNonEmpty(key, "key");
-    	
-    	value = value == null ? "" : value.trim();
     	
     	var normalizedKey = NormalizedProperties.getNormalized(key);
     	key = normalizedKey == null ? key : normalizedKey;
     	
-        this.timeline.computeIfAbsent(time, t -> new LinkedHashMap<>()).put(key, new TimelineValue(value, type));
+        this.timeline.computeIfAbsent(time, t -> new LinkedHashMap<>()).put(key, tlv);
     }
     
-    public void put(Instant time, LinkedHashMap<String, String> values) {
+    public void put(Instant time, LinkedHashMap<String, TimelineValue> values) {
     	for (var e : values.entrySet()) {
     		var key = NormalizedProperties.getNormalized(e.getKey());
     		if (key != null) put(time, key, e.getValue());

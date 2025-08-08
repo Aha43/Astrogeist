@@ -12,6 +12,7 @@ import astrogeist.engine.scanner.AbstractScanner;
 import astrogeist.engine.scanner.Scanner;
 import astrogeist.engine.scanner.capdata.fileparsers.CompositeFileParser;
 import astrogeist.engine.timeline.Timeline;
+import astrogeist.engine.timeline.TimelineValue;
 import astrogeist.engine.typesystem.Type;
 
 public class CapDataScanner extends AbstractScanner {
@@ -35,7 +36,8 @@ public class CapDataScanner extends AbstractScanner {
 			
 			var fileName = path.getFileName().toString();
 			
-			timeline.put(instant, fileName, path.toString(), Type.DiskFile().resolve(fileName));
+			timeline.put(instant, fileName, new TimelineValue(path.toString(), Type.DiskFile().resolve(fileName)));
+			//timeline.put(instant, fileName, path.toString(), Type.DiskFile().resolve(fileName));
 			
 			fileParser.parse(instant, path.toFile(), timeline);
 		}

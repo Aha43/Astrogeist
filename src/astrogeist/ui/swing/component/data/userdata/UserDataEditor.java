@@ -24,7 +24,7 @@ public final class UserDataEditor extends JPanel {
 	private final JTable table;
     private final UserDataDefinitionsTableModel model;
 
-    public UserDataEditor(List<UserDataDefinition> definitions, LinkedHashMap<String, String> currentValues) {
+    public UserDataEditor(List<UserDataDefinition> definitions, LinkedHashMap<String, TimelineValue> currentValues) {
         super(new BorderLayout());
         this.model = new UserDataDefinitionsTableModel(definitions, currentValues);
         this.table = new JTableWithPerRowEditor(model, definitions);
@@ -87,13 +87,13 @@ public final class UserDataEditor extends JPanel {
 		private final List<UserDataDefinition> defs;
         private final LinkedHashMap<String, TimelineValue> values;
 
-        public UserDataDefinitionsTableModel(List<UserDataDefinition> defs, LinkedHashMap<String, String> initialValues) {
+        public UserDataDefinitionsTableModel(List<UserDataDefinition> defs, LinkedHashMap<String, TimelineValue> initialValues) {
             this.defs = defs;
             this.values = new LinkedHashMap<>();
             for (var def : defs) {
                 var name = def.name();
-                var initialValue = initialValues.getOrDefault(name, ""); 
-                values.put(name, new TimelineValue(initialValue, Type.Text()));
+                var initialValue = initialValues.getOrDefault(name, TimelineValue.Empty); 
+                values.put(name, initialValue);
             }
         }
 

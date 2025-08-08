@@ -19,18 +19,37 @@ public final class Strings {
 	
 	public static boolean isNullOrBlank(String s) { return s == null || s.trim().isEmpty(); }
 	
+//	public static Optional<ParsedValue> parseNumberWithSuffix(String s) {
+//	    var pattern = Pattern.compile("^\\s*([+-]?\\d+(\\.\\d+)?)\\s*(.*)$");
+//	    var matcher = pattern.matcher(s);
+//
+//	    if (matcher.matches()) {
+//	        double number = Double.parseDouble(matcher.group(1));
+//	        String suffix = matcher.group(3).trim();
+//	        return Optional.of(new ParsedValue(number, suffix));
+//	    }
+//
+//	    return Optional.empty(); // not a valid number at the beginning
+//	}
+	
 	public static Optional<ParsedValue> parseNumberWithSuffix(String s) {
-	    var pattern = Pattern.compile("^\\s*([+-]?\\d+(\\.\\d+)?)\\s*(.*)$");
+	    // number = [+|-] digits [ '.' or ',' digits ], then optional suffix
+	    var pattern = Pattern.compile("^\\s*([+-]?\\d+(?:[\\.,]\\d+)?)\\s*(.*)$");
 	    var matcher = pattern.matcher(s);
 
-	    if (matcher.matches()) {
-	        double number = Double.parseDouble(matcher.group(1));
-	        String suffix = matcher.group(3).trim();
-	        return Optional.of(new ParsedValue(number, suffix));
-	    }
+	    if (!matcher.matches()) return Optional.empty();
 
-	    return Optional.empty(); // not a valid number at the beginning
+	    String numberPart = matcher.group(1).replace(',', '.'); // normalize
+	    String suffix = matcher.group(2).trim();
+
+	    try {
+	        double number = Double.parseDouble(numberPart);
+	        return Optional.of(new ParsedValue(number, suffix));
+	    } catch (NumberFormatException e) {
+	        return Optional.empty();
+	    }
 	}
+
 	
 	private Strings() { Common.throwStaticClassInstantiateError(); }
 }

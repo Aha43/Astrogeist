@@ -114,10 +114,10 @@ public abstract class Type {
 		@Override public Type getParentType() { return Type.Number(); }
 	}
 	
-	private static final Bin BIN_INSTANCE = new Bin();
-	public static final Bin Bin() { return BIN_INSTANCE; }
-	public static final class Bin extends Number {
-		private Bin() {}
+	private static final Binning BINNING_INSTANCE = new Binning();
+	public static final Binning Binning() { return BINNING_INSTANCE; }
+	public static final class Binning extends Number {
+		private Binning() {}
 		@Override public final Type getParentType() { return Type.Integer(); }
 		@Override public final boolean canBeZero() { return false; }
 		@Override public final boolean canBeNegative() { return false; }
@@ -139,13 +139,13 @@ public abstract class Type {
 		@Override public Type getParentType() { return Type.Decimal(); }
 		@Override public final boolean canBeZero() { return false; }
 		@Override public final boolean canBeNegative() { return false; }
-		public Exposure resolve(String s) {
+		public Type resolve(String s) {
 			if (s == null || s.trim().length() == 0) return null;
 			var parsed = Strings.parseNumberWithSuffix(s);
-			if (parsed.isEmpty()) return null;
+			if (parsed.isEmpty()) return VOID_INSTANCE;
 			var suffix = parsed.get().suffix().toLowerCase();
 			return (suffix.equals("ms") ? Type.ExposureInMilliseconds() : 
-				(suffix.equals("s") ? Type.ExposureInSeconds() : null));
+				(suffix.equals("s") ? Type.ExposureInSeconds() : VOID_INSTANCE));
 		}
 	}
 	

@@ -7,15 +7,15 @@ import javax.swing.JToolBar;
 
 import astrogeist.Common;
 import astrogeist.engine.scanner.CompositeScanner;
-import astrogeist.engine.timeline.Timeline;
+import astrogeist.ui.swing.App;
 import astrogeist.ui.swing.component.data.timeline.TimelineTablePanel;
 import astrogeist.ui.swing.dialog.message.MessageDialogs;
 
 public final class ToolBarFactory {
-	public static JToolBar createToolBar(TimelineTablePanel tablePanel) {
+	public static JToolBar createToolBar(App app, TimelineTablePanel tablePanel) {
 		var toolBar = new JToolBar();
 
-		toolBar.add(createScanButton(tablePanel));
+		toolBar.add(createScanButton(app, tablePanel));
 		toolBar.addSeparator();
 		toolBar.add(new JLabel("Filter: "));
 		toolBar.add(new JTextField(10));
@@ -23,16 +23,15 @@ public final class ToolBarFactory {
 		return toolBar;
 	}
 	
-	private static JButton createScanButton(TimelineTablePanel tablePanel) {
+	private static JButton createScanButton(App app, TimelineTablePanel tablePanel) {
 		var button = new JButton("Scan");
 		
 		button.addActionListener(e -> {
 			try {
 				var scanner = new CompositeScanner();
-				var timeline = new Timeline();
-				scanner.scan(timeline);
-							
-				tablePanel.setData(timeline);
+				app.getTimeline().clear();
+				scanner.scan(app.getTimeline());
+				tablePanel.setData(app.getTimeline());
 			} catch (Exception x) {
 				MessageDialogs.showError("Failed to scan", x);
 			}

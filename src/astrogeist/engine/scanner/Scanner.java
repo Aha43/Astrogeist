@@ -1,6 +1,6 @@
 package astrogeist.engine.scanner;
 
-import astrogeist.engine.timeline.Timeline;
+import astrogeist.engine.abstraction.Timeline;
 
 public interface Scanner {
 	void scan(Timeline timeline) throws Exception;

@@ -17,6 +17,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import astrogeist.Common;
+import astrogeist.engine.abstraction.TimelineValuePool;
 import astrogeist.engine.timeline.TimelineValue;
 import astrogeist.engine.typesystem.Type;
 
@@ -95,7 +96,9 @@ public final class NameValueMapXml {
         return retVal;
     }
 	
-	public static LinkedHashMap<String, TimelineValue> loadTimeKineValues(File file) throws Exception {
+	public static LinkedHashMap<String, TimelineValue> loadTimeLineValues(
+		TimelineValuePool pool, File file) throws Exception {
+		
 		LinkedHashMap<String, TimelineValue> retVal = new LinkedHashMap<>();
         
         if (file.length() == 0L) return retVal;
@@ -110,7 +113,8 @@ public final class NameValueMapXml {
             Element elem = (Element) list.item(i);
             String key = elem.getAttribute("key");
             String value = elem.getAttribute("value");
-            retVal.put(key, new TimelineValue(value, Type.Text()));
+            var tlv = pool.get(key, value);
+            retVal.put(key, tlv);
         }
 
         return retVal;

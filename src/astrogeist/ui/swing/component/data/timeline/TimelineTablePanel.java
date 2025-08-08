@@ -12,12 +12,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionListener;
 
+import astrogeist.engine.abstraction.Timeline;
 import astrogeist.engine.scanner.NormalizedProperties;
 import astrogeist.engine.setting.SettingKeys;
 import astrogeist.engine.setting.Settings;
-import astrogeist.engine.timeline.Timeline;
 import astrogeist.engine.timeline.TimelineValue;
-import astrogeist.engine.userdata.UserDataIo;
 import astrogeist.ui.swing.App;
 import astrogeist.ui.swing.component.data.files.FilesTypeGroupComponentPanel;
 import astrogeist.ui.swing.component.data.metadata.MetadataTablePanel;
@@ -109,7 +108,7 @@ public final class TimelineTablePanel extends JPanel {
 			if (selectedRow == -1) return;
 		
 			var t = this.getTimestampAtRow(selectedRow);
-			var userData = UserDataIo.load(t);
+			var userData = this.app.getUserDataIo().load(t);
 			
 			UserDataDialog.show(this.app, t, userData);
 		} catch(Exception x) {

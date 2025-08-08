@@ -8,12 +8,9 @@ import astrogeist.engine.setting.Settings;
 import astrogeist.ui.swing.dialog.message.MessageDialogs;
 
 public abstract class AbstractScanner implements Scanner {
-	
-	private final File rootDir;
+	protected final File rootDir;
 	
 	protected AbstractScanner(File rootDir) { this.rootDir = rootDir; }
-	
-	protected File getRootDir() { return this.rootDir; }
 	
 	protected static List<File> getRoots() {
 		var roots = Settings.getPaths(SettingKeys.DATA_ROOTS);

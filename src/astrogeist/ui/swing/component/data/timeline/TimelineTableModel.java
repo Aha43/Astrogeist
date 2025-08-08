@@ -7,8 +7,8 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
+import astrogeist.engine.abstraction.Timeline;
 import astrogeist.engine.resources.Time;
-import astrogeist.engine.timeline.Timeline;
 import astrogeist.engine.timeline.TimelineValue;
 
 public final class TimelineTableModel extends AbstractTableModel {

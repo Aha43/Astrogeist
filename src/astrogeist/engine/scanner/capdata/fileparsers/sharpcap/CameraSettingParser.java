@@ -10,15 +10,12 @@ import java.util.logging.Logger;
 
 import astrogeist.Common;
 import astrogeist.engine.logging.Log;
-import astrogeist.engine.timeline.TimelineValue;
-import astrogeist.engine.typesystem.Type;
-import astrogeist.engine.typesystem.TypeResolver;
 
 public final class CameraSettingParser {
 	private static Logger _logger = Log.get(CameraSettingParser.class);
 	
-	public static LinkedHashMap<String, TimelineValue> parseFile(File file) {
-	    LinkedHashMap<String, TimelineValue> data = new LinkedHashMap<>();
+	public static LinkedHashMap<String, String> parseFile(File file) {
+	    LinkedHashMap<String, String> data = new LinkedHashMap<>();
 	    
 	    try (var reader = new BufferedReader(new FileReader(file))) {
 	        var line = "";
@@ -32,7 +29,7 @@ public final class CameraSettingParser {
 	                firstLine = false;
 	                if (line.startsWith("[") && line.endsWith("]")) {
 	                    var cameraType = line.substring(1, line.length() - 1).trim();
-	                    data.put("camera", new TimelineValue(cameraType, Type.Text()));
+	                    data.put("camera", cameraType);
 	                }
 	                continue;
 	            }
@@ -42,8 +39,7 @@ public final class CameraSettingParser {
 	                var key = line.substring(0, equalsIndex).trim();
 	                var value = line.substring(equalsIndex + 1).trim();
 	                
-	                var type = TypeResolver.resolve(key, value);
-	                data.put(key, new TimelineValue(value, type));
+	                data.put(key, value);
 	            }
 	        }
 

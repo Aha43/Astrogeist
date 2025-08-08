@@ -7,13 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import astrogeist.engine.abstraction.Timeline;
 import astrogeist.engine.logging.Log;
 import astrogeist.engine.scanner.AbstractScanner;
 import astrogeist.engine.scanner.Scanner;
 import astrogeist.engine.scanner.capdata.fileparsers.CompositeFileParser;
-import astrogeist.engine.timeline.Timeline;
-import astrogeist.engine.timeline.TimelineValue;
-import astrogeist.engine.typesystem.Type;
 
 public class CapDataScanner extends AbstractScanner {
 	private final Logger logger = Log.get(this);
@@ -24,9 +22,8 @@ public class CapDataScanner extends AbstractScanner {
 	
 	protected CapDataScanner(File rootDir) { super(rootDir); }
 
-	@Override
-	public void scan(Timeline timeline) throws Exception {
-		var paths = getPaths(super.getRootDir());
+	@Override public void scan(Timeline timeline) throws Exception {
+		var paths = getPaths(super.rootDir);
 		for (var path : paths) {
 			this.logger.info("analyze path: " + path.toString());
 			var instant = this.utcExtractor.extract(path);
@@ -34,9 +31,9 @@ public class CapDataScanner extends AbstractScanner {
 			
 			this.logger.info("  extracted time: " + instant.toString());
 			
-			var fileName = path.getFileName().toString();
+			timeline.put(instant, path);
 			
-			timeline.put(instant, fileName, new TimelineValue(path.toString(), Type.DiskFile().resolve(fileName)));
+			//timeline.put(instant, fileName, new TimelineValue(path.toString(), Type.DiskFile().resolve(fileName)));
 			//timeline.put(instant, fileName, path.toString(), Type.DiskFile().resolve(fileName));
 			
 			fileParser.parse(instant, path.toFile(), timeline);

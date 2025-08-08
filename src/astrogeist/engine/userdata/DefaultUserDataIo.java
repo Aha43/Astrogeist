@@ -4,22 +4,28 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
-import astrogeist.Common;
+import astrogeist.engine.abstraction.TimelineValuePool;
+import astrogeist.engine.abstraction.UserDataIo;
 import astrogeist.engine.resources.Resources;
 import astrogeist.engine.timeline.TimelineValue;
 import astrogeist.engine.util.io.NameValueMapXml;
 
-public final class UserDataIo {
-	public static LinkedHashMap<String, TimelineValue> load(Instant t) throws Exception {
+public final class DefaultUserDataIo implements UserDataIo {
+	private final TimelineValuePool timelineValuePool;
+	
+	public DefaultUserDataIo(TimelineValuePool timelineValuePool) {
+		this.timelineValuePool = timelineValuePool; }
+	
+	public LinkedHashMap<String, TimelineValue> load(Instant t) throws Exception {
 		var file = Resources.getUserDataFile(t);
 		if (!file.exists()) {
 			file.createNewFile();
 		}
-		var retVal = NameValueMapXml.loadTimeKineValues(file);
+		var retVal = NameValueMapXml.loadTimeLineValues(this.timelineValuePool, file);
 		return retVal;
 	}
 	
-	public static void save(Instant t, LinkedHashMap<String, TimelineValue> userData) throws Exception {
+	public void save(Instant t, LinkedHashMap<String, TimelineValue> userData) throws Exception {
 		var file = Resources.getUserDataFile(t);
 		var valuesToSave = new LinkedHashMap<>(userData);
 		removeDeleted(valuesToSave);
@@ -33,7 +39,4 @@ public final class UserDataIo {
 		}
 		for (var k : keys) userData.remove(k);
 	}
-
-	private UserDataIo() { Common.throwStaticClassInstantiateError(); }
-	
 }

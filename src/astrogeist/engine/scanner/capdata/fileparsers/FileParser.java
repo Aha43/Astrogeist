@@ -3,7 +3,7 @@ package astrogeist.engine.scanner.capdata.fileparsers;
 import java.io.File;
 import java.time.Instant;
 
-import astrogeist.engine.timeline.Timeline;
+import astrogeist.engine.abstraction.Timeline;
 
 public interface FileParser {
 	boolean canParse(File file);

@@ -11,7 +11,15 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 
+import astrogeist.engine.abstraction.Timeline;
+import astrogeist.engine.abstraction.TimelineValuePool;
+import astrogeist.engine.abstraction.TypeResolver;
+import astrogeist.engine.abstraction.UserDataIo;
 import astrogeist.engine.resources.Resources;
+import astrogeist.engine.timeline.DefaultTimeline;
+import astrogeist.engine.timeline.DefaultTimelineValuePool;
+import astrogeist.engine.typesystem.DefaultTypeResolver;
+import astrogeist.engine.userdata.DefaultUserDataIo;
 import astrogeist.ui.swing.component.data.files.FilesTypeGroupComponentPanel;
 import astrogeist.ui.swing.component.data.metadata.MetadataTablePanel;
 import astrogeist.ui.swing.component.data.timeline.TimelineTablePanel;
@@ -19,6 +27,20 @@ import astrogeist.ui.swing.menubar.MenuBarFactory;
 import astrogeist.ui.swing.toolbar.ToolBarFactory;
 
 public final class App {
+	
+	// Move to engine class.
+	private final TypeResolver typeResolver = new DefaultTypeResolver(); 
+	private final TimelineValuePool timelineValuePool = new DefaultTimelineValuePool(this.typeResolver); 
+	private final Timeline timeline = new DefaultTimeline(this.timelineValuePool);
+	private final UserDataIo userDataIo = new DefaultUserDataIo(this.timelineValuePool);
+	
+	public Timeline getTimeline() { return this.timeline; }
+	public UserDataIo getUserDataIo() { return this.userDataIo; }
+	
+	
+	// <- Move to engine class.
+	
+	
 	private JFrame frame = null;
 	
 	private final MetadataTablePanel metadataPanel = new MetadataTablePanel();
@@ -36,7 +58,7 @@ public final class App {
 
 		this.frame.setJMenuBar(MenuBarFactory.createMenuBar(this));
 		
-		this.frame.add(ToolBarFactory.createToolBar(this.timelinePanel), BorderLayout.NORTH);
+		this.frame.add(ToolBarFactory.createToolBar(this, this.timelinePanel), BorderLayout.NORTH);
 
 		var timelineScroll = new JScrollPane(this.timelinePanel);
 

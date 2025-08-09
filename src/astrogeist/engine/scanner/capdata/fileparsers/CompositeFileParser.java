@@ -5,6 +5,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+import astrogeist.engine.abstraction.FileParser;
 import astrogeist.engine.abstraction.Timeline;
 import astrogeist.engine.scanner.capdata.fileparsers.sharpcap.SharpCapFileParser;
 

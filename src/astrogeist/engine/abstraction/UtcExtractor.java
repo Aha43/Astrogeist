@@ -1,4 +1,4 @@
-package astrogeist.engine.scanner.capdata;
+package astrogeist.engine.abstraction;
 
 import java.nio.file.Path;
 import java.time.Instant;

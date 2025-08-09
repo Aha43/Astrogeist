@@ -22,7 +22,7 @@ public final class UserDataScanner extends AbstractScanner {
 				var name = FilesUtil.getBaseName(file);
 				var t = Instants.fromFileSafeString(name);
 				var userData = this.userDataIo.load(t);
-				timeline.putTimelinesValues(t, userData);
+				timeline.putTimelineValues(t, userData);
 			}
 		} catch (Exception x) {
 			System.err.println(x.getLocalizedMessage());

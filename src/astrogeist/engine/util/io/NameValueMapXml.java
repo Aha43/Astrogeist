@@ -19,7 +19,6 @@ import org.w3c.dom.NodeList;
 import astrogeist.Common;
 import astrogeist.engine.abstraction.TimelineValuePool;
 import astrogeist.engine.timeline.TimelineValue;
-import astrogeist.engine.typesystem.Type;
 
 public final class NameValueMapXml {
 	public static void save(LinkedHashMap<String, String> data, File file) throws Exception {

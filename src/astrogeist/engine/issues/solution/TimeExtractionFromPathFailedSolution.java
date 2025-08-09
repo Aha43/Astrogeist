@@ -1,5 +1,6 @@
 package astrogeist.engine.issues.solution;
 
+import astrogeist.engine.abstraction.Solution;
 import astrogeist.engine.issues.Issue;
 
 public class TimeExtractionFromPathFailedSolution implements Solution {

@@ -1,7 +1,7 @@
 package astrogeist.ui.swing.component.data.metadata;
 
 import java.awt.BorderLayout;
-import java.util.LinkedHashMap;
+import java.util.Map;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -28,10 +28,9 @@ public final class MetadataTablePanel extends JPanel {
 		this.add(scrollPane, BorderLayout.CENTER);
 	}
 
-	public void setData(LinkedHashMap<String, TimelineValue> data) { this.tableModel.setData(data); }
+	public void setData(Map<String, TimelineValue> data) { this.tableModel.setData(data); }
 	public JTable getTable() { return this.table; }
 	public MetadataTableModel getTableModel() { return this.tableModel; }
 	
 	public void clear() { this.tableModel.clear(); }
-
 }

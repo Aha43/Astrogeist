@@ -3,8 +3,8 @@ package astrogeist.engine.scanner.capdata.fileparsers.sharpcap;
 import java.io.File;
 import java.time.Instant;
 
+import astrogeist.engine.abstraction.FileParser;
 import astrogeist.engine.abstraction.Timeline;
-import astrogeist.engine.scanner.capdata.fileparsers.FileParser;
 
 public class SharpCapFileParser implements FileParser {
 	@Override public boolean canParse(File file) { 

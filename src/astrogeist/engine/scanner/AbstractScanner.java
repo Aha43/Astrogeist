@@ -3,6 +3,7 @@ package astrogeist.engine.scanner;
 import java.io.File;
 import java.util.List;
 
+import astrogeist.engine.abstraction.Scanner;
 import astrogeist.engine.setting.SettingKeys;
 import astrogeist.engine.setting.Settings;
 import astrogeist.ui.swing.dialog.message.MessageDialogs;

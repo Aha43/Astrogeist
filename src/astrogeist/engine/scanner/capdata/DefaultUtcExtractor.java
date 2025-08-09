@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import astrogeist.engine.abstraction.UtcExtractor;
 import astrogeist.engine.logging.Log;
 
 public class DefaultUtcExtractor implements UtcExtractor  {

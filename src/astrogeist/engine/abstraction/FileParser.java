@@ -1,9 +1,7 @@
-package astrogeist.engine.scanner.capdata.fileparsers;
+package astrogeist.engine.abstraction;
 
 import java.io.File;
 import java.time.Instant;
-
-import astrogeist.engine.abstraction.Timeline;
 
 public interface FileParser {
 	boolean canParse(File file);

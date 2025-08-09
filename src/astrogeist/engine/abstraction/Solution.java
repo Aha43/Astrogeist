@@ -1,4 +1,4 @@
-package astrogeist.engine.issues.solution;
+package astrogeist.engine.abstraction;
 
 import astrogeist.engine.issues.Issue;
 

@@ -11,15 +11,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 
-import astrogeist.engine.abstraction.Timeline;
-import astrogeist.engine.abstraction.TimelineValuePool;
-import astrogeist.engine.abstraction.TypeResolver;
-import astrogeist.engine.abstraction.UserDataIo;
+import astrogeist.engine.Services;
 import astrogeist.engine.resources.Resources;
-import astrogeist.engine.timeline.DefaultTimeline;
-import astrogeist.engine.timeline.DefaultTimelineValuePool;
-import astrogeist.engine.typesystem.DefaultTypeResolver;
-import astrogeist.engine.userdata.DefaultUserDataIo;
 import astrogeist.ui.swing.component.data.files.FilesTypeGroupComponentPanel;
 import astrogeist.ui.swing.component.data.metadata.MetadataTablePanel;
 import astrogeist.ui.swing.component.data.timeline.TimelineTablePanel;
@@ -27,19 +20,7 @@ import astrogeist.ui.swing.menubar.MenuBarFactory;
 import astrogeist.ui.swing.toolbar.ToolBarFactory;
 
 public final class App {
-	
-	// Move to engine class.
-	private final TypeResolver typeResolver = new DefaultTypeResolver(); 
-	private final TimelineValuePool timelineValuePool = new DefaultTimelineValuePool(this.typeResolver); 
-	private final Timeline timeline = new DefaultTimeline(this.timelineValuePool);
-	private final UserDataIo userDataIo = new DefaultUserDataIo(this.timelineValuePool);
-	
-	public Timeline getTimeline() { return this.timeline; }
-	public UserDataIo getUserDataIo() { return this.userDataIo; }
-	
-	
-	// <- Move to engine class.
-	
+	private final Services services = new Services();
 	
 	private JFrame frame = null;
 	
@@ -47,6 +28,10 @@ public final class App {
 	private final FilesTypeGroupComponentPanel filesPanel = new FilesTypeGroupComponentPanel(this);
 	private final TimelineTablePanel timelinePanel = 
 		new TimelineTablePanel(this, metadataPanel, filesPanel);
+	
+	public App() {}
+	
+	public Services getServices() { return this.services; }
 	
 	public TimelineTablePanel getTimelineTablePanel() { return this.timelinePanel; }
 	

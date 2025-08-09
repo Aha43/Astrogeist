@@ -7,10 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import astrogeist.engine.abstraction.Scanner;
 import astrogeist.engine.abstraction.Timeline;
+import astrogeist.engine.abstraction.UtcExtractor;
 import astrogeist.engine.logging.Log;
 import astrogeist.engine.scanner.AbstractScanner;
-import astrogeist.engine.scanner.Scanner;
 import astrogeist.engine.scanner.capdata.fileparsers.CompositeFileParser;
 
 public class CapDataScanner extends AbstractScanner {
@@ -32,9 +33,6 @@ public class CapDataScanner extends AbstractScanner {
 			this.logger.info("  extracted time: " + instant.toString());
 			
 			timeline.put(instant, path);
-			
-			//timeline.put(instant, fileName, new TimelineValue(path.toString(), Type.DiskFile().resolve(fileName)));
-			//timeline.put(instant, fileName, path.toString(), Type.DiskFile().resolve(fileName));
 			
 			fileParser.parse(instant, path.toFile(), timeline);
 		}

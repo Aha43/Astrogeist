@@ -3,8 +3,8 @@ package astrogeist.ui.swing.component.data.files;
 import java.awt.FlowLayout;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JPanel;
 
@@ -21,7 +21,7 @@ public final class FilesTypeGroupComponentPanel extends JPanel {
 	
 	public FilesTypeGroupComponentPanel(App app) { super.setLayout(new FlowLayout(FlowLayout.LEFT)); this.app = app; }
 	
-	public void setData(Instant timestamp, LinkedHashMap<String, TimelineValue> data) {
+	public void setData(Instant timestamp, Map<String, TimelineValue> data) {
 		var filePaths = new ArrayList<String>();
 		for (var v : TimelineUtil.getOfType(data, Type.DiskFile())) filePaths.add(v.value());
 		setFiles(timestamp, filePaths);

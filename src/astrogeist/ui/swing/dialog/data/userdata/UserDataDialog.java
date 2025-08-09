@@ -58,7 +58,7 @@ public final class UserDataDialog extends ModalDialogBase {
 	private void save() {
 		try {
 			var values = this.editor.getValues();
-			app.getUserDataIo().save(this.time, values);
+			app.getServices().getUserDataIo().save(this.time, values);
 			super.app.getTimelineTablePanel().update(this.time, values);
 		} catch (Exception x) {
 			MessageDialogs.showError(this, "Failed to save user data", x); 

@@ -1,7 +1,6 @@
 package astrogeist.ui.swing.component.data.metadata;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +15,7 @@ public class MetadataTableModel extends AbstractTableModel {
 
     private final List<Map.Entry<String, TimelineValue>> entries = new ArrayList<>();
 
-    public void setData(LinkedHashMap<String, TimelineValue> data) {
+    public void setData(Map<String, TimelineValue> data) {
         this.entries.clear();
         if (data != null) {
         	var withNoFiles = TimelineUtil.getExcludingTypeMap(data, Type.DiskFile());

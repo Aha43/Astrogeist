@@ -7,7 +7,6 @@ import java.util.Optional;
 import java.util.regex.Pattern;
 
 import astrogeist.Common;
-import astrogeist.engine.typesystem.ParsedValue;
 
 public final class Strings {
 	public static List<String> fromCsv(String s) {
@@ -32,7 +31,7 @@ public final class Strings {
 //	    return Optional.empty(); // not a valid number at the beginning
 //	}
 	
-	public static Optional<ParsedValue> parseNumberWithSuffix(String s) {
+	public static Optional<ParsedSuffixNumberValue> parseNumberWithSuffix(String s) {
 	    // number = [+|-] digits [ '.' or ',' digits ], then optional suffix
 	    var pattern = Pattern.compile("^\\s*([+-]?\\d+(?:[\\.,]\\d+)?)\\s*(.*)$");
 	    var matcher = pattern.matcher(s);
@@ -44,7 +43,7 @@ public final class Strings {
 
 	    try {
 	        double number = Double.parseDouble(numberPart);
-	        return Optional.of(new ParsedValue(number, suffix));
+	        return Optional.of(new ParsedSuffixNumberValue(number, suffix));
 	    } catch (NumberFormatException e) {
 	        return Optional.empty();
 	    }

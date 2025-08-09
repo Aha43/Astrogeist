@@ -28,10 +28,13 @@ public final class ToolBarFactory {
 		
 		button.addActionListener(e -> {
 			try {
-				var scanner = new CompositeScanner(app.getUserDataIo());
-				app.getTimeline().clear();
-				scanner.scan(app.getTimeline());
-				tablePanel.setData(app.getTimeline());
+				var scanner = new CompositeScanner(app.getServices().getUserDataIo());
+				
+				var timeline = app.getServices().getTimeline();
+				
+				timeline.clear();
+				scanner.scan(timeline);
+				tablePanel.setData(timeline);
 			} catch (Exception x) {
 				MessageDialogs.showError("Failed to scan", x);
 			}

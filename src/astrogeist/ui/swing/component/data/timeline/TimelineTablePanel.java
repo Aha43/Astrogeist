@@ -108,7 +108,7 @@ public final class TimelineTablePanel extends JPanel {
 			if (selectedRow == -1) return;
 		
 			var t = this.getTimestampAtRow(selectedRow);
-			var userData = this.app.getUserDataIo().load(t);
+			var userData = this.app.getServices().getUserDataIo().load(t);
 			
 			UserDataDialog.show(this.app, t, userData);
 		} catch(Exception x) {

@@ -3,6 +3,7 @@ package astrogeist.engine.scanner;
 import java.util.ArrayList;
 import java.util.List;
 
+import astrogeist.engine.abstraction.Scanner;
 import astrogeist.engine.abstraction.Timeline;
 import astrogeist.engine.abstraction.UserDataIo;
 import astrogeist.engine.scanner.capdata.CapDataScanner;

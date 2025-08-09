@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.table.AbstractTableModel;
 
@@ -18,7 +19,7 @@ public final class TimelineTableModel extends AbstractTableModel {
 	
 	private final List<Instant> timestamps = new ArrayList<>();
 	private final List<String> columns = new ArrayList<>();
-	private final LinkedHashMap<Instant, LinkedHashMap<String, TimelineValue>> rows = new LinkedHashMap<>();
+	private final LinkedHashMap<Instant, Map<String, TimelineValue>> rows = new LinkedHashMap<>();
 	
 	private static final String TIME_COLUMN = "UTC";
 

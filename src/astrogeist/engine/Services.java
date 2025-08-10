@@ -17,5 +17,4 @@ public final class Services {
 	
 	public Timeline getTimeline() { return this.timeline; }
 	public UserDataIo getUserDataIo() { return this.userDataIo; }
-
 }

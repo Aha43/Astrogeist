@@ -70,8 +70,6 @@ public final class TimelineTableModel extends AbstractTableModel {
 	    if (rowIndex >= 0) fireTableRowsUpdated(rowIndex, rowIndex);
 	}
 
-
-
 	@Override public final int getRowCount() { return this.timestamps.size(); }
 	@Override public final int getColumnCount() { return this.columns.size(); }
 	@Override public final String getColumnName(int column) { return this.columns.get(column); }
@@ -88,4 +86,11 @@ public final class TimelineTableModel extends AbstractTableModel {
 	}
 
 	public final Instant getTimestampAt(int rowIndex) { return this.timestamps.get(rowIndex); }
+	
+	public final Map<String, TimelineValue> getSnapshotAt(int rowIndex) {
+		var time = this.timestamps.get(rowIndex);
+		var retVal = this.timeline.snapshot(time);
+		return retVal;
+	}
+	
 }

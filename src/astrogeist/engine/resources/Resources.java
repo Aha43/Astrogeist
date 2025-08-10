@@ -9,11 +9,18 @@ import astrogeist.Common;
 import astrogeist.engine.util.Instants;
 
 public final class Resources {
+	private Resources() { Common.throwStaticClassInstantiateError(); }
+	
 	private static boolean _dev = true;
 	
 	public static final String LOGO_PATH = "/astrogeist/engine/resources/logo.png";
 	
 	private static URL _logoUrl = null;
+	
+	public static void setDevelopmentMode(boolean v) { _dev = v; }
+	
+	public static boolean isDevelopmentMode() { return _dev; }
+	
 	public static URL getLogoUrl(Object o) { 
 		if (_logoUrl != null) return _logoUrl;
 		_logoUrl = o.getClass().getResource(LOGO_PATH);
@@ -92,8 +99,5 @@ public final class Resources {
 	}
 	
 	private static void checkGotAstrogeistDir() {
-		if (_astrogeistDir == null) throw new AssertionError("Missing astrogeist dir");
-	}
-
-	private Resources() { Common.throwStaticClassInstantiateError(); }
+		if (_astrogeistDir == null) throw new AssertionError("Missing astrogeist dir"); }
 }

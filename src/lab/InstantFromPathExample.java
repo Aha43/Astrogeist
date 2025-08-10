@@ -1,12 +1,10 @@
 package lab;
 
 import java.nio.file.Path;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import java.nio.file.Path;
-import java.time.*;
-import java.time.format.DateTimeFormatter;
+import java.time.DateTimeException;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -31,8 +29,6 @@ public class InstantFromPathExample {
             String second = timeMatcher.group(3);
 
             String dateTimeStr = date + "T" + hour + ":" + minute + ":" + second;
-            DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
-
             try {
                 LocalDateTime ldt = LocalDateTime.parse(dateTimeStr);
                 Instant instant = ldt.atZone(ZoneId.of("UTC")).toInstant();

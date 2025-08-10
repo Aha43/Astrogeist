@@ -5,8 +5,10 @@ import java.awt.FlowLayout;
 import java.time.Instant;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -20,6 +22,9 @@ import astrogeist.engine.timeline.TimelineValue;
 import astrogeist.ui.swing.App;
 import astrogeist.ui.swing.component.data.files.FilesTypeGroupComponentPanel;
 import astrogeist.ui.swing.component.data.metadata.MetadataTablePanel;
+import astrogeist.ui.swing.component.data.timeline.selectionaction.AbstractSelectionAction;
+import astrogeist.ui.swing.component.data.timeline.selectionaction.NoSelectionAction;
+import astrogeist.ui.swing.component.data.timeline.selectionaction.SelectionActionsComboBox;
 import astrogeist.ui.swing.dialog.data.userdata.UserDataDialog;
 import astrogeist.ui.swing.dialog.message.MessageDialogs;
 import astrogeist.ui.swing.dialog.selection.SelectionDialog;
@@ -90,6 +95,33 @@ public final class TimelineTablePanel extends JPanel {
 		buttonPanel.add(userPropsButton);
 		
 		this.add(buttonPanel, BorderLayout.SOUTH);
+		this.add(createNorthPanel(), BorderLayout.NORTH);
+	}
+	
+	private JPanel createNorthPanel() {
+		var retVal = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		
+		var selectionActionsComboBox = new SelectionActionsComboBox();
+		
+		retVal.add(new JLabel("Selection Action: "));
+		retVal.add(selectionActionsComboBox);
+		
+		this.table.getSelectionModel().addListSelectionListener(e -> {
+			if (e.getValueIsAdjusting()) return;
+	        int viewRow = table.getSelectedRow();
+	        if (viewRow < 0) return;
+
+	        var action =  (AbstractSelectionAction)selectionActionsComboBox.getSelectedItem();
+	        if (action == null || action == NoSelectionAction.INSTANCE) return;
+
+	        int modelRow = table.convertRowIndexToModel(viewRow);
+	        var snapshot = this.tableModel.getSnapshotAt(modelRow); // implement this getter
+	        if (snapshot == null) return;
+
+	        action.Perform(snapshot);
+		});
+		
+		return retVal;
 	}
 	
 	private static void saveSelectedColumns(List<String> selected) {
@@ -129,14 +161,19 @@ public final class TimelineTablePanel extends JPanel {
 	public TimelineTableModel getTableModel() { return this.tableModel; }
 	
 	public void addSelectionListener(ListSelectionListener l) {
-		this.table.getSelectionModel().addListSelectionListener(l);
-	}
+		this.table.getSelectionModel().addListSelectionListener(l); }
 	
 	public int getSelectedRow() {
 		int selectedRow = this.table.getSelectedRow();
 		if (selectedRow == -1) return -1;
 		int modelRow = this.table.convertRowIndexToModel(selectedRow);
 		return modelRow;
+	}
+	
+	public Map<String, TimelineValue> getSelectedSnapshot() {
+		var selectedRow = this.getSelectedRow();
+		if (selectedRow == -1) return null;
+		return this.tableModel.getSnapshotAt(selectedRow);
 	}
 	
 	public Instant getTimestampAtRow(int rowIndex) { return this.tableModel.getTimestampAt(rowIndex); }

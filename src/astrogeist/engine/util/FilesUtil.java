@@ -2,10 +2,13 @@ package astrogeist.engine.util;
 
 import java.util.List;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import astrogeist.Common;
 import astrogeist.engine.typesystem.Type;
@@ -52,6 +55,18 @@ public final class FilesUtil {
 
         return grouped;
     }
+	
+	public static List<Path> getRegularFilePaths(Path dir) throws IOException {
+		try (var stream = Files.find(
+				dir,
+		        Integer.MAX_VALUE,
+		        (p, a) -> a.isRegularFile() && !isHidden(p))) {
+		      return stream.collect(Collectors.toList());
+		    }
+	}
+	
+	public static boolean isHidden(Path file) { 
+		return file.getFileName().toString().startsWith("."); }
 	
 	private FilesUtil() { Common.throwStaticClassInstantiateError(); }
 }

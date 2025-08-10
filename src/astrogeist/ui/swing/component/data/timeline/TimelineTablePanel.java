@@ -121,6 +121,7 @@ public final class TimelineTablePanel extends JPanel {
 		this.metadataTablePanel.clear();
 		this.observationFilesPanel.clear();
 		this.tableModel.setColumnsToShow(Settings.getCsv(SettingKeys.TABLE_COLUMNS));
+		this.table.getColumnModel().getColumn(0).setPreferredWidth(150);
 	}
 	
 	public Timeline getData() { return this.tableModel.getData(); }

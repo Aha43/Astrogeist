@@ -23,8 +23,8 @@ public final class TimelineTableModel extends AbstractTableModel {
 	
 	private static final String TIME_COLUMN = "UTC";
 
-	public final void setData(Timeline data) {
-		this.timeline = data;
+	public final void setData(Timeline timeline) {
+		this.timeline = timeline;
 
 		this.timestamps.clear();
 		this.columns.clear();
@@ -34,8 +34,8 @@ public final class TimelineTableModel extends AbstractTableModel {
 		this.columns.add(TIME_COLUMN);
 
 	    // Load rows
-	    for (Instant t : data.timestamps()) {
-	        var snapshot = data.snapshot(t);
+	    for (Instant t : this.timeline.timestamps()) {
+	        var snapshot = this.timeline.snapshot(t);
 	        this.timestamps.add(t);
 	        this.rows.put(t, snapshot);
 	    }
@@ -52,24 +52,25 @@ public final class TimelineTableModel extends AbstractTableModel {
 	public final Timeline getData() { return this.timeline; }
 	
 	public final void update(Instant t, LinkedHashMap<String, TimelineValue> values) {
-		var existing = rows.get(t);
-		if (existing == null) return;
+	    // apply to Timeline first
+	    for (var e : values.entrySet()) {
+	        var key = e.getKey();
+	        var tlv = e.getValue();
+	        if (tlv == TimelineValue.Empty) {
+	            this.timeline.remove(t, key);
+	        } else {
+	            this.timeline.upsert(t, key, tlv);
+	        }
+	    }
 
-		for (var entry : values.entrySet()) {
-			String key = entry.getKey();
-			TimelineValue tlv = entry.getValue();
-			var value = tlv.value();
-			
-			if (value == null || value.isEmpty() || value.equals("-")) {
-				existing.remove(key); // delete
-			} else {
-				existing.put(key, tlv); // add/update
-			}
-		}
+	    // now refresh the table’s row cache from Timeline
+	    rows.put(t, new LinkedHashMap<>(this.timeline.snapshot(t)));
 
-		int rowIndex = timestamps.indexOf(t);
-		if (rowIndex >= 0) fireTableRowsUpdated(rowIndex, rowIndex);
+	    int rowIndex = timestamps.indexOf(t);
+	    if (rowIndex >= 0) fireTableRowsUpdated(rowIndex, rowIndex);
 	}
+
+
 
 	@Override public final int getRowCount() { return this.timestamps.size(); }
 	@Override public final int getColumnCount() { return this.columns.size(); }

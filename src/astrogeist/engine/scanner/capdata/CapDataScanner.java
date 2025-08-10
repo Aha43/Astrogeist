@@ -1,10 +1,7 @@
 package astrogeist.engine.scanner.capdata;
 
 import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Logger;
 
 import astrogeist.engine.abstraction.Scanner;
@@ -13,6 +10,7 @@ import astrogeist.engine.abstraction.UtcExtractor;
 import astrogeist.engine.logging.Log;
 import astrogeist.engine.scanner.AbstractScanner;
 import astrogeist.engine.scanner.capdata.fileparsers.CompositeFileParser;
+import astrogeist.engine.util.FilesUtil;
 
 public class CapDataScanner extends AbstractScanner {
 	private final Logger logger = Log.get(this);
@@ -24,24 +22,18 @@ public class CapDataScanner extends AbstractScanner {
 	protected CapDataScanner(File rootDir) { super(rootDir); }
 
 	@Override public void scan(Timeline timeline) throws Exception {
-		var paths = getPaths(super.rootDir);
+		var paths = FilesUtil.getRegularFilePaths(super.rootDir.toPath());
 		for (var path : paths) {
+			
 			this.logger.info("analyze path: " + path.toString());
+			
 			var instant = this.utcExtractor.extract(path);
 			if (instant == null) continue;
-			
-			this.logger.info("  extracted time: " + instant.toString());
 			
 			timeline.put(instant, path);
 			
 			fileParser.parse(instant, path.toFile(), timeline);
 		}
-	}
-	
-	private static List<Path> getPaths(File dir) throws Exception {
-		var retVal = new ArrayList<Path>();
-		Files.walk(dir.toPath()).filter(Files::isRegularFile).forEach(retVal::add);
-		return retVal;
 	}
 	
 	public static Scanner[] createScanners(){

@@ -15,4 +15,8 @@ public interface Timeline {
 	void putTimelineValues(Instant time, LinkedHashMap<String, TimelineValue> values);
 	Map<String, TimelineValue> snapshot(Instant time);
 	NavigableSet<Instant> timestamps();
+	void update(Instant t, Map<String, TimelineValue> values);   // add/update/remove
+	void updateStrings(Instant t, Map<String, String> values);   // convenience
+	void upsert(Instant t, String key, TimelineValue value);     // single key
+	void remove(Instant t, String key);                          // delete single key
 }

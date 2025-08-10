@@ -189,7 +189,7 @@ public abstract class Type {
 			switch (ext.toLowerCase()) {
 				case "txt"  : return Type.TxtFile();
 				case "ser"  : return Type.SerFile();
-				case "fits" : return Type.FitsFile();
+				case "fit"  : return Type.FitFile();
 				case "tif"  : return Type.TifFile();
 				case "jpg"  : return Type.JpgFile();
 				case "png"  : return Type.PngFile();
@@ -217,10 +217,10 @@ public abstract class Type {
 		@Override public final String getFileTypeName() { return "SER"; }
 	}
 	
-	private static final FitsFile FITSFILE_INSTANCE = new FitsFile();
-	public static final FitsFile FitsFile() { return FITSFILE_INSTANCE; }
-	public static final class FitsFile extends DiskFile {
-		private FitsFile() {}
+	private static final FitFile FITFILE_INSTANCE = new FitFile();
+	public static final FitFile FitFile() { return FITFILE_INSTANCE; }
+	public static final class FitFile extends DiskFile {
+		private FitFile() {}
 		@Override public final Type getParentType() { return Type.DiskFile(); }
 		@Override public final String getFileTypeName() { return "FIT"; }
 	}

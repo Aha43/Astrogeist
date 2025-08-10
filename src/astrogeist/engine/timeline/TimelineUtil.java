@@ -11,7 +11,9 @@ import astrogeist.engine.typesystem.Type;
 
 public final class TimelineUtil {
 	public static List<TimelineValue> getOfType(Map<String, TimelineValue> data, Type type){
-		return data.values().stream().filter(v -> Type.isA(v.type(), type)).collect(Collectors.toList()); }
+		var retVal = data.values().stream().filter(v -> Type.isA(v.type(), type)).collect(Collectors.toList()); 
+		return retVal;
+	}
 	
 	public static Map<String, TimelineValue> getExcludingTypeMap(
 	    Map<String, TimelineValue> data, Type type) {

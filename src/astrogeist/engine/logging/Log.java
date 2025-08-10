@@ -9,10 +9,10 @@ import java.util.logging.SimpleFormatter;
 import astrogeist.Common;
 
 public final class Log {
-    private static final String ROOT_NAME = "astrogeist";
+	private Log() { Common.throwStaticClassInstantiateError(); }
+	
+	private static final String ROOT_NAME = "astrogeist";
     private static final ConcurrentHashMap<String, Logger> cache = new ConcurrentHashMap<>();
-
-    private Log() { Common.throwStaticClassInstantiateError(); }
 
     public static Logger get(Object o) { return get(o.getClass()); }
 

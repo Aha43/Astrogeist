@@ -14,22 +14,26 @@ import astrogeist.engine.resources.Resources;
 import astrogeist.engine.util.ImageUtil;
 
 public final class MessageDialogs {
+	private MessageDialogs() { Common.throwStaticClassInstantiateError(); }
+	
 	private static final ImageIcon _errorIcon;
     private static final ImageIcon _warningIcon;
     private static final ImageIcon _infoIcon;
+    private static final ImageIcon _questionIcon;
     
     static {
         BufferedImage logoGray = ImageUtil.loadImage(Resources.LOGO_PATH); 
-        var iconSize = 256;
+        var iconSize = ImageUtil.dpiScaled(128);
         _errorIcon   = new ImageIcon(ImageUtil.scale(ImageUtil.tintPreserveLuminance(logoGray, new Color(220, 50, 47)), iconSize));
         _warningIcon = new ImageIcon(ImageUtil.scale(ImageUtil.tintPreserveLuminance(logoGray, new Color(255, 200, 0)), iconSize));
         _infoIcon    = new ImageIcon(ImageUtil.scale(ImageUtil.tintPreserveLuminance(logoGray, new Color(80, 180, 80)), iconSize));
+        
+        iconSize = ImageUtil.dpiScaled(64);
+        _questionIcon = new ImageIcon(ImageUtil.scale(ImageUtil.tintPreserveLuminance(logoGray, new Color(0x3B,0x82,0xF6)), iconSize));
     }
     
 	public static void showError(String message, Exception x) { showError(null, message, x); }
-
     public static void showWarning(String message) { showWarning(null, message); }
-
     public static void showInfo(String message) { showInfo(null, message); }
 	
 	public static void showError(Component parent, String message, Exception x) {
@@ -46,5 +50,15 @@ public final class MessageDialogs {
     public static void showInfo(Component parent, String message) {
         JOptionPane.showMessageDialog(parent, message, "Information", JOptionPane.INFORMATION_MESSAGE, _infoIcon); }
     
-    private MessageDialogs() { Common.throwStaticClassInstantiateError(); }
+    public static String prompt(Component parent, String title, String message) {
+    	return prompt(parent, title, message, ""); }
+    
+    public static String prompt(Component parent, String title, String message, String initial) {
+        return (String) JOptionPane.showInputDialog(
+            parent, message, title,
+            JOptionPane.QUESTION_MESSAGE, _questionIcon,
+            null, initial
+        );
+    }
+    
 }

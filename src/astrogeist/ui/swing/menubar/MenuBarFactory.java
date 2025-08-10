@@ -8,43 +8,53 @@ import astrogeist.Common;
 import astrogeist.ui.swing.App;
 import astrogeist.ui.swing.actions.ExitAction;
 import astrogeist.ui.swing.dialog.about.AboutDialog;
+import astrogeist.ui.swing.dialog.logging.LoggingControlDialog;
 import astrogeist.ui.swing.dialog.settings.SettingsDialog;
 
 public final class MenuBarFactory {
+	private MenuBarFactory() { Common.throwStaticClassInstantiateError(); }
 	
 	public static JMenuBar createMenuBar(App app) {
 		var menuBar = new JMenuBar();
-		menuBar.add(createFileMenu(app));
+		menuBar.add(createAstrogeistMenu(app));
+		menuBar.add(createDiagnosticMenu(app));
 		menuBar.add(createHelpMenu(app));
 		return menuBar;
 	}
 	
-	private static JMenu createFileMenu(App app) {
-		var fileMenu = new JMenu("File");
-		fileMenu.add(createSettingsItem(app));
-		fileMenu.add(createExitItem());
-		return fileMenu;
+	private static JMenu createAstrogeistMenu(App app) {
+		var retVal = new JMenu("File");
+		retVal.add(createSettingsItem(app));
+		retVal.add(createExitItem());
+		return retVal;
 	}
 	
 	private static JMenuItem createSettingsItem(App app) {
-		var settingsItem = new JMenuItem("Settings");
-		settingsItem.addActionListener(e -> SettingsDialog.show(app));
-		return settingsItem;
+		var retVal = new JMenuItem("Settings");
+		retVal.addActionListener(e -> SettingsDialog.show(app));
+		return retVal;
 	}
 	
 	private static JMenuItem createExitItem() { return new JMenuItem(ExitAction.INSTANCE); }
 	
+	private static JMenu createDiagnosticMenu(App app) {
+		var retVal = new JMenu("Diagnostic");
+		JMenuItem loggingItem = new JMenuItem("Logging…");
+		loggingItem.addActionListener(e -> LoggingControlDialog.show(app));
+		retVal.add(loggingItem);
+		return retVal;
+	}
+	
 	private static JMenu createHelpMenu(App app) {
-		var helpMenu = new JMenu("Help");
-		helpMenu.add(createAboutItem(app));
-		return helpMenu;
+		var retVal = new JMenu("Help");
+		retVal.add(createAboutItem(app));
+		return retVal;
 	}
 	
 	private static JMenuItem createAboutItem(App app) {
-		var aboutItem = new JMenuItem("About...");
-		aboutItem.addActionListener(e -> AboutDialog.show(app));
-		return aboutItem;
+		var retVal = new JMenuItem("About...");
+		retVal.addActionListener(e -> AboutDialog.show(app));
+		return retVal;
 	}
-
-	private MenuBarFactory() { Common.throwStaticClassInstantiateError(); }
+	
 }

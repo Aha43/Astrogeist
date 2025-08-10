@@ -11,10 +11,12 @@ import astrogeist.engine.util.Instants;
 public final class Resources {
 	private static boolean _dev = true;
 	
+	public static final String LOGO_PATH = "/astrogeist/engine/resources/logo.png";
+	
 	private static URL _logoUrl = null;
 	public static URL getLogoUrl(Object o) { 
 		if (_logoUrl != null) return _logoUrl;
-		_logoUrl = o.getClass().getResource("/astrogeist/engine/resources/logo.png");
+		_logoUrl = o.getClass().getResource(LOGO_PATH);
 		return _logoUrl;
 	}
 	

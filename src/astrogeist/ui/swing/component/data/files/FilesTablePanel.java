@@ -85,7 +85,7 @@ public class FilesTablePanel extends JPanel {
 				MessageDialogs.showError("Failed to open file: ", x);
 			}
 		} else {
-			MessageDialogs.showInfo(this, NO_FILE_SELECTED_MESSAGE);
+			MessageDialogs.showWarning(this, NO_FILE_SELECTED_MESSAGE);
 		}
 		
 	}
@@ -99,7 +99,7 @@ public class FilesTablePanel extends JPanel {
 				MessageDialogs.showError("Failed to open location: ", x);
 			}
 		} else {
-			MessageDialogs.showInfo(this, NO_FILE_SELECTED_MESSAGE);
+			MessageDialogs.showWarning(this, NO_FILE_SELECTED_MESSAGE);
 		}
 	}
 	
@@ -108,7 +108,7 @@ public class FilesTablePanel extends JPanel {
 		if (entry != null) {
 			FilePropertiesDialog.show(app, entry);
 		} else {
-			MessageDialogs.showInfo(this, NO_FILE_SELECTED_MESSAGE);
+			MessageDialogs.showWarning(this, NO_FILE_SELECTED_MESSAGE);
 		}
 	}
 	

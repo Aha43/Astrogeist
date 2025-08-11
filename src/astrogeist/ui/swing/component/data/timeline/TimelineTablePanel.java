@@ -156,7 +156,7 @@ public final class TimelineTablePanel extends JPanel {
 		this.table.getColumnModel().getColumn(0).setPreferredWidth(150);
 	}
 	
-	public Timeline getData() { return this.tableModel.getData(); }
+	public Timeline getData() { return this.tableModel.getWriter(); }
 	public JTable getTable() { return this.table; }
 	public TimelineTableModel getTableModel() { return this.tableModel; }
 	

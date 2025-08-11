@@ -9,37 +9,45 @@ import java.util.Map;
 import javax.swing.table.AbstractTableModel;
 
 import astrogeist.engine.abstraction.Timeline;
+import astrogeist.engine.abstraction.TimelineView;
 import astrogeist.engine.resources.Time;
 import astrogeist.engine.timeline.TimelineValue;
 
 public final class TimelineTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
 	
-	private Timeline timeline = null;
+	private TimelineView view = null;   // read source (Timeline or FilteredTimelineView)
+	private Timeline writer = null;     // optional: only if you want editing
 	
 	private final List<Instant> timestamps = new ArrayList<>();
 	private final List<String> columns = new ArrayList<>();
 	private final LinkedHashMap<Instant, Map<String, TimelineValue>> rows = new LinkedHashMap<>();
 	
 	private static final String TIME_COLUMN = "UTC";
+	
+	public final void setData(Timeline timeline) { setData(timeline, timeline); }
 
-	public final void setData(Timeline timeline) {
-		this.timeline = timeline;
-
+	public final void setData(TimelineView view, Timeline writer) {
+	    this.view = view;
+	    this.writer = writer;
+	    reloadFromView();
+	}
+	
+	private final void reloadFromView() {
 		this.timestamps.clear();
-		this.columns.clear();
-		this.rows.clear();
+	    this.columns.clear();
+	    this.rows.clear();
 
-	    // Always include "Time" as the first column
-		this.columns.add(TIME_COLUMN);
+	    this.columns.add(TIME_COLUMN);
 
-	    // Load rows
-	    for (Instant t : this.timeline.timestamps()) {
-	        var snapshot = this.timeline.snapshot(t);
+	    for (Instant t : this.view.timestamps()) {
+	        var snapshot = this.view.snapshot(t);
 	        this.timestamps.add(t);
 	        this.rows.put(t, snapshot);
+	        // Optionally collect columns dynamically:
+	        snapshot.keySet().forEach(k -> { if (!this.columns.contains(k)) this.columns.add(k); });
 	    }
-	    fireTableStructureChanged();
+	    fireTableStructureChanged();	
 	}
 	
 	public final void setColumnsToShow(List<String> columns) {
@@ -49,48 +57,47 @@ public final class TimelineTableModel extends AbstractTableModel {
 		fireTableStructureChanged();
 	}
 	
-	public final Timeline getData() { return this.timeline; }
+	public final TimelineView getView() { return this.view; }
+	public final Timeline getWriter() { return this.writer; } // may be null
+	
+	public final Map<String, TimelineValue> getSnapshotAt(int row) {
+	    return this.view.snapshot(this.timestamps.get(row)); // read from view
+	}
 	
 	public final void update(Instant t, LinkedHashMap<String, TimelineValue> values) {
-	    // apply to Timeline first
+	    if (writer == null) return; // or throw if editing required
+
+	    // apply to underlying Timeline (source of truth)
 	    for (var e : values.entrySet()) {
 	        var key = e.getKey();
 	        var tlv = e.getValue();
-	        if (tlv == TimelineValue.Empty) {
-	            this.timeline.remove(t, key);
-	        } else {
-	            this.timeline.upsert(t, key, tlv);
-	        }
+	        if (tlv == TimelineValue.Empty) writer.remove(t, key);
+	        else writer.upsert(t, key, tlv);
 	    }
 
-	    // now refresh the table’s row cache from Timeline
-	    rows.put(t, new LinkedHashMap<>(this.timeline.snapshot(t)));
-
-	    int rowIndex = timestamps.indexOf(t);
-	    if (rowIndex >= 0) fireTableRowsUpdated(rowIndex, rowIndex);
+	    // after mutation, the filter might include/exclude rows → reload
+	    reloadFromView();
 	}
 
 	@Override public final int getRowCount() { return this.timestamps.size(); }
 	@Override public final int getColumnCount() { return this.columns.size(); }
 	@Override public final String getColumnName(int column) { return this.columns.get(column); }
 
-	@Override public final  Object getValueAt(int rowIndex, int columnIndex) {
-		var timestamp = this.timestamps.get(rowIndex);
-		var column = this.columns.get(columnIndex);
+	@Override public final Object getValueAt(int row, int col) {
+	    var timestamp = this.timestamps.get(row);
+	    if (col == 0) return Time.TimeFormatter.format(timestamp);
 
-		if (TIME_COLUMN.equals(column)) return Time.TimeFormatter.format(timestamp); 
-
-		var data = this.rows.getOrDefault(timestamp, new LinkedHashMap<String, TimelineValue>());
-		var tlv = data.getOrDefault(column, TimelineValue.Empty);
-		return tlv.value();
+	    var columnKey = this.columns.get(col);
+	    var r = this.rows.getOrDefault(timestamp, new LinkedHashMap<>());
+	    var retVal = r.getOrDefault(columnKey, TimelineValue.Empty); // return TimelineValue
+	    return retVal.value();
 	}
 
 	public final Instant getTimestampAt(int rowIndex) { return this.timestamps.get(rowIndex); }
 	
-	public final Map<String, TimelineValue> getSnapshotAt(int rowIndex) {
-		var time = this.timestamps.get(rowIndex);
-		var retVal = this.timeline.snapshot(time);
-		return retVal;
-	}
+	//@Override
+	//public final Class<?> getColumnClass(int columnIndex) {
+	//    return (columnIndex == 0) ? String.class : TimelineValue.class; // first col is time
+	//}
 	
 }

@@ -15,18 +15,18 @@ public final class DefaultTimelineValuePool implements TimelineValuePool {
 	
 	public DefaultTimelineValuePool(TypeResolver typeResolver) { this.typeResolver = typeResolver; }
 	
-	@Override public TimelineValue get(String name, String value) {
+	@Override public final TimelineValue get(String name, String value) {
 		var type = this.typeResolver.resolve(name, value);
 		return get(value, type);
 	}
 
-	@Override public TimelineValue getFileValue(Path path) {
+	@Override public final TimelineValue getFileValue(Path path) {
 		path = path.toAbsolutePath().normalize();
 		var type = this.typeResolver.resolveFileType(path);
 		return get(path.toString(), type);
 	}
 	
-	private TimelineValue get(String value, Type type) {
+	private final TimelineValue get(String value, Type type) {
 		var canon = value == null ? "" : value.trim(); // maybe more canonicalization later
 	    var key = new PoolKey(type, canon);
 	    return this.pool.computeIfAbsent(key, k -> new TimelineValue(k.value(), k.type()));

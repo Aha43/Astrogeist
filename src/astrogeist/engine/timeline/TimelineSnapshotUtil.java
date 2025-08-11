@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 import astrogeist.Common;
 import astrogeist.engine.typesystem.Type;
 
-public final class TimelineUtil {
+public final class TimelineSnapshotUtil {
 	public static List<TimelineValue> getOfType(Map<String, TimelineValue> data, Type type){
 		var retVal = data.values().stream().filter(v -> Type.isA(v.type(), type)).collect(Collectors.toList()); 
 		return retVal;
@@ -26,5 +26,5 @@ public final class TimelineUtil {
 	    return result;
 	}
 	
-	private TimelineUtil() { Common.throwStaticClassInstantiateError(); }
+	private TimelineSnapshotUtil() { Common.throwStaticClassInstantiateError(); }
 }

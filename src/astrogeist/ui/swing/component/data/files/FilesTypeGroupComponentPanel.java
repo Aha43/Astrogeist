@@ -8,7 +8,7 @@ import java.util.Map;
 
 import javax.swing.JPanel;
 
-import astrogeist.engine.timeline.TimelineUtil;
+import astrogeist.engine.timeline.TimelineSnapshotUtil;
 import astrogeist.engine.timeline.TimelineValue;
 import astrogeist.engine.typesystem.Type;
 import astrogeist.engine.util.FilesUtil;
@@ -23,7 +23,7 @@ public final class FilesTypeGroupComponentPanel extends JPanel {
 	
 	public void setData(Instant timestamp, Map<String, TimelineValue> data) {
 		var filePaths = new ArrayList<String>();
-		for (var v : TimelineUtil.getOfType(data, Type.DiskFile())) filePaths.add(v.value());
+		for (var v : TimelineSnapshotUtil.getOfType(data, Type.DiskFile())) filePaths.add(v.value());
 		setFiles(timestamp, filePaths);
 	}
 	

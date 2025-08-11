@@ -9,6 +9,8 @@ import astrogeist.engine.resources.Resources;
 import astrogeist.engine.userdata.UserDataDefinitions;
 
 public final class NormalizedProperties {
+	private NormalizedProperties() { Common.throwStaticClassInstantiateError(); }
+	
 	static {
 		_mapping = new LinkedHashMap<>();
 		
@@ -55,6 +57,4 @@ public final class NormalizedProperties {
 		}
 		
 	}
-	
-	private NormalizedProperties() { Common.throwStaticClassInstantiateError(); }
 }

@@ -7,6 +7,8 @@ import astrogeist.engine.resources.Resources;
 import astrogeist.engine.util.io.NameValueMapXml;
 
 public final class SettingsIo {
+	private SettingsIo() { Common.throwStaticClassInstantiateError(); }
+	
     public static final LinkedHashMap<String, String> DEFAULTS = new LinkedHashMap<>();
     
     static {
@@ -63,5 +65,4 @@ public final class SettingsIo {
         return retValue;
     }
     
-    private SettingsIo() { Common.throwStaticClassInstantiateError(); }
 }

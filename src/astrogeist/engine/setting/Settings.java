@@ -9,6 +9,8 @@ import astrogeist.Common;
 import astrogeist.engine.util.Strings;
 
 public final class Settings {
+	private Settings() { Common.throwStaticClassInstantiateError(); }
+	
     private static LinkedHashMap<String, String> current;
 
     static {
@@ -37,8 +39,7 @@ public final class Settings {
     // Get methods
     
     public static String get(String key) {
-        return current.getOrDefault(key, SettingsIo.DEFAULTS.get(key));
-    }
+        return current.getOrDefault(key, SettingsIo.DEFAULTS.get(key)); }
     
     public static List<String> getCsv(String key) { return Strings.fromCsv(Settings.get(key)); }
     
@@ -57,7 +58,4 @@ public final class Settings {
         return result;
     }
     
-    //
-
-    private Settings() { Common.throwStaticClassInstantiateError(); }
 }

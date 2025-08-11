@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 import astrogeist.engine.abstraction.UtcExtractor;
 import astrogeist.engine.logging.Log;
 
-public class DefaultUtcExtractor implements UtcExtractor  {
+public final class DefaultUtcExtractor implements UtcExtractor  {
 	private final Logger logger = Log.get(this);
 	
 	@Override

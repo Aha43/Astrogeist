@@ -12,7 +12,7 @@ import astrogeist.engine.scanner.AbstractScanner;
 import astrogeist.engine.scanner.capdata.fileparsers.CompositeFileParser;
 import astrogeist.engine.util.FilesUtil;
 
-public class CapDataScanner extends AbstractScanner {
+public final class CapDataScanner extends AbstractScanner {
 	private final Logger logger = Log.get(this);
 	
 	private final UtcExtractor utcExtractor = new DefaultUtcExtractor();

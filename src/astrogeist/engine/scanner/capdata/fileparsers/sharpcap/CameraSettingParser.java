@@ -12,6 +12,8 @@ import astrogeist.Common;
 import astrogeist.engine.logging.Log;
 
 public final class CameraSettingParser {
+	private CameraSettingParser() { Common.throwStaticClassInstantiateError(); }
+	
 	private static Logger _logger = Log.get(CameraSettingParser.class);
 	
 	public static LinkedHashMap<String, String> parseFile(File file) {
@@ -49,6 +51,4 @@ public final class CameraSettingParser {
 
 	    return data;
 	}
-	
-	private CameraSettingParser() { Common.throwStaticClassInstantiateError(); }
 }

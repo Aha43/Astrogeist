@@ -46,7 +46,12 @@ public final class App {
 	public final CompositeFilteredTimelineViewTablePanel getSearchPanel() { return this.searchPanel; }
 	
 	public final void createGUI() {
-		this.frame = new JFrame("Astrogeist");
+		var title = "Astrogeist";
+		
+		if (Resources.isDevelopmentMode()) title += " (development mode)";
+		
+		this.frame = new JFrame(title);
+		
 		this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.frame.setSize(1200, 800);
 		this.frame.setLayout(new BorderLayout());

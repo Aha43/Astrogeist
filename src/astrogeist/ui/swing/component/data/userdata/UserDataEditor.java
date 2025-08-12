@@ -27,6 +27,7 @@ public final class UserDataEditor extends JPanel {
 
     public UserDataEditor(List<UserDataDefinition> definitions, LinkedHashMap<String, TimelineValue> currentValues) {
         super(new BorderLayout());
+        
         this.model = new UserDataDefinitionsTableModel(definitions, currentValues);
         this.table = new JTableWithPerRowEditor(model, definitions);
         this.table.setFillsViewportHeight(true);

@@ -16,6 +16,7 @@ import astrogeist.engine.resources.Resources;
 import astrogeist.ui.swing.component.data.files.FilesTypeGroupComponentPanel;
 import astrogeist.ui.swing.component.data.metadata.MetadataTablePanel;
 import astrogeist.ui.swing.component.data.timeline.TimelineTablePanel;
+import astrogeist.ui.swing.component.data.timeline.view.TimelineViewTablePanel;
 import astrogeist.ui.swing.menubar.MenuBarFactory;
 import astrogeist.ui.swing.toolbar.ToolBarFactory;
 
@@ -25,9 +26,14 @@ public final class App {
 	private JFrame frame = null;
 	
 	private final MetadataTablePanel metadataPanel = new MetadataTablePanel();
+	
 	private final FilesTypeGroupComponentPanel filesPanel = new FilesTypeGroupComponentPanel(this);
+	
 	private final TimelineTablePanel timelinePanel = 
 		new TimelineTablePanel(this, metadataPanel, filesPanel);
+	
+	private final TimelineViewTablePanel timelineViewPanel = 
+		new TimelineViewTablePanel(this, metadataPanel, filesPanel);
 	
 	public App() {}
 	
@@ -43,9 +49,10 @@ public final class App {
 
 		this.frame.setJMenuBar(MenuBarFactory.createMenuBar(this));
 		
-		this.frame.add(ToolBarFactory.createToolBar(this, this.timelinePanel), BorderLayout.NORTH);
+		this.frame.add(ToolBarFactory.createToolBar(this, this.timelinePanel, this.timelineViewPanel), BorderLayout.NORTH);
 
 		var timelineScroll = new JScrollPane(this.timelinePanel);
+		var timelineViewScroll = new JScrollPane(this.timelineViewPanel);
 
 		var leftTabs = new JTabbedPane();
 		leftTabs.setMinimumSize(new Dimension(200, 100));
@@ -53,6 +60,7 @@ public final class App {
 		
 		var centerTabs = new JTabbedPane();
 		centerTabs.addTab("Timeline", timelineScroll);
+		centerTabs.addTab("Search", timelineViewScroll);
 
 		// Split Pane: Left (tabs) + Center (table)
 		var splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftTabs, centerTabs);
@@ -76,7 +84,10 @@ public final class App {
 	
 	public JFrame getFrame() { return this.frame; }
 	
-	public void seetingsUpdated() { this.timelinePanel.settingsUpdated(); }
+	public void seetingsUpdated() { 
+		this.timelinePanel.settingsUpdated();
+		this.timelineViewPanel.settingsUpdated();
+	}
 	
 	private void addSelectedObservationListener() {
 		this.timelinePanel.addSelectionListener(e -> {
@@ -85,6 +96,18 @@ public final class App {
 		        if (selectedRow >= 0) {
 		            var timestamp = this.timelinePanel.getTableModel().getTimestampAt(selectedRow);
 		            var snapshot = this.timelinePanel.getData().snapshot(timestamp);
+		            this.metadataPanel.setData(snapshot);
+		            this.filesPanel.setData(timestamp, snapshot);
+		        }
+		    }
+		});
+		
+		this.timelineViewPanel.addSelectionListener(e -> {
+			if (!e.getValueIsAdjusting()) {
+		        int selectedRow = this.timelineViewPanel.getTable().getSelectedRow();
+		        if (selectedRow >= 0) {
+		            var timestamp = this.timelineViewPanel.getTableModel().getTimestampAt(selectedRow);
+		            var snapshot = this.timelineViewPanel.getData().snapshot(timestamp);
 		            this.metadataPanel.setData(snapshot);
 		            this.filesPanel.setData(timestamp, snapshot);
 		        }

@@ -21,6 +21,7 @@ import astrogeist.ui.swing.component.data.timeline.value.TimelineValueRenderers;
 
 public final class UserDataEditor extends JPanel {
     private static final long serialVersionUID = 1L;
+    
 	private final JTable table;
     private final UserDataDefinitionsTableModel model;
 

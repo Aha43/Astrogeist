@@ -6,21 +6,21 @@ import javax.swing.JToolBar;
 import astrogeist.Common;
 import astrogeist.engine.scanner.CompositeScanner;
 import astrogeist.ui.swing.App;
-import astrogeist.ui.swing.component.data.timeline.TimelineTablePanel;
-import astrogeist.ui.swing.component.data.timeline.view.TimelineViewTablePanel;
 import astrogeist.ui.swing.dialog.message.MessageDialogs;
 
 public final class ToolBarFactory {
-	public static JToolBar createToolBar(App app, TimelineTablePanel timelinePanel, TimelineViewTablePanel timelineViewTablePanel) {
+	private ToolBarFactory() { Common.throwStaticClassInstantiateError(); }
+	
+	public static JToolBar createToolBar(App app) {
 		var toolBar = new JToolBar();
 
-		toolBar.add(createScanButton(app, timelinePanel, timelineViewTablePanel));
+		toolBar.add(createScanButton(app));
 		toolBar.addSeparator();
 
 		return toolBar;
 	}
 	
-	private static JButton createScanButton(App app, TimelineTablePanel timelineTabel, TimelineViewTablePanel timelineViewTablePanel) {
+	private static JButton createScanButton(App app) {
 		var button = new JButton("Scan");
 		
 		button.addActionListener(e -> {
@@ -31,8 +31,8 @@ public final class ToolBarFactory {
 				
 				timeline.clear();
 				scanner.scan(timeline);
-				timelineTabel.setData(timeline);
-				timelineViewTablePanel.setData(timeline);
+				app.getSearchPanel().setTimelineView(timeline);
+				app.getTimelinePanel().setTimeline(timeline);
 			} catch (Exception x) {
 				MessageDialogs.showError("Failed to scan", x);
 			}
@@ -42,5 +42,4 @@ public final class ToolBarFactory {
 		return button;
 	}
 
-	private ToolBarFactory() { Common.throwStaticClassInstantiateError(); }
 }

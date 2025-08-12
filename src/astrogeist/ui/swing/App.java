@@ -16,7 +16,7 @@ import astrogeist.engine.resources.Resources;
 import astrogeist.ui.swing.component.data.files.FilesTypeGroupComponentPanel;
 import astrogeist.ui.swing.component.data.metadata.MetadataTablePanel;
 import astrogeist.ui.swing.component.data.timeline.TimelineTablePanel;
-import astrogeist.ui.swing.component.data.timeline.view.TimelineViewTablePanel;
+import astrogeist.ui.swing.component.data.timeline.view.CompositeFilteredTimelineViewTablePanel;
 import astrogeist.ui.swing.menubar.MenuBarFactory;
 import astrogeist.ui.swing.toolbar.ToolBarFactory;
 
@@ -29,19 +29,23 @@ public final class App {
 	
 	private final FilesTypeGroupComponentPanel filesPanel = new FilesTypeGroupComponentPanel(this);
 	
-	private final TimelineTablePanel timelinePanel = 
-		new TimelineTablePanel(this, metadataPanel, filesPanel);
+	private final TimelineTablePanel timelinePanel = new TimelineTablePanel(this);
 	
-	private final TimelineViewTablePanel timelineViewPanel = 
-		new TimelineViewTablePanel(this, metadataPanel, filesPanel);
+	private final CompositeFilteredTimelineViewTablePanel searchPanel = new CompositeFilteredTimelineViewTablePanel(this);
 	
 	public App() {}
 	
-	public Services getServices() { return this.services; }
+	public final Services getServices() { return this.services; }
 	
-	public TimelineTablePanel getTimelineTablePanel() { return this.timelinePanel; }
+	public final MetadataTablePanel getMetadataTablePanel() { return this.metadataPanel; }
 	
-	public void createGUI() {
+	public final FilesTypeGroupComponentPanel getFilesPanel() { return this.filesPanel; }
+	
+	public final TimelineTablePanel getTimelinePanel() { return this.timelinePanel; }
+	
+	public final CompositeFilteredTimelineViewTablePanel getSearchPanel() { return this.searchPanel; }
+	
+	public final void createGUI() {
 		this.frame = new JFrame("Astrogeist");
 		this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.frame.setSize(1200, 800);
@@ -49,10 +53,10 @@ public final class App {
 
 		this.frame.setJMenuBar(MenuBarFactory.createMenuBar(this));
 		
-		this.frame.add(ToolBarFactory.createToolBar(this, this.timelinePanel, this.timelineViewPanel), BorderLayout.NORTH);
+		this.frame.add(ToolBarFactory.createToolBar(this), BorderLayout.NORTH);
 
 		var timelineScroll = new JScrollPane(this.timelinePanel);
-		var timelineViewScroll = new JScrollPane(this.timelineViewPanel);
+		var timelineViewScroll = new JScrollPane(this.searchPanel);
 
 		var leftTabs = new JTabbedPane();
 		leftTabs.setMinimumSize(new Dimension(200, 100));
@@ -82,32 +86,32 @@ public final class App {
 		this.frame.setVisible(true);
 	}
 	
-	public JFrame getFrame() { return this.frame; }
+	public final JFrame getFrame() { return this.frame; }
 	
-	public void seetingsUpdated() { 
+	public final void seetingsUpdated() { 
 		this.timelinePanel.settingsUpdated();
-		this.timelineViewPanel.settingsUpdated();
+		this.searchPanel.settingsUpdated();
 	}
 	
-	private void addSelectedObservationListener() {
+	private final void addSelectedObservationListener() {
 		this.timelinePanel.addSelectionListener(e -> {
 			if (!e.getValueIsAdjusting()) {
 		        int selectedRow = this.timelinePanel.getTable().getSelectedRow();
 		        if (selectedRow >= 0) {
 		            var timestamp = this.timelinePanel.getTableModel().getTimestampAt(selectedRow);
-		            var snapshot = this.timelinePanel.getData().snapshot(timestamp);
+		            var snapshot = this.timelinePanel.getTimeline().snapshot(timestamp);
 		            this.metadataPanel.setData(snapshot);
 		            this.filesPanel.setData(timestamp, snapshot);
 		        }
 		    }
 		});
 		
-		this.timelineViewPanel.addSelectionListener(e -> {
+		this.searchPanel.addSelectionListener(e -> {
 			if (!e.getValueIsAdjusting()) {
-		        int selectedRow = this.timelineViewPanel.getTable().getSelectedRow();
+		        int selectedRow = this.searchPanel.getTable().getSelectedRow();
 		        if (selectedRow >= 0) {
-		            var timestamp = this.timelineViewPanel.getTableModel().getTimestampAt(selectedRow);
-		            var snapshot = this.timelineViewPanel.getData().snapshot(timestamp);
+		            var timestamp = this.searchPanel.getTableModel().getTimestampAt(selectedRow);
+		            var snapshot = this.searchPanel.getTimelineView().snapshot(timestamp);
 		            this.metadataPanel.setData(snapshot);
 		            this.filesPanel.setData(timestamp, snapshot);
 		        }

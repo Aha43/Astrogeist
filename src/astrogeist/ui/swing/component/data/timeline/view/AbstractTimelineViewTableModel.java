@@ -11,21 +11,21 @@ import javax.swing.table.AbstractTableModel;
 import astrogeist.engine.abstraction.TimelineView;
 import astrogeist.engine.resources.Time;
 import astrogeist.engine.timeline.TimelineValue;
-import astrogeist.engine.timeline.view.CompositeFilteredTimelineView;
 
-public final class TimelineViewTableModel extends AbstractTableModel {
+public abstract class AbstractTimelineViewTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
 	
-	private CompositeFilteredTimelineView view = null;
-	
-	private final List<Instant> timestamps = new ArrayList<>();
-	private final List<String> columns = new ArrayList<>();
-	private final LinkedHashMap<Instant, Map<String, TimelineValue>> rows = new LinkedHashMap<>();
+	protected TimelineView view = null;
+	protected final List<Instant> timestamps = new ArrayList<>();
+	protected final List<String> columns = new ArrayList<>();
+	protected final LinkedHashMap<Instant, Map<String, TimelineValue>> rows = new LinkedHashMap<>();
 	
 	private static final String TIME_COLUMN = "UTC";
+	
+	protected AbstractTimelineViewTableModel() {}
 
-	public final void setData(TimelineView view) {
-		this.view = new CompositeFilteredTimelineView(view);
+	protected final void setView(TimelineView view) {
+		this.view = view;
 
 		this.timestamps.clear();
 		this.columns.clear();
@@ -43,6 +43,8 @@ public final class TimelineViewTableModel extends AbstractTableModel {
 	    fireTableStructureChanged();
 	}
 	
+	public final TimelineView getTimelineView() { return this.view; }
+	
 	public final void setColumnsToShow(List<String> columns) {
 		this.columns.clear();
 		this.columns.add(TIME_COLUMN);
@@ -50,8 +52,6 @@ public final class TimelineViewTableModel extends AbstractTableModel {
 		fireTableStructureChanged();
 	}
 	
-	public final TimelineView getData() { return this.view; }
-
 	@Override public final int getRowCount() { return this.timestamps.size(); }
 	@Override public final int getColumnCount() { return this.columns.size(); }
 	@Override public final String getColumnName(int column) { return this.columns.get(column); }
@@ -74,5 +74,5 @@ public final class TimelineViewTableModel extends AbstractTableModel {
 		var retVal = this.view.snapshot(time);
 		return retVal;
 	}
-	
+
 }

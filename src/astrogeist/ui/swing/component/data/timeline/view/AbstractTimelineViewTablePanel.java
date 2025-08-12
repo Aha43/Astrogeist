@@ -19,38 +19,28 @@ import astrogeist.engine.setting.SettingKeys;
 import astrogeist.engine.setting.Settings;
 import astrogeist.engine.timeline.TimelineValue;
 import astrogeist.ui.swing.App;
-import astrogeist.ui.swing.component.data.files.FilesTypeGroupComponentPanel;
-import astrogeist.ui.swing.component.data.metadata.MetadataTablePanel;
 import astrogeist.ui.swing.component.data.timeline.selectionaction.AbstractSelectionAction;
 import astrogeist.ui.swing.component.data.timeline.selectionaction.NoSelectionAction;
 import astrogeist.ui.swing.component.data.timeline.selectionaction.SelectionActionsComboBox;
 import astrogeist.ui.swing.dialog.message.MessageDialogs;
 import astrogeist.ui.swing.dialog.selection.SelectionDialog;
 
-public class TimelineViewTablePanel extends JPanel {
+public abstract class AbstractTimelineViewTablePanel  extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
-	private final JTable table;
-	private final TimelineViewTableModel tableModel;
+	protected final JTable table;
+	protected final AbstractTimelineViewTableModel tableModel;
 	
-	private final MetadataTablePanel metadataTablePanel;
-	private final FilesTypeGroupComponentPanel observationFilesPanel;
+	protected JPanel buttonsPanel;
 	
-	private final App app;
+	protected final App app;
 
-	public TimelineViewTablePanel(
-		App app,
-		MetadataTablePanel metadataTablePanel,
-		FilesTypeGroupComponentPanel observationFilesPanel) {
-		
+	protected AbstractTimelineViewTablePanel(App app, AbstractTimelineViewTableModel model) {
 		super(new BorderLayout());
 		
 		this.app = app;
 		
-		this.metadataTablePanel = metadataTablePanel;
-		this.observationFilesPanel = observationFilesPanel;
-		
-		this.tableModel = new TimelineViewTableModel();
+		this.tableModel = model;
 		this.table = new JTable(this.tableModel);
 
 		this.table.setFillsViewportHeight(true);
@@ -64,10 +54,11 @@ public class TimelineViewTablePanel extends JPanel {
 		createButtonPanel();
 	}
 	
-	public void settingsUpdated() { this.tableModel.setColumnsToShow(Settings.getCsv(SettingKeys.TABLE_COLUMNS)); }
+	public final void settingsUpdated() { 
+		this.tableModel.setColumnsToShow(Settings.getCsv(SettingKeys.TABLE_COLUMNS)); }
 	
-	private void createButtonPanel() {
-		var buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+	private final void createButtonPanel() {
+		this.buttonsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		
 		var columnsButton = new JButton("Select columns to show");
 		
@@ -79,13 +70,13 @@ public class TimelineViewTablePanel extends JPanel {
 			saveSelectedColumns(selected);
 		});
 		
-		buttonPanel.add(columnsButton);
+		buttonsPanel.add(columnsButton);
 		
-		this.add(buttonPanel, BorderLayout.SOUTH);
+		this.add(buttonsPanel, BorderLayout.SOUTH);
 		this.add(createNorthPanel(), BorderLayout.NORTH);
 	}
 	
-	private JPanel createNorthPanel() {
+	private final JPanel createNorthPanel() {
 		var retVal = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		
 		var selectionActionsComboBox = new SelectionActionsComboBox();
@@ -111,7 +102,7 @@ public class TimelineViewTablePanel extends JPanel {
 		return retVal;
 	}
 	
-	private static void saveSelectedColumns(List<String> selected) {
+	private final static void saveSelectedColumns(List<String> selected) {
 		try {
 			var setting = String.join(", ", selected);
 			Settings.set(SettingKeys.TABLE_COLUMNS, setting);
@@ -120,34 +111,34 @@ public class TimelineViewTablePanel extends JPanel {
 			MessageDialogs.showError(null, "Failed saving selection", x);
 		}	
 	}
-
-	public void setData(TimelineView data) { 
-		this.tableModel.setData(data); 
-		this.metadataTablePanel.clear();
-		this.observationFilesPanel.clear();
+	
+	protected final void postSetData() {
+		this.app.getMetadataTablePanel().clear();
+		this.app.getFilesPanel().clear();
 		this.tableModel.setColumnsToShow(Settings.getCsv(SettingKeys.TABLE_COLUMNS));
 		this.table.getColumnModel().getColumn(0).setPreferredWidth(150);
 	}
 	
-	public TimelineView getData() { return this.tableModel.getData(); }
-	public JTable getTable() { return this.table; }
-	public TimelineViewTableModel getTableModel() { return this.tableModel; }
+	public final TimelineView getTimelineView() { return this.tableModel.getTimelineView(); }
 	
-	public void addSelectionListener(ListSelectionListener l) {
+	public final JTable getTable() { return this.table; }
+	
+	public final void addSelectionListener(ListSelectionListener l) {
 		this.table.getSelectionModel().addListSelectionListener(l); }
 	
-	public int getSelectedRow() {
+	public final int getSelectedRow() {
 		int selectedRow = this.table.getSelectedRow();
 		if (selectedRow == -1) return -1;
 		int modelRow = this.table.convertRowIndexToModel(selectedRow);
 		return modelRow;
 	}
 	
-	public Map<String, TimelineValue> getSelectedSnapshot() {
+	public final Map<String, TimelineValue> getSelectedSnapshot() {
 		var selectedRow = this.getSelectedRow();
 		if (selectedRow == -1) return null;
 		return this.tableModel.getSnapshotAt(selectedRow);
 	}
 	
-	public Instant getTimestampAtRow(int rowIndex) { return this.tableModel.getTimestampAt(rowIndex); }
+	public final Instant getTimestampAtRow(int rowIndex) { 
+		return this.tableModel.getTimestampAt(rowIndex); }
 }

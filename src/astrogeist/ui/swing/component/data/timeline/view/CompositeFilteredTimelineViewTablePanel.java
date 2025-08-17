@@ -18,7 +18,7 @@ public final class CompositeFilteredTimelineViewTablePanel extends AbstractTimel
 		return (CompositeFilteredTimelineViewTableModel)super.model; }
 	
 	private final void createButtons() {
-		var model = (CompositeFilteredTimelineViewTableModel)super.model;
+		var model = model();
 		
 		
 		var filters = new JButton("Filters");

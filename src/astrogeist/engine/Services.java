@@ -16,12 +16,18 @@ public final class Services {
 	private final TimelineValuePool timelineValuePool = new DefaultTimelineValuePool(this.typeResolver); 
 	
 	private final Timeline timeline = new DefaultTimeline(this.timelineValuePool);
-	private final TimelineView timelineView = new CompositeFilteredTimelineView(timeline);
+	private CompositeFilteredTimelineView timelineView;
 	
 	private final UserDataIo userDataIo = new DefaultUserDataIo(this.timelineValuePool);
 	
 	public Timeline getTimeline() { return this.timeline; }
-	public TimelineView getTimelineView() { return this.timelineView; }
+	public TimelineView getTimelineView() {
+		if (this.timelineView == null) {
+			this.timelineView = new CompositeFilteredTimelineView();
+			this.timelineView.setBaseView(this.timeline);
+		}
+		return this.timelineView; 
+	}
 	
 	public UserDataIo getUserDataIo() { return this.userDataIo; }
 }

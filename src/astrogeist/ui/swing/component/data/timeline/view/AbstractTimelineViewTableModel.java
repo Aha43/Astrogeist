@@ -12,21 +12,18 @@ import astrogeist.engine.abstraction.TimelineView;
 import astrogeist.engine.resources.Time;
 import astrogeist.engine.timeline.TimelineValue;
 
-public abstract class AbstractTimelineViewTableModel extends AbstractTableModel {
+public abstract class AbstractTimelineViewTableModel extends AbstractTableModel { 
 	private static final long serialVersionUID = 1L;
 	
-	protected TimelineView view = null;
 	protected final List<Instant> timestamps = new ArrayList<>();
 	protected final List<String> columns = new ArrayList<>();
 	protected final LinkedHashMap<Instant, Map<String, TimelineValue>> rows = new LinkedHashMap<>();
 	
 	private static final String TIME_COLUMN = "UTC";
 	
-	protected AbstractTimelineViewTableModel() {}
+	protected abstract TimelineView getTimelineView();
 
-	protected final void setView(TimelineView view) {
-		this.view = view;
-
+	protected final void initialize(TimelineView view) {
 		this.timestamps.clear();
 		this.columns.clear();
 		this.rows.clear();
@@ -35,15 +32,13 @@ public abstract class AbstractTimelineViewTableModel extends AbstractTableModel 
 		this.columns.add(TIME_COLUMN);
 
 	    // Load rows
-	    for (Instant t : this.view.timestamps()) {
-	        var snapshot = this.view.snapshot(t);
+	    for (Instant t : view.timestamps()) {
+	        var snapshot = view.snapshot(t);
 	        this.timestamps.add(t);
 	        this.rows.put(t, snapshot);
 	    }
 	    fireTableStructureChanged();
 	}
-	
-	public final TimelineView getTimelineView() { return this.view; }
 	
 	public final void setColumnsToShow(List<String> columns) {
 		this.columns.clear();
@@ -56,9 +51,9 @@ public abstract class AbstractTimelineViewTableModel extends AbstractTableModel 
 	@Override public final int getColumnCount() { return this.columns.size(); }
 	@Override public final String getColumnName(int column) { return this.columns.get(column); }
 
-	@Override public final  Object getValueAt(int rowIndex, int columnIndex) {
-		var timestamp = this.timestamps.get(rowIndex);
-		var column = this.columns.get(columnIndex);
+	@Override public final  Object getValueAt(int row, int col) {
+		var timestamp = this.timestamps.get(row);
+		var column = this.columns.get(col);
 
 		if (TIME_COLUMN.equals(column)) return Time.TimeFormatter.format(timestamp); 
 
@@ -67,11 +62,12 @@ public abstract class AbstractTimelineViewTableModel extends AbstractTableModel 
 		return tlv.value();
 	}
 
-	public final Instant getTimestampAt(int rowIndex) { return this.timestamps.get(rowIndex); }
+	public final Instant getTimestampAt(int row) { return this.timestamps.get(row); }
 	
-	public final Map<String, TimelineValue> getSnapshotAt(int rowIndex) {
-		var time = this.timestamps.get(rowIndex);
-		var retVal = this.view.snapshot(time);
+	public final Map<String, TimelineValue> getSnapshotAt(int row) {
+		var time = this.timestamps.get(row);
+		var view = this.getTimelineView();
+		var retVal = view.snapshot(time);
 		return retVal;
 	}
 

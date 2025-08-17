@@ -3,9 +3,19 @@ package astrogeist.engine.timeline.view;
 import java.time.Instant;
 
 import astrogeist.engine.abstraction.TimelineView;
-import astrogeist.engine.abstraction.TimelineViewFilter;
 
-public record PropertyEqualsTimelineViewFilter(String key, String searched) implements TimelineViewFilter {
+public final class PropertyEqualsTimelineViewFilter extends AbstractTimelineViewFilter {
+	private final String key;
+	private final String searched;
+	
+	public PropertyEqualsTimelineViewFilter(String key, String searched) {
+		this.key = key;
+		this.searched = searched;
+	}
+	
+	public final String key() { return this.key; }
+	public final String searched() { return this.searched; }
+	
 	@Override public final boolean accept(Instant time, TimelineView view) {
 		var snapshot = view.snapshot(time);
 		if (snapshot == null) return false;

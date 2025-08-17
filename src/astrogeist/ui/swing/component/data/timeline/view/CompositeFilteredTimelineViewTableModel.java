@@ -6,6 +6,12 @@ import astrogeist.engine.timeline.view.CompositeFilteredTimelineView;
 public final class CompositeFilteredTimelineViewTableModel extends AbstractTimelineViewTableModel {
 	private static final long serialVersionUID = 1L;
 	
-	public final void setTimelineView(TimelineView view) {
-		super.setView(new CompositeFilteredTimelineView(view)); }
+	private final CompositeFilteredTimelineView cftlv = new CompositeFilteredTimelineView();
+
+	protected void timelineView(TimelineView view) { 
+		this.cftlv.setBaseView(view);
+		initialize(view);
+	}
+	
+	@Override public TimelineView getTimelineView() { return this.cftlv; }
 }

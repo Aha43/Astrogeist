@@ -31,8 +31,8 @@ public final class ToolBarFactory {
 				
 				timeline.clear();
 				scanner.scan(timeline);
-				app.getSearchPanel().setTimelineView(timeline);
-				app.getTimelinePanel().setTimeline(timeline);
+				app.getSearchPanel().timelineView(timeline);
+				app.getTimelinePanel().timeline(timeline);
 			} catch (Exception x) {
 				MessageDialogs.showError("Failed to scan", x);
 			}

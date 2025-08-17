@@ -13,7 +13,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionListener;
 
-import astrogeist.engine.abstraction.TimelineView;
 import astrogeist.engine.scanner.NormalizedProperties;
 import astrogeist.engine.setting.SettingKeys;
 import astrogeist.engine.setting.Settings;
@@ -29,7 +28,7 @@ public abstract class AbstractTimelineViewTablePanel  extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
 	protected final JTable table;
-	protected final AbstractTimelineViewTableModel tableModel;
+	protected final AbstractTimelineViewTableModel model;
 	
 	protected JPanel buttonsPanel;
 	
@@ -40,8 +39,8 @@ public abstract class AbstractTimelineViewTablePanel  extends JPanel {
 		
 		this.app = app;
 		
-		this.tableModel = model;
-		this.table = new JTable(this.tableModel);
+		this.model = model;
+		this.table = new JTable(this.model);
 
 		this.table.setFillsViewportHeight(true);
 		this.table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -49,13 +48,10 @@ public abstract class AbstractTimelineViewTablePanel  extends JPanel {
 		var scrollPane = new JScrollPane(this.table);
 		this.add(scrollPane, BorderLayout.CENTER);
 		
-		this.tableModel.setColumnsToShow(Settings.getCsv(SettingKeys.TABLE_COLUMNS));
+		this.model.setColumnsToShow(Settings.getCsv(SettingKeys.TABLE_COLUMNS));
 		
 		createButtonPanel();
 	}
-	
-	public final void settingsUpdated() { 
-		this.tableModel.setColumnsToShow(Settings.getCsv(SettingKeys.TABLE_COLUMNS)); }
 	
 	private final void createButtonPanel() {
 		this.buttonsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -66,7 +62,7 @@ public abstract class AbstractTimelineViewTablePanel  extends JPanel {
 			var all = NormalizedProperties.getNormalizedNamesAndUserDataNames();
 			var selected = Settings.getCsv(SettingKeys.TABLE_COLUMNS);
 			SelectionDialog.show(this.app, "Select Columns", selected, all);
-			this.tableModel.setColumnsToShow(selected);
+			this.model.setColumnsToShow(selected);
 			saveSelectedColumns(selected);
 		});
 		
@@ -93,7 +89,7 @@ public abstract class AbstractTimelineViewTablePanel  extends JPanel {
 	        if (action == null || action == NoSelectionAction.INSTANCE) return;
 
 	        int modelRow = table.convertRowIndexToModel(viewRow);
-	        var snapshot = this.tableModel.getSnapshotAt(modelRow); // implement this getter
+	        var snapshot = this.model.getSnapshotAt(modelRow); // implement this getter
 	        if (snapshot == null) return;
 
 	        action.Perform(snapshot);
@@ -115,13 +111,12 @@ public abstract class AbstractTimelineViewTablePanel  extends JPanel {
 	protected final void postSetData() {
 		this.app.getMetadataTablePanel().clear();
 		this.app.getFilesPanel().clear();
-		this.tableModel.setColumnsToShow(Settings.getCsv(SettingKeys.TABLE_COLUMNS));
+		this.model.setColumnsToShow(Settings.getCsv(SettingKeys.TABLE_COLUMNS));
 		this.table.getColumnModel().getColumn(0).setPreferredWidth(150);
 	}
 	
-	public final TimelineView getTimelineView() { return this.tableModel.getTimelineView(); }
-	
-	public final JTable getTable() { return this.table; }
+	public final void settingsUpdated() { 
+		this.model.setColumnsToShow(Settings.getCsv(SettingKeys.TABLE_COLUMNS)); }
 	
 	public final void addSelectionListener(ListSelectionListener l) {
 		this.table.getSelectionModel().addListSelectionListener(l); }
@@ -136,9 +131,14 @@ public abstract class AbstractTimelineViewTablePanel  extends JPanel {
 	public final Map<String, TimelineValue> getSelectedSnapshot() {
 		var selectedRow = this.getSelectedRow();
 		if (selectedRow == -1) return null;
-		return this.tableModel.getSnapshotAt(selectedRow);
+		return this.model.getSnapshotAt(selectedRow);
 	}
 	
-	public final Instant getTimestampAtRow(int rowIndex) { 
-		return this.tableModel.getTimestampAt(rowIndex); }
+	public final Instant getSelectedTimestamp() { 
+		var selectedRow = this.getSelectedRow();
+		if (selectedRow == -1) return null;
+		return getTimestampAt(selectedRow);
+	}
+	
+	public final Instant getTimestampAt(int row) { return this.model.getTimestampAt(row); }
 }

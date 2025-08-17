@@ -21,8 +21,10 @@ public final class TimelineTablePanel extends AbstractTimelineViewTablePanel {
 		addButtons();
 	}
 	
+	private final TimelineTableModel model() { return (TimelineTableModel)super.model; }
+	
 	public final void update(Instant t, LinkedHashMap<String, TimelineValue> values) { 
-		var model = (TimelineTableModel)super.tableModel;
+		var model = (TimelineTableModel)super.model;
 		model.update(t, values); 
 	}
 	
@@ -41,7 +43,7 @@ public final class TimelineTablePanel extends AbstractTimelineViewTablePanel {
 			var selectedRow = this.getSelectedRow();
 			if (selectedRow == -1) return;
 		
-			var t = this.getTimestampAtRow(selectedRow);
+			var t = this.getTimestampAt(selectedRow);
 			var userData = this.app.getServices().getUserDataIo().load(t);
 			
 			UserDataDialog.show(this.app, t, userData);
@@ -50,12 +52,12 @@ public final class TimelineTablePanel extends AbstractTimelineViewTablePanel {
 		}
 	}
 
-	public final void setTimeline(Timeline data) {
-		var model = (TimelineTableModel)super.tableModel;
-		model.setTimeline(data); 
+	public final void timeline(Timeline data) {
+		var model = (TimelineTableModel)super.model;
+		model.timeline(data); 
 		super.postSetData();
 	}
 	
-	public final Timeline getTimeline() { return getTableModel().getTimeline(); }
-	public final TimelineTableModel getTableModel() { return (TimelineTableModel)this.tableModel; }	
+	public final Timeline timeline() { return model().timeline(); }
+	
 }

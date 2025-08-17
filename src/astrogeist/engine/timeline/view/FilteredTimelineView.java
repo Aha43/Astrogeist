@@ -11,7 +11,7 @@ import astrogeist.engine.timeline.TimelineValue;
 
 public final class FilteredTimelineView implements TimelineView {
 	
-	private final TimelineView baseView;
+	private TimelineView baseView;
 	private final TimelineViewFilter filter;
 	
 	public FilteredTimelineView(TimelineView last, TimelineViewFilter filter) {
@@ -31,6 +31,8 @@ public final class FilteredTimelineView implements TimelineView {
 		return retVal;
 	}
 	
-	public final TimelineView getBaseView() { return this.baseView; }
 	public final TimelineViewFilter getFilter() { return this.filter; }
+	
+	public final TimelineView getBaseView() { return this.baseView; }
+	public final void rebase(TimelineView baseView) { this.baseView = baseView; }
 }

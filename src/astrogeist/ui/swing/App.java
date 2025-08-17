@@ -48,7 +48,7 @@ public final class App {
 	public final void createGUI() {
 		var title = "Astrogeist";
 		
-		if (Resources.isDevelopmentMode()) title += " (development mode)";
+		if (Resources.isDevelopmentMode()) title += " (development)";
 		
 		this.frame = new JFrame(title);
 		
@@ -101,10 +101,10 @@ public final class App {
 	private final void addSelectedObservationListener() {
 		this.timelinePanel.addSelectionListener(e -> {
 			if (!e.getValueIsAdjusting()) {
-		        int selectedRow = this.timelinePanel.getTable().getSelectedRow();
+		        int selectedRow = this.timelinePanel.getSelectedRow();
 		        if (selectedRow >= 0) {
-		            var timestamp = this.timelinePanel.getTableModel().getTimestampAt(selectedRow);
-		            var snapshot = this.timelinePanel.getTimeline().snapshot(timestamp);
+		        	var timestamp = this.timelinePanel.getSelectedTimestamp();
+		        	var snapshot = this.timelinePanel.getSelectedSnapshot();
 		            this.metadataPanel.setData(snapshot);
 		            this.filesPanel.setData(timestamp, snapshot);
 		        }
@@ -113,10 +113,10 @@ public final class App {
 		
 		this.searchPanel.addSelectionListener(e -> {
 			if (!e.getValueIsAdjusting()) {
-		        int selectedRow = this.searchPanel.getTable().getSelectedRow();
+		        int selectedRow = this.searchPanel.getSelectedRow();
 		        if (selectedRow >= 0) {
-		            var timestamp = this.searchPanel.getTableModel().getTimestampAt(selectedRow);
-		            var snapshot = this.searchPanel.getTimelineView().snapshot(timestamp);
+		        	var timestamp = this.searchPanel.getSelectedTimestamp();
+		        	var snapshot = this.searchPanel.getSelectedSnapshot();
 		            this.metadataPanel.setData(snapshot);
 		            this.filesPanel.setData(timestamp, snapshot);
 		        }

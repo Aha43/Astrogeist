@@ -8,12 +8,12 @@ import astrogeist.ui.swing.component.data.timeline.filtering.FilteredTimelineVie
 /**
  * 
  */
-public final class FilterTableModel extends AbstractTableModel {
+public final class FiltersTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
 	
 	private  FilteredTimelineViewTableModel filters = null;
 	
-	public FilterTableModel(FilteredTimelineViewTableModel filters) { this.filters = filters; }
+	public FiltersTableModel(FilteredTimelineViewTableModel filters) { this.filters = filters; }
 	
 	public final void pushFilter(TimelineViewFilter filter) {
 		this.filters.pushFilter(filter);

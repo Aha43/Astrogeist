@@ -2,7 +2,6 @@ package astrogeist.ui.swing.component.data.timeline.view;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,27 +16,16 @@ public abstract class AbstractTimelineViewTableModel extends AbstractTableModel 
 	
 	protected final List<Instant> timestamps = new ArrayList<>();
 	protected final List<String> columns = new ArrayList<>();
-	protected final LinkedHashMap<Instant, Map<String, TimelineValue>> rows = new LinkedHashMap<>();
 	
 	private static final String TIME_COLUMN = "UTC";
 	
 	protected abstract TimelineView getTimelineView();
 
-	protected final void initialize(TimelineView view) {
+	protected final void initialize() {
+		var view = this.getTimelineView();
 		this.timestamps.clear();
-		this.columns.clear();
-		this.rows.clear();
-
-	    // Always include "Time" as the first column
-		this.columns.add(TIME_COLUMN);
-
-	    // Load rows
-	    for (Instant t : view.timestamps()) {
-	        var snapshot = view.snapshot(t);
-	        this.timestamps.add(t);
-	        this.rows.put(t, snapshot);
-	    }
-	    fireTableStructureChanged();
+	    for (Instant t : view.timestamps()) this.timestamps.add(t);
+	    super.fireTableDataChanged();
 	}
 	
 	public final void setColumnsToShow(List<String> columns) {
@@ -57,8 +45,9 @@ public abstract class AbstractTimelineViewTableModel extends AbstractTableModel 
 
 		if (TIME_COLUMN.equals(column)) return Time.TimeFormatter.format(timestamp); 
 
-		var data = this.rows.getOrDefault(timestamp, new LinkedHashMap<String, TimelineValue>());
-		var tlv = data.getOrDefault(column, TimelineValue.Empty);
+		var view = this.getTimelineView();
+		var snapshot = view.snapshot(timestamp);
+		var tlv = snapshot.getOrDefault(column, TimelineValue.Empty);
 		return tlv.value();
 	}
 

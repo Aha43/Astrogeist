@@ -46,7 +46,7 @@ public final class CompositeFilteredTimelineView  implements TimelineView {
 			throw new IndexOutOfBoundsException("pos >= " + size + " : " + pos);
 		}
 		
-		var timelineView = (FilteredTimelineView)this.views.get(pos);
+		var timelineView = (FilteredTimelineViewOld)this.views.get(pos);
 		return timelineView.getFilter();
 	}
 	
@@ -78,7 +78,7 @@ public final class CompositeFilteredTimelineView  implements TimelineView {
 		var base = this.views.get(pos - 1);
 		this.views.remove(pos);
 		var viewToRebase = this.views.get(pos);
-		((FilteredTimelineView)viewToRebase).rebase(base);
+		((FilteredTimelineViewOld)viewToRebase).rebase(base);
 	}
 	
 	public final void addFilter(int pos, TimelineViewFilter filter) {
@@ -98,14 +98,14 @@ public final class CompositeFilteredTimelineView  implements TimelineView {
 		
 		var baseView = this.views.get(pos - 1);
 		var viewToRebase = this.views.get(pos);
-		var newView = new FilteredTimelineView(baseView, filter);
+		var newView = new FilteredTimelineViewOld(baseView, filter);
 		this.views.add(newView);
-		((FilteredTimelineView)viewToRebase).rebase(newView);
+		((FilteredTimelineViewOld)viewToRebase).rebase(newView);
 	}
 	
 	public final void pushFilter(TimelineViewFilter filter) {
 		var last = this.views.getLast();
-		var newLast = new FilteredTimelineView(last, filter);
+		var newLast = new FilteredTimelineViewOld(last, filter);
 		views.add(newLast);
 	}
 	

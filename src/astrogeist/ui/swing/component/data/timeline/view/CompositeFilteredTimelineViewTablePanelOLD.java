@@ -6,16 +6,16 @@ import astrogeist.engine.abstraction.TimelineView;
 import astrogeist.ui.swing.App;
 import astrogeist.ui.swing.dialog.filtering.FilteredTimelineViewStackDialog;
 
-public final class CompositeFilteredTimelineViewTablePanel extends AbstractTimelineViewTablePanel {
+public final class CompositeFilteredTimelineViewTablePanelOLD extends AbstractTimelineViewTablePanel {
 	private static final long serialVersionUID = 1L;
 	
-	public CompositeFilteredTimelineViewTablePanel(App app) {
-		super(app, new CompositeFilteredTimelineViewTableModel());
+	public CompositeFilteredTimelineViewTablePanelOLD(App app) {
+		super(app, new CompositeFilteredTimelineViewTableModelOld());
 		createButtons();
 	}
 	
-	private final CompositeFilteredTimelineViewTableModel model() { 
-		return (CompositeFilteredTimelineViewTableModel)super.model; }
+	private final CompositeFilteredTimelineViewTableModelOld model() { 
+		return (CompositeFilteredTimelineViewTableModelOld)super.model; }
 	
 	private final void createButtons() {
 		var model = model();
@@ -23,7 +23,7 @@ public final class CompositeFilteredTimelineViewTablePanel extends AbstractTimel
 		
 		var filters = new JButton("Filters");
 		filters.addActionListener(e -> {
-			FilteredTimelineViewStackDialog.show(app);
+			//FilteredTimelineViewStackDialog.show(app, model);
 		});
 		super.buttonsPanel.add(filters);
 	}

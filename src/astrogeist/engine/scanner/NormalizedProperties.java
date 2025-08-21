@@ -22,6 +22,7 @@ public final class NormalizedProperties {
 		AddMapping("Exposure");
 		AddMapping("FrameCount");
 		AddMapping("Gain");
+		AddMapping("Stars");
 		AddMapping("SerFile");
 		AddMapping("FitFile");
 		AddMapping("TifFile", "TiffFile");

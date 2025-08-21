@@ -8,6 +8,11 @@ import astrogeist.engine.abstraction.TimelineView;
 import astrogeist.engine.timeline.TimelineValue;
 import astrogeist.ui.swing.component.data.timeline.view.AbstractTimelineViewTableModel;
 
+/**
+ * <p>
+ *   Table model showing the non filtered time line. 
+ * </p>
+ */
 public final class TimelineTableModel extends AbstractTimelineViewTableModel {
 	private static final long serialVersionUID = 1L;
 	
@@ -15,29 +20,31 @@ public final class TimelineTableModel extends AbstractTimelineViewTableModel {
 	
 	@Override public final TimelineView getTimelineView() { return this.timeline(); }
 	
+	/**
+	 * <p>
+	 *   Constructor to show.
+	 * </p>
+	 * @param timeline Time line to show.
+	 */
 	public final void timeline(Timeline timeline) { 
 		this.timeline = timeline;
-		initialize(timeline);
+		initialize();
 	}
 	
 	public final Timeline timeline() { return this.timeline; }
 	
-	public final void update(Instant t, LinkedHashMap<String, TimelineValue> values) {
-		// apply to Timeline first
+	public final void update(Instant time, LinkedHashMap<String, TimelineValue> values) {
 	    for (var e : values.entrySet()) {
 	        var key = e.getKey();
 	        var tlv = e.getValue();
 	        if (tlv == TimelineValue.Empty) {
-	            timeline.remove(t, key);
+	            timeline.remove(time, key);
 	        } else {
-	            timeline.upsert(t, key, tlv);
+	            timeline.upsert(time, key, tlv);
 	        }
 	    }
 
-	    // now refresh the table’s row cache from Timeline
-	    super.rows.put(t, new LinkedHashMap<>(this.timeline.snapshot(t)));
-
-	    int rowIndex = super.timestamps.indexOf(t);
+	    int rowIndex = super.timestamps.indexOf(time);
 	    if (rowIndex >= 0) fireTableRowsUpdated(rowIndex, rowIndex);
 	}
 	

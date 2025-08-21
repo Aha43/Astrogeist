@@ -1,38 +1,38 @@
 package astrogeist.engine.timeline.view;
 
 import java.time.Instant;
+import java.util.Collections;
 import java.util.Map;
 import java.util.NavigableSet;
-import java.util.TreeSet;
+import java.util.concurrent.ConcurrentNavigableMap;
+import java.util.concurrent.ConcurrentSkipListMap;
 
 import astrogeist.engine.abstraction.TimelineView;
-import astrogeist.engine.abstraction.TimelineViewFilter;
 import astrogeist.engine.timeline.TimelineValue;
 
-public final class FilteredTimelineView implements TimelineView {
-	
-	private TimelineView baseView;
-	private final TimelineViewFilter filter;
-	
-	public FilteredTimelineView(TimelineView last, TimelineViewFilter filter) {
-		this.baseView = last;
-		this.filter = filter;
-	}
+public class FilteredTimelineView implements TimelineView {
 
-	@Override public final Map<String, TimelineValue> snapshot(Instant time) {
-		return this.baseView.snapshot(time); }
+	// Chronological, thread-safe, navigable
+    private ConcurrentNavigableMap<Instant, ConcurrentNavigableMap<String, TimelineValue>> timeline =
+        new ConcurrentSkipListMap<>();
+    
+    public FilteredTimelineView() {}
 
-	@Override public final NavigableSet<Instant> timestamps() {
-		var retVal = new TreeSet<Instant>();
-		
-		for (var ts : this.baseView.timestamps()) 
-			if (this.filter.accept(ts, baseView)) retVal.add(ts);
-		
-		return retVal;
-	}
-	
-	public final TimelineViewFilter getFilter() { return this.filter; }
-	
-	public final TimelineView getBaseView() { return this.baseView; }
-	public final void rebase(TimelineView baseView) { this.baseView = baseView; }
+    public FilteredTimelineView(ConcurrentNavigableMap<Instant, ConcurrentNavigableMap<String, TimelineValue>> data) { 
+    	this.timeline = data;
+    }
+
+    @Override public Map<String, TimelineValue> snapshot(Instant time) {
+        var m = timeline.get(time);
+        // Return a stable, unmodifiable snapshot view (copy = iteration-safe for UI)
+        return m == null ? Map.of() : Map.copyOf(m);
+    }
+
+    @Override public NavigableSet<Instant> timestamps() {
+        // Live view is mutable; wrap to avoid external mutation, remains navigable/ordered
+        return Collections.unmodifiableNavigableSet(timeline.navigableKeySet());
+    }
+    
+    @Override public String toString() { return this.timeline.toString(); }
+
 }

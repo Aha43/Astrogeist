@@ -7,6 +7,11 @@ import java.util.Map;
 
 import astrogeist.engine.timeline.TimelineValue;
 
+/**
+ * <p>
+ *   Defines the mutable time line, extends the read only time line view.
+ * </p>
+ */
 public interface Timeline extends TimelineView {
 	void clear();
 	void put(Instant time, Path path);

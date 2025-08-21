@@ -16,7 +16,7 @@ import astrogeist.engine.resources.Resources;
 import astrogeist.ui.swing.component.data.files.FilesTypeGroupComponentPanel;
 import astrogeist.ui.swing.component.data.metadata.MetadataTablePanel;
 import astrogeist.ui.swing.component.data.timeline.TimelineTablePanel;
-import astrogeist.ui.swing.component.data.timeline.view.CompositeFilteredTimelineViewTablePanel;
+import astrogeist.ui.swing.component.data.timeline.filtering.FilteredTimelineViewTablePanel;
 import astrogeist.ui.swing.menubar.MenuBarFactory;
 import astrogeist.ui.swing.toolbar.ToolBarFactory;
 
@@ -31,7 +31,7 @@ public final class App {
 	
 	private final TimelineTablePanel timelinePanel = new TimelineTablePanel(this);
 	
-	private final CompositeFilteredTimelineViewTablePanel searchPanel = new CompositeFilteredTimelineViewTablePanel(this);
+	private final FilteredTimelineViewTablePanel searchPanel = new FilteredTimelineViewTablePanel(this);
 	
 	public App() {}
 	
@@ -43,7 +43,7 @@ public final class App {
 	
 	public final TimelineTablePanel getTimelinePanel() { return this.timelinePanel; }
 	
-	public final CompositeFilteredTimelineViewTablePanel getSearchPanel() { return this.searchPanel; }
+	public final FilteredTimelineViewTablePanel getSearchPanel() { return this.searchPanel; }
 	
 	public final void createGUI() {
 		var title = "Astrogeist";

@@ -11,17 +11,35 @@ import javax.swing.JButton;
 
 import astrogeist.engine.logging.Log;
 import astrogeist.ui.swing.App;
+import astrogeist.ui.swing.component.data.timeline.filtering.FilteredTimelineViewTableModel;
 import astrogeist.ui.swing.dialog.filtering.PropertiesTimelineFilterDialog;
 
-public final class FilteredTimelineViewStackPanel extends JPanel {
+/**
+ * <p>
+ *   Panel that shows filters applied to time line and...
+ * </p>
+ */
+public final class FilterPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
 	private final Logger logger = Log.get(this);
 	
-	private final FilteredTimelineViewTableModel model = new FilteredTimelineViewTableModel(); 
+	private final FilterTableModel model;
 	
-	public FilteredTimelineViewStackPanel(App app) {
+	/**
+	 * <p>
+	 *   Constructor.
+	 * </p>
+	 * @param app   Application.
+	 * @param model The table model that shows the filtered time line and holds the filters. This does NOT
+	 *              show this in a table but need reference to this in order to get the filters to show and
+	 *              manipulate the filters applied.
+	 */
+	public FilterPanel(App app, FilteredTimelineViewTableModel filters) {
 		super.setLayout(new BorderLayout());
+		
+		this.model = new FilterTableModel(filters);
+		
 		super.add(new JScrollPane(new JTable(this.model)), BorderLayout.CENTER);
 		createButtons(app);
 	}
@@ -36,12 +54,11 @@ public final class FilteredTimelineViewStackPanel extends JPanel {
 	
 	private final void addPropertiesTimelineFilter(App app) {
 		var filter = PropertiesTimelineFilterDialog.show(app);
-		model.addFilter(filter);
+		model.pushFilter(filter);
 		
 		this.logger.info("added " + PropertiesTimelineFilterDialog.class.getSimpleName() + 
 				" filter: " + filter + " and composite view now has " + 
-				this.model.view().getFilterCount() + " filters");
+				this.model.getFilterCount() + " filters");
 	}
-	
 	
 }

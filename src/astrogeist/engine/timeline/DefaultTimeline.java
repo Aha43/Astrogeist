@@ -13,6 +13,11 @@ import astrogeist.engine.abstraction.Timeline;
 import astrogeist.engine.abstraction.TimelineValuePool;
 import astrogeist.engine.scanner.NormalizedProperties;
 
+/**
+ * <p>
+ *   Implementation of the non filtered time line.
+ * </p>
+ */
 public final class DefaultTimeline implements Timeline {
 	private final TimelineValuePool pool;
 

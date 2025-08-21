@@ -2,26 +2,26 @@ package astrogeist.ui.swing.dialog.filtering;
 
 import java.awt.BorderLayout;
 
-import astrogeist.engine.timeline.view.CompositeFilteredTimelineView;
 import astrogeist.ui.swing.App;
-import astrogeist.ui.swing.component.data.timeline.view.FilteredTimelineViewStackPanel;
+import astrogeist.ui.swing.component.data.timeline.filtering.FilteredTimelineViewTableModel;
+import astrogeist.ui.swing.component.data.timeline.view.FilterPanel;
 import astrogeist.ui.swing.dialog.DialogBase;
 
 public final class FilteredTimelineViewStackDialog extends DialogBase {
 	private static final long serialVersionUID = 1L;
 	
-	private final FilteredTimelineViewStackPanel panel;
+	private final FilterPanel panel;
 
-	private FilteredTimelineViewStackDialog(App app) {
+	private FilteredTimelineViewStackDialog(App app, FilteredTimelineViewTableModel model) {
 		super(app, "Filters", false);
 		
-		this.panel = new FilteredTimelineViewStackPanel(app);
+		this.panel = new FilterPanel(app, model);
 		
 		super.add(this.panel, BorderLayout.CENTER);
 		super.pack();
 		super.setSize(500, 500);
 	}
 	
-	public static final void show(App app) {
-		new FilteredTimelineViewStackDialog(app).setVisible(true); }
+	public static final void show(App app, FilteredTimelineViewTableModel model) {
+		new FilteredTimelineViewStackDialog(app, model).setVisible(true); }
 }

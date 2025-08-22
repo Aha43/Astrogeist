@@ -1,9 +1,8 @@
-package astrogeist.ui.swing.component.data.timeline.view;
+package astrogeist.ui.swing.component.data.timeline.filtering;
 
 import javax.swing.table.AbstractTableModel;
 
 import astrogeist.engine.abstraction.TimelineViewFilter;
-import astrogeist.ui.swing.component.data.timeline.filtering.FilteredTimelineViewTableModel;
 
 /**
  * 

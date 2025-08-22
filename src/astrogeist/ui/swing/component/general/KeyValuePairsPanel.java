@@ -5,7 +5,9 @@ import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.AbstractAction;
@@ -22,15 +24,18 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.TableModelEvent;
 
 /** Reusable panel for editing String→String pairs with add/delete/clear and "Enter adds row". */
-public final class KeyValuePairsPanel extends JPanel {
+public class KeyValuePairsPanel extends JPanel {
     private static final long serialVersionUID = 1L;
     
 	private final KeyValueTableModel model;
     private final JTable table;
+    
     private final JButton addBtn = new JButton("Add");
     private final JButton delBtn = new JButton("Delete");
     private final JButton clearBtn = new JButton("Clear All");
 
+    private final JPanel toolbar = new JPanel(new FlowLayout(FlowLayout.LEFT));
+    
     public KeyValuePairsPanel() { this(null); }
 
     public KeyValuePairsPanel(Map<String, String> initial) {
@@ -39,26 +44,25 @@ public final class KeyValuePairsPanel extends JPanel {
         this.table = new JTable(model);
 
         // nice defaults
-        table.setFillsViewportHeight(true);
-        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        table.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
+        this.table.setFillsViewportHeight(true);
+        this.table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        this.table.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
 
         // Enter key: commit edit, add row if on last row, keep selection on same column
         installEnterAddsRowBehavior();
 
         // toolbar
-        JPanel toolbar = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        toolbar.add(addBtn);
-        toolbar.add(delBtn);
-        toolbar.add(clearBtn);
+        this.toolbar.add(addBtn);
+        this.toolbar.add(delBtn);
+        this.toolbar.add(clearBtn);
 
-        add(new JScrollPane(table), BorderLayout.CENTER);
-        add(toolbar, BorderLayout.SOUTH);
+        super.add(new JScrollPane(table), BorderLayout.CENTER);
+        super.add(toolbar, BorderLayout.SOUTH);
 
         // actions
-        addBtn.addActionListener(e -> addRowAndFocus());
-        delBtn.addActionListener(e -> removeSelectedRow());
-        clearBtn.addActionListener(e -> model.clearAll());
+        this.addBtn.addActionListener(e -> addRowAndFocus());
+        this.delBtn.addActionListener(e -> removeSelectedRow());
+        this.clearBtn.addActionListener(e -> model.clearAll());
 
         // surface errors as dialogs (optional; you can remove this if you prefer silent behavior)
         model.addTableModelListener(ev -> {
@@ -70,8 +74,10 @@ public final class KeyValuePairsPanel extends JPanel {
             }
         });
     }
+    
+    protected final void addButton(JButton btn) { this.toolbar.add(btn); }
 
-    private void installEnterAddsRowBehavior() {
+    private final void installEnterAddsRowBehavior() {
         var im = table.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         var am = table.getActionMap();
 
@@ -100,7 +106,7 @@ public final class KeyValuePairsPanel extends JPanel {
         });
     }
 
-    private void addRowAndFocus() {
+    private final void addRowAndFocus() {
         model.addRow();
         int r = model.getRowCount() - 1;
         table.changeSelection(r, 0, false, false);
@@ -109,7 +115,7 @@ public final class KeyValuePairsPanel extends JPanel {
         if (editor != null) editor.requestFocusInWindow();
     }
 
-    private void removeSelectedRow() {
+    private final void removeSelectedRow() {
         int r = table.getSelectedRow();
         if (r >= 0) model.removeRow(r);
     }
@@ -117,16 +123,16 @@ public final class KeyValuePairsPanel extends JPanel {
     // ------ Public API ------
 
     /** Replace all pairs (null allowed). */
-    public void setPairs(Map<String, String> map) { model.setPairs(map); }
+    public final void setPairs(Map<String, String> map) { model.setPairs(map); }
 
     /** Returns pairs in insertion order (skips empty keys). */
-    public Map<String, String> getPairs() { return new LinkedHashMap<>(model.toMap()); }
+    public final Map<String, String> getPairs() { return new LinkedHashMap<>(model.toMap()); }
 
     /** Expose table if caller wants more customization (column widths, renderers, etc.). */
-    public JTable getTable() { return table; }
+    public final JTable getTable() { return table; }
 
     /** Enable/disable editing & buttons. */
-    @Override public void setEnabled(boolean enabled) {
+    @Override public final void setEnabled(boolean enabled) {
         super.setEnabled(enabled);
         table.setEnabled(enabled);
         addBtn.setEnabled(enabled);
@@ -135,8 +141,7 @@ public final class KeyValuePairsPanel extends JPanel {
     }
     
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(KeyValuePairsPanel::createAndShowUI);
-    }
+        SwingUtilities.invokeLater(KeyValuePairsPanel::createAndShowUI);}
     
     private static void createAndShowUI() {
         JFrame frame = new JFrame("Key-Value Pairs Panel Demo");

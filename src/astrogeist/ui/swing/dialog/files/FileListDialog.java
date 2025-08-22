@@ -31,7 +31,7 @@ public final class FileListDialog extends ModalDialogBase {
 		astrogeist.engine.typesystem.Type.DiskFile fileType,
 		Instant timestamp,
 		List<Path> files) {
-		
 		new FileListDialog(app, fileType, timestamp, files).setVisible(true); 
 	}
+	
 }

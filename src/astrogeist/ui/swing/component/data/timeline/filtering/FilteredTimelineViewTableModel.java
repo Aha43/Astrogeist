@@ -24,11 +24,6 @@ public final class FilteredTimelineViewTableModel  extends AbstractTimelineViewT
 	private FilteredTimelineView filteredView = new FilteredTimelineView();
 	
 	private final ArrayList<TimelineViewFilter> filters = new ArrayList<>();
-	
-	public FilteredTimelineViewTableModel() {
-		//var filter = new astrogeist.engine.timeline.view.PropertyEqualsTimelineViewFilter("FrameCount", "1000");
-		//this.pushFilter(filter);
-	}
 
 	@Override protected TimelineView getTimelineView() { return this.filteredView; }
 	
@@ -37,14 +32,23 @@ public final class FilteredTimelineViewTableModel  extends AbstractTimelineViewT
 		this.filter();
 	}
 	
+	// Filter info and editing starts
+	
 	public final int getFilterCount() { return this.filters.size(); }
 	
 	public final TimelineViewFilter getFilter(int idx) { return this.filters.get(idx); }
+	
+	public final void clearFilters() {
+		this.filters.clear();
+		filter();
+	}
 	
 	public final void pushFilter(TimelineViewFilter filter) {
 		this.filters.add(filter);
 		filter();
 	}
+	
+	// Filter info and editing ends
 	
 	private final void filter() {
 		if (this.unfilteredView == null) return;

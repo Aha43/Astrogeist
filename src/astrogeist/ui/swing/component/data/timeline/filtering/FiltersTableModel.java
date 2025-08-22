@@ -14,6 +14,11 @@ public final class FiltersTableModel extends AbstractTableModel {
 	
 	public FiltersTableModel(FilteredTimelineViewTableModel filters) { this.filters = filters; }
 	
+	public final void clearFilters() {
+		this.filters.clearFilters();
+		super.fireTableDataChanged();
+	}
+	
 	public final void pushFilter(TimelineViewFilter filter) {
 		this.filters.pushFilter(filter);
 		super.fireTableDataChanged();

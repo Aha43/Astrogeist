@@ -69,7 +69,7 @@ public final class App {
 		
 		var centerTabs = new JTabbedPane();
 		centerTabs.addTab("Timeline", timelineScroll);
-		centerTabs.addTab("Search", timelineViewScroll);
+		centerTabs.addTab("Filtering", timelineViewScroll);
 
 		// Split Pane: Left (tabs) + Center (table)
 		var splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftTabs, centerTabs);

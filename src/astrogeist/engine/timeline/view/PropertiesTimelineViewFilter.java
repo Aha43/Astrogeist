@@ -35,5 +35,18 @@ public final class PropertiesTimelineViewFilter extends AbstractTimelineViewFilt
 		
 		return true;
 	}
+	
+	@Override public String toString() {
+		var sb = new StringBuilder();
+		
+		var first = true;
+		for (var e : this.searched.entrySet()) {
+			if (!first) sb.append(", ");
+			sb.append(e.getKey()).append('=').append(e.getValue());
+			first = false;
+		}
+		
+		return sb.toString();
+	}
 
 }

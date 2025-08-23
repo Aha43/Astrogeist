@@ -31,11 +31,11 @@ public final class TimelineTablePanel extends AbstractTimelineViewTablePanel {
 	private final void addButtons() {
 		var mappingButton = new JButton("Mapping");
 		mappingButton.addActionListener(e -> TimelineMappingDialog.show(this.app));
-		super.buttonsPanel.add(mappingButton);
+		super.southPanel.add(mappingButton);
 		
 		var userPropsButton = new JButton("User Data");
 		userPropsButton.addActionListener(e -> editUserData());
-		super.buttonsPanel.add(userPropsButton);
+		super.southPanel.add(userPropsButton);
 	}
 	
 	private final void editUserData() {

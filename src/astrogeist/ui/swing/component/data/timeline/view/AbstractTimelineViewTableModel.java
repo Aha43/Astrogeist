@@ -11,6 +11,11 @@ import astrogeist.engine.abstraction.TimelineView;
 import astrogeist.engine.resources.Time;
 import astrogeist.engine.timeline.TimelineValue;
 
+/**
+ * <p>
+ *   Table model showing timeline. Used to show both complete time line and filtered time line.
+ * </p>
+ */
 public abstract class AbstractTimelineViewTableModel extends AbstractTableModel { 
 	private static final long serialVersionUID = 1L;
 	

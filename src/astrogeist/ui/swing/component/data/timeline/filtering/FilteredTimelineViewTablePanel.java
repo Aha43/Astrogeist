@@ -27,7 +27,7 @@ public class FilteredTimelineViewTablePanel extends AbstractTimelineViewTablePan
 		var model = model();
 		var filters = new JButton("Filters");
 		filters.addActionListener(e -> { FiltersDialog.show(app, model); });
-		super.buttonsPanel.add(filters);
+		super.northPanel.add(filters);
 	}
 	
 	public final void timelineView(TimelineView view) {

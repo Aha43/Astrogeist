@@ -24,20 +24,32 @@ import astrogeist.ui.swing.component.data.timeline.selectionaction.SelectionActi
 import astrogeist.ui.swing.dialog.message.MessageDialogs;
 import astrogeist.ui.swing.dialog.selection.SelectionDialog;
 
+/**
+ * <p>
+ *   Panel that shows TimelineView. Used both to show complete time line (Timeline) and filtered
+ *   time line (TimelineView). Got some common tools but implementations may / can add buttons 
+ *   north / south.
+ * </p>
+ */
 public abstract class AbstractTimelineViewTablePanel  extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
 	protected final JTable table;
 	protected final AbstractTimelineViewTableModel model;
 	
-	protected JPanel buttonsPanel;
+	protected final JPanel northPanel;
+	protected final JPanel southPanel;
 	
 	protected final App app;
 
 	protected AbstractTimelineViewTablePanel(App app, AbstractTimelineViewTableModel model) {
 		super(new BorderLayout());
-		
 		this.app = app;
+		
+		this.northPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		super.add(this.northPanel, BorderLayout.NORTH);
+		this.southPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		super.add(this.southPanel, BorderLayout.SOUTH);
 		
 		this.model = model;
 		this.table = new JTable(this.model);
@@ -50,35 +62,15 @@ public abstract class AbstractTimelineViewTablePanel  extends JPanel {
 		
 		this.model.setColumnsToShow(Settings.getCsv(SettingKeys.TABLE_COLUMNS));
 		
-		createButtonPanel();
+		populateNorthPanel();
+		populateSouthPanel();
 	}
 	
-	private final void createButtonPanel() {
-		this.buttonsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		
-		var columnsButton = new JButton("Select columns to show");
-		
-		columnsButton.addActionListener(e -> {
-			var all = NormalizedProperties.getNormalizedNamesAndUserDataNames();
-			var selected = Settings.getCsv(SettingKeys.TABLE_COLUMNS);
-			SelectionDialog.show(this.app, "Select Columns", selected, all);
-			this.model.setColumnsToShow(selected);
-			saveSelectedColumns(selected);
-		});
-		
-		buttonsPanel.add(columnsButton);
-		
-		this.add(buttonsPanel, BorderLayout.SOUTH);
-		this.add(createNorthPanel(), BorderLayout.NORTH);
-	}
-	
-	private final JPanel createNorthPanel() {
-		var retVal = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		
+	private final void populateNorthPanel() {
 		var selectionActionsComboBox = new SelectionActionsComboBox();
 		
-		retVal.add(new JLabel("Selection Action: "));
-		retVal.add(selectionActionsComboBox);
+		this.northPanel.add(new JLabel("Selection Action: "));
+		this.northPanel.add(selectionActionsComboBox);
 		
 		this.table.getSelectionModel().addListSelectionListener(e -> {
 			if (e.getValueIsAdjusting()) return;
@@ -89,13 +81,25 @@ public abstract class AbstractTimelineViewTablePanel  extends JPanel {
 	        if (action == null || action == NoSelectionAction.INSTANCE) return;
 
 	        int modelRow = table.convertRowIndexToModel(viewRow);
-	        var snapshot = this.model.getSnapshotAt(modelRow); // implement this getter
+	        var snapshot = this.model.getSnapshotAt(modelRow);
 	        if (snapshot == null) return;
 
 	        action.Perform(snapshot);
 		});
+	}
+	
+	private final void populateSouthPanel() {
+		var columnsButton = new JButton("Select columns to show");
 		
-		return retVal;
+		columnsButton.addActionListener(e -> {
+			var all = NormalizedProperties.getNormalizedNamesAndUserDataNames();
+			var selected = Settings.getCsv(SettingKeys.TABLE_COLUMNS);
+			SelectionDialog.show(this.app, "Select Columns", selected, all);
+			this.model.setColumnsToShow(selected);
+			saveSelectedColumns(selected);
+		});
+		
+		southPanel.add(columnsButton);
 	}
 	
 	private final static void saveSelectedColumns(List<String> selected) {

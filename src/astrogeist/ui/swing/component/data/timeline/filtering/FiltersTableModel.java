@@ -5,13 +5,21 @@ import javax.swing.table.AbstractTableModel;
 import astrogeist.engine.abstraction.TimelineViewFilter;
 
 /**
- * 
+ * <p>
+ *   Table model that shows filters and with API to add and remove filters.
+ * </p>
  */
 public final class FiltersTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
 	
 	private  FilteredTimelineViewTableModel filters = null;
 	
+	/**
+	 * <p>
+	 *   Constructor.
+	 * </p>
+	 * @param filters The table model that shows the filtered time line. This uses its API to add and remove filters.
+	 */
 	public FiltersTableModel(FilteredTimelineViewTableModel filters) { this.filters = filters; }
 	
 	public final void clearFilters() {

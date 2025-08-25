@@ -2,7 +2,7 @@ package astrogeist.ui.swing.component.data.timeline.filtering;
 
 import javax.swing.JButton;
 
-import astrogeist.engine.timeline.view.PropertiesTimelineViewFilter;
+import astrogeist.engine.timeline.view.filters.PropertiesTimelineViewFilter;
 import astrogeist.ui.swing.component.general.KeyValuePairsPanel;
 
 public final class PropertiesFilterPanel extends KeyValuePairsPanel {

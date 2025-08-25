@@ -4,7 +4,7 @@ import java.awt.BorderLayout;
 
 import astrogeist.ui.swing.App;
 import astrogeist.ui.swing.component.data.timeline.filtering.FilteredTimelineViewTableModel;
-import astrogeist.ui.swing.component.data.timeline.filtering.FiltersTabsPanel;
+import astrogeist.ui.swing.component.data.timeline.filtering.FiltersPanel;
 import astrogeist.ui.swing.dialog.DialogBase;
 
 public final class FiltersDialog extends DialogBase {
@@ -12,10 +12,10 @@ public final class FiltersDialog extends DialogBase {
 
 	private FiltersDialog(App app, FilteredTimelineViewTableModel model) {
 		super(app, "Filters", false);
-		var panel = new FiltersTabsPanel(app, model);
+		var panel = new FiltersPanel(model);
 		super.add(panel, BorderLayout.CENTER);
 		super.pack();
-		super.setSize(500, 500);
+		super.setSize(800, 600);
 	}
 	
 	public static final void show(App app, FilteredTimelineViewTableModel model) {

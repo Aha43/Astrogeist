@@ -2,7 +2,7 @@ package astrogeist.ui.swing.component.data.timeline.filtering;
 
 import javax.swing.table.AbstractTableModel;
 
-import astrogeist.engine.abstraction.TimelineViewFilter;
+import astrogeist.engine.abstraction.TimelineFilter;
 
 /**
  * <p>
@@ -27,7 +27,7 @@ public final class FiltersTableModel extends AbstractTableModel {
 		super.fireTableDataChanged();
 	}
 	
-	public final void pushFilter(TimelineViewFilter filter) {
+	public final void pushFilter(TimelineFilter filter) {
 		this.filters.pushFilter(filter);
 		super.fireTableDataChanged();
 	}

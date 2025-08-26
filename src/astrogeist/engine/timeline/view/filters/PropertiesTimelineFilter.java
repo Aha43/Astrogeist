@@ -7,14 +7,13 @@ import java.util.logging.Logger;
 
 import astrogeist.engine.abstraction.TimelineView;
 import astrogeist.engine.logging.Log;
-import astrogeist.engine.timeline.view.AbstractTimelineViewFilter;
 
-public final class PropertiesTimelineViewFilter extends AbstractTimelineViewFilter {
+public final class PropertiesTimelineFilter extends AbstractTimelineFilter {
 	private final Logger logger = Log.get(this);
 	
 	private final LinkedHashMap<String, String> searched;
 	
-	public PropertiesTimelineViewFilter(Map<String, String> searched) {
+	public PropertiesTimelineFilter(Map<String, String> searched) {
 		this.searched = new LinkedHashMap<>(searched); }
 
 	@Override

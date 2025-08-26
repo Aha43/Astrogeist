@@ -6,9 +6,9 @@ import java.util.concurrent.ConcurrentNavigableMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 
 import astrogeist.engine.abstraction.TimelineView;
-import astrogeist.engine.abstraction.TimelineViewFilter;
+import astrogeist.engine.abstraction.TimelineFilter;
 import astrogeist.engine.timeline.TimelineValue;
-import astrogeist.engine.timeline.view.FilteredTimelineView;
+import astrogeist.engine.timeline.view.FilteredTimeline;
 import astrogeist.ui.swing.component.data.timeline.view.AbstractTimelineViewTableModel;
 
 /**
@@ -21,9 +21,9 @@ public final class FilteredTimelineViewTableModel  extends AbstractTimelineViewT
 	
 	private TimelineView unfilteredView;
 	
-	private FilteredTimelineView filteredView = new FilteredTimelineView();
+	private FilteredTimeline filteredView = new FilteredTimeline();
 	
-	private final ArrayList<TimelineViewFilter> filters = new ArrayList<>();
+	private final ArrayList<TimelineFilter> filters = new ArrayList<>();
 
 	@Override protected TimelineView getTimelineView() { return this.filteredView; }
 	
@@ -36,14 +36,14 @@ public final class FilteredTimelineViewTableModel  extends AbstractTimelineViewT
 	
 	public final int getFilterCount() { return this.filters.size(); }
 	
-	public final TimelineViewFilter getFilter(int idx) { return this.filters.get(idx); }
+	public final TimelineFilter getFilter(int idx) { return this.filters.get(idx); }
 	
 	public final void clearFilters() {
 		this.filters.clear();
 		filter();
 	}
 	
-	public final void pushFilter(TimelineViewFilter filter) {
+	public final void pushFilter(TimelineFilter filter) {
 		this.filters.add(filter);
 		filter();
 	}
@@ -63,7 +63,7 @@ public final class FilteredTimelineViewTableModel  extends AbstractTimelineViewT
 			}
 		}
 		
-		this.filteredView = new FilteredTimelineView(filtered);
+		this.filteredView = new FilteredTimeline(filtered);
 		
 		super.initialize();
 	}

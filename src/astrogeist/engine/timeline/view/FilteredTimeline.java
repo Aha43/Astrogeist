@@ -10,15 +10,15 @@ import java.util.concurrent.ConcurrentSkipListMap;
 import astrogeist.engine.abstraction.TimelineView;
 import astrogeist.engine.timeline.TimelineValue;
 
-public class FilteredTimelineView implements TimelineView {
+public class FilteredTimeline implements TimelineView {
 
 	// Chronological, thread-safe, navigable
     private ConcurrentNavigableMap<Instant, ConcurrentNavigableMap<String, TimelineValue>> timeline =
         new ConcurrentSkipListMap<>();
     
-    public FilteredTimelineView() {}
+    public FilteredTimeline() {}
 
-    public FilteredTimelineView(ConcurrentNavigableMap<Instant, ConcurrentNavigableMap<String, TimelineValue>> data) { 
+    public FilteredTimeline(ConcurrentNavigableMap<Instant, ConcurrentNavigableMap<String, TimelineValue>> data) { 
     	this.timeline = data;
     }
 

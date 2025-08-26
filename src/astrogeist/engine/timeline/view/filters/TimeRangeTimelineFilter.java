@@ -3,13 +3,12 @@ package astrogeist.engine.timeline.view.filters;
 import java.time.Instant;
 
 import astrogeist.engine.abstraction.TimelineView;
-import astrogeist.engine.timeline.view.AbstractTimelineViewFilter;
 import astrogeist.engine.util.Instants.Interval;
 
-public final class TimeRangeTimelineViewFilter extends AbstractTimelineViewFilter {
+public final class TimeRangeTimelineFilter extends AbstractTimelineFilter {
 	private final Interval interval;
 	
-	public TimeRangeTimelineViewFilter(Interval interval) { this.interval = interval; }
+	public TimeRangeTimelineFilter(Interval interval) { this.interval = interval; }
 	
 	public final Interval interval() { return this.interval; }
 	public final Instant from() { return this.interval.from(); }

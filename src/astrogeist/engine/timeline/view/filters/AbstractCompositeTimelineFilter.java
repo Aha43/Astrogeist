@@ -7,8 +7,14 @@ import astrogeist.engine.abstraction.TimelineFilter;
 public abstract class AbstractCompositeTimelineFilter extends AbstractTimelineFilter {
 	private final ArrayList<TimelineFilter> filters = new ArrayList<>();
 	
-	private String description;
-	public void description(String description) { this.description = description; }
+	protected AbstractCompositeTimelineFilter() { }
+	protected AbstractCompositeTimelineFilter(String description) { this.description(description); }
+	
+	private String description = "";
+	public void description(String description) {
+		description = description == null ? "" : description.trim();
+		this.description = description; 
+	}
 	public String description() { return this.description; }
 	
 	public int size() { return this.filters.size(); }

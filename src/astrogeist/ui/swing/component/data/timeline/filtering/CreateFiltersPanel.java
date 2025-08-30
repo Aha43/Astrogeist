@@ -21,7 +21,7 @@ public final class CreateFiltersPanel extends JPanel {
 	 * <p>
 	 *   Constructor.
 	 * </p>
-	 * 
+	 *  
 	 */
 	public CreateFiltersPanel(FiltersTableModel ftm) { 
 		super.setLayout(new BorderLayout());

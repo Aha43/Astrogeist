@@ -1,12 +1,12 @@
 package astrogeist.engine.timeline.view.filters;
 
-import astrogeist.engine.abstraction.TimelineFilter;
+import astrogeist.engine.abstraction.TimelineViewFilter;
 
 /**
  * <p>
  *   Base class for time line filter implementations.
  * </p>
  */
-public abstract class AbstractTimelineFilter implements TimelineFilter {
+public abstract class AbstractTimelineViewFilter implements TimelineViewFilter {
 	@Override public final String name() { return this.getClass().getSimpleName(); }
 }

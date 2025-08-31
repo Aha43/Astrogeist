@@ -9,7 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import astrogeist.engine.timeline.view.filters.TimeRangeTimelineFilter;
+import astrogeist.engine.timeline.view.filters.TimeRangeTimelineViewFilter;
 import astrogeist.engine.util.Instants;
 import astrogeist.ui.swing.component.data.timeline.filtering.FiltersTableModel;
 import astrogeist.ui.swing.dialog.message.MessageDialogs;
@@ -42,7 +42,7 @@ public final class CreateDayFilterPanel extends JPanel {
 			return;
 		}
 		var interval = Instants.dayInterval(isoDate);
-		var filter = new TimeRangeTimelineFilter(interval);
+		var filter = new TimeRangeTimelineViewFilter(interval);
 		ftm.pushFilter(filter);
 	}
 

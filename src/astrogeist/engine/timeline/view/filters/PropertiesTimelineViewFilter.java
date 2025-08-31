@@ -8,12 +8,12 @@ import java.util.logging.Logger;
 import astrogeist.engine.abstraction.TimelineView;
 import astrogeist.engine.logging.Log;
 
-public final class PropertiesTimelineFilter extends AbstractTimelineFilter {
+public final class PropertiesTimelineViewFilter extends AbstractTimelineViewFilter {
 	private final Logger logger = Log.get(this);
 	
 	private final LinkedHashMap<String, String> searched;
 	
-	public PropertiesTimelineFilter(Map<String, String> searched) {
+	public PropertiesTimelineViewFilter(Map<String, String> searched) {
 		this.searched = new LinkedHashMap<>(searched); }
 
 	@Override

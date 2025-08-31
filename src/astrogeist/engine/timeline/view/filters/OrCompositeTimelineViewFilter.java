@@ -4,9 +4,9 @@ import java.time.Instant;
 
 import astrogeist.engine.abstraction.TimelineView;
 
-public final class OrCompositeTimelineFilter extends AbstractCompositeTimelineFilter {
-	public OrCompositeTimelineFilter() { }
-	public OrCompositeTimelineFilter(String description) { super(description); }
+public final class OrCompositeTimelineViewFilter extends AbstractCompositeTimelineViewFilter {
+	public OrCompositeTimelineViewFilter() { }
+	public OrCompositeTimelineViewFilter(String description) { super(description); }
 	
 	@Override public final boolean accept(Instant time, TimelineView view) {
 		var n = super.size();

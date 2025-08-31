@@ -5,10 +5,10 @@ import java.time.Instant;
 import astrogeist.engine.abstraction.TimelineView;
 import astrogeist.engine.util.Instants.Interval;
 
-public final class TimeRangeTimelineFilter extends AbstractTimelineFilter {
+public final class TimeRangeTimelineViewFilter extends AbstractTimelineViewFilter {
 	private final Interval interval;
 	
-	public TimeRangeTimelineFilter(Interval interval) { this.interval = interval; }
+	public TimeRangeTimelineViewFilter(Interval interval) { this.interval = interval; }
 	
 	public final Interval interval() { return this.interval; }
 	public final Instant from() { return this.interval.from(); }

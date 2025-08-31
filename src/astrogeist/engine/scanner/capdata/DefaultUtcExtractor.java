@@ -16,8 +16,7 @@ import astrogeist.engine.logging.Log;
 public final class DefaultUtcExtractor implements UtcExtractor  {
 	private final Logger logger = Log.get(this);
 	
-	@Override
-	public Instant extract(Path path) {
+	@Override public final Instant extract(Path path) {
 		String normalizedPath = path.toString().replace('\\', '/');
 
         // Match date (YYYY-MM-DD)

@@ -11,6 +11,7 @@ import astrogeist.engine.logging.Log;
 import astrogeist.engine.scanner.AbstractScanner;
 import astrogeist.engine.scanner.capdata.fileparsers.CompositeFileParser;
 import astrogeist.engine.util.FilesUtil;
+import astrogeist.ui.swing.dialog.message.MessageDialogs;
 
 public final class CapDataScanner extends AbstractScanner {
 	private final Logger logger = Log.get(this);
@@ -22,17 +23,21 @@ public final class CapDataScanner extends AbstractScanner {
 	protected CapDataScanner(File rootDir) { super(rootDir); }
 
 	@Override public void scan(Timeline timeline) throws Exception {
-		var paths = FilesUtil.getRegularFilePaths(super.rootDir.toPath());
-		for (var path : paths) {
-			
-			this.logger.info("analyze path: " + path.toString());
-			
-			var instant = this.utcExtractor.extract(path);
-			if (instant == null) continue;
-			
-			timeline.put(instant, path);
-			
-			fileParser.parse(instant, path.toFile(), timeline);
+		try {
+			var paths = FilesUtil.getRegularFilePaths(super.rootDir.toPath());
+			for (var path : paths) {
+				
+				this.logger.info("analyze path: " + path.toString());
+				
+				var instant = this.utcExtractor.extract(path);
+				if (instant == null) continue;
+				
+				timeline.put(instant, path);
+				
+				fileParser.parse(instant, path.toFile(), timeline);
+			}
+		} catch (Exception x) {
+			MessageDialogs.showError("Failed scanning", x);
 		}
 	}
 	

@@ -33,6 +33,7 @@ public final class Resources {
 	private static File _userDataDir = null;
 	private static File _regexScannerPatternFile = null;
 	private static File _timelineMappingFile = null;
+	private static File _scanningConfigFile = null;
 	
 	public static File ensureAstrogeistDirectoryExist() throws IOException {
 		if (_astrogeistDir != null) return _astrogeistDir;
@@ -89,6 +90,13 @@ public final class Resources {
 		if (_regexScannerPatternFile != null) return _regexScannerPatternFile;
 		_regexScannerPatternFile = new File(_astrogeistDir, "scan-regex.xml");
 		return _regexScannerPatternFile;
+	}
+	
+	public static File getScanningConfigFile() {
+		checkGotAstrogeistDir();
+		if (_scanningConfigFile != null) return _scanningConfigFile;
+		_scanningConfigFile = new File(_astrogeistDir, "scanning.xml");
+		return _scanningConfigFile;
 	}
 	
 	public static File getTimelineMappingPatternFile() {

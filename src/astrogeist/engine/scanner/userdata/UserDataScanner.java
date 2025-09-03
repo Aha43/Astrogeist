@@ -1,23 +1,23 @@
 package astrogeist.engine.scanner.userdata;
 
+import astrogeist.engine.abstraction.Scanner;
 import astrogeist.engine.abstraction.Timeline;
+import astrogeist.engine.abstraction.TimelineValuePool;
 import astrogeist.engine.resources.Resources;
-import astrogeist.engine.scanner.AbstractScanner;
+import astrogeist.engine.userdata.UserDataIo;
 import astrogeist.engine.util.FilesUtil;
 import astrogeist.engine.util.Instants;
-import astrogeist.engine.abstraction.UserDataIo;
 
-public final class UserDataScanner extends AbstractScanner {
+public final class UserDataScanner implements Scanner {
 	private final UserDataIo userDataIo;
 	
-	public UserDataScanner(UserDataIo userDataIo) { 
-		super(Resources.getUserDataDir()); 
-		this.userDataIo = userDataIo;
-	}
+	public UserDataScanner(TimelineValuePool tvp) {
+		this.userDataIo = new UserDataIo(tvp); }
 
 	@Override public void scan(Timeline timeline) {
 		try {
-			var files = super.rootDir.listFiles();
+			var root = Resources.getUserDataDir();
+			var files = root.listFiles();
 			for (var file : files) {
 				var name = FilesUtil.getBaseName(file);
 				var t = Instants.fromFileSafeString(name);

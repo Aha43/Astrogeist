@@ -1,4 +1,4 @@
-package astrogeist.engine.scanner.capdata;
+package astrogeist.engine.scanner;
 
 import java.nio.file.Path;
 import java.time.DateTimeException;

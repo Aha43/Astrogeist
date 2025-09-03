@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Image;
 import java.net.URL;
 
+import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
@@ -44,6 +45,9 @@ public final class App {
 	public final TimelineTablePanel getTimelinePanel() { return this.timelinePanel; }
 	
 	public final FilteredTimelineViewTablePanel getSearchPanel() { return this.searchPanel; }
+	
+	// Actions
+	public final Action ScanAction = new astrogeist.ui.swing.actions.scanning.ScanAction(this);
 	
 	public final void createGUI() {
 		var title = "Astrogeist";

@@ -1,4 +1,4 @@
-package astrogeist.engine.scanner.capdata.fileparsers.sharpcap;
+package astrogeist.engine.scanner.sharpcap;
 
 import java.io.BufferedReader;
 import java.io.File;

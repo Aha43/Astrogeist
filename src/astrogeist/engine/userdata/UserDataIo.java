@@ -5,18 +5,17 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 import astrogeist.engine.abstraction.TimelineValuePool;
-import astrogeist.engine.abstraction.UserDataIo;
 import astrogeist.engine.resources.Resources;
 import astrogeist.engine.timeline.TimelineValue;
 import astrogeist.engine.util.io.NameValueMapXml;
 
-public final class DefaultUserDataIo implements UserDataIo {
+public final class UserDataIo {
 	private final TimelineValuePool timelineValuePool;
 	
-	public DefaultUserDataIo(TimelineValuePool timelineValuePool) {
+	public UserDataIo(TimelineValuePool timelineValuePool) {
 		this.timelineValuePool = timelineValuePool; }
 	
-	public LinkedHashMap<String, TimelineValue> load(Instant t) throws Exception {
+	public final LinkedHashMap<String, TimelineValue> load(Instant t) throws Exception {
 		var file = Resources.getUserDataFile(t);
 		if (!file.exists()) {
 			file.createNewFile();
@@ -25,7 +24,7 @@ public final class DefaultUserDataIo implements UserDataIo {
 		return retVal;
 	}
 	
-	public void save(Instant t, LinkedHashMap<String, TimelineValue> userData) throws Exception {
+	public final void save(Instant t, LinkedHashMap<String, TimelineValue> userData) throws Exception {
 		var file = Resources.getUserDataFile(t);
 		var valuesToSave = new LinkedHashMap<>(userData);
 		removeDeleted(valuesToSave);

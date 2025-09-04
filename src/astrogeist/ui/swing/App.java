@@ -38,9 +38,7 @@ public final class App {
 	
 	public final Services getServices() { return this.services; }
 	
-	public final MetadataTablePanel getMetadataTablePanel() { return this.metadataPanel; }
-	
-	public final FilesTypeGroupComponentPanel getFilesPanel() { return this.filesPanel; }
+	public final void clearSelectedMetaData() { this.metadataPanel.clear(); this.filesPanel.clear(); }
 	
 	public final TimelineTablePanel getTimelinePanel() { return this.timelinePanel; }
 	

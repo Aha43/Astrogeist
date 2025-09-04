@@ -113,8 +113,7 @@ public abstract class AbstractTimelineViewTablePanel  extends JPanel {
 	}
 	
 	protected final void postSetData() {
-		this.app.getMetadataTablePanel().clear();
-		this.app.getFilesPanel().clear();
+		this.app.clearSelectedMetaData();
 		this.model.setColumnsToShow(Settings.getCsv(SettingKeys.TABLE_COLUMNS));
 		this.table.getColumnModel().getColumn(0).setPreferredWidth(150);
 	}

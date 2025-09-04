@@ -21,7 +21,6 @@ public final class SeestarScanner extends AbstractPluginScanner {
 			var time = FileTimes.getCreationTime(path);
 			this.logger.info("analyze path: " + path.toString() + " - t: " + time);
 			
-			
 		}
 		
 	}

@@ -32,15 +32,22 @@ public final class DefaultTimeline implements Timeline {
 
     public DefaultTimeline(TimelineValuePool pool) { this.pool = pool; }
 
-    @Override public void clear() { timeline.clear(); }
+    @Override public final void clear() { timeline.clear(); }
 
     @Override public void put(Instant time, Path file) {
         var fileTlv = pool.getFileValue(file);
         timeline.computeIfAbsent(time, t -> newSnapshotMap())
                 .put(fileTlv.value(), fileTlv); // key = canonical full path (from pool)
     }
+    
+    @Override public final void put(Instant time, String name, String value) {
+    	var nk = NormalizedProperties.getNormalized(name);
+    	if (nk == null) return;
+    	var snap = timeline.computeIfAbsent(time, t -> newSnapshotMap());
+    	snap.put(nk, pool.get(nk, value));
+    }
 
-    @Override public void put(Instant time, LinkedHashMap<String, String> values) {
+    @Override public final void put(Instant time, LinkedHashMap<String, String> values) {
         var snap = timeline.computeIfAbsent(time, t -> newSnapshotMap());
         for (var e : values.entrySet()) {
             var nk = NormalizedProperties.getNormalized(e.getKey());
@@ -49,7 +56,7 @@ public final class DefaultTimeline implements Timeline {
         }
     }
 
-    @Override public void putTimelineValues(Instant time, LinkedHashMap<String, TimelineValue> values) {
+    @Override public final void putTimelineValues(Instant time, LinkedHashMap<String, TimelineValue> values) {
         var snap = timeline.computeIfAbsent(time, t -> newSnapshotMap());
         for (var e : values.entrySet()) {
             var nk = NormalizedProperties.getNormalized(e.getKey()); // keep normalization consistent
@@ -58,18 +65,18 @@ public final class DefaultTimeline implements Timeline {
         }
     }
 
-    @Override public Map<String, TimelineValue> snapshot(Instant time) {
+    @Override public final Map<String, TimelineValue> snapshot(Instant time) {
         var m = timeline.get(time);
         // Return a stable, unmodifiable snapshot view (copy = iteration-safe for UI)
         return m == null ? Map.of() : Map.copyOf(m);
     }
 
-    @Override public NavigableSet<Instant> timestamps() {
+    @Override public final NavigableSet<Instant> timestamps() {
         // Live view is mutable; wrap to avoid external mutation, remains navigable/ordered
         return Collections.unmodifiableNavigableSet(timeline.navigableKeySet());
     }
 
-    @Override public void update(Instant t, Map<String, TimelineValue> values) {
+    @Override public final void update(Instant t, Map<String, TimelineValue> values) {
         if (t == null || values == null || values.isEmpty()) return;
         var snap = timeline.get(t);
         if (snap == null) return;
@@ -90,7 +97,7 @@ public final class DefaultTimeline implements Timeline {
         }
     }
 
-    @Override public void updateStrings(Instant t, Map<String, String> values) {
+    @Override public final void updateStrings(Instant t, Map<String, String> values) {
         if (t == null || values == null || values.isEmpty()) return;
         var snap = timeline.get(t);
         if (snap == null) return;
@@ -108,7 +115,7 @@ public final class DefaultTimeline implements Timeline {
         }
     }
 
-    @Override public void upsert(Instant t, String key, TimelineValue value) {
+    @Override public final void upsert(Instant t, String key, TimelineValue value) {
         if (t == null) return;
         var nk = NormalizedProperties.getNormalized(key);
         if (nk == null) return;
@@ -124,7 +131,7 @@ public final class DefaultTimeline implements Timeline {
         }
     }
 
-    @Override public void remove(Instant t, String key) {
+    @Override public final void remove(Instant t, String key) {
         if (t == null) return;
         var nk = NormalizedProperties.getNormalized(key);
         if (nk == null) return;

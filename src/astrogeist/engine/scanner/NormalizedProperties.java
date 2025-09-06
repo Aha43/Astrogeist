@@ -31,6 +31,7 @@ public final class NormalizedProperties {
 		AddMapping("Temperature");
 		AddMapping("Subject");
 		AddMapping("Telescope");
+		AddMapping("CaptureType");
 	}
 	
 	private static final LinkedHashMap<String, String> _mapping;

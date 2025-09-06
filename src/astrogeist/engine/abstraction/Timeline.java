@@ -15,6 +15,7 @@ import astrogeist.engine.timeline.TimelineValue;
 public interface Timeline extends TimelineView {
 	void clear();
 	void put(Instant time, Path path);
+	void put(Instant time, String name, String value);
 	void put(Instant time, LinkedHashMap<String, String> values);
 	void putTimelineValues(Instant time, LinkedHashMap<String, TimelineValue> values);
 	void update(Instant t, Map<String, TimelineValue> values);   // add/update/remove

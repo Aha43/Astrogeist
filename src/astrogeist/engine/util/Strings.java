@@ -9,6 +9,8 @@ import java.util.regex.Pattern;
 import astrogeist.Common;
 
 public final class Strings {
+	private Strings() { Common.throwStaticClassInstantiateError(); }
+	
 	public static List<String> fromCsv(String s) {
 		var retVal = new ArrayList<>(Arrays.asList(s.split("\\s*,\\s*")));
 		return retVal;
@@ -18,18 +20,13 @@ public final class Strings {
 	
 	public static boolean isNullOrBlank(String s) { return s == null || s.trim().isEmpty(); }
 	
-//	public static Optional<ParsedValue> parseNumberWithSuffix(String s) {
-//	    var pattern = Pattern.compile("^\\s*([+-]?\\d+(\\.\\d+)?)\\s*(.*)$");
-//	    var matcher = pattern.matcher(s);
-//
-//	    if (matcher.matches()) {
-//	        double number = Double.parseDouble(matcher.group(1));
-//	        String suffix = matcher.group(3).trim();
-//	        return Optional.of(new ParsedValue(number, suffix));
-//	    }
-//
-//	    return Optional.empty(); // not a valid number at the beginning
-//	}
+	public static String nullToEmpty(String s) { return s == null ? "" : s; }
+
+	public static String nullToEmptyTrimmed(String s) { return s == null ? "" : s.trim(); }
+
+	public static String safeToString(Object o) {
+	    return o == null ? "" : nullToEmptyTrimmed(o.toString()); }
+
 	
 	public static Optional<ParsedSuffixNumberValue> parseNumberWithSuffix(String s) {
 	    // number = [+|-] digits [ '.' or ',' digits ], then optional suffix
@@ -49,6 +46,4 @@ public final class Strings {
 	    }
 	}
 
-	
-	private Strings() { Common.throwStaticClassInstantiateError(); }
 }

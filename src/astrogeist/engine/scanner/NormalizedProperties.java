@@ -29,6 +29,7 @@ public final class NormalizedProperties {
 		AddMapping("JpgFile");
 		AddMapping("PngFile");
 		AddMapping("Temperature");
+		AddMapping("Resolution", "Capture Area");
 		AddMapping("Subject");
 		AddMapping("Telescope");
 		AddMapping("CaptureType");

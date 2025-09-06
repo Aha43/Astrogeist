@@ -32,7 +32,7 @@ public final class NormalizedProperties {
 		AddMapping("Resolution", "Capture Area");
 		AddMapping("Subject");
 		AddMapping("Telescope");
-		AddMapping("CaptureType");
+		AddMapping("CaptureType", "FrameType");
 	}
 	
 	private static final LinkedHashMap<String, String> _mapping;

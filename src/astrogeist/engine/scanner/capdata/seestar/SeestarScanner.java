@@ -21,11 +21,14 @@ public final class SeestarScanner extends AbstractPluginScanner {
 	@Override final public void scan(Timeline timeline) throws Exception {
 		var pathsDone = new HashSet<Path>();
 		
+		var dict = new LinkedHashMap<String, String>();
+		
 		var locPath = Path.of(super.location());
 		var paths = FilesUtil.getRegularFilePaths(locPath);
-		
-		var dict = new LinkedHashMap<String, String>();
 		for (var path : paths) {
+			
+			this.logger.info("analyze path: " + path.toString());
+			
 			var parent = path.getParent();
 			if (parent == null) continue;
 			
@@ -44,8 +47,6 @@ public final class SeestarScanner extends AbstractPluginScanner {
 				pathsDone.add(parent);
 			}
 		}
-		
-		
 	}
 	
 	private final static void addInfoFromParent(String name, Instant time, Timeline timeline, LinkedHashMap<String, String> dictToUse) {

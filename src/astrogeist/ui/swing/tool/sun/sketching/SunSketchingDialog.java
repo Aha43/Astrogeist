@@ -3,6 +3,7 @@ package astrogeist.ui.swing.tool.sun.sketching;
 import java.awt.BorderLayout;
 
 import javax.swing.JDialog;
+import javax.swing.JSplitPane;
 
 import astrogeist.engine.resources.Resources;
 
@@ -16,8 +17,10 @@ public final class SunSketchingDialog extends JDialog {
 		
 		var sunPanel = new SunPanel();
 		var sunControlsPanel = new SunControlsPanel(sunPanel, folder.toPath());
-		super.add(sunPanel, BorderLayout.CENTER);
-		super.add(sunControlsPanel, BorderLayout.SOUTH);
+		var splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+		splitPane.setLeftComponent(sunPanel);
+		splitPane.setRightComponent(sunControlsPanel);
+		super.add(splitPane, BorderLayout.CENTER);
 		super.setSize(500, 600);
 		super.pack();
 	}

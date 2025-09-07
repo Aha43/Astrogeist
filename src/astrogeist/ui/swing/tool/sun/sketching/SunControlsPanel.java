@@ -1,20 +1,32 @@
 package astrogeist.ui.swing.tool.sun.sketching;
 
+import javax.swing.*;
 import java.awt.*;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.Instant;
 import java.util.UUID;
-
-import javax.swing.*;
 
 import org.w3c.dom.Document;
 
 import astrogeist.ui.swing.component.general.CollapsibleSection;
+import astrogeist.ui.swing.tool.component.UtcInstantField;
 
 public final class SunControlsPanel extends JPanel {
     private static final long serialVersionUID = 1L;
 
+    private final SunPanel sun;
+    private final Path saveFolder;
+
+    // keep references so Save can read current choices
+    private final RampColorPicker bgPicker;
+    private final RampColorPicker dlPicker;
+    private final UtcInstantField utcField;
+
     public SunControlsPanel(SunPanel sun, Path saveFolder) {
+        this.sun = sun;
+        this.saveFolder = saveFolder;
+
         setLayout(new BorderLayout());
         var root = new JPanel();
         root.setLayout(new BoxLayout(root, BoxLayout.Y_AXIS));
@@ -24,7 +36,7 @@ public final class SunControlsPanel extends JPanel {
             ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER
         ), BorderLayout.CENTER);
 
-        // --- Always-visible: border/padding slider ---------------------------
+        // --- Layout section (always visible)
         var base = new JPanel(new GridBagLayout());
         var gbc = new GridBagConstraints();
         gbc.insets = new Insets(6, 6, 6, 6);
@@ -45,15 +57,15 @@ public final class SunControlsPanel extends JPanel {
         root.add(base);
         root.add(Box.createVerticalStrut(6));
 
-        // --- Collapsible: Background (greyscale) ------------------------------
+        // --- Collapsible: Background (greyscale)
         var bgPanel = new JPanel(new GridBagLayout());
         var gbc2 = new GridBagConstraints();
         gbc2.insets = new Insets(6, 6, 6, 6);
         gbc2.fill = GridBagConstraints.HORIZONTAL;
         gbc2.weightx = 1;
 
-        var bgPicker = new RampColorPicker();
-        bgPicker.setSelectedLut("Greyscale"); // keep background neutral
+        bgPicker = new RampColorPicker();
+        bgPicker.setSelectedLut("Greyscale");
         bgPicker.setListener(sun::setBackgroundColor);
 
         gbc2.gridx = 0; gbc2.gridy = 0; gbc2.gridwidth = 1;
@@ -65,14 +77,14 @@ public final class SunControlsPanel extends JPanel {
         root.add(bgSection);
         root.add(Box.createVerticalStrut(6));
 
-        // --- Collapsible: Disk & Limb (LUT + intensity) ----------------------
+        // --- Collapsible: Disk & Limb (LUT + intensity)
         var dlPanel = new JPanel(new GridBagLayout());
         var gbc3 = new GridBagConstraints();
         gbc3.insets = new Insets(6, 6, 6, 6);
         gbc3.fill = GridBagConstraints.HORIZONTAL;
         gbc3.weightx = 1;
 
-        var dlPicker = new RampColorPicker(); // LUT dropdown: Greyscale, Classic Red, etc.
+        dlPicker = new RampColorPicker();
 
         var applyDisk = new JButton("Apply to Disk");
         applyDisk.addActionListener(e -> sun.setSunFill(dlPicker.getCurrentColor()));
@@ -92,64 +104,93 @@ public final class SunControlsPanel extends JPanel {
 
         var dlSection = new CollapsibleSection("Disk & Limb Colors", dlPanel, true);
         root.add(dlSection);
+        root.add(Box.createVerticalStrut(6));
+
+        // --- Save section (always visible)
+        var savePanel = new JPanel(new GridBagLayout());
+        var gbc4 = new GridBagConstraints();
+        gbc4.insets = new Insets(6, 6, 6, 6);
+        gbc4.fill = GridBagConstraints.HORIZONTAL;
+        gbc4.weightx = 1;
+
+        // UTC instant field defaults to "now"
+        utcField = new UtcInstantField(Instant.now());
+
+        var folderLabel = new JLabel("Folder:");
+        var folderValue = new JTextField(saveFolder.toString());
+        folderValue.setEditable(false);
+        folderValue.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
+
+        var saveBtn = new JButton("Save XML");
+        saveBtn.addActionListener(e -> onSave());
+
+        gbc4.gridx = 0; gbc4.gridy = 0; gbc4.gridwidth = 1; savePanel.add(utcField, gbc4);
+        gbc4.gridx = 0; gbc4.gridy = 1; gbc4.gridwidth = 1; savePanel.add(folderLabel, gbc4);
+        gbc4.gridx = 1; gbc4.gridy = 1; gbc4.gridwidth = 2; savePanel.add(folderValue, gbc4);
+
+        gbc4.gridx = 1; gbc4.gridy = 2; gbc4.gridwidth = 2; savePanel.add(saveBtn, gbc4);
+
+        savePanel.setBorder(BorderFactory.createTitledBorder("Save"));
+        root.add(savePanel);
     }
-    
-    void saveSketch(Path folder,
-            SunPanel sun,
-            RampColorPicker diskPicker,
-            RampColorPicker limbPicker,
-            java.awt.Color background,
-            Instant obsUtc) 
-    {
-    	try {
-    		var d = new SunSketchDbo();
-    		d.id = UUID.randomUUID().toString(); 
-    		d.createdUtc = obsUtc;
-    		d.modifiedUtc = obsUtc;
 
-    		d.canvas.widthPx  = sun.getWidth();
-    		d.canvas.heightPx = sun.getHeight();
+    private void onSave() {
+        try {
+            // Fill the DBO from current UI state
+            var d = new SunSketchDbo();
+            d.id = UUID.randomUUID().toString();
+            var utc = utcField.getInstant();
+            d.createdUtc = utc;
+            d.modifiedUtc = utc;
 
-    		d.sunStyle.paddingFraction = sun.getPaddingFraction();
-    		d.sunStyle.background = background;
+            d.canvas.widthPx  = sun.getWidth();
+            d.canvas.heightPx = sun.getHeight();
 
-    		d.sunStyle.disk.color = sun.getSunFill();
-    		d.sunStyle.disk.lut.name = diskPicker.getSelectedLutName();
-    		d.sunStyle.disk.lut.t    = diskPicker.getValue() / 100.0;
+            d.sunStyle.paddingFraction = sun.getPaddingFraction();
+            d.sunStyle.background = sun.getBackgroundColor();
 
-    		d.sunStyle.limb.color = sun.getLimbStroke();
-    		d.sunStyle.limb.strokePx = 2; // or from a UI control if you add one
-    		d.sunStyle.limb.lut.name = limbPicker.getSelectedLutName();
-    		d.sunStyle.limb.lut.t    = limbPicker.getValue() / 100.0;
+            d.sunStyle.disk.color = sun.getSunFill();
+            d.sunStyle.disk.lut.name = dlPicker.getSelectedLutName();
+            d.sunStyle.disk.lut.t    = dlPicker.getValue() / 100.0;
 
-    		Document doc = SunSketchXmlMapper.toDocument(d);
+            d.sunStyle.limb.color = sun.getLimbStroke();
+            d.sunStyle.limb.lut.name = dlPicker.getSelectedLutName();
+            d.sunStyle.limb.lut.t    = dlPicker.getValue() / 100.0;
+            // (strokePx constant for now; expose later if needed)
 
-    		String filename = SunSketchFileNamer.xmlName(obsUtc);
-    		SunSketchXmlMapper.save(doc, folder.resolve(filename));
+            // Serialize to XML and save
+            Document doc = SunSketchXmlMapper.toDocument(d);
+            var filename = SunSketchFileNamer.xmlName(utc);
+            SunSketchXmlMapper.save(doc, saveFolder.resolve(filename));
 
-    	} catch (Exception ex) {
-    		ex.printStackTrace();
-    		javax.swing.JOptionPane.showMessageDialog(
-    				null, "Failed to save sketch:\n" + ex.getMessage(),
-    				"Save Error", javax.swing.JOptionPane.ERROR_MESSAGE);
-    	}
+            JOptionPane.showMessageDialog(this,
+                "Saved:\n" + saveFolder.resolve(filename),
+                "Sun Sketch Saved", JOptionPane.INFORMATION_MESSAGE);
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this,
+                "Failed to save sketch:\n" + ex.getMessage(),
+                "Save Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /** Quick demo frame */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             var sun = new SunPanel();
-            var controls = new SunControlsPanel(sun, null);
+            // Example save folder: ~/Astrogeist/Sketches
+            Path folder = Paths.get(System.getProperty("user.home"), "Astrogeist", "Sketches");
+            var controls = new SunControlsPanel(sun, folder);
 
-            JFrame f = new JFrame("Sun Sketching – Collapsible Controls");
+            JFrame f = new JFrame("Sun Sketching – Save XML");
             f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
             f.setLayout(new BorderLayout());
             f.add(sun, BorderLayout.CENTER);
-            f.add(controls, BorderLayout.SOUTH); // dock controls to the side to save height
-            f.setSize(1000, 700);
+            f.add(controls, BorderLayout.SOUTH); // your preferred layout
+            f.setSize(1000, 760);
             f.setLocationByPlatform(true);
             f.setVisible(true);
         });
     }
-    
 }

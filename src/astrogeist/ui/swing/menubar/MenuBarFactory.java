@@ -10,6 +10,7 @@ import astrogeist.ui.swing.actions.ExitAction;
 import astrogeist.ui.swing.dialog.about.AboutDialog;
 import astrogeist.ui.swing.dialog.logging.LoggingControlDialog;
 import astrogeist.ui.swing.dialog.settings.SettingsDialog;
+import astrogeist.ui.swing.tool.sun.sketching.ShowSunDialogAction;
 
 public final class MenuBarFactory {
 	private MenuBarFactory() { Common.throwStaticClassInstantiateError(); }
@@ -18,6 +19,7 @@ public final class MenuBarFactory {
 		var menuBar = new JMenuBar();
 		menuBar.add(createAstrogeistMenu(app));
 		menuBar.add(createDiagnosticMenu(app));
+		menuBar.add(createVisualMenu());
 		menuBar.add(createHelpMenu(app));
 		return menuBar;
 	}
@@ -42,6 +44,12 @@ public final class MenuBarFactory {
 		JMenuItem loggingItem = new JMenuItem("Logging…");
 		loggingItem.addActionListener(e -> LoggingControlDialog.show(app));
 		retVal.add(loggingItem);
+		return retVal;
+	}
+	
+	private static JMenu createVisualMenu() {
+		var retVal = new JMenu("Visual");
+		retVal.add(new ShowSunDialogAction());
 		return retVal;
 	}
 	

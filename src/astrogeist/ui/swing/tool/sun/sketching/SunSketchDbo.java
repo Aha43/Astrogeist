@@ -1,3 +1,6 @@
+// FILE: astrogeist/sun/sketching/dbo/SunSketchDbo.java
+// (only the Sunspot type changed; rest unchanged)
+
 package astrogeist.ui.swing.tool.sun.sketching;
 
 import java.awt.Color;
@@ -6,22 +9,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-/** Document-backed object for astrogeist.sun.sketch/v1 */
 public final class SunSketchDbo {
-    // Header
     public String schema = "astrogeist.sun.sketch/v1";
     public String id = UUID.randomUUID().toString();
     public Instant createdUtc;
     public Instant modifiedUtc;
 
-    // Canvas & style
     public Canvas canvas = new Canvas();
     public SunStyle sunStyle = new SunStyle();
-
-    // Features (empty for now; you’ll grow these as tools arrive)
     public Features features = new Features();
 
-    // ---------- nested types ----------
     public static final class Canvas {
         public int widthPx;
         public int heightPx;
@@ -47,7 +44,7 @@ public final class SunSketchDbo {
 
     public static final class LutRef {
         public String name;
-        public double t; // 0..1
+        public double t;
         public LutRef() {}
         public LutRef(String name, double t) { this.name = name; this.t = t; }
     }
@@ -58,24 +55,24 @@ public final class SunSketchDbo {
         public List<Filament> filaments = new ArrayList<>();
     }
 
-    // Placeholders you can flesh out later:
     public static final class Prominence {
         public String id;
-        public double angleDeg;   // from solar north, increasing toward east
+        public double angleDeg;   // 0°=North, 90°=East
         public double extentDeg;  // angular width along limb
-        public double heightPx;   // radial height beyond limb
+        public double heightR;    // height beyond limb in R☉
         public String label;
     }
+
     public static final class Sunspot {
-        public String id;
-        public String group;  // e.g., AR number
-        public double angleDeg;
-        public double rho;    // 0..1 of disk radius from center
-        public double sizePx;
+        public String id;         // optional; we’ll fill at save time
+        public String group;      // optional AR tag
+        public double angleDeg;   // 0°=North, 90°=East
+        public double rho;        // 0..1 on disk
+        public double sizeR;      // radius in R☉  (normalized)
     }
+
     public static final class Filament {
         public String id;
         // future: path points, etc.
     }
 }
-

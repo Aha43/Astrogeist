@@ -3,11 +3,9 @@ package astrogeist.ui.swing.tool.sun.sketching;
 import javax.swing.*;
 import java.awt.*;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.Instant;
 import java.util.UUID;
-
-import org.w3c.dom.Document;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import astrogeist.ui.swing.component.general.CollapsibleSection;
 import astrogeist.ui.swing.tool.component.UtcInstantField;
@@ -136,13 +134,13 @@ public final class SunControlsPanel extends JPanel {
 
     private void onSave() {
         try {
-            // Fill the DBO from current UI state
             var d = new SunSketchDbo();
+            
             d.id = UUID.randomUUID().toString();
             var utc = utcField.getInstant();
             d.createdUtc = utc;
             d.modifiedUtc = utc;
-
+            
             d.canvas.widthPx  = sun.getWidth();
             d.canvas.heightPx = sun.getHeight();
 
@@ -156,11 +154,23 @@ public final class SunControlsPanel extends JPanel {
             d.sunStyle.limb.color = sun.getLimbStroke();
             d.sunStyle.limb.lut.name = dlPicker.getSelectedLutName();
             d.sunStyle.limb.lut.t    = dlPicker.getValue() / 100.0;
-            // (strokePx constant for now; expose later if needed)
 
-            // Serialize to XML and save
-            Document doc = SunSketchXmlMapper.toDocument(d);
-            var filename = SunSketchFileNamer.xmlName(utc);
+            // --- NEW: copy sunspots (normalized units) ---
+            var spots = sun.getSunspots(); // List<SunPanel.Sunspot>
+            var counter = new AtomicInteger(1);
+            for (var s : spots) {
+                var ds = new SunSketchDbo.Sunspot();
+                ds.id = "spot-" + counter.getAndIncrement(); // stable, human-readable ids
+                ds.group = null; // (optional) fill later when you add a group tool
+                ds.angleDeg = s.angleDeg;
+                ds.rho      = s.rho;
+                ds.sizeR    = s.sizeR;
+                d.features.sunspots.add(ds);
+            }
+
+            // Serialize & save
+            var doc = SunSketchXmlMapper.toDocument(d);
+            var filename = SunSketchFileNamer.xmlName(utcField.getInstant());
             SunSketchXmlMapper.save(doc, saveFolder.resolve(filename));
 
             JOptionPane.showMessageDialog(this,
@@ -175,22 +185,4 @@ public final class SunControlsPanel extends JPanel {
         }
     }
 
-    /** Quick demo frame */
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            var sun = new SunPanel();
-            // Example save folder: ~/Astrogeist/Sketches
-            Path folder = Paths.get(System.getProperty("user.home"), "Astrogeist", "Sketches");
-            var controls = new SunControlsPanel(sun, folder);
-
-            JFrame f = new JFrame("Sun Sketching – Save XML");
-            f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-            f.setLayout(new BorderLayout());
-            f.add(sun, BorderLayout.CENTER);
-            f.add(controls, BorderLayout.SOUTH); // your preferred layout
-            f.setSize(1000, 760);
-            f.setLocationByPlatform(true);
-            f.setVisible(true);
-        });
-    }
 }

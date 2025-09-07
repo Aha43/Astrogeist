@@ -1,6 +1,8 @@
+// FILE: astrogeist/sun/sketching/io/SunSketchXmlMapper.java
 package astrogeist.ui.swing.tool.sun.sketching;
 
 import org.w3c.dom.*;
+
 import javax.xml.parsers.*;
 import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
@@ -13,7 +15,6 @@ import java.nio.file.Path;
 public final class SunSketchXmlMapper {
     private SunSketchXmlMapper() {}
 
-    // ---------- Serialization ----------
     public static Document toDocument(SunSketchDbo d) throws Exception {
         DocumentBuilder b = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         Document doc = b.newDocument();
@@ -36,12 +37,10 @@ public final class SunSketchXmlMapper {
         sunStyle.setAttribute("paddingFraction", Double.toString(d.sunStyle.paddingFraction));
         root.appendChild(sunStyle);
 
-        // <background>
         Element bg = doc.createElement("background");
         bg.setAttribute("color", toHex(d.sunStyle.background));
         sunStyle.appendChild(bg);
 
-        // <disk>
         Element disk = doc.createElement("disk");
         disk.setAttribute("color", toHex(d.sunStyle.disk.color));
         sunStyle.appendChild(disk);
@@ -50,7 +49,6 @@ public final class SunSketchXmlMapper {
         diskLut.setAttribute("t", Double.toString(d.sunStyle.disk.lut.t));
         disk.appendChild(diskLut);
 
-        // <limb>
         Element limb = doc.createElement("limb");
         limb.setAttribute("color", toHex(d.sunStyle.limb.color));
         limb.setAttribute("strokePx", Integer.toString(d.sunStyle.limb.strokePx));
@@ -60,12 +58,28 @@ public final class SunSketchXmlMapper {
         limbLut.setAttribute("t", Double.toString(d.sunStyle.limb.lut.t));
         limb.appendChild(limbLut);
 
-        // <features> (lists empty for now)
+        // <features>
         Element features = doc.createElement("features");
-        features.appendChild(doc.createElement("prominences"));
-        features.appendChild(doc.createElement("sunspots"));
-        features.appendChild(doc.createElement("filaments"));
         root.appendChild(features);
+
+        // <prominences/> (empty placeholder for now)
+        features.appendChild(doc.createElement("prominences"));
+
+        // <sunspots>
+        Element sunspots = doc.createElement("sunspots");
+        features.appendChild(sunspots);
+        for (SunSketchDbo.Sunspot s : d.features.sunspots) {
+            Element e = doc.createElement("sunspot");
+            if (s.id != null && !s.id.isBlank()) e.setAttribute("id", s.id);
+            if (s.group != null && !s.group.isBlank()) e.setAttribute("group", s.group);
+            e.setAttribute("angleDeg", Double.toString(s.angleDeg));
+            e.setAttribute("rho",      Double.toString(s.rho));
+            e.setAttribute("sizeR",    Double.toString(s.sizeR));
+            sunspots.appendChild(e);
+        }
+
+        // <filaments/> (empty placeholder for now)
+        features.appendChild(doc.createElement("filaments"));
 
         return doc;
     }
@@ -79,10 +93,8 @@ public final class SunSketchXmlMapper {
         t.transform(new DOMSource(doc), new StreamResult(Files.newOutputStream(file)));
     }
 
-    // ---------- Utilities ----------
     private static String toHex(Color c) {
         return String.format("#%02X%02X%02X", c.getRed(), c.getGreen(), c.getBlue());
     }
     private static String nullToEmpty(String s) { return s == null ? "" : s; }
 }
-

@@ -21,6 +21,8 @@ public final class SunSketchingDialog extends JDialog {
 		splitPane.setLeftComponent(sunPanel);
 		splitPane.setRightComponent(sunControlsPanel);
 		super.add(splitPane, BorderLayout.CENTER);
+		var sunFeatureControlsPanel = new SunFeatureControlsPanel(sunPanel);
+		super.add(sunFeatureControlsPanel, BorderLayout.NORTH);
 		super.setSize(500, 600);
 		super.pack();
 	}

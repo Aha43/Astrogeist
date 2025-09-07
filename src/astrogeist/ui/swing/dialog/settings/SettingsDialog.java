@@ -20,12 +20,18 @@ import astrogeist.ui.swing.dialog.settings.editors.SettingsEditor;
 
 public final class SettingsDialog extends ModalDialogBase {
     private static final long serialVersionUID = 1L;
+    
+    private final SettingsEditorProvider settingsEditorProvider;
 
     private final JTabbedPane tabs = new JTabbedPane();
     private final LinkedHashMap<String, SettingsTableModel> models = new LinkedHashMap<>();
 
     private SettingsDialog(App app) {
         super(app, "Astrogeist Settings");
+        
+        this.settingsEditorProvider = 
+        	new SettingsEditorProvider(app.getServices().getTimelineNames());
+        
         super.setSize(600, 400);
         super.setLayout(new BorderLayout());
 
@@ -94,7 +100,7 @@ public final class SettingsDialog extends ModalDialogBase {
         String value = (String) model.getValueAt(selectedRow, 1);
 
         String scopedKey = group.equals("general") ? key : group + ":" + key;
-        SettingsEditor editor = SettingsEditorProvider.getEditor(scopedKey);
+        SettingsEditor editor = this.settingsEditorProvider.getEditor(scopedKey);
         var component = editor.getEditorComponent(value);
 
         int result = JOptionPane.showConfirmDialog(

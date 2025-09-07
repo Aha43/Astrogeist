@@ -4,16 +4,14 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Set;
 
-import astrogeist.Common;
+import astrogeist.engine.abstraction.TimelineNames;
 import astrogeist.engine.resources.Resources;
 import astrogeist.engine.userdata.UserDataDefinitions;
 
-public final class NormalizedProperties {
-	private NormalizedProperties() { Common.throwStaticClassInstantiateError(); }
+public final class DefaultTimelineNames implements TimelineNames {
+	private final LinkedHashMap<String, String> mapping = new LinkedHashMap<>();
 	
-	static {
-		_mapping = new LinkedHashMap<>();
-		
+	public DefaultTimelineNames() {
 		AddMapping("Binning");
 		AddMapping("Camera");
 		AddMapping("CaptureSoftware", "SharpCap");
@@ -33,24 +31,22 @@ public final class NormalizedProperties {
 		AddMapping("Subject");
 		AddMapping("Telescope");
 		AddMapping("CaptureType", "FrameType");
-	}
+	} 
 	
-	private static final LinkedHashMap<String, String> _mapping;
-	
-	private static void AddMapping(String normalized, String ...synonyms) {
-		_mapping.put(normalized, normalized);
+	private void AddMapping(String normalized, String ...synonyms) {
+		this.mapping.put(normalized, normalized);
 		if (synonyms != null)
-			for (var s : synonyms) { _mapping.put(s, normalized); }
+			for (var s : synonyms) { this.mapping.put(s, normalized); }
 	}
 	
-	public static String getNormalized(String key) { return _mapping.get(key); }
+	public String getTimelineName(String key) { return this.mapping.get(key); }
 	
-	public static Set<String> getNormalizedNames() { return _mapping.keySet(); }
+	public Set<String> getDataTimelineNames() { return this.mapping.keySet(); }
 	
-	public static Set<String> getNormalizedNamesAndUserDataNames() {
+	public Set<String> getTimelineNames() {
 		try {
 			var retVal = new HashSet<String>();
-			retVal.addAll(getNormalizedNames());
+			retVal.addAll(this.getDataTimelineNames());
 			var userDataNames = UserDataDefinitions.fromXml(Resources.getUserDataDefinitionsFile().toPath()).getUserDataNames();
 			retVal.addAll(userDataNames);
 			return retVal;
@@ -58,6 +54,6 @@ public final class NormalizedProperties {
 			System.err.println(x.getLocalizedMessage());
 			return new HashSet<String>();
 		}
-		
 	}
+	
 }

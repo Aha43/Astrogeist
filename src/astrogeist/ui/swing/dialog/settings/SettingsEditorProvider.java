@@ -2,6 +2,7 @@ package astrogeist.ui.swing.dialog.settings;
 
 import java.util.LinkedHashMap;
 
+import astrogeist.engine.abstraction.TimelineNames;
 import astrogeist.engine.setting.SettingKeys;
 import astrogeist.ui.swing.dialog.settings.editors.PathListEditor;
 import astrogeist.ui.swing.dialog.settings.editors.SettingsEditor;
@@ -9,18 +10,18 @@ import astrogeist.ui.swing.dialog.settings.editors.TablePropertiesEditor;
 import astrogeist.ui.swing.dialog.settings.editors.TextEditor;
 
 public final class SettingsEditorProvider {
-    private static final LinkedHashMap<String, SettingsEditor> _editors = new LinkedHashMap<>();
+    private final LinkedHashMap<String, SettingsEditor> editors = new LinkedHashMap<>();
     
-    private static final SettingsEditor _defaultEditor = new TextEditor();
+    private final SettingsEditor defaultEditor = new TextEditor();
 
-    static {
-        _editors.put(SettingKeys.DATA_ROOTS, new PathListEditor());
-        _editors.put(SettingKeys.TABLE_COLUMNS, new TablePropertiesEditor());
+    public SettingsEditorProvider(TimelineNames timelineNames) {
+        this.editors.put(SettingKeys.DATA_ROOTS, new PathListEditor());
+        this.editors.put(SettingKeys.TABLE_COLUMNS, new TablePropertiesEditor(timelineNames));
     }
 
-    public static SettingsEditor getEditor(String scopedKey) {
-        var retVal = _editors.get(scopedKey);
-        return retVal == null ? _defaultEditor : retVal;
+    public SettingsEditor getEditor(String scopedKey) {
+        var retVal = this.editors.get(scopedKey);
+        return retVal == null ? this.defaultEditor : retVal;
     }
 }
 

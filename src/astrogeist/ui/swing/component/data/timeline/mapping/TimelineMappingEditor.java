@@ -38,10 +38,9 @@ public final class TimelineMappingEditor extends JPanel {
         setLayout(new BorderLayout(10, 10));
         setBorder(new EmptyBorder(10, 10, 10, 10));
 
-        JSplitPane split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, buildFieldPanel(), buildAliasPanel());
+        var split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, buildFieldPanel(), buildAliasPanel());
         split.setResizeWeight(0.3);
         add(split, BorderLayout.CENTER);
-        //add(buildButtonBar(), BorderLayout.SOUTH);
 
         fieldList.addListSelectionListener(e -> refreshAliasList());
     }
@@ -151,75 +150,6 @@ public final class TimelineMappingEditor extends JPanel {
     		MessageDialogs.showError("Failed to save " + file.toString(), x);
     	}
     }
-
-    
-    //private JPanel buildButtonBar() {
-      //  var bar = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        //var load = new JButton("Load XML");
-        //var save = new JButton("Save XML");
-        //var export = new JButton("Export as Code...");
-
-        /*
-        load.addActionListener(e -> {
-            var fc = new JFileChooser();
-            if (fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-                try {
-                    var entries = TimelineMappingIo.load(fc.getSelectedFile());
-                    mapping.clear();
-                    fieldListModel.clear();
-                    for (var entry : entries) {
-                        mapping.put(entry.timelineField(), new ArrayList<>(entry.aliases()));
-                        fieldListModel.addElement(entry.timelineField());
-                    }
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(this, "Failed to load XML:\n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        });
-        */
-
-    /*
-        save.addActionListener(e -> {
-            var fc = new JFileChooser();
-            if (fc.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
-                try {
-                    List<TimelineMappingEntry> entries = new ArrayList<>();
-                    for (var entry : mapping.entrySet()) {
-                        entries.add(new TimelineMappingEntry(entry.getKey(), entry.getValue()));
-                    }
-                    TimelineMappingIo.save(fc.getSelectedFile(), entries);
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(this, "Failed to save XML:\n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        });*/
-
-        /*
-        export.addActionListener(e -> {
-            StringBuilder out = new StringBuilder();
-            for (var entry : mapping.entrySet()) {
-                String key = entry.getKey();
-                List<String> aliases = entry.getValue();
-                if (aliases.size() == 1 && aliases.get(0).equals(key)) {
-                    out.append("AddMapping(\"").append(key).append("\");\n");
-                } else {
-                    out.append("AddMapping(\"").append(key).append("\", ");
-                    out.append(aliases.stream().map(s -> "\"" + s + "\"").reduce((a, b) -> a + ", " + b).orElse(""));
-                    out.append(");\n");
-                }
-            }
-            var area = new JTextArea(out.toString(), 20, 80);
-            area.setCaretPosition(0);
-            JOptionPane.showMessageDialog(this, new JScrollPane(area), "Exported Code", JOptionPane.PLAIN_MESSAGE);
-        });
-        */
-
-        //bar.add(load);
-    //    bar.add(save);
-        //bar.add(export);
-  //      return bar;
-//    }
-
 
     private void refreshAliasList() {
         aliasListModel.clear();

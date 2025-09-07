@@ -13,7 +13,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionListener;
 
-import astrogeist.engine.scanner.NormalizedProperties;
+import astrogeist.engine.abstraction.TimelineNames;
 import astrogeist.engine.setting.SettingKeys;
 import astrogeist.engine.setting.Settings;
 import astrogeist.engine.timeline.TimelineValue;
@@ -34,6 +34,8 @@ import astrogeist.ui.swing.dialog.selection.SelectionDialog;
 public abstract class AbstractTimelineViewTablePanel  extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
+	private TimelineNames timelineNames;
+	
 	protected final JTable table;
 	protected final AbstractTimelineViewTableModel model;
 	
@@ -45,6 +47,8 @@ public abstract class AbstractTimelineViewTablePanel  extends JPanel {
 	protected AbstractTimelineViewTablePanel(App app, AbstractTimelineViewTableModel model) {
 		super(new BorderLayout());
 		this.app = app;
+		
+		this.timelineNames = app.getServices().getTimelineNames();
 		
 		this.northPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		super.add(this.northPanel, BorderLayout.NORTH);
@@ -92,7 +96,7 @@ public abstract class AbstractTimelineViewTablePanel  extends JPanel {
 		var columnsButton = new JButton("Select columns to show");
 		
 		columnsButton.addActionListener(e -> {
-			var all = NormalizedProperties.getNormalizedNamesAndUserDataNames();
+			var all = this.timelineNames.getTimelineNames();
 			var selected = Settings.getCsv(SettingKeys.TABLE_COLUMNS);
 			SelectionDialog.show(this.app, "Select Columns", selected, all);
 			this.model.setColumnsToShow(selected);

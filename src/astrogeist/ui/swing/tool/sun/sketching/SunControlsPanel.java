@@ -1,14 +1,20 @@
 package astrogeist.ui.swing.tool.sun.sketching;
 
 import java.awt.*;
+import java.nio.file.Path;
+import java.time.Instant;
+import java.util.UUID;
+
 import javax.swing.*;
+
+import org.w3c.dom.Document;
 
 import astrogeist.ui.swing.component.general.CollapsibleSection;
 
 public final class SunControlsPanel extends JPanel {
     private static final long serialVersionUID = 1L;
 
-    public SunControlsPanel(SunPanel sun) {
+    public SunControlsPanel(SunPanel sun, Path saveFolder) {
         setLayout(new BorderLayout());
         var root = new JPanel();
         root.setLayout(new BoxLayout(root, BoxLayout.Y_AXIS));
@@ -87,12 +93,53 @@ public final class SunControlsPanel extends JPanel {
         var dlSection = new CollapsibleSection("Disk & Limb Colors", dlPanel, true);
         root.add(dlSection);
     }
+    
+    void saveSketch(Path folder,
+            SunPanel sun,
+            RampColorPicker diskPicker,
+            RampColorPicker limbPicker,
+            java.awt.Color background,
+            Instant obsUtc) 
+    {
+    	try {
+    		var d = new SunSketchDbo();
+    		d.id = UUID.randomUUID().toString(); 
+    		d.createdUtc = obsUtc;
+    		d.modifiedUtc = obsUtc;
+
+    		d.canvas.widthPx  = sun.getWidth();
+    		d.canvas.heightPx = sun.getHeight();
+
+    		d.sunStyle.paddingFraction = sun.getPaddingFraction();
+    		d.sunStyle.background = background;
+
+    		d.sunStyle.disk.color = sun.getSunFill();
+    		d.sunStyle.disk.lut.name = diskPicker.getSelectedLutName();
+    		d.sunStyle.disk.lut.t    = diskPicker.getValue() / 100.0;
+
+    		d.sunStyle.limb.color = sun.getLimbStroke();
+    		d.sunStyle.limb.strokePx = 2; // or from a UI control if you add one
+    		d.sunStyle.limb.lut.name = limbPicker.getSelectedLutName();
+    		d.sunStyle.limb.lut.t    = limbPicker.getValue() / 100.0;
+
+    		Document doc = SunSketchXmlMapper.toDocument(d);
+
+    		String filename = SunSketchFileNamer.xmlName(obsUtc);
+    		SunSketchXmlMapper.save(doc, folder.resolve(filename));
+
+    	} catch (Exception ex) {
+    		ex.printStackTrace();
+    		javax.swing.JOptionPane.showMessageDialog(
+    				null, "Failed to save sketch:\n" + ex.getMessage(),
+    				"Save Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+    	}
+    }
 
     /** Quick demo frame */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             var sun = new SunPanel();
-            var controls = new SunControlsPanel(sun);
+            var controls = new SunControlsPanel(sun, null);
 
             JFrame f = new JFrame("Sun Sketching – Collapsible Controls");
             f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -104,4 +151,5 @@ public final class SunControlsPanel extends JPanel {
             f.setVisible(true);
         });
     }
+    
 }

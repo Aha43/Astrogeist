@@ -6,7 +6,6 @@ import javax.swing.JMenuItem;
 
 import astrogeist.Common;
 import astrogeist.ui.swing.App;
-import astrogeist.ui.swing.actions.ExitAction;
 import astrogeist.ui.swing.dialog.about.AboutDialog;
 import astrogeist.ui.swing.dialog.logging.LoggingMenu;
 import astrogeist.ui.swing.dialog.settings.SettingsDialog;
@@ -37,7 +36,11 @@ public final class MenuBarFactory {
 		return retVal;
 	}
 	
-	private static JMenuItem createExitItem() { return new JMenuItem(ExitAction.INSTANCE); }
+	private static JMenuItem createExitItem() { 
+		var retVal = new JMenuItem("Exit");
+		retVal.addActionListener(e -> System.exit(0));
+		return retVal;
+	}
 	
 	private static JMenu createDiagnosticMenu(App app) {
 		var retVal = new JMenu("Diagnostic");

@@ -1,5 +1,6 @@
 package astrogeist.ui.swing.dialog.logging;
 
+import java.awt.Dialog;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -78,7 +79,7 @@ public final class LoggingControlDialog extends DialogBase {
         c.gridx=0; c.gridy=2; c.gridwidth=2; c.fill=GridBagConstraints.HORIZONTAL;
         p.add(fp, c);
 
-        JPanel buttons = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JPanel buttons = new JPanel(new FlowLayout(FlowLayout.CENTER));
         buttons.add(mark);
         buttons.add(test);
         buttons.add(apply);
@@ -109,14 +110,14 @@ public final class LoggingControlDialog extends DialogBase {
         fileEnable.addActionListener(e -> updateEnabledState());
     }
 
-    private void updateEnabledState() {
+    private final void updateEnabledState() {
         boolean en = fileEnable.isSelected();
         filePath.setEnabled(en);
         browse.setEnabled(en);
         fileAppend.setEnabled(en);
     }
 
-    private void applyChanges() {
+    private final void applyChanges() {
         Level level = LEVELS.getOrDefault((String) levelCombo.getSelectedItem(), Level.WARNING);
         Log.setGlobalLevel(level);
 
@@ -134,7 +135,7 @@ public final class LoggingControlDialog extends DialogBase {
         MessageDialogs.showInfo(this, "Logging settings applied");
     }
     
-    private void insertMarker() {
+    private final void insertMarker() {
     	var label = MessageDialogs.prompt(this, "Inser Marker", "Marker label:");
         if (label == null) return; // canceled
 
@@ -151,7 +152,7 @@ public final class LoggingControlDialog extends DialogBase {
         logger.log(sel, line);
     }
 
-    private void writeTestLogs() {
+    private final void writeTestLogs() {
         Log.error("SEVERE: something failed");
         Log.warn("WARNING: caution");
         Log.info("INFO: useful during debugging");
@@ -159,9 +160,11 @@ public final class LoggingControlDialog extends DialogBase {
         MessageDialogs.showInfo(this, "Logging settings applied");
     }
     
-    private static DialogBase _dialog;
-    public static void show(App app) { 
+    private static Dialog _dialog = null;
+    
+    public static void show(App app) {
     	if (_dialog == null) _dialog = new LoggingControlDialog(app);
-    	_dialog.showIt();
+    	_dialog.setVisible(true);
     }
+    
 }

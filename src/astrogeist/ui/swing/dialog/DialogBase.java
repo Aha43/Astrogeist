@@ -21,6 +21,9 @@ public abstract class DialogBase extends JDialog {
 	
 	protected DialogBase(App app, String title, boolean modal, boolean addCloseButton) {
 		super(Common.dialogsCentered() ? null : app.getFrame(), title, modal);
+		
+		super.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		
 		if (Common.dialogsRelative()) super.setLocationRelativeTo(app.getFrame());
 		super.setLayout(new BorderLayout());
 		super.add(this.buttonPannel, BorderLayout.SOUTH);

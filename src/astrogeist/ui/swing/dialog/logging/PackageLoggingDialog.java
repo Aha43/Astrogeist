@@ -17,7 +17,7 @@ public final class PackageLoggingDialog extends DialogBase {
 		var loggingLevelsPanel = new LoggingLevelsPanel();
 		super.add(loggingLevelsPanel, BorderLayout.CENTER);
 		super.pack();
-		super.setSize(500, 500);
+		//super.setSize(500, 500);
 	}
 	
 	private static Dialog _dialog = null;

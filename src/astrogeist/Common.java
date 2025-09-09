@@ -7,10 +7,6 @@ public final class Common {
 	    return value;
 	}
 	
-	public static boolean dialogsRelative() { return false; }
-	
-	public static boolean dialogsCentered() { return true; }
-	
 	public static void throwStaticClassInstantiateError() { throw new AssertionError("Can not instantiate static class"); }
 	
 	private Common() { throwStaticClassInstantiateError(); }

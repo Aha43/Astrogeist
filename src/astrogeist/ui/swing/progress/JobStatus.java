@@ -1,0 +1,9 @@
+package astrogeist.ui.swing.progress;
+
+public enum JobStatus {
+    NOT_STARTED,
+    RUNNING,
+    SUCCEEDED,
+    FAILED,
+    PARTIAL_SUCCESS; // useful when okCount>0 && failCount>0
+}

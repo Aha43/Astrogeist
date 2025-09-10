@@ -18,7 +18,7 @@ public final class MenuBarFactory {
 		var menuBar = new JMenuBar();
 		menuBar.add(createAstrogeistMenu(app));
 		menuBar.add(createDiagnosticMenu(app));
-		menuBar.add(createVisualMenu());
+		menuBar.add(createVisualMenu(app));
 		menuBar.add(createHelpMenu(app));
 		return menuBar;
 	}
@@ -48,9 +48,9 @@ public final class MenuBarFactory {
 		return retVal;
 	}
 	
-	private static JMenu createVisualMenu() {
+	private static JMenu createVisualMenu(App app) {
 		var retVal = new JMenu("Visual");
-		retVal.add(new ShowSunDialogAction());
+		retVal.add(new ShowSunDialogAction(app));
 		return retVal;
 	}
 	

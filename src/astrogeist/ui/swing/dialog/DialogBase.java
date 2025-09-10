@@ -39,7 +39,7 @@ public abstract class DialogBase extends JDialog {
         if (addCloseButton) addCloseButton();
 
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        setResizable(false);
+        setResizable(true);
 
         // Keyboard: ESC closes
         registerEscapeToClose();

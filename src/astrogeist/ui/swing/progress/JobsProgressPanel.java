@@ -1,10 +1,17 @@
 package astrogeist.ui.swing.progress;
 
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.util.List;
+
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import javax.swing.JProgressBar;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.TableCellRenderer;
-import java.awt.*;
-import java.util.List;
 
 public final class JobsProgressPanel extends JPanel {
     private static final long serialVersionUID = 1L;

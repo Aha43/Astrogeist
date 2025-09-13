@@ -13,10 +13,10 @@ public final class Demo {
             var dlg = new JobProgressDialog(null, "Jobs Progress");
             dlg.setVisible(true);
 
-            var scan1 = new JobProgress("scn:seestar:/astro/Seestar", "Seestar Scanner")
+            var scan1 = new JobProgress("Seestar Scanner")
                 .setDescription("Scan Seestar output")
                 .setRootInfo("/astro/Seestar");
-            var scan2 = new JobProgress("scn:sharpcap:/astro/SharpCap", "SharpCap Scanner")
+            var scan2 = new JobProgress("SharpCap Scanner")
                 .setDescription("Scan SharpCap sessions")
                 .setRootInfo("/astro/SharpCap");
 

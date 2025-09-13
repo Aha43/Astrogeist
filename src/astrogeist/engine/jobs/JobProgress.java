@@ -4,7 +4,6 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public final class JobProgress {
-    private final String id;          // stable key (type+root path, etc.)
     private volatile String name;     // short name (e.g., "Seestar Scanner")
     private volatile String description; // longer description
     private volatile String rootInfo; // e.g., scan root path
@@ -20,12 +19,9 @@ public final class JobProgress {
     // final message / details (errors, summary, etc.)
     private volatile String details = "";
 
-    public JobProgress(String id, String name) {
-        this.id = Objects.requireNonNull(id);
-        this.name = Objects.requireNonNull(name);
-    }
+    public JobProgress(String name) {
+        this.name = Objects.requireNonNull(name); }
 
-    public String getId() { return id; }
     public String getName() { return name; }
     public String getDescription() { return description; }
     public String getRootInfo() { return rootInfo; }

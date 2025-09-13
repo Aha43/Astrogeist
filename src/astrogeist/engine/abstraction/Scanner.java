@@ -3,7 +3,6 @@ package astrogeist.engine.abstraction;
 import astrogeist.engine.abstraction.jobs.JobWorker;
 
 public interface Scanner extends JobWorker<Timeline> {
-	
 	/**
 	 * <p>
 	 *   Name suitable for displaying to end user.

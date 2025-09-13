@@ -52,20 +52,15 @@ public final class ScanAction extends AbstractAction {
 	        // Track completions so we can close dialog when all done
 	        var allFutures = new java.util.ArrayList<java.util.concurrent.CompletableFuture<Void>>();
 
-	        for (var sc : scanners) {
+	        for (var scanner : scanners) {
 	            // Build a JobProgress row for UI
-	            var jp = new JobProgress("scan:" + sc.getClass().getSimpleName(),
-	            		sc.getClass().getSimpleName())
+	            var jp = new JobProgress(scanner.getClass().getSimpleName())
 	                    	.setDescription("Legacy scan")
 	                    	.setRootInfo(null); // set a root path if you have it per scanner
 	            dlg.addJob(jp);
 
 	            var listener = new JobToProgressAdapter(jp, dlg.getPanel());
-
-	            // Submit legacy scanner through the compat worker
-	            //var input = new LegacyScannerWorker.Input(sc, timeline);
-	            var handle = runner.submit(sc, timeline, listener);
-
+	            var handle = runner.submit(scanner, timeline, listener);
 	            allFutures.add(handle.completion());
 	        }
 

@@ -18,6 +18,10 @@ public final class UserDataScanner implements Scanner {
 	private final UserDataIo userDataIo;
 	
 	public UserDataScanner(TimelineValuePool tvp) { this.userDataIo = new UserDataIo(tvp); }
+	
+	@Override public final String name() { return "User data scanner"; }
+	
+	@Override public final String description() { return ""; }
 
 	@Override public final void scan(Timeline timeline) {
 		try {

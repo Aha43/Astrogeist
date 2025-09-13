@@ -118,9 +118,4 @@ public final class ScannerConfigLoader {
         return scanners;
     }
     
-    public final static void buildScanner(Map<String, List<String>> config, CompositeScanner scanner) throws Exception {
-    	var scanners = buildScanners(config);
-    	scanner.addScanners(scanners);
-    }
-    
 }

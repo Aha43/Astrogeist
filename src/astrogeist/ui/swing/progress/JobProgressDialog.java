@@ -1,6 +1,7 @@
 package astrogeist.ui.swing.progress;
 
 import java.awt.BorderLayout;
+import java.awt.Dialog.ModalityType;
 import java.awt.FlowLayout;
 import java.awt.Window;
 import java.util.List;
@@ -11,8 +12,8 @@ import javax.swing.JPanel;
 
 public final class JobProgressDialog extends JDialog {
     private static final long serialVersionUID = 1L;
-    
-	private final JobsProgressPanel panel = new JobsProgressPanel();
+
+    private final JobsProgressPanel panel = new JobsProgressPanel();
     private final JButton closeBtn = new JButton("Close");
 
     public JobProgressDialog(Window owner, String title) {
@@ -24,7 +25,7 @@ public final class JobProgressDialog extends JDialog {
         var btnPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         btnPanel.add(closeBtn);
 
-        getContentPane().setLayout(new BorderLayout(8,8));
+        getContentPane().setLayout(new BorderLayout(8, 8));
         getContentPane().add(panel, BorderLayout.CENTER);
         getContentPane().add(btnPanel, BorderLayout.SOUTH);
 
@@ -32,7 +33,21 @@ public final class JobProgressDialog extends JDialog {
         setLocationRelativeTo(owner);
     }
 
-    public JobsProgressPanel getPanel() { return panel; }
+    /** Expose only high-level operations */
+    public void setJobs(List<JobProgress> jobs) {
+        panel.setJobs(jobs);
+    }
 
-    public void setJobs(List<JobProgress> jobs) { panel.setJobs(jobs); }
+    public void addJob(JobProgress job) {
+        panel.addJob(job);
+    }
+
+    public void refreshJob(JobProgress job) {
+        panel.refreshJob(job);
+    }
+
+    /** For rare advanced cases you can still get the panel */
+    public JobsProgressPanel getPanel() {
+        return panel;
+    }
 }

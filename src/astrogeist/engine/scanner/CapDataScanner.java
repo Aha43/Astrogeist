@@ -26,9 +26,11 @@ public abstract class CapDataScanner extends AbstractPluginScanner {
 		super(location);
 		this.fileParser = new CompositeFileParser(fileparsers);
 	}
+	
+	
 
 	@Override public final void scan(Timeline timeline) throws Exception {
-		try {
+		//try {
 			var locPath = Path.of(super.location());
 			var paths = FilesUtil.getRegularFilePaths(locPath);
 			for (var path : paths) {
@@ -42,9 +44,9 @@ public abstract class CapDataScanner extends AbstractPluginScanner {
 				
 				this.fileParser.parse(instant, path.toFile(), timeline);
 			}
-		} catch (Exception x) {
-			MessageDialogs.showError("Failed scanning", x);
-		}
+		//} catch (Exception x) {
+			//MessageDialogs.showError("Failed scanning", x);
+		//}
 	}
 
 }

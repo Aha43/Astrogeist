@@ -1,4 +1,4 @@
-package astrogeist.ui.swing.progress;
+package astrogeist.engine.jobs;
 
 import java.util.ArrayList;
 import java.util.List;

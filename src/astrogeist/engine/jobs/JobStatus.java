@@ -1,4 +1,4 @@
-package astrogeist.ui.swing.progress;
+package astrogeist.engine.jobs;
 
 public enum JobStatus {
     NOT_STARTED,

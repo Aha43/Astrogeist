@@ -13,6 +13,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.TableCellRenderer;
 
+import astrogeist.engine.jobs.JobProgress;
+
 public final class JobsProgressPanel extends JPanel {
     private static final long serialVersionUID = 1L;
     

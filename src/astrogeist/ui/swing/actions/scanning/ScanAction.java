@@ -8,13 +8,13 @@ import javax.swing.Action;
 
 import astrogeist.engine.abstraction.Scanner;
 import astrogeist.engine.abstraction.TimelineValuePool;
+import astrogeist.engine.jobs.DefaultJobRunner;
+import astrogeist.engine.jobs.JobProgress;
 import astrogeist.engine.resources.Resources;
 import astrogeist.engine.scanner.ScannerConfigLoader;
 import astrogeist.engine.scanner.userdata.UserDataScanner;
 import astrogeist.ui.swing.App;
 import astrogeist.ui.swing.dialog.message.MessageDialogs;
-import astrogeist.ui.swing.progress.DefaultJobRunner;
-import astrogeist.ui.swing.progress.JobProgress;
 import astrogeist.ui.swing.progress.JobProgressDialog;
 import astrogeist.ui.swing.progress.JobToProgressAdapter;
 

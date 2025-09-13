@@ -5,6 +5,8 @@ import java.util.concurrent.Executors;
 
 import javax.swing.SwingUtilities;
 
+import astrogeist.engine.jobs.JobProgress;
+
 public final class Demo {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {

@@ -8,7 +8,6 @@ import astrogeist.engine.abstraction.Timeline;
 import astrogeist.engine.abstraction.UtcExtractor;
 import astrogeist.engine.logging.Log;
 import astrogeist.engine.util.FilesUtil;
-import astrogeist.ui.swing.dialog.message.MessageDialogs;
 
 /**
  * <p>
@@ -27,26 +26,19 @@ public abstract class CapDataScanner extends AbstractPluginScanner {
 		this.fileParser = new CompositeFileParser(fileparsers);
 	}
 	
-	
-
 	@Override public final void scan(Timeline timeline) throws Exception {
-		//try {
-			var locPath = Path.of(super.location());
-			var paths = FilesUtil.getRegularFilePaths(locPath);
-			for (var path : paths) {
+		var locPath = Path.of(super.location());
+		var paths = FilesUtil.getRegularFilePaths(locPath);
+		for (var path : paths) {		
+			this.logger.info("analyze path: " + path.toString());
 				
-				this.logger.info("analyze path: " + path.toString());
+			var instant = this.utcExtractor.extract(path);
+			if (instant == null) continue;
 				
-				var instant = this.utcExtractor.extract(path);
-				if (instant == null) continue;
+			timeline.put(instant, path);
 				
-				timeline.put(instant, path);
-				
-				this.fileParser.parse(instant, path.toFile(), timeline);
-			}
-		//} catch (Exception x) {
-			//MessageDialogs.showError("Failed scanning", x);
-		//}
+			this.fileParser.parse(instant, path.toFile(), timeline);
+		}
 	}
 
 }

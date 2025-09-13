@@ -1,6 +1,9 @@
 package astrogeist.ui.swing.progress;
 
 import javax.swing.table.AbstractTableModel;
+
+import astrogeist.engine.jobs.JobProgress;
+
 import java.util.ArrayList;
 import java.util.List;
 

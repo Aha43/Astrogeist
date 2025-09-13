@@ -1,4 +1,4 @@
-package astrogeist.ui.swing.progress;
+package astrogeist.engine.jobs;
 
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;

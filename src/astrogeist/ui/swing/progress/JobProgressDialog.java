@@ -10,6 +10,8 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
+import astrogeist.engine.jobs.JobProgress;
+
 public final class JobProgressDialog extends JDialog {
     private static final long serialVersionUID = 1L;
 

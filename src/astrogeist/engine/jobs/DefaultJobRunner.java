@@ -19,7 +19,7 @@ public final class DefaultJobRunner implements JobRunner {
     public DefaultJobRunner(int maxParallel) {
         this.pool = Executors.newFixedThreadPool(Math.max(1, maxParallel));}
 
-    @Override public <I> JobHandle submit(JobWorker<I> worker, I input, JobProgressListener listener) {
+    @Override public final <I> JobHandle submit(JobWorker<I> worker, I input, JobProgressListener listener) {
         Objects.requireNonNull(worker); Objects.requireNonNull(listener);
         var id = UUID.randomUUID().toString();
         var cancelSrc = new CancellationSource();
@@ -41,7 +41,7 @@ public final class DefaultJobRunner implements JobRunner {
         return new Handle(id, cancelSrc, cf);
     }
 
-    @Override public <I> List<JobHandle> submitAll(List<JobSpec<I>> specs) {
+    @Override public final <I> List<JobHandle> submitAll(List<JobSpec<I>> specs) {
         var handles = new ArrayList<JobHandle>(specs.size());
         for (var s : specs) {
             handles.add(submit(s.worker(), s.input(), s.listener()));
@@ -49,7 +49,7 @@ public final class DefaultJobRunner implements JobRunner {
         return handles;
     }
 
-    @Override public void close() { pool.shutdownNow(); }
+    @Override public final void close() { pool.shutdownNow(); }
 
     // -- impl
     private record Handle(String id, CancellationSource cancellation,

@@ -14,11 +14,9 @@ public final class Demo {
             dlg.setVisible(true);
 
             var scan1 = new JobProgress("Seestar Scanner")
-                .setDescription("Scan Seestar output")
-                .setRootInfo("/astro/Seestar");
+                .setDescription("Scan Seestar output");
             var scan2 = new JobProgress("SharpCap Scanner")
-                .setDescription("Scan SharpCap sessions")
-                .setRootInfo("/astro/SharpCap");
+                .setDescription("Scan SharpCap sessions");
 
             dlg.setJobs(List.of(scan1, scan2));
 

@@ -1,7 +1,6 @@
 package astrogeist.ui.swing.progress;
 
 import java.awt.BorderLayout;
-import java.awt.Dialog.ModalityType;
 import java.awt.FlowLayout;
 import java.awt.Window;
 import java.util.List;
@@ -36,20 +35,12 @@ public final class JobProgressDialog extends JDialog {
     }
 
     /** Expose only high-level operations */
-    public void setJobs(List<JobProgress> jobs) {
-        panel.setJobs(jobs);
-    }
+    public final void setJobs(List<JobProgress> jobs) { panel.setJobs(jobs); }
 
-    public void addJob(JobProgress job) {
-        panel.addJob(job);
-    }
+    public final void addJob(JobProgress job) { panel.addJob(job); }
 
-    public void refreshJob(JobProgress job) {
-        panel.refreshJob(job);
-    }
+    public final void refreshJob(JobProgress job) { panel.refreshJob(job); }
 
     /** For rare advanced cases you can still get the panel */
-    public JobsProgressPanel getPanel() {
-        return panel;
-    }
+    public final JobsProgressPanel getPanel() { return panel; }
 }

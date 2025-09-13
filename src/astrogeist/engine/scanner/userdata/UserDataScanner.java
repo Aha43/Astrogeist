@@ -23,7 +23,8 @@ public final class UserDataScanner implements Scanner {
 	
 	@Override public final String name() { return "User data scanner"; }
 	
-	@Override public final String description() { return ""; }
+	@Override public final String description() { 
+		return "Scanning : '" + Resources.getUserDataDir() + "'"; }
 
 	@Override public final void run(
 		Timeline input,

@@ -6,7 +6,6 @@ import astrogeist.engine.abstraction.jobs.JobProgressListener;
 import astrogeist.engine.jobs.JobProgress;
 
 public final class JobToProgressAdapter implements JobProgressListener {
-
 	private final JobProgress job;
     private final JobsProgressPanel ui;
 
@@ -21,13 +20,10 @@ public final class JobToProgressAdapter implements JobProgressListener {
     @Override public final void onStart(int total) {
         this.total = total;
         job.start();
-        if (total == 0) {
-            job.setPercent(100);
-        } else if (total < 0) {
-            job.message("Starting… (unknown total)");
-        } else {
-            job.message("Starting… total=" + total);
-        }
+             if (total == 0) job.setPercent(100);
+        else if (total < 0)  job.message("Starting… (unknown total)");
+        else                 job.message("Starting… total=" + total);
+        
         ui.refreshJob(job);
     }
 
@@ -45,12 +41,12 @@ public final class JobToProgressAdapter implements JobProgressListener {
         updateProgress(msg);
     }
 
-    @Override final public void onMessage(String message) {
+    @Override public final void onMessage(String message) {
         appendDetails(message);
         SwingUtilities.invokeLater(() -> ui.refreshJob(job));
     }
 
-    @Override final public void onDone() {
+    @Override public final void onDone() {
         job.message(summaryText());
         job.complete();
         ui.refreshJob(job);

@@ -14,13 +14,13 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.TableCellRenderer;
 
 import astrogeist.engine.jobs.JobProgress;
+import astrogeist.ui.swing.component.general.ColumnTooltipEnabler;
 
 public final class JobsProgressPanel extends JPanel {
     private static final long serialVersionUID = 1L;
     
 	private final JobProgressTableModel model = new JobProgressTableModel();
     private final JTable table = new JTable(model);
-    private final JProgressBar rowProgress = new JProgressBar(0, 100);
     private final JTextArea detailsArea = new JTextArea(7, 40);
 
     public JobsProgressPanel() {
@@ -28,6 +28,8 @@ public final class JobsProgressPanel extends JPanel {
 
         table.setAutoCreateRowSorter(true);
         table.setFillsViewportHeight(true);
+        
+        ColumnTooltipEnabler.enable(this.table, 5);
 
         // Simple progress renderer for "Progress" column
         TableCellRenderer progressRenderer = (tbl, value, isSel, hasFocus, row, col) -> {
@@ -55,7 +57,7 @@ public final class JobsProgressPanel extends JPanel {
         add(bottom, BorderLayout.SOUTH);
     }
 
-    private void onSelectionChanged(ListSelectionEvent e) {
+    private final void onSelectionChanged(ListSelectionEvent e) {
         if (e.getValueIsAdjusting()) return;
         int row = table.getSelectedRow();
         if (row >= 0) {
@@ -68,13 +70,12 @@ public final class JobsProgressPanel extends JPanel {
         }
     }
 
-    private String buildDetails(JobProgress jp) {
+    private final String buildDetails(JobProgress jp) {
         if (jp == null) return "";
         StringBuilder sb = new StringBuilder();
         sb.append("Name: ").append(jp.getName()).append('\n');
         sb.append("Status: ").append(jp.getStatus()).append('\n');
         sb.append("Progress: ").append(jp.getPercent()).append("%\n");
-        if (jp.getRootInfo() != null) sb.append("Root: ").append(jp.getRootInfo()).append('\n');
         if (jp.getDescription() != null) sb.append("Description: ").append(jp.getDescription()).append('\n');
         sb.append("Succeeded: ").append(jp.getOkCount())
           .append("  Failed: ").append(jp.getFailCount()).append("\n\n");
@@ -86,15 +87,13 @@ public final class JobsProgressPanel extends JPanel {
 
     // API
 
-    public void setJobs(List<JobProgress> jobs) {
-        SwingUtilities.invokeLater(() -> model.setJobs(jobs));
-    }
+    public final void setJobs(List<JobProgress> jobs) {
+        SwingUtilities.invokeLater(() -> model.setJobs(jobs)); }
 
-    public void addJob(JobProgress job) {
-        SwingUtilities.invokeLater(() -> model.addJob(job));
-    }
+    public final void addJob(JobProgress job) {
+        SwingUtilities.invokeLater(() -> model.addJob(job)); }
 
-    public void refreshJob(JobProgress job) {
+    public final void refreshJob(JobProgress job) {
         SwingUtilities.invokeLater(() -> {
             model.jobUpdated(job);
             // keep details synced if selected
@@ -107,5 +106,6 @@ public final class JobsProgressPanel extends JPanel {
             }
         });
     }
+    
 }
 

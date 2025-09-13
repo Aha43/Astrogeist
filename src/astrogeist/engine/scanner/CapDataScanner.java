@@ -61,20 +61,5 @@ public abstract class CapDataScanner extends AbstractPluginScanner {
 		super(location);
 		this.fileParser = new CompositeFileParser(fileparsers);
 	}
-	
-//	@Override public final void scan(Timeline timeline) throws Exception {
-//		var locPath = Path.of(super.location());
-//		var paths = FilesUtil.getRegularFilePaths(locPath);
-//		for (var path : paths) {		
-//			this.logger.info("analyze path: " + path.toString());
-//				
-//			var instant = this.utcExtractor.extract(path);
-//			if (instant == null) continue;
-//				
-//			timeline.put(instant, path);
-//				
-//			this.fileParser.parse(instant, path.toFile(), timeline);
-//		}
-//	}
 
 }

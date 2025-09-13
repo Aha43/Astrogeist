@@ -6,7 +6,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 public final class JobProgress {
     private volatile String name;     // short name (e.g., "Seestar Scanner")
     private volatile String description; // longer description
-    private volatile String rootInfo; // e.g., scan root path
     private volatile JobStatus status = JobStatus.NOT_STARTED;
 
     // 0..100
@@ -19,29 +18,27 @@ public final class JobProgress {
     // final message / details (errors, summary, etc.)
     private volatile String details = "";
 
-    public JobProgress(String name) {
-        this.name = Objects.requireNonNull(name); }
+    public JobProgress(String name) { this.name = Objects.requireNonNull(name); }
 
-    public String getName() { return name; }
-    public String getDescription() { return description; }
-    public String getRootInfo() { return rootInfo; }
-    public JobStatus getStatus() { return status; }
-    public int getPercent() { return percent.get(); }
-    public int getOkCount() { return okCount.get(); }
-    public int getFailCount() { return failCount.get(); }
-    public String getDetails() { return details; }
+    public final String getName() { return name; }
+    public final String getDescription() { return description; }
+    public final JobStatus getStatus() { return status; }
+    public final int getPercent() { return percent.get(); }
+    public final int getOkCount() { return okCount.get(); }
+    public final int getFailCount() { return failCount.get(); }
+    public final String getDetails() { return details; }
 
-    public JobProgress setName(String name) { this.name = name; return this; }
-    public JobProgress setDescription(String description) { this.description = description; return this; }
-    public JobProgress setRootInfo(String rootInfo) { this.rootInfo = rootInfo; return this; }
+    public final JobProgress setName(String name) { this.name = name; return this; }
+    public final JobProgress setDescription(String description) {
+    	this.description = description; return this; }
 
-    public void start() { this.status = JobStatus.RUNNING; }
-    public void setPercent(int p) { this.percent.set(Math.max(0, Math.min(100, p))); }
-    public void incOk(int n) { this.okCount.addAndGet(n); }
-    public void incFail(int n) { this.failCount.addAndGet(n); }
-    public void message(String details) { this.details = details == null ? "" : details; }
+    public final void start() { this.status = JobStatus.RUNNING; }
+    public final void setPercent(int p) { this.percent.set(Math.max(0, Math.min(100, p))); }
+    public final void incOk(int n) { this.okCount.addAndGet(n); }
+    public final void incFail(int n) { this.failCount.addAndGet(n); }
+    public final void message(String details) { this.details = details == null ? "" : details; }
 
-    public void complete() {
+    public final void complete() {
         if (failCount.get() > 0 && okCount.get() > 0) {
             this.status = JobStatus.PARTIAL_SUCCESS;
         } else if (failCount.get() > 0) {

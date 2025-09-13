@@ -1,10 +1,13 @@
 package astrogeist.ui.swing.actions.scanning;
 
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.SwingUtilities;
 
 import astrogeist.engine.abstraction.Scanner;
 import astrogeist.engine.abstraction.TimelineValuePool;
@@ -50,13 +53,13 @@ public final class ScanAction extends AbstractAction {
 	        var runner = new DefaultJobRunner(2);
 
 	        // Track completions so we can close dialog when all done
-	        var allFutures = new java.util.ArrayList<java.util.concurrent.CompletableFuture<Void>>();
+	        var allFutures = new ArrayList<CompletableFuture<Void>>();
 
 	        for (var scanner : scanners) {
 	            // Build a JobProgress row for UI
 	            var jp = new JobProgress(scanner.getClass().getSimpleName())
-	                    	.setDescription("Legacy scan")
-	                    	.setRootInfo(null); // set a root path if you have it per scanner
+	            		.setDescription(scanner.description());
+	                  
 	            dlg.addJob(jp);
 
 	            var listener = new JobToProgressAdapter(jp, dlg.getPanel());
@@ -65,8 +68,8 @@ public final class ScanAction extends AbstractAction {
 	        }
 
 	        // Optional: close dialog when *all* jobs complete (success or error)
-	        java.util.concurrent.CompletableFuture
-	            .allOf(allFutures.toArray(java.util.concurrent.CompletableFuture[]::new))
+	        CompletableFuture
+	            .allOf(allFutures.toArray(CompletableFuture[]::new))
 	            .whenCompleteAsync((v, exAll) -> {
 	                
 	            	this.app.getSearchPanel().timelineView(timeline);
@@ -74,14 +77,13 @@ public final class ScanAction extends AbstractAction {
 	                // If you prefer to leave it open, remove these 2 lines:
 //	            	dlg.dispose();
 	                try { runner.close(); } catch (Exception ignore) {}
-	            }, javax.swing.SwingUtilities::invokeLater);
+	            }, SwingUtilities::invokeLater);
 
 	    } catch (Exception ex) {
 	        MessageDialogs.showError("Failed to scan", ex);
 	    }
 	}
 
-	
 	private static final List<Scanner> loadScanners(TimelineValuePool tvp) throws Exception {
 		var configFile = Resources.getScanningConfigFile();
 		var config = ScannerConfigLoader.parse(configFile);

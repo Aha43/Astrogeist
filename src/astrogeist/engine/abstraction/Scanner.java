@@ -1,6 +1,8 @@
 package astrogeist.engine.abstraction;
 
-public interface Scanner {
+import astrogeist.engine.abstraction.jobs.JobWorker;
+
+public interface Scanner extends JobWorker<Timeline> {
 	
 	/**
 	 * <p>
@@ -15,15 +17,6 @@ public interface Scanner {
 	 * </p>
 	 */
 	String description();
-	
-	/**
-	 * <p>
-	 *   Scan.
-	 * </p> 
-	 * @param timeline {@link Timeline} to add scanned information to.
-	 * @throws Exception If fails for any reason.
-	 */
-	void scan(Timeline timeline) throws Exception;
 	
 	/**
 	 * <p>

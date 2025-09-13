@@ -63,8 +63,8 @@ public final class ScanAction extends AbstractAction {
 	            var listener = new JobToProgressAdapter(jp, dlg.getPanel());
 
 	            // Submit legacy scanner through the compat worker
-	            var input = new LegacyScannerWorker.Input(sc, timeline);
-	            var handle = runner.submit(new LegacyScannerWorker(), input, listener);
+	            //var input = new LegacyScannerWorker.Input(sc, timeline);
+	            var handle = runner.submit(sc, timeline, listener);
 
 	            allFutures.add(handle.completion());
 	        }

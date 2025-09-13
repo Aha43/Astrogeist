@@ -1,4 +1,4 @@
-package astrogeist.engine.abstraction;
+package astrogeist.engine.abstraction.jobs;
 
 import astrogeist.engine.async.CancellationSource;
 

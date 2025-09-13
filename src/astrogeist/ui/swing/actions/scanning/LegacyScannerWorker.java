@@ -1,9 +1,9 @@
 package astrogeist.ui.swing.actions.scanning;
 
-import astrogeist.engine.abstraction.JobProgressListener;
-import astrogeist.engine.abstraction.JobWorker;
 import astrogeist.engine.abstraction.Scanner;
 import astrogeist.engine.abstraction.Timeline;
+import astrogeist.engine.abstraction.jobs.JobProgressListener;
+import astrogeist.engine.abstraction.jobs.JobWorker;
 import astrogeist.engine.async.CancellationToken;
 
 /** Wraps the legacy Scanner into a JobWorker. */

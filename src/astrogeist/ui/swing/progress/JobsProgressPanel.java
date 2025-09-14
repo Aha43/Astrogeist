@@ -14,8 +14,15 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.TableCellRenderer;
 
 import astrogeist.engine.jobs.JobProgress;
-import astrogeist.ui.swing.component.general.ColumnTooltipEnabler;
+import astrogeist.ui.swing.table.ColumnTooltipEnabler;
+import astrogeist.ui.swing.table.PopupCellViewer;
 
+/**
+ * <p>
+ *   Panel that shows the state of 
+ *   {@link JobProgress} objects, that is progress of 'jobs'.
+ * </p>
+ */
 public final class JobsProgressPanel extends JPanel {
     private static final long serialVersionUID = 1L;
     
@@ -30,6 +37,7 @@ public final class JobsProgressPanel extends JPanel {
         table.setFillsViewportHeight(true);
         
         ColumnTooltipEnabler.enable(this.table, 5);
+        PopupCellViewer.install(table, 1, 2, 3, 4, 5);
 
         // Simple progress renderer for "Progress" column
         TableCellRenderer progressRenderer = (tbl, value, isSel, hasFocus, row, col) -> {

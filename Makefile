@@ -1,11 +1,11 @@
-# Adjust these paths if needed
 SRC_DIR = src
 OUT_DIR = bin
 MAIN_CLASS = astrogeist.app.Main
 JAR_NAME = astrogeist.jar
 MANIFEST = manifest.txt
+DOC_DIR = docs/api
 
-.PHONY: all run clean
+.PHONY: all run clean javadoc
 
 all: $(JAR_NAME)
 
@@ -26,4 +26,12 @@ run-prod: $(JAR_NAME)
 
 clean:
 	@echo "Cleaning build artifacts..."
-	rm -rf $(OUT_DIR) $(JAR_NAME) sources.txt
+	rm -rf $(OUT_DIR) $(JAR_NAME) sources.txt $(DOC_DIR)
+
+# --- new target ---
+javadoc: $(SOURCES_FILE)
+	@echo "Generating Javadoc into $(DOC_DIR)…"
+	mkdir -p $(DOC_DIR)
+	# Use explicit source files to avoid scanning system trees
+	javadoc -d $(DOC_DIR) -classpath $(CP) @$(SOURCES_FILE)
+	@echo "Open $(DOC_DIR)/index.html"

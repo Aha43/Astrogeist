@@ -105,7 +105,7 @@ public final class ScannerConfigLoader {
      * </p> 
      * @param config Configuration.
      * @return {@link PluginScanner}s.
-     * @throws ScannerException If fails to create scanners.
+     * @throws Exception If fails to create scanners.
      */
     public final static List<Scanner> buildScanners(Map<String, List<String>> config) throws Exception {
         List<Scanner> scanners = new ArrayList<>();

@@ -3,7 +3,7 @@ package astrogeist.engine.async;
 /**
  * <p>
  *   Signals to a CancellationToken that it should be canceled.
- * </>
+ * </p>
  */
 public final class CancellationSource {
     private final CancellationToken token = new CancellationToken();

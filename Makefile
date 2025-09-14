@@ -1,9 +1,10 @@
 SRC_DIR = src
 OUT_DIR = bin
-MAIN_CLASS = astrogeist.app.Main
+MAIN_CLASS = astrogeist.ui.swing.Main
 JAR_NAME = astrogeist.jar
 MANIFEST = manifest.txt
 DOC_DIR = docs/api
+SOURCES_FILE = sources.txt
 
 .PHONY: all run clean javadoc
 
@@ -33,5 +34,5 @@ javadoc: $(SOURCES_FILE)
 	@echo "Generating Javadoc into $(DOC_DIR)…"
 	mkdir -p $(DOC_DIR)
 	# Use explicit source files to avoid scanning system trees
-	javadoc -d $(DOC_DIR) -classpath $(CP) @$(SOURCES_FILE)
+	javadoc -d $(DOC_DIR) @$(SOURCES_FILE)
 	@echo "Open $(DOC_DIR)/index.html"

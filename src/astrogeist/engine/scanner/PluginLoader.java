@@ -13,7 +13,7 @@ import astrogeist.engine.logging.Log;
 
 /**
  * <p>
- *   Loads {@link ScannerFactory} objects.
+ *   Loads {@link Scanner} objects.
  * </p>
  */
 public final class PluginLoader {
@@ -24,12 +24,12 @@ public final class PluginLoader {
     /**
      * <p>
      *   Resolve a ScannerFactory by `type`.
-     *   <ul>
-     *     <li>If `type` contains a dot, it is treated as a fully-qualified class name and loaded via reflection.</li>
-     *     <li>Otherwise, it is matched against ServiceLoader-registered factories by `factory.id()` (case-sensitive)
-     *         and, as a convenience, the implementation simpleName.</li>
-     *   </ul>
      * </p>
+     * <ul>
+     *   <li>If `type` contains a dot, it is treated as a fully-qualified class name and loaded via reflection.</li>
+     *   <li>Otherwise, it is matched against ServiceLoader-registered factories by `factory.id()` (case-sensitive)
+     *       and, as a convenience, the implementation simpleName.</li>
+     * </ul>
      */
     public static List<Scanner> resolveFactory(String type, List<String> locations) throws Exception {
 		_logger.info("Load scanners type : '" + type + "'");

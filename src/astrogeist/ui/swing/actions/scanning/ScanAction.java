@@ -14,7 +14,7 @@ import astrogeist.engine.abstraction.TimelineValuePool;
 import astrogeist.engine.jobs.DefaultJobRunner;
 import astrogeist.engine.jobs.JobProgress;
 import astrogeist.engine.resources.Resources;
-import astrogeist.engine.scanner.ScannerConfigLoader;
+import astrogeist.engine.scanner.PluginScannerConfigLoader;
 import astrogeist.engine.scanner.userdata.UserDataScanner;
 import astrogeist.ui.swing.App;
 import astrogeist.ui.swing.dialog.message.MessageDialogs;
@@ -86,8 +86,8 @@ public final class ScanAction extends AbstractAction {
 
 	private static final List<Scanner> loadScanners(TimelineValuePool tvp) throws Exception {
 		var configFile = Resources.getScanningConfigFile();
-		var config = ScannerConfigLoader.parse(configFile);
-		var retVal = ScannerConfigLoader.buildScanners(config);
+		var config = PluginScannerConfigLoader.parse(configFile);
+		var retVal = PluginScannerConfigLoader.createScanners(config);
 		var userScanner = new UserDataScanner(tvp);
 		retVal.add(userScanner);
 		return retVal;

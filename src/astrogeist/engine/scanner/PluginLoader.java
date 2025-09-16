@@ -13,7 +13,7 @@ import astrogeist.engine.logging.Log;
 
 /**
  * <p>
- *   Loads {@link Scanner} objects.
+ *   Loads {@link Scanner} components.
  * </p>
  */
 public final class PluginLoader {
@@ -23,21 +23,21 @@ public final class PluginLoader {
 
     /**
      * <p>
-     *   Resolve a ScannerFactory by `type`.
+     *   Resolves a 
+     *   {@link PluginScanner} by its qualified class name.
      * </p>
-     * <ul>
-     *   <li>If `type` contains a dot, it is treated as a fully-qualified class name and loaded via reflection.</li>
-     *   <li>Otherwise, it is matched against ServiceLoader-registered factories by `factory.id()` (case-sensitive)
-     *       and, as a convenience, the implementation simpleName.</li>
-     * </ul>
+     * @param qcn the Qualified Class Name of 
+     *            {@link PluginScanner} component to resolve.
+     * @param locations the "locations" arguments to scanner's constructor.  
      */
-    public static List<Scanner> resolveFactory(String type, List<String> locations) throws Exception {
-		_logger.info("Load scanners type : '" + type + "'");
-		Class<?> raw = Class.forName(type);
+    public static List<PluginScanner> resolveFactory(String qcn, List<String> locations) throws Exception {
+		_logger.info("Load scanners type : '" + qcn + "'");
+		
+		Class<?> raw = Class.forName(qcn);
 		Class<? extends PluginScanner> cls = raw.asSubclass(PluginScanner.class);
 		Constructor<? extends PluginScanner> ctor = cls.getDeclaredConstructor(String.class);
 		ctor.setAccessible(true);
-		var retVal = new ArrayList<Scanner>();
+		var retVal = new ArrayList<PluginScanner>();
 		for (var l : locations) {
 			_logger.info("Create scanner for location: '" + l + "'");
 			var scanner = Optional.of(ctor.newInstance(l));

@@ -37,6 +37,11 @@ public final class JobProgress {
     public final void incOk(int n) { this.okCount.addAndGet(n); }
     public final void incFail(int n) { this.failCount.addAndGet(n); }
     public final void message(String details) { this.details = details == null ? "" : details; }
+    
+    public synchronized void appendMessage(String line) {
+        String prev = this.details == null ? "" : this.details;
+        this.details = (prev.isBlank() ? line : prev + System.lineSeparator() + line);
+    }
 
     public final void complete() {
         if (failCount.get() > 0 && okCount.get() > 0) {

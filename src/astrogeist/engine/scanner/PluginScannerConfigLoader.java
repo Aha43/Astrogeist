@@ -25,7 +25,6 @@ import astrogeist.engine.abstraction.PluginScanner;
 import astrogeist.engine.abstraction.Scanner;;
 
 /**
- * 
  * <p>
  *   Reads/parses plug-in scanning configuration and creates {@link PluginScanner}s
  *   from that configuration.

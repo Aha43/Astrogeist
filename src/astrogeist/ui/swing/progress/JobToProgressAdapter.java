@@ -47,7 +47,7 @@ public final class JobToProgressAdapter implements JobProgressListener {
     }
 
     @Override public final void onDone() {
-        job.message(summaryText());
+        job.appendMessage(summaryText());
         job.complete();
         ui.refreshJob(job);
     }
@@ -62,9 +62,7 @@ public final class JobToProgressAdapter implements JobProgressListener {
     }
 
     private final void appendDetails(String line) {
-        String prev = job.getDetails();
-        if (prev == null || prev.isBlank()) job.message(line);
-        else job.message(prev + System.lineSeparator() + line);
+    	job.appendMessage(line);
     }
 
     private final String summaryText() {

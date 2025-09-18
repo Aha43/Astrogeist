@@ -32,7 +32,10 @@ public final class DefaultJobRunner implements JobRunner {
                 listener.onDone();
                 cf.complete(null);
             } catch (Throwable ex) {
-                try { listener.onMessage("Fatal: " + ex.getMessage()); } catch (Throwable ignore) {}
+                try { 
+                	listener.onFailure(worker.name(), ex);
+                	listener.onMessage("Fatal: " + ex.getMessage()); 
+                } catch (Throwable ignore) {}
                 try { listener.onDone(); } catch (Throwable ignore) {}
                 cf.completeExceptionally(ex);
             }

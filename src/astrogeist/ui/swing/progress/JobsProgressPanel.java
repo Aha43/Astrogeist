@@ -7,6 +7,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
@@ -33,8 +34,8 @@ public final class JobsProgressPanel extends JPanel {
     public JobsProgressPanel() {
         super(new BorderLayout(8,8));
 
-        table.setAutoCreateRowSorter(true);
-        table.setFillsViewportHeight(true);
+        this.table.setAutoCreateRowSorter(true);
+        this.table.setFillsViewportHeight(true);
         
         ColumnTooltipEnabler.enable(this.table, 5);
         PopupCellViewer.install(table, 1, 2, 3, 4, 5);
@@ -48,21 +49,39 @@ public final class JobsProgressPanel extends JPanel {
             if (isSel) bar.setBackground(tbl.getSelectionBackground());
             return bar;
         };
-        table.getColumnModel().getColumn(2).setCellRenderer(progressRenderer);
-        table.setRowHeight(22);
+        this.table.getColumnModel().getColumn(2).setCellRenderer(progressRenderer);
+        this.table.setRowHeight(22);
 
-        detailsArea.setEditable(false);
-        detailsArea.setLineWrap(true);
-        detailsArea.setWrapStyleWord(true);
+        this.detailsArea.setEditable(false);
+        this.detailsArea.setLineWrap(true);
+        this.detailsArea.setWrapStyleWord(true);
 
-        table.getSelectionModel().addListSelectionListener(this::onSelectionChanged);
+        this.table.getSelectionModel().addListSelectionListener(this::onSelectionChanged);
 
+        var split = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+        
         var top = new JScrollPane(table);
+        top.setBorder(BorderFactory.createCompoundBorder(
+        	    BorderFactory.createTitledBorder("Progress"),   // your title here
+        	    BorderFactory.createEmptyBorder(4, 8, 8, 8)    // padding inside the border
+        	));
+        
         var bottom = new JScrollPane(detailsArea);
-        bottom.setBorder(BorderFactory.createTitledBorder("Details"));
+        bottom.setBorder(BorderFactory.createCompoundBorder(
+        	    BorderFactory.createTitledBorder("Details"),   // your title here
+        	    BorderFactory.createEmptyBorder(4, 8, 8, 8)    // padding inside the border
+        	));
+        
+        split.setResizeWeight(0.66);           // weight for top component when resizing
+        split.setDividerLocation(0.66);
+        split.setTopComponent(top);
+        split.setBottomComponent(bottom);
+        super.add(split, BorderLayout.CENTER);
+        
+        //bottom.setBorder(BorderFactory.createTitledBorder("Details"));
 
-        add(top, BorderLayout.CENTER);
-        add(bottom, BorderLayout.SOUTH);
+        //add(top, BorderLayout.CENTER);
+        //add(bottom, BorderLayout.SOUTH);
     }
 
     private final void onSelectionChanged(ListSelectionEvent e) {
@@ -80,16 +99,15 @@ public final class JobsProgressPanel extends JPanel {
 
     private final String buildDetails(JobProgress jp) {
         if (jp == null) return "";
-        StringBuilder sb = new StringBuilder();
+        var sb = new StringBuilder();
         sb.append("Name: ").append(jp.getName()).append('\n');
         sb.append("Status: ").append(jp.getStatus()).append('\n');
         sb.append("Progress: ").append(jp.getPercent()).append("%\n");
         if (jp.getDescription() != null) sb.append("Description: ").append(jp.getDescription()).append('\n');
         sb.append("Succeeded: ").append(jp.getOkCount())
           .append("  Failed: ").append(jp.getFailCount()).append("\n\n");
-        if (jp.getDetails() != null && !jp.getDetails().isBlank()) {
-            sb.append(jp.getDetails()).append('\n');
-        }
+        if (jp.getDetails() != null && !jp.getDetails().isBlank())
+          sb.append(jp.getDetails()).append('\n');
         return sb.toString();
     }
 
@@ -116,4 +134,3 @@ public final class JobsProgressPanel extends JPanel {
     }
     
 }
-

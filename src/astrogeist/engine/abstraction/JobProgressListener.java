@@ -1,4 +1,4 @@
-package astrogeist.engine.abstraction.jobs;
+package astrogeist.engine.abstraction;
 
 public interface JobProgressListener {
     /**

@@ -7,19 +7,19 @@ import java.util.Optional;
 import java.util.logging.Logger;
 
 import astrogeist.Common;
-import astrogeist.engine.abstraction.PluginScanner;
 import astrogeist.engine.abstraction.Scanner;
 import astrogeist.engine.logging.Log;
 
 /**
  * <p>
- *   Loads {@link Scanner} components.
+ *   Loads 
+ *   {@link Scanner} components.
  * </p>
  */
-public final class PluginLoader {
-    private PluginLoader() { Common.throwStaticClassInstantiateError(); }
+public final class ScannerLoader {
+    private ScannerLoader() { Common.throwStaticClassInstantiateError(); }
     
-    private final static Logger _logger = Log.get(PluginLoader.class);
+    private final static Logger _logger = Log.get(ScannerLoader.class);
 
     /**
      * <p>
@@ -30,14 +30,14 @@ public final class PluginLoader {
      *            {@link PluginScanner} component to resolve.
      * @param locations the "locations" arguments to scanner's constructor.  
      */
-    public static List<PluginScanner> resolveFactory(String qcn, List<String> locations) throws Exception {
+    public static List<Scanner> resolveFactory(String qcn, List<String> locations) throws Exception {
 		_logger.info("Load scanners type : '" + qcn + "'");
 		
 		Class<?> raw = Class.forName(qcn);
-		Class<? extends PluginScanner> cls = raw.asSubclass(PluginScanner.class);
-		Constructor<? extends PluginScanner> ctor = cls.getDeclaredConstructor(String.class);
+		Class<? extends Scanner> cls = raw.asSubclass(Scanner.class);
+		Constructor<? extends Scanner> ctor = cls.getDeclaredConstructor(String.class);
 		ctor.setAccessible(true);
-		var retVal = new ArrayList<PluginScanner>();
+		var retVal = new ArrayList<Scanner>();
 		for (var l : locations) {
 			_logger.info("Create scanner for location: '" + l + "'");
 			var scanner = Optional.of(ctor.newInstance(l));

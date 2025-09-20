@@ -4,10 +4,19 @@ import astrogeist.engine.abstraction.jobs.JobWorker;
 
 /**
  * <p>
- *   A component that 
+ *   {@link JobWorker} that "scans" and add observation data to
+ *   {@link Timeline}.
  * </p>
  */
 public interface Scanner extends JobWorker<Timeline> {
+	/**
+	 * <p>
+	 *   Tells if can scan.
+	 * </p>
+	 * @return {@code true} if can; {@code false} if can not.
+	 */
+	boolean canScan();
+	
 	/**
 	 * <p>
 	 *   Name suitable for displaying to end user.
@@ -18,7 +27,8 @@ public interface Scanner extends JobWorker<Timeline> {
 	
 	/**
 	 * <p>
-	 *   Description on what scanner does.
+	 *   Description on what scanner does including why can not if
+	 *   {@link #canScan()} is {@code false}.
 	 * </p>
 	 * @return the description
 	 */

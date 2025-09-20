@@ -6,19 +6,15 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import astrogeist.engine.abstraction.JobProgressListener;
 import astrogeist.engine.abstraction.Timeline;
 import astrogeist.engine.async.CancellationToken;
-import astrogeist.engine.logging.Log;
-import astrogeist.engine.scanner.AbstractPluginScanner;
+import astrogeist.engine.scanner.AbstractScanner;
 import astrogeist.engine.util.FileTimes;
 import astrogeist.engine.util.FilesUtil;
 
-public final class SeestarScanner extends AbstractPluginScanner {
-	private final Logger logger = Log.get(this);
-	
+public final class SeestarScanner extends AbstractScanner {
 	public SeestarScanner(String location) { super(location); }
 	
 	@Override final public void run(
@@ -32,8 +28,7 @@ public final class SeestarScanner extends AbstractPluginScanner {
 		
 		var dict = new LinkedHashMap<String, String>();
 		
-		var locPath = Path.of(super.location());
-		var paths = FilesUtil.getRegularFilePaths(locPath);
+		var paths = FilesUtil.getRegularFilePaths(super.path);
 		
 		listener.onStart(paths.size());
 		

@@ -21,7 +21,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import astrogeist.Common;
-import astrogeist.engine.abstraction.PluginScanner;
 import astrogeist.engine.abstraction.Scanner;;
 
 /**
@@ -30,8 +29,8 @@ import astrogeist.engine.abstraction.Scanner;;
  *   from that configuration.
  * </p>
  */
-public final class PluginScannerConfigLoader {
-    private PluginScannerConfigLoader() { Common.throwStaticClassInstantiateError(); }
+public final class ScannerConfigLoader {
+    private ScannerConfigLoader() { Common.throwStaticClassInstantiateError(); }
     
     /**
      * <p>
@@ -144,7 +143,7 @@ public final class PluginScannerConfigLoader {
         for (var entry : config.entrySet()) {
             var type = entry.getKey();
             var locations = entry.getValue();
-            var scannersForType = PluginLoader.resolveFactory(type, locations);
+            var scannersForType = ScannerLoader.resolveFactory(type, locations);
             scanners.addAll(scannersForType);
         }
         return scanners;

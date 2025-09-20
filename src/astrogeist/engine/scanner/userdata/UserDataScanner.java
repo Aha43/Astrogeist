@@ -1,25 +1,24 @@
 package astrogeist.engine.scanner.userdata;
 
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import astrogeist.engine.abstraction.JobProgressListener;
-import astrogeist.engine.abstraction.Scanner;
 import astrogeist.engine.abstraction.Timeline;
 import astrogeist.engine.abstraction.TimelineValuePool;
 import astrogeist.engine.async.CancellationToken;
-import astrogeist.engine.logging.Log;
 import astrogeist.engine.resources.Resources;
+import astrogeist.engine.scanner.AbstractScanner;
 import astrogeist.engine.userdata.UserDataIo;
 import astrogeist.engine.util.FilesUtil;
 import astrogeist.engine.util.Instants;
 
-public final class UserDataScanner implements Scanner {
-	private final Logger logger = Log.get(this);
-	
+public final class UserDataScanner extends AbstractScanner {
 	private final UserDataIo userDataIo;
 	
-	public UserDataScanner(TimelineValuePool tvp) { this.userDataIo = new UserDataIo(tvp); }
+	public UserDataScanner(TimelineValuePool tvp) {
+		super(Resources.getUserDataDir());
+		this.userDataIo = new UserDataIo(tvp); 
+	}
 	
 	@Override public final String name() { return "User data scanner"; }
 	

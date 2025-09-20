@@ -1,6 +1,5 @@
 package astrogeist.engine.scanner;
 
-import java.nio.file.Path;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,7 +16,7 @@ import astrogeist.engine.util.FilesUtil;
  *   Generic scanner that assumes UTC time for snapshots can be extracted from path.
  * </p>
  */
-public abstract class CapDataScanner extends AbstractPluginScanner {
+public abstract class CapDataScanner extends AbstractScanner {
 	@Override public void run(
 		Timeline input,
 		JobProgressListener listener, 
@@ -25,8 +24,7 @@ public abstract class CapDataScanner extends AbstractPluginScanner {
 		
 		var timeline = input;
 		
-		var locPath = Path.of(super.location());
-		var paths = FilesUtil.getRegularFilePaths(locPath);
+		var paths = FilesUtil.getRegularFilePaths(super.path);
 		
 		listener.onStart(paths.size());
 		
@@ -57,9 +55,11 @@ public abstract class CapDataScanner extends AbstractPluginScanner {
 	
 	private final CompositeFileParser fileParser;
 	
-	protected CapDataScanner(String location, FileParser... fileparsers) {
+	protected CapDataScanner(String location, FileParser... fileparsers) { this(location, true, fileparsers); }
+	
+	protected CapDataScanner(String location, boolean locationIsFolder, FileParser... fileparsers) {
 		super(location);
 		this.fileParser = new CompositeFileParser(fileparsers);
 	}
-
+	
 }

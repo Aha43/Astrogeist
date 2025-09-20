@@ -14,6 +14,8 @@ import astrogeist.Common;
 import astrogeist.engine.typesystem.Type;
 
 public final class FilesUtil {
+	private FilesUtil() { Common.throwStaticClassInstantiateError(); }
+	
 	public static String getBaseName(File file) { return getBaseName(file.getName()); }
 	public static String getBaseName(Path path) { return getBaseName(path.getFileName().toString()); }
 	
@@ -68,5 +70,13 @@ public final class FilesUtil {
 	public static boolean isHidden(Path file) { 
 		return file.getFileName().toString().startsWith("."); }
 	
-	private FilesUtil() { Common.throwStaticClassInstantiateError(); }
+	public static boolean existsAs(String path, boolean folder) {
+		return existsAs(Path.of(path), folder); }
+	
+	public static boolean existsAs(Path path, boolean folder) {
+		if (!Files.exists(path)) return false;
+		if (folder) if (!Files.isDirectory(path)) return false;
+		return Files.isRegularFile(path);
+	}
+	
 }

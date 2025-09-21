@@ -21,7 +21,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import astrogeist.Common;
-import astrogeist.engine.abstraction.Scanner;;
+import astrogeist.engine.abstraction.Scanner;
 
 /**
  * <p>

@@ -6,4 +6,5 @@ module Astrogeist {
 	requires java.base;
 	requires java.xml;
 	requires java.logging;
+	requires com.formdev.flatlaf;
 }

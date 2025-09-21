@@ -27,8 +27,7 @@ public final class ScanAction extends AbstractAction {
 		this.scannersSelectionPanel = scannersSelectionPanel;
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
+	@Override public final void actionPerformed(ActionEvent e) {
 		try {
 			var scanners = this.scannersSelectionPanel.getSelectedScanners();
 			
@@ -63,7 +62,6 @@ public final class ScanAction extends AbstractAction {
 	        CompletableFuture
 	            .allOf(allFutures.toArray(CompletableFuture[]::new))
 	            .whenCompleteAsync((v, exAll) -> {
-	                
 	            	this.app.getSearchPanel().timelineView(timeline);
 	            	this.app.getTimelinePanel().timeline(timeline);
 	                try { runner.close(); } catch (Exception ignore) {}
@@ -74,53 +72,5 @@ public final class ScanAction extends AbstractAction {
 		}
 		
 	}
-	
-//	public final void actionPerformedold(ActionEvent e) {
-//    try {
-//        var timeline = this.app.getServices().getTimeline();
-//        timeline.clear();
-//
-//        var scanners = loadScanners(this.app.getServices().getTimelineValuePool()); // List<Scanner>
-//
-//        // Keep your existing bindings
-//        this.app.getSearchPanel().timelineView(timeline);
-//        this.app.getTimelinePanel().timeline(timeline);
-//
-//        // --- New: show progress dialog
-//        var dlg = new JobProgressDialog(this.app.getFrame(), "Scanning…");
-//        dlg.setVisible(true);
-//
-//        // Create a runner (tune parallelism to your IO/CPU mix)
-//        var runner = new DefaultJobRunner(2);
-//
-//        // Track completions so we can close dialog when all done
-//        var allFutures = new ArrayList<CompletableFuture<Void>>();
-//
-//        for (var scanner : scanners) {
-//            // Build a JobProgress row for UI
-//            var jp = new JobProgress(scanner.getClass().getSimpleName())
-//            		.setDescription(scanner.description());
-//                  
-//            dlg.addJob(jp);
-//
-//            var listener = new JobToProgressAdapter(jp, dlg.getPanel());
-//            var handle = runner.submit(scanner, timeline, listener);
-//            allFutures.add(handle.completion());
-//        }
-//
-//        // Optional: close dialog when *all* jobs complete (success or error)
-//        CompletableFuture
-//            .allOf(allFutures.toArray(CompletableFuture[]::new))
-//            .whenCompleteAsync((v, exAll) -> {
-//                
-//            	this.app.getSearchPanel().timelineView(timeline);
-//            	this.app.getTimelinePanel().timeline(timeline);
-//                try { runner.close(); } catch (Exception ignore) {}
-//            }, SwingUtilities::invokeLater);
-//
-//    } catch (Exception ex) {
-//        MessageDialogs.showError("Failed to scan", ex);
-//    }
-//}
 
 }

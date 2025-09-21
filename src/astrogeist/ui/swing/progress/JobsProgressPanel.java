@@ -78,10 +78,6 @@ public final class JobsProgressPanel extends JPanel {
         split.setBottomComponent(bottom);
         super.add(split, BorderLayout.CENTER);
         
-        //bottom.setBorder(BorderFactory.createTitledBorder("Details"));
-
-        //add(top, BorderLayout.CENTER);
-        //add(bottom, BorderLayout.SOUTH);
     }
 
     private final void onSelectionChanged(ListSelectionEvent e) {

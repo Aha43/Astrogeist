@@ -24,7 +24,7 @@ public final class OpenFileSelectionAction extends AbstractSelectionAction {
 	private final String getFile(Map<String, TimelineValue> snapshot) {
 		var values = TimelineSnapshotUtil.getOfType(snapshot, this.fileType);
 		if (values.size() == 0) return null;
-		var first = values.getFirst();
+		var first = values.get(0);
 		return first.value();
 	}
 	

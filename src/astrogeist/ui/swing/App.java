@@ -45,7 +45,7 @@ public final class App {
 	public final FilteredTimelineViewTablePanel getSearchPanel() { return this.searchPanel; }
 	
 	// Actions
-	public final Action ScanAction = new astrogeist.ui.swing.actions.scanning.ScanAction(this);
+	public final Action ScanAction = new astrogeist.ui.swing.scanning.ShowScanningDialogAction(this);
 	
 	public final void createGUI() {
 		var title = "Astrogeist";

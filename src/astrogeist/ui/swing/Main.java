@@ -1,6 +1,9 @@
 package astrogeist.ui.swing;
 
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+
+import com.formdev.flatlaf.*;
 
 import astrogeist.Common;
 import astrogeist.engine.resources.Resources;
@@ -10,6 +13,13 @@ import astrogeist.ui.swing.dialog.message.MessageDialogs;
 
 public final class Main {
 	public static void main(String[] args) {
+		try {
+	        UIManager.setLookAndFeel(new FlatDarculaLaf());
+	    } catch (Exception ex) {
+	        ex.printStackTrace();
+	    }
+		
+		
 		try {
 			var launch = LaunchDialog.showStartupDialog();
 			if (!launch.proceed()) System.exit(0);

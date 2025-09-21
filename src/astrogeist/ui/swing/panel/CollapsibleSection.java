@@ -1,4 +1,4 @@
-package astrogeist.ui.swing.component.general;
+package astrogeist.ui.swing.panel;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

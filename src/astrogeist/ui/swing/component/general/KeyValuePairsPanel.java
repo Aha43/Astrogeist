@@ -129,7 +129,7 @@ public class KeyValuePairsPanel extends JPanel {
     /** Expose table if caller wants more customization (column widths, renderers, etc.). */
     public final JTable getTable() { return table; }
 
-    /** Enable/disable editing & buttons. */
+    /** Enable/disable editing and buttons. */
     @Override public final void setEnabled(boolean enabled) {
         super.setEnabled(enabled);
         table.setEnabled(enabled);

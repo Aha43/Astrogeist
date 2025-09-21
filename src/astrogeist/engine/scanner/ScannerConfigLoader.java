@@ -1,56 +1,85 @@
 package astrogeist.engine.scanner;
 
+// jdoc ai rev
+
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import astrogeist.Common;
-import astrogeist.engine.abstraction.PluginScanner;
 import astrogeist.engine.abstraction.Scanner;
-
 
 /**
  * <p>
- *   Methods read / parse scanning configurations and create 
- *   {@link PluginScanner}s from such configuration.
+ *   Reads/parses plug-in scanning configuration and creates {@link PluginScanner}s
+ *   from that configuration.
  * </p>
  */
 public final class ScannerConfigLoader {
     private ScannerConfigLoader() { Common.throwStaticClassInstantiateError(); }
     
-    public final static Map<String, List<String>> parse(File dir) throws Exception {
-    	return parse(dir.toPath()); }
-
-    /** Parse from a file path. */
-    public final static Map<String, List<String>> parse(Path path) throws Exception {
-        try (InputStream in = java.nio.file.Files.newInputStream(path)) {
-            return parse(in);
-        }
-    }
-
-    /** Parse from a String (handy for tests). */
-    public final static Map<String, List<String>> parseFromString(String xml) throws Exception {
-        try (InputStream in = new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8))) {
-            return parse(in);
-        }
-    }
-
-    /** Parse from an InputStream. */
-    public final static Map<String, List<String>> parse(InputStream in) throws Exception {
+    /**
+     * <p>
+     *   Parses the given file.
+     * </p>
+     * @param file the {@link File} to parse.
+     * @return a configuration map as described in
+     *         {@link #parse(InputStream)}.
+     * @throws Exception If fails for any reason.
+     */
+    final public static Map<String, List<String>> parse(File file) throws Exception {
+    	return parse(file.toPath()); }
+    
+    /**
+     * <p>
+     *   Parses the given file.
+     * </p>
+     * @param path the {@link Path} to the file to parse.
+     * @return a configuration map as described in
+     *         {@link #parse(InputStream)}.
+     * @throws Exception If fails for any reason.
+     */
+    final public static Map<String, List<String>> parse(Path path) throws Exception {
+        try (var in = Files.newInputStream(path)) { return parse(in); } }
+    
+    /**
+     * <p>
+     *   Parses configuration from a raw XML string (handy for tests).
+     * </p>
+     * @param xml the XML to parse.
+     * @return a configuration map as described in
+     *         {@link #parse(InputStream)}.
+     * @throws Exception If fails for any reason.
+     */
+    final public static Map<String, List<String>> parseFromString(String xml) throws Exception {
+        try (var in = new ByteArrayInputStream(xml.getBytes(UTF_8))) {
+            return parse(in); } }
+    
+    /**
+     * <p>
+     *   Parses configuration from an input stream.
+     * </p>
+     * @param in the {@link InputStream} to parse.
+     * @return a map {@code type -> [locations...]} suitable for
+     *         passing to {@link #createScanners(Map)} to create {@link Scanner}
+     *         components based on the specifications parsed from the file.
+     * @throws Exception If fails for any reason.
+     */
+    final public static Map<String, List<String>> parse(InputStream in) throws Exception {
         DocumentBuilderFactory f = DocumentBuilderFactory.newInstance();
 
         // Harden the parser (XXE-safe)
@@ -60,30 +89,30 @@ public final class ScannerConfigLoader {
         f.setXIncludeAware(false);
         f.setExpandEntityReferences(false);
 
-        DocumentBuilder b = f.newDocumentBuilder();
-        Document doc = b.parse(in);
+        var b = f.newDocumentBuilder();
+        var doc = b.parse(in);
         doc.getDocumentElement().normalize();
 
         Map<String, List<String>> map = new LinkedHashMap<>(); // preserve order
 
         NodeList scannerNodes = doc.getElementsByTagName("scanner");
         for (int i = 0; i < scannerNodes.getLength(); i++) {
-            Node node = scannerNodes.item(i);
+            var node = scannerNodes.item(i);
             if (node.getNodeType() != Node.ELEMENT_NODE) continue;
 
-            Element scannerEl = (Element) node;
-            String type = scannerEl.getAttribute("type");
+            var scannerEl = (Element) node;
+            var type = scannerEl.getAttribute("type");
             if (type == null || type.isBlank()) continue; // skip invalid entries
 
             List<String> locations = new ArrayList<>();
             // collect immediate <location> children (preserve order)
-            NodeList children = scannerEl.getChildNodes();
+            var children = scannerEl.getChildNodes();
             for (int j = 0; j < children.getLength(); j++) {
-                Node c = children.item(j);
+                var c = children.item(j);
                 if (c.getNodeType() == Node.ELEMENT_NODE && "location".equals(c.getNodeName())) {
-                    String value = c.getTextContent();
+                    var value = c.getTextContent();
                     if (value != null) {
-                        String trimmed = value.trim();
+                        var trimmed = value.trim();
                         if (!trimmed.isEmpty()) locations.add(trimmed);
                     }
                 }
@@ -97,30 +126,27 @@ public final class ScannerConfigLoader {
     
     /**
      * <p>
-     *   Creates
-     *   {@link PluginScanner}s given configuration provided by output of methods
-     *   {@link #parse(InputStream)},
-     *   {@link #parse(Path)}
-     *   {@link #parseFromString(String)}.
-     * </p> 
-     * @param config Configuration.
-     * @return {@link PluginScanner}s.
-     * @throws ScannerException If fails to create scanners.
+     *   Creates {@link PluginScanner} instances from the supplied configuration.
+     * </p>
+     * <p>
+     *   The returned list is typed as
+     *   {@link Scanner} to allow the caller to add other scanner implementations 
+     *   alongside the plug-in scanners.
+     * </p>
+     * @param config a map as returned by 
+     *               {@link #parse(InputStream)} (or its overloads).
+     * @return a list of created {@link Scanner} components.
+     * @throws Exception If fails to create scanners.
      */
-    public final static List<Scanner> buildScanners(Map<String, List<String>> config) throws Exception {
+    final public static List<Scanner> createScanners(Map<String, List<String>> config) throws Exception {
         List<Scanner> scanners = new ArrayList<>();
         for (var entry : config.entrySet()) {
-            String type = entry.getKey();
-            List<String> locations = entry.getValue();
-            var scannersForType = PluginLoader.resolveFactory(type, locations);
+            var type = entry.getKey();
+            var locations = entry.getValue();
+            var scannersForType = ScannerLoader.resolveFactory(type, locations);
             scanners.addAll(scannersForType);
         }
         return scanners;
-    }
-    
-    public final static void buildScanner(Map<String, List<String>> config, CompositeScanner scanner) throws Exception {
-    	var scanners = buildScanners(config);
-    	scanner.addScanners(scanners);
     }
     
 }

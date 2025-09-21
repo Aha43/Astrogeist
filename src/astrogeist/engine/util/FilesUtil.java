@@ -75,7 +75,7 @@ public final class FilesUtil {
 	
 	public static boolean existsAs(Path path, boolean folder) {
 		if (!Files.exists(path)) return false;
-		if (folder) if (!Files.isDirectory(path)) return false;
+		if (folder) return Files.isDirectory(path);
 		return Files.isRegularFile(path);
 	}
 	

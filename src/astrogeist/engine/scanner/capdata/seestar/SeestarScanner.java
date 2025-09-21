@@ -56,7 +56,7 @@ public final class SeestarScanner extends AbstractScanner {
 					pathsDone.add(parent);
 				}
 				
-				listener.onSuccess(path, "analyzed");
+				listener.onSuccess(path, null);
 			}
 			catch (Exception x) {
 				this.logger.log(Level.WARNING, "failed to analyze path : '" + path + "'", x);

@@ -48,7 +48,7 @@ public final class UserDataScanner extends AbstractScanner {
 				var userData = this.userDataIo.load(t);
 				timeline.putTimelineValues(t, userData);
 				
-				listener.onSuccess(file, "analyzed");
+				listener.onSuccess(file, null);
 			
 			} catch (Exception x) {
 				listener.onFailure(file, x);

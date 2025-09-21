@@ -41,7 +41,7 @@ public abstract class CapDataScanner extends AbstractScanner {
 				
 				this.fileParser.parse(instant, path.toFile(), timeline);
 			
-				listener.onSuccess(path, "analyzed");
+				listener.onSuccess(path, null);
 			} catch (Exception x) {
 				this.logger.log(Level.WARNING, "failed to analyze path : '" + path + "'", x);
 				listener.onFailure(path, x);

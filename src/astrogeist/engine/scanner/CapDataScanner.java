@@ -5,7 +5,6 @@ import java.util.logging.Logger;
 
 import astrogeist.engine.abstraction.FileParser;
 import astrogeist.engine.abstraction.JobProgressListener;
-import astrogeist.engine.abstraction.Timeline;
 import astrogeist.engine.abstraction.UtcExtractor;
 import astrogeist.engine.async.CancellationToken;
 import astrogeist.engine.logging.Log;
@@ -18,11 +17,11 @@ import astrogeist.engine.util.FilesUtil;
  */
 public abstract class CapDataScanner extends AbstractScanner {
 	@Override public void run(
-		Timeline input,
+		ScannerContext context,
 		JobProgressListener listener, 
 		CancellationToken token) throws Exception {
 		
-		var timeline = input;
+		var timeline = context.timeline();
 		
 		var paths = FilesUtil.getRegularFilePaths(super.path);
 		

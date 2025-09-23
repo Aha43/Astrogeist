@@ -18,5 +18,6 @@ public final class CancellationToken {
      */
     public boolean isCancelled() { return cancelled.get(); }
     
+    // Invoked from source when operation should cancel.
     void cancel() { cancelled.set(true); }
 }

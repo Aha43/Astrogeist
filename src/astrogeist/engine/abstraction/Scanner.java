@@ -1,6 +1,7 @@
 package astrogeist.engine.abstraction;
 
 import astrogeist.engine.abstraction.jobs.JobWorker;
+import astrogeist.engine.scanner.ScannerContext;
 
 /**
  * <p>
@@ -8,7 +9,7 @@ import astrogeist.engine.abstraction.jobs.JobWorker;
  *   {@link Timeline}.
  * </p>
  */
-public interface Scanner extends JobWorker<Timeline> {
+public interface Scanner extends JobWorker<ScannerContext> {
 	/**
 	 * <p>
 	 *   Tells if can scan.

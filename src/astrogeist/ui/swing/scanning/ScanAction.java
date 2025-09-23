@@ -9,6 +9,7 @@ import javax.swing.SwingUtilities;
 
 import astrogeist.engine.jobs.DefaultJobRunner;
 import astrogeist.engine.jobs.JobProgress;
+import astrogeist.engine.scanner.ScannerContext;
 import astrogeist.ui.swing.App;
 import astrogeist.ui.swing.dialog.message.MessageDialogs;
 import astrogeist.ui.swing.progress.JobProgressDialog;
@@ -46,6 +47,8 @@ public final class ScanAction extends AbstractAction {
 	
 	        // Track completions so we can close dialog when all done
 	        var allFutures = new ArrayList<CompletableFuture<Void>>();
+	        
+	        var context = new ScannerContext(timeline);
 	
 	        for (var scanner : scanners) {
 	            // Build a JobProgress row for UI
@@ -55,7 +58,7 @@ public final class ScanAction extends AbstractAction {
 	            dlg.addJob(jp);
 	
 	            var listener = new JobToProgressAdapter(jp, dlg.getPanel());
-	            var handle = runner.submit(scanner, timeline, listener);
+	            var handle = runner.submit(scanner, context, listener);
 	            allFutures.add(handle.completion());
 	        }
 	

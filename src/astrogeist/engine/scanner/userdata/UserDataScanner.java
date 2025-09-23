@@ -3,11 +3,11 @@ package astrogeist.engine.scanner.userdata;
 import java.util.logging.Level;
 
 import astrogeist.engine.abstraction.JobProgressListener;
-import astrogeist.engine.abstraction.Timeline;
 import astrogeist.engine.abstraction.TimelineValuePool;
 import astrogeist.engine.async.CancellationToken;
 import astrogeist.engine.resources.Resources;
 import astrogeist.engine.scanner.AbstractScanner;
+import astrogeist.engine.scanner.ScannerContext;
 import astrogeist.engine.userdata.UserDataIo;
 import astrogeist.engine.util.FilesUtil;
 import astrogeist.engine.util.Instants;
@@ -26,11 +26,11 @@ public final class UserDataScanner extends AbstractScanner {
 		return "Scanning : '" + Resources.getUserDataDir() + "'"; }
 
 	@Override public final void run(
-		Timeline input,
+		ScannerContext context,
 		JobProgressListener listener,
 		CancellationToken token) {
 		
-		var timeline = input;
+		var timeline = context.timeline();
 		
 		var root = Resources.getUserDataDir();
 		var files = root.listFiles();

@@ -11,6 +11,7 @@ import astrogeist.engine.abstraction.JobProgressListener;
 import astrogeist.engine.abstraction.Timeline;
 import astrogeist.engine.async.CancellationToken;
 import astrogeist.engine.scanner.AbstractScanner;
+import astrogeist.engine.scanner.ScannerContext;
 import astrogeist.engine.util.FileTimes;
 import astrogeist.engine.util.FilesUtil;
 
@@ -18,11 +19,11 @@ public final class SeestarScanner extends AbstractScanner {
 	public SeestarScanner(String location) { super(location); }
 	
 	@Override final public void run(
-		Timeline input, 
+		ScannerContext context, 
 		JobProgressListener listener, 
 		CancellationToken token) throws Exception {
 		
-		var timeline = input;
+		var timeline = context.timeline();
 		
 		var pathsDone = new HashSet<Path>();
 		

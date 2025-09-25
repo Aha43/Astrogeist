@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.concurrent.ConcurrentNavigableMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 
-import astrogeist.engine.abstraction.TimelineView;
-import astrogeist.engine.abstraction.TimelineViewFilter;
+import astrogeist.engine.abstraction.timeline.TimelineView;
+import astrogeist.engine.abstraction.timeline.TimelineViewFilter;
 import astrogeist.engine.timeline.TimelineValue;
 import astrogeist.engine.timeline.view.FilteredTimeline;
 import astrogeist.ui.swing.component.data.timeline.view.AbstractTimelineViewTableModel;

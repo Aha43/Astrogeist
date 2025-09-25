@@ -9,9 +9,9 @@ import java.util.NavigableSet;
 import java.util.concurrent.ConcurrentNavigableMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 
-import astrogeist.engine.abstraction.Timeline;
-import astrogeist.engine.abstraction.TimelineNames;
-import astrogeist.engine.abstraction.TimelineValuePool;
+import astrogeist.engine.abstraction.timeline.Timeline;
+import astrogeist.engine.abstraction.timeline.TimelineNames;
+import astrogeist.engine.abstraction.timeline.TimelineValuePool;
 
 /**
  * <p>

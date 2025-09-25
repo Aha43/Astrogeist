@@ -5,7 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import astrogeist.engine.abstraction.TimelineView;
+import astrogeist.engine.abstraction.timeline.TimelineView;
 import astrogeist.engine.logging.Log;
 
 public final class PropertiesTimelineViewFilter extends AbstractTimelineViewFilter {

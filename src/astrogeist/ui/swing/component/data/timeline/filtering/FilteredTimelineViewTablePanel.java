@@ -2,7 +2,7 @@ package astrogeist.ui.swing.component.data.timeline.filtering;
 
 import javax.swing.JButton;
 
-import astrogeist.engine.abstraction.TimelineView;
+import astrogeist.engine.abstraction.timeline.TimelineView;
 import astrogeist.ui.swing.App;
 import astrogeist.ui.swing.component.data.timeline.view.AbstractTimelineViewTablePanel;
 import astrogeist.ui.swing.dialog.filtering.FiltersDialog;

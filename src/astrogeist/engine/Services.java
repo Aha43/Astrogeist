@@ -1,9 +1,9 @@
 package astrogeist.engine;
 
-import astrogeist.engine.abstraction.Timeline;
-import astrogeist.engine.abstraction.TimelineNames;
-import astrogeist.engine.abstraction.TimelineValuePool;
 import astrogeist.engine.abstraction.TypeResolver;
+import astrogeist.engine.abstraction.timeline.Timeline;
+import astrogeist.engine.abstraction.timeline.TimelineNames;
+import astrogeist.engine.abstraction.timeline.TimelineValuePool;
 import astrogeist.engine.scanner.DefaultTimelineNames;
 import astrogeist.engine.timeline.DefaultTimeline;
 import astrogeist.engine.timeline.DefaultTimelineValuePool;

@@ -17,7 +17,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import astrogeist.Common;
-import astrogeist.engine.abstraction.TimelineValuePool;
+import astrogeist.engine.abstraction.timeline.TimelineValuePool;
 import astrogeist.engine.timeline.TimelineValue;
 
 public final class NameValueMapXml {

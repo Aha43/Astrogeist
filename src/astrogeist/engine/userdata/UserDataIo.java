@@ -4,7 +4,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
-import astrogeist.engine.abstraction.TimelineValuePool;
+import astrogeist.engine.abstraction.timeline.TimelineValuePool;
 import astrogeist.engine.resources.Resources;
 import astrogeist.engine.timeline.TimelineValue;
 import astrogeist.engine.util.io.NameValueMapXml;

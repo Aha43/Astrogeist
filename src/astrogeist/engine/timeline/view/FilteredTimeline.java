@@ -7,7 +7,7 @@ import java.util.NavigableSet;
 import java.util.concurrent.ConcurrentNavigableMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 
-import astrogeist.engine.abstraction.TimelineView;
+import astrogeist.engine.abstraction.timeline.TimelineView;
 import astrogeist.engine.timeline.TimelineValue;
 
 public class FilteredTimeline implements TimelineView {

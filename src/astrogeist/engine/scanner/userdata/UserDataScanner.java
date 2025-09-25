@@ -2,9 +2,9 @@ package astrogeist.engine.scanner.userdata;
 
 import java.util.logging.Level;
 
-import astrogeist.engine.abstraction.JobProgressListener;
-import astrogeist.engine.abstraction.Timeline;
-import astrogeist.engine.abstraction.TimelineValuePool;
+import astrogeist.engine.abstraction.jobs.JobProgressListener;
+import astrogeist.engine.abstraction.timeline.Timeline;
+import astrogeist.engine.abstraction.timeline.TimelineValuePool;
 import astrogeist.engine.async.CancellationToken;
 import astrogeist.engine.resources.Resources;
 import astrogeist.engine.scanner.AbstractScanner;

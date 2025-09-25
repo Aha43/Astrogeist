@@ -1,4 +1,4 @@
-package astrogeist.engine.abstraction;
+package astrogeist.engine.abstraction.timeline;
 
 import java.nio.file.Path;
 import java.time.Instant;

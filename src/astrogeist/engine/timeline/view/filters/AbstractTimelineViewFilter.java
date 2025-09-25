@@ -1,6 +1,6 @@
 package astrogeist.engine.timeline.view.filters;
 
-import astrogeist.engine.abstraction.TimelineViewFilter;
+import astrogeist.engine.abstraction.timeline.TimelineViewFilter;
 
 /**
  * <p>

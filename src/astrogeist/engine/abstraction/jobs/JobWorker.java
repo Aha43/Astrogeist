@@ -1,6 +1,5 @@
 package astrogeist.engine.abstraction.jobs;
 
-import astrogeist.engine.abstraction.JobProgressListener;
 import astrogeist.engine.async.CancellationToken;
 
 public interface JobWorker<I> {

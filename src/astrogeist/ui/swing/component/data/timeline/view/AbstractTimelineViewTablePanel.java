@@ -13,7 +13,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionListener;
 
-import astrogeist.engine.abstraction.TimelineNames;
+import astrogeist.engine.abstraction.timeline.TimelineNames;
 import astrogeist.engine.setting.SettingKeys;
 import astrogeist.engine.setting.Settings;
 import astrogeist.engine.timeline.TimelineValue;

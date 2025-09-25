@@ -2,7 +2,7 @@ package astrogeist.ui.swing.progress;
 
 import javax.swing.SwingUtilities;
 
-import astrogeist.engine.abstraction.JobProgressListener;
+import astrogeist.engine.abstraction.jobs.JobProgressListener;
 import astrogeist.engine.jobs.JobProgress;
 
 public final class JobToProgressAdapter implements JobProgressListener {

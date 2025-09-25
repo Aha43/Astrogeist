@@ -4,7 +4,7 @@ import java.io.File;
 import java.time.Instant;
 
 import astrogeist.engine.abstraction.FileParser;
-import astrogeist.engine.abstraction.Timeline;
+import astrogeist.engine.abstraction.timeline.Timeline;
 
 public final class SharpCapFileParser implements FileParser {
 	@Override public final boolean canParse(File file) { 

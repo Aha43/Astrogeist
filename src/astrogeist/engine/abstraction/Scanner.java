@@ -1,6 +1,7 @@
 package astrogeist.engine.abstraction;
 
 import astrogeist.engine.abstraction.jobs.JobWorker;
+import astrogeist.engine.abstraction.timeline.Timeline;
 
 /**
  * <p>

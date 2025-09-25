@@ -5,8 +5,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import astrogeist.engine.abstraction.TimelineViewFilter;
-import astrogeist.engine.abstraction.TimelineView;
+import astrogeist.engine.abstraction.timeline.TimelineView;
+import astrogeist.engine.abstraction.timeline.TimelineViewFilter;
 
 public final class LayeredTimelineViewFilter extends AbstractTimelineViewFilter {
     private final Map<String, OrCompositeTimelineViewFilter> layers = new LinkedHashMap<>();

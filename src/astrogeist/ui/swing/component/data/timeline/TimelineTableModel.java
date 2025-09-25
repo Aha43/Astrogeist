@@ -3,8 +3,8 @@ package astrogeist.ui.swing.component.data.timeline;
 import java.time.Instant;
 import java.util.LinkedHashMap;
 
-import astrogeist.engine.abstraction.Timeline;
-import astrogeist.engine.abstraction.TimelineView;
+import astrogeist.engine.abstraction.timeline.Timeline;
+import astrogeist.engine.abstraction.timeline.TimelineView;
 import astrogeist.engine.timeline.TimelineValue;
 import astrogeist.ui.swing.component.data.timeline.view.AbstractTimelineViewTableModel;
 

@@ -2,7 +2,7 @@ package astrogeist.engine.timeline.view.filters;
 
 import java.time.Instant;
 
-import astrogeist.engine.abstraction.TimelineView;
+import astrogeist.engine.abstraction.timeline.TimelineView;
 
 public final class OrCompositeTimelineViewFilter extends AbstractCompositeTimelineViewFilter {
 	public OrCompositeTimelineViewFilter() { }

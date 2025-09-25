@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Set;
 
-import astrogeist.engine.abstraction.TimelineNames;
+import astrogeist.engine.abstraction.timeline.TimelineNames;
 import astrogeist.engine.resources.Resources;
 import astrogeist.engine.userdata.UserDataDefinitions;
 

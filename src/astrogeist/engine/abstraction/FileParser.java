@@ -3,6 +3,8 @@ package astrogeist.engine.abstraction;
 import java.io.File;
 import java.time.Instant;
 
+import astrogeist.engine.abstraction.timeline.Timeline;
+
 /**
  * <p>
  *   A component that extracts capture/observation metadata from files

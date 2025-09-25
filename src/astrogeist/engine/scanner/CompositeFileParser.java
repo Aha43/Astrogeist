@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import astrogeist.engine.abstraction.FileParser;
-import astrogeist.engine.abstraction.Timeline;
+import astrogeist.engine.abstraction.timeline.Timeline;
 import astrogeist.engine.logging.Log;
 
 /**

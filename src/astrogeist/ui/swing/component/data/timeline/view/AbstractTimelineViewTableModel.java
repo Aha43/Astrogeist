@@ -7,7 +7,7 @@ import java.util.Map;
 
 import javax.swing.table.AbstractTableModel;
 
-import astrogeist.engine.abstraction.TimelineView;
+import astrogeist.engine.abstraction.timeline.TimelineView;
 import astrogeist.engine.resources.Time;
 import astrogeist.engine.timeline.TimelineValue;
 

@@ -4,8 +4,8 @@ import java.nio.file.Path;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import astrogeist.engine.abstraction.TimelineValuePool;
 import astrogeist.engine.abstraction.TypeResolver;
+import astrogeist.engine.abstraction.timeline.TimelineValuePool;
 import astrogeist.engine.typesystem.Type;
 
 public final class DefaultTimelineValuePool implements TimelineValuePool {

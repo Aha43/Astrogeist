@@ -3,7 +3,7 @@ package astrogeist.ui.swing.scanning;
 import java.util.List;
 
 import astrogeist.engine.abstraction.Scanner;
-import astrogeist.engine.abstraction.TimelineValuePool;
+import astrogeist.engine.abstraction.timeline.TimelineValuePool;
 import astrogeist.engine.resources.Resources;
 import astrogeist.engine.scanner.ScannerConfigLoader;
 import astrogeist.engine.scanner.userdata.UserDataScanner;

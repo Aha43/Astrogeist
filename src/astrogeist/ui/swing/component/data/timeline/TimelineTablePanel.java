@@ -5,7 +5,7 @@ import java.util.LinkedHashMap;
 
 import javax.swing.JButton;
 
-import astrogeist.engine.abstraction.Timeline;
+import astrogeist.engine.abstraction.timeline.Timeline;
 import astrogeist.engine.timeline.TimelineValue;
 import astrogeist.ui.swing.App;
 import astrogeist.ui.swing.component.data.timeline.view.AbstractTimelineViewTablePanel;

@@ -2,7 +2,7 @@ package astrogeist.engine.timeline.view.filters;
 
 import java.util.ArrayList;
 
-import astrogeist.engine.abstraction.TimelineViewFilter;
+import astrogeist.engine.abstraction.timeline.TimelineViewFilter;
 
 public abstract class AbstractCompositeTimelineViewFilter extends AbstractTimelineViewFilter {
 	private final ArrayList<TimelineViewFilter> filters = new ArrayList<>();

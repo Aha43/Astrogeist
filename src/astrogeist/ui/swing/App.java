@@ -12,17 +12,22 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 
-import astrogeist.engine.Services;
+import astrogeist.engine.DefaultServiceProvider;
+import astrogeist.engine.abstraction.timeline.Timeline;
+import astrogeist.engine.abstraction.timeline.TimelineNames;
+import astrogeist.engine.abstraction.timeline.TimelineValuePool;
 import astrogeist.engine.resources.Resources;
+import astrogeist.engine.userdata.UserDataIo;
 import astrogeist.ui.swing.component.data.files.FilesTypeGroupComponentPanel;
 import astrogeist.ui.swing.component.data.metadata.MetadataTablePanel;
 import astrogeist.ui.swing.component.data.timeline.TimelineTablePanel;
 import astrogeist.ui.swing.component.data.timeline.filtering.FilteredTimelineViewTablePanel;
 import astrogeist.ui.swing.menubar.MenuBarFactory;
+import astrogeist.ui.swing.scanning.ShowScanningDialogAction;
 import astrogeist.ui.swing.toolbar.ToolBarFactory;
 
 public final class App {
-	private final Services services = new Services();
+	private final DefaultServiceProvider services = new DefaultServiceProvider();
 	
 	private JFrame frame = null;
 	
@@ -30,13 +35,19 @@ public final class App {
 	
 	private final FilesTypeGroupComponentPanel filesPanel = new FilesTypeGroupComponentPanel(this);
 	
-	private final TimelineTablePanel timelinePanel = new TimelineTablePanel(this);
+	private final TimelineTablePanel timelinePanel = new TimelineTablePanel(
+		this,
+		this.services.get(UserDataIo.class),
+		this.services.get(TimelineNames.class));
 	
-	private final FilteredTimelineViewTablePanel searchPanel = new FilteredTimelineViewTablePanel(this);
+	private final FilteredTimelineViewTablePanel searchPanel = new FilteredTimelineViewTablePanel(
+		this,
+		this.services.get(TimelineNames.class)
+		);
 	
 	public App() {}
 	
-	public final Services getServices() { return this.services; }
+	//public final DefaultServiceProvider getServices() { return this.services; }
 	
 	public final void clearSelectedMetaData() { this.metadataPanel.clear(); this.filesPanel.clear(); }
 	
@@ -45,7 +56,10 @@ public final class App {
 	public final FilteredTimelineViewTablePanel getSearchPanel() { return this.searchPanel; }
 	
 	// Actions
-	public final Action ScanAction = new astrogeist.ui.swing.scanning.ShowScanningDialogAction(this);
+	public final Action ScanAction = new ShowScanningDialogAction(
+		this, 
+		this.services.get(Timeline.class),
+		this.services.get(TimelineValuePool.class));
 	
 	public final void createGUI() {
 		var title = "Astrogeist";
@@ -58,7 +72,9 @@ public final class App {
 		this.frame.setSize(1200, 800);
 		this.frame.setLayout(new BorderLayout());
 
-		this.frame.setJMenuBar(MenuBarFactory.createMenuBar(this));
+		this.frame.setJMenuBar(MenuBarFactory.createMenuBar(
+			this,
+			this.services.get(TimelineNames.class)));
 		
 		this.frame.add(ToolBarFactory.createToolBar(this), BorderLayout.NORTH);
 

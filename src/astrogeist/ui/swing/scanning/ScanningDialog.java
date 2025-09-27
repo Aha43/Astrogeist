@@ -3,6 +3,7 @@ package astrogeist.ui.swing.scanning;
 import java.util.List;
 
 import astrogeist.engine.abstraction.Scanner;
+import astrogeist.engine.abstraction.timeline.Timeline;
 import astrogeist.engine.abstraction.timeline.TimelineValuePool;
 import astrogeist.engine.resources.Resources;
 import astrogeist.engine.scanner.ScannerConfigLoader;
@@ -15,17 +16,20 @@ public final class ScanningDialog extends ModalDialogBase {
 	
 	private final ScannersSelectionPanel scannersSelectionPanel;
 	
-	public ScanningDialog(App app) throws Exception {
+	public ScanningDialog(
+		App app,
+		Timeline timeline,
+		TimelineValuePool tvp) throws Exception {
 		super(app, "Scanning...");
 		
-		var scanners = loadScanners(app.getServices().getTimelineValuePool());
+		var scanners = loadScanners(tvp);
 		this.scannersSelectionPanel = new ScannersSelectionPanel();
 		this.scannersSelectionPanel.setScanners(scanners);
 		super.setContent(scannersSelectionPanel);
 		
 		super.addCloseButton(true);
 		super.addButton(new RefreshAction(scannersSelectionPanel));
-		super.addOkButton(new ScanAction(app, scannersSelectionPanel));
+		super.addOkButton(new ScanAction(app, timeline, scannersSelectionPanel));
 	}
 	
 	private static final List<Scanner> loadScanners(TimelineValuePool tvp) throws Exception {

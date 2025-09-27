@@ -11,6 +11,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 
+import astrogeist.engine.abstraction.timeline.TimelineNames;
 import astrogeist.engine.setting.Settings;
 import astrogeist.engine.setting.SettingsIo;
 import astrogeist.ui.swing.App;
@@ -26,11 +27,13 @@ public final class SettingsDialog extends ModalDialogBase {
     private final JTabbedPane tabs = new JTabbedPane();
     private final LinkedHashMap<String, SettingsTableModel> models = new LinkedHashMap<>();
 
-    private SettingsDialog(App app) {
+    private SettingsDialog(
+    	App app,
+    	TimelineNames timelineNames) {
         super(app, "Astrogeist Settings");
         
         this.settingsEditorProvider = 
-        	new SettingsEditorProvider(app.getServices().getTimelineNames());
+        	new SettingsEditorProvider(timelineNames);
         
         super.setSize(600, 400);
         super.setLayout(new BorderLayout());
@@ -131,5 +134,10 @@ public final class SettingsDialog extends ModalDialogBase {
 
     private String capitalize(String s) { return s.substring(0, 1).toUpperCase() + s.substring(1); }
     
-    public static void show(App app) { new SettingsDialog(app).setVisible(true); }
+    public static void show(
+    	App app,
+    	TimelineNames timelineNames) 
+    { 
+    	new SettingsDialog(app, timelineNames).setVisible(true); 
+    }
 }

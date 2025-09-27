@@ -7,6 +7,7 @@ import java.util.concurrent.CompletableFuture;
 import javax.swing.AbstractAction;
 import javax.swing.SwingUtilities;
 
+import astrogeist.engine.abstraction.timeline.Timeline;
 import astrogeist.engine.jobs.DefaultJobRunner;
 import astrogeist.engine.jobs.JobProgress;
 import astrogeist.ui.swing.App;
@@ -21,9 +22,17 @@ public final class ScanAction extends AbstractAction {
 	
 	private final ScannersSelectionPanel scannersSelectionPanel;
 	
-	public ScanAction(App app, ScannersSelectionPanel scannersSelectionPanel) {
+	private final Timeline timeline;
+	
+	public ScanAction(
+		App app,
+		Timeline timeline,
+		ScannersSelectionPanel scannersSelectionPanel) {
+		
 		super("Scan");
+		
 		this.app = app;
+		this.timeline = timeline;
 		this.scannersSelectionPanel = scannersSelectionPanel;
 	}
 
@@ -31,11 +40,11 @@ public final class ScanAction extends AbstractAction {
 		try {
 			var scanners = this.scannersSelectionPanel.getSelectedScanners();
 			
-			var timeline = this.app.getServices().getTimeline();
-	        timeline.clear();
+			//var timeline = this.app.getServices().get(Timeline.class);
+	        this.timeline.clear();
 	        
-	        this.app.getSearchPanel().timelineView(timeline);
-	        this.app.getTimelinePanel().timeline(timeline);
+	        this.app.getSearchPanel().timelineView(this.timeline);
+	        this.app.getTimelinePanel().timeline(this.timeline);
 	        
 	        // --- New: show progress dialog
 	        var dlg = new JobProgressDialog(this.app.getFrame(), "Scanning…");

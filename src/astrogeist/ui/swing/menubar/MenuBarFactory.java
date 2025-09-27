@@ -5,6 +5,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 import astrogeist.Common;
+import astrogeist.engine.abstraction.timeline.TimelineNames;
 import astrogeist.ui.swing.App;
 import astrogeist.ui.swing.dialog.about.AboutDialog;
 import astrogeist.ui.swing.dialog.logging.LoggingMenu;
@@ -14,25 +15,25 @@ import astrogeist.ui.swing.tool.sun.sketching.ShowSunDialogAction;
 public final class MenuBarFactory {
 	private MenuBarFactory() { Common.throwStaticClassInstantiateError(); }
 	
-	public static JMenuBar createMenuBar(App app) {
+	public static JMenuBar createMenuBar(App app, TimelineNames timelineNames) {
 		var menuBar = new JMenuBar();
-		menuBar.add(createAstrogeistMenu(app));
+		menuBar.add(createAstrogeistMenu(app, timelineNames));
 		menuBar.add(createDiagnosticMenu(app));
 		menuBar.add(createVisualMenu(app));
 		menuBar.add(createHelpMenu(app));
 		return menuBar;
 	}
 	
-	private static JMenu createAstrogeistMenu(App app) {
+	private static JMenu createAstrogeistMenu(App app, TimelineNames timelineNames) {
 		var retVal = new JMenu("File");
-		retVal.add(createSettingsItem(app));
+		retVal.add(createSettingsItem(app, timelineNames));
 		retVal.add(createExitItem());
 		return retVal;
 	}
 	
-	private static JMenuItem createSettingsItem(App app) {
+	private static JMenuItem createSettingsItem(App app, TimelineNames timelineNames) {
 		var retVal = new JMenuItem("Settings");
-		retVal.addActionListener(e -> SettingsDialog.show(app));
+		retVal.addActionListener(e -> SettingsDialog.show(app, timelineNames));
 		return retVal;
 	}
 	

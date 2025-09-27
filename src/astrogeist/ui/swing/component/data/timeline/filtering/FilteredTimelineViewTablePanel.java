@@ -2,6 +2,7 @@ package astrogeist.ui.swing.component.data.timeline.filtering;
 
 import javax.swing.JButton;
 
+import astrogeist.engine.abstraction.timeline.TimelineNames;
 import astrogeist.engine.abstraction.timeline.TimelineView;
 import astrogeist.ui.swing.App;
 import astrogeist.ui.swing.component.data.timeline.view.AbstractTimelineViewTablePanel;
@@ -15,8 +16,10 @@ import astrogeist.ui.swing.dialog.filtering.FiltersDialog;
 public class FilteredTimelineViewTablePanel extends AbstractTimelineViewTablePanel {
 	private static final long serialVersionUID = 1L;
 	
-	public FilteredTimelineViewTablePanel(App app) { 
-		super(app, new FilteredTimelineViewTableModel());
+	public FilteredTimelineViewTablePanel(
+		App app,
+		TimelineNames timelineNames) { 
+		super(app, new FilteredTimelineViewTableModel(), timelineNames);
 		this.createButtons();
 	}
 	

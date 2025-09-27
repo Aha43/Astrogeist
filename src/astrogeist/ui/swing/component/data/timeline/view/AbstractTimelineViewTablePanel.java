@@ -44,11 +44,14 @@ public abstract class AbstractTimelineViewTablePanel  extends JPanel {
 	
 	protected final App app;
 
-	protected AbstractTimelineViewTablePanel(App app, AbstractTimelineViewTableModel model) {
+	protected AbstractTimelineViewTablePanel(
+		App app, 
+		AbstractTimelineViewTableModel model,
+		TimelineNames timelineNames) {
 		super(new BorderLayout());
 		this.app = app;
 		
-		this.timelineNames = app.getServices().getTimelineNames();
+		this.timelineNames = timelineNames;
 		
 		this.northPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		super.add(this.northPanel, BorderLayout.NORTH);

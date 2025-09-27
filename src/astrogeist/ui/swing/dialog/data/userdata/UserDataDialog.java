@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import astrogeist.engine.resources.Resources;
 import astrogeist.engine.timeline.TimelineValue;
 import astrogeist.engine.userdata.UserDataDefinitions;
+import astrogeist.engine.userdata.UserDataIo;
 import astrogeist.ui.swing.App;
 import astrogeist.ui.swing.component.data.userdata.UserDataEditor;
 import astrogeist.ui.swing.dialog.ModalDialogBase;
@@ -21,13 +22,21 @@ public final class UserDataDialog extends ModalDialogBase {
 	
 	private UserDataDefinitions userDataDefs;
 	private Instant time;
+	private UserDataIo userDataIo;
 	
 	private UserDataEditor editor;
 	
-	private UserDataDialog(App app, Instant time, LinkedHashMap<String, TimelineValue> userData) {
+	private UserDataDialog(
+		App app, 
+		Instant time, 
+		UserDataIo userDataIo,
+		LinkedHashMap<String, TimelineValue> userData) {
+		
 		super(app, "User Data");
 		
 		this.time = time;
+		
+		this.userDataIo = userDataIo;
 		
 		var path = Resources.getUserDataDefinitionsFile().toPath();
 		try {
@@ -58,13 +67,17 @@ public final class UserDataDialog extends ModalDialogBase {
 	private void save() {
 		try {
 			var values = this.editor.getValues();
-			app.getServices().getUserDataIo().save(this.time, values);
+			this.userDataIo.save(this.time, values);
 			super.app.getTimelinePanel().update(this.time, values);
 		} catch (Exception x) {
 			MessageDialogs.showError(this, "Failed to save user data", x); 
 		}
 	}
 	
-	public static void show(App app, Instant t, LinkedHashMap<String, TimelineValue> userData) { 
-		new UserDataDialog(app, t, userData).setVisible(true); }
+	public static void show(
+		App app, 
+		Instant t, 
+		UserDataIo userDataIo,
+		LinkedHashMap<String, TimelineValue> userData) { 
+		new UserDataDialog(app, t, userDataIo, userData).setVisible(true); }
 }

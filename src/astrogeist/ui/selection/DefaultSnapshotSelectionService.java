@@ -10,35 +10,19 @@ import javax.swing.SwingUtilities;
 import astrogeist.engine.abstraction.selection.Augmenter;
 import astrogeist.engine.abstraction.selection.SelectionSourceTag;
 import astrogeist.engine.abstraction.selection.SnapshotListener;
+import astrogeist.engine.abstraction.selection.SnapshotSelectionService;
 import astrogeist.engine.timeline.TimelineValue;
 
-/** Single source of truth for "user accessed a snapshot". */
-public final class SnapshotSelectionService {
+public final class DefaultSnapshotSelectionService implements SnapshotSelectionService {
     private final List<Augmenter> augmenters = new ArrayList<>();
     private final List<SnapshotListener> listeners = new CopyOnWriteArrayList<>();
     private volatile Map<String, TimelineValue> current;
 
-    /**
-     * <p>
-     *   Adds an
-     *   {@link Augmenter}.
-     * </p>
-     * @param a the {@link Augmenter} to add.
-     */
-    public final void addAugmenter(Augmenter a) { augmenters.add(Objects.requireNonNull(a)); }
-
-    /**
-     * <p>
-     *   Adds 
-     * </p>
-     * @param l
-     */
-    public final void addListener(SnapshotListener l) { listeners.add(Objects.requireNonNull(l)); }
+    @Override public final void addAugmenter(Augmenter a) { augmenters.add(Objects.requireNonNull(a)); }
+    @Override public final void addListener(SnapshotListener l) { listeners.add(Objects.requireNonNull(l)); }
+    @Override public final void removeListener(SnapshotListener l) { listeners.remove(l); }
     
-    public final void removeListener(SnapshotListener l) { listeners.remove(l); }
-
-    /** Entry point for UI sources. Must be called on the EDT. */
-    public final void select(
+    @Override public final void select(
     	Map<String, TimelineValue> snapshot, Class<? extends SelectionSourceTag> source) {
         
     	ensureEdt();
@@ -46,9 +30,7 @@ public final class SnapshotSelectionService {
     	if (snapshot == null) return;
 
         try {
-            for (Augmenter a : augmenters) {
-            	var changed = a.augment(snapshot);
-            }
+            for (Augmenter a : augmenters) a.augment(snapshot); 
         } catch (Exception ex) {
             // log + decide policy; for now, propagate partially augmented snapshot
             ex.printStackTrace();

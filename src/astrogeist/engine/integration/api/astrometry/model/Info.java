@@ -1,8 +1,8 @@
 package astrogeist.engine.integration.api.astrometry.model;
 
-import java.util.Collections;
-import java.util.LinkedHashSet;
 import java.util.Set;
+
+import astrogeist.Empty;
 
 public final class Info {
 	
@@ -12,17 +12,17 @@ public final class Info {
 	
 	private final Calibration calibration;
 	
-	private final Set<String> objectsInField;
-	private final Set<String> machineTags;
-	private final Set<String> tags;
+	private final String[] objectsInField;
+	private final String[] machineTags;
+	private final String[] tags;
 	
 	Info(
 		String status,
 		String originalFileName,
 		Calibration calibration,
-		LinkedHashSet<String> objectsInField,
-		LinkedHashSet<String> machineTags,
-		LinkedHashSet<String> tags) {
+		Set<String> objectsInField,
+		Set<String> machineTags,
+		Set<String> tags) {
 		
 		this.status = status;
 		
@@ -30,17 +30,12 @@ public final class Info {
 		
 		this.calibration = calibration;
 		
-		this.objectsInField = objectsInField;
-		this.machineTags = machineTags;
-		this.tags = tags;
+		this.objectsInField = objectsInField.toArray(Empty.StringArray);
+		this.machineTags = machineTags.toArray(Empty.StringArray);
+		this.tags = tags.toArray(Empty.StringArray);
 	}
 	
-	public final String status() { return this.status; }
-	public final String originalFileName() { return this.originalFileName; }
-	public final Calibration calibration() { return this.calibration; }
-	public final Set<String> objectsInField(){ return Collections.unmodifiableSet(this.objectsInField); }
-	public final Set<String> machineTags(){ return Collections.unmodifiableSet(this.machineTags); }
-	public final Set<String> tags(){ return Collections.unmodifiableSet(this.tags); }
+	
 	
 	@Override public final String toString() {
 		var ls = System.lineSeparator();
@@ -49,7 +44,7 @@ public final class Info {
 		
 		strb.append("status='").append(this.status).append("'").append(ls)
 			.append("original-file-name='").append(this.originalFileName).append("'").append(ls)
-			.append(this.calibration())
+			.append(this.calibration)
 			.append("objects-in-field='").append(String.join(",", this.objectsInField)).append("'").append(ls)
 			.append("machine-tags='").append(String.join(",", this.machineTags)).append("'").append(ls)
 			.append("tags='").append(String.join(",", this.tags)).append("'");

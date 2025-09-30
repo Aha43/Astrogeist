@@ -11,70 +11,60 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import astrogeist.engine.integration.api.astrometry.abstraction.AstrometricClient;
+import astrogeist.engine.integration.api.astrometry.model.Calibration;
+import astrogeist.engine.integration.api.astrometry.model.CalibrationBuilder;
 import astrogeist.engine.integration.api.astrometry.model.Info;
 import astrogeist.engine.integration.api.astrometry.model.InfoBuilder;
 
 public final class DefaultAstrometricClient implements AstrometricClient {
 	
-	private final String baseUri = "https://nova.astrometry.net";
+	private final String baseUri = "https://nova.astrometry.net/api";
 	private final HttpClient http = HttpClient.newHttpClient();
 	
 	@Override public final Info getInfo(int jobId) throws Exception {
-		HttpRequest req = HttpRequest.newBuilder(
-				URI.create(this.baseUri + "/api/jobs/" + jobId + "/info/"))
-					.GET().build();
-		
-		var response = this.http.send(req, HttpResponse.BodyHandlers.ofString());
-		var json = response.body();
-		var retVal = toInfo(json);
+		var json = this.performAstrometricGet("/jobs/" + jobId + "/info");
+		var builder = new InfoBuilder();
+		var retVal = builder.build(json);
 		return retVal;
 	}
 
 	@Override public final CompletableFuture<Info> getInfoAsync(int jobId) {
-		HttpRequest req = HttpRequest.newBuilder(
+		var req = HttpRequest.newBuilder(
 				URI.create(this.baseUri + "/api/jobs/" + jobId + "/info/"))
 					.GET().build();
 		
 		var retVal = this.http.sendAsync(req, HttpResponse.BodyHandlers.ofString())
 				.thenApply(HttpResponse::body)
 				.thenApply(json -> {
-					try { return toInfo(json); } catch (Exception e) {
+					try {
+						var builder = new InfoBuilder();
+						return builder.build(json); } catch (Exception e) {
 						throw new CompletionException(e);
 					}
 				});
 		
 		return retVal;
 	}
-	
-	private final Info toInfo(String json) throws Exception {
-		ObjectMapper mapper = new ObjectMapper();
-		JsonNode root = mapper.readTree(json);
-		
-		var builder = new InfoBuilder(root.get("status").asText());
-		if (builder.isSuccessStatus()) {
-			builder
-				.withOriginalFileName(root.get("original_filename").asText());
-			
-			var objectsInField = root.get("objects_in_field");
-			for (var node : objectsInField) builder.withObjectInField(node.asText());
-			
-			var machineTags = root.get("machine_tags");
-			for (var node : machineTags) builder.withMachineTag(node.asText());
-			
-			var tags = root.get("tags");
-			for (var node : tags) builder.withTag(node.asText());
-			
-			var calibration = root.get("calibration");
-			builder.calibrationBuilder()
-				.withRa(calibration.get("ra").asDouble())
-				.withDec(calibration.get("dec").asDouble())
-				.withRadius(calibration.get("radius").asDouble())
-				.withPixscale(calibration.get("pixscale").asDouble())
-				.withOrientation(calibration.get("orientation").asDouble())
-				.withParity(calibration.get("parity").asInt());
-		}
-		
-		return builder.build();
-	}
 
+	@Override public Calibration getCalibration(int jobId) throws Exception {
+		var json = this.performAstrometricGet("/jobs/" + jobId + "/calibration");
+		var builder = new CalibrationBuilder();
+		var retVal = builder.build(json);
+		return retVal;
+	}
+	
+	private final HttpRequest getAstrometricGetRequest(String uri) {
+		var req = HttpRequest.newBuilder(
+				URI.create(this.baseUri + uri))
+					.GET().build();
+		return req;
+	}
+	
+	private final String performAstrometricGet(String uri) throws Exception {
+		var req = this.getAstrometricGetRequest(uri);
+		var response = this.http.send(req, HttpResponse.BodyHandlers.ofString());
+		var json = response.body();
+		return json;
+	}
+	
 }

@@ -32,8 +32,15 @@ public class AstrometryClientTest {
     	
     	try {
     		var cl = new DefaultAstrometricClient();
+    		
+    		System.out.println("Calibration");
+    		var cal = cl.getCalibration(14207155);
+    		System.out.println(cal);
+    		System.out.println("-------");
+    		System.out.println("Info");
     		var info = cl.getInfo(14207155);
     		System.out.println(info);
+    		System.out.println("-------");
     	} catch (Exception x) {
     		x.printStackTrace();
     	}

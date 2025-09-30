@@ -1,6 +1,16 @@
 package astrogeist.engine.integration.api.astrometry.model;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 public final class CalibrationBuilder {
+	public static final String RA = "ra";
+	public static final String DEC = "dec";
+	public static final String RADIUS = "radius";
+	public static final String PIXSCALE = "pixscale";
+	public static final String ORIENTATION = "orientation";
+	public static final String PARITY = "parity";
+	
 	private double ra = 0.0d;
 	private double dec = 0.0d;
 	private double radius = 0.0d;
@@ -8,19 +18,37 @@ public final class CalibrationBuilder {
 	private double orientation = 0.0d;
 	private int parity = 0;
 	
-	public CalibrationBuilder() {}
+	public final CalibrationBuilder clear() {
+		this.ra = 0.0d;
+		this.dec = 0.0d;
+		this.radius = 0.0d;
+		this.pixscale = 0.0d;
+		this.orientation = 0.0d;
+		this.parity = 0;
+		return this;
+	}
 	
 	public final Calibration build() {
 		return new Calibration(this.ra, this.dec, this.radius, 
 			this.pixscale, this.orientation, this.parity);
 	}
 	
-	public final double ra() { return this.ra; }
-	public final double dec() { return this.dec; }
-	public final double radius() { return this.radius; }
-	public final double pixscale() { return this.pixscale; }
-	public final double orientation() { return this.orientation; }
-	public final int parity() { return this.parity; }
+	public final Calibration build(JsonNode node) {
+		return this
+			.withRa(node.get(RA).asDouble())
+			.withDec(node.get(DEC).asDouble())
+			.withRadius(node.get(RADIUS).asDouble())
+			.withPixscale(node.get(PIXSCALE).asDouble())
+			.withOrientation(node.get(ORIENTATION).asDouble())
+			.withParity(node.get(PARITY).asInt())
+			.build();
+	}
+	
+	public final Calibration build(String json) throws Exception {
+		var mapper = new ObjectMapper();
+		var root = mapper.readTree(json);
+		return this.build(root);
+	}
 	
 	public CalibrationBuilder withRa(double ra) { this.ra = ra; return this; }
 	public CalibrationBuilder withDec(double dec) { this.dec = dec; return this; }

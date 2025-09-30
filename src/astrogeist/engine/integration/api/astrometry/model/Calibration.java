@@ -8,15 +8,6 @@ public final class Calibration {
 	private final double orientation;
 	private final int parity;
 	
-	Calibration() {
-		ra = 0;
-		dec = 0;
-		radius = 0;
-		pixscale = 0;
-		orientation = 0;
-		parity = 0;
-	}
-	
 	Calibration(
 		double ra,
 		double dec,

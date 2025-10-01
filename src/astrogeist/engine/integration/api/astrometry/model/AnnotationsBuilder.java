@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-public final class AnnotationsBuilder {
+public final class AnnotationsBuilder extends AstrometricModelBuilder<Annotations> {
 	public static final String ANNOTATIONS = "annotations";
 	
-	public Annotations build(JsonNode node) {
+	public final Annotations build(JsonNode node) {
 		var list = new ArrayList<Annotation>();
 		var builder = new AnnotationBuilder();
 		for (var n : node.get(ANNOTATIONS)) {

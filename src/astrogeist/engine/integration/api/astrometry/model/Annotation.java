@@ -4,7 +4,7 @@ import java.util.Set;
 
 import astrogeist.Empty;
 
-public final class Annotation {
+public final class Annotation extends AstrometricModel {
 	private final String type;
 	private final String[] names;
 	private final double pixelx;
@@ -30,4 +30,14 @@ public final class Annotation {
 	public final double pixelx() { return this.pixelx; }
 	public final double pixely() { return this.pixely; }
 	public final double radius() { return this.radius; }
+	
+	@Override public final String toString() {
+		var sb = new StringBuilder();
+		appendNameValue("type", this.type, sb);
+		appendNameValues("names", this.names, sb);
+		appendNameValue("pixelx", this.pixelx, sb);
+		appendNameValue("pixely", this.pixely, sb);
+		appendNameValue("radius", this.radius, sb);
+		return sb.toString();
+	}
 }

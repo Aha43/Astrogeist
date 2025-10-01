@@ -4,7 +4,7 @@ import java.util.Set;
 
 import astrogeist.Empty;
 
-public final class Info {
+public final class Info extends AstrometricModel {
 	
 	private final String status;
 	
@@ -34,8 +34,6 @@ public final class Info {
 		this.machineTags = machineTags.toArray(Empty.StringArray);
 		this.tags = tags.toArray(Empty.StringArray);
 	}
-	
-	
 	
 	@Override public final String toString() {
 		var ls = System.lineSeparator();

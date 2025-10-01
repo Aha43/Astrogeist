@@ -5,7 +5,7 @@ import java.util.Set;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-public final class AnnotationBuilder {
+public final class AnnotationBuilder extends AstrometricModelBuilder<Annotation> {
 	public final String TYPE = "type";
 	public final String NAMES = "names";
 	public final String PIXELX = "pixelx";

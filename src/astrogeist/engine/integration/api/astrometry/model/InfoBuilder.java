@@ -4,11 +4,10 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import astrogeist.Common;
 
-public final class InfoBuilder {
+public final class InfoBuilder extends AstrometricModelBuilder<Info> {
 	
 	public static final String STATUS = "status";
 	public static final String ORIGINAL_FILENAME = "original_filename";
@@ -60,12 +59,6 @@ public final class InfoBuilder {
 		var calibration = calibrationBuilder.build(cal);
 		
 		return this.build(calibration);
-	}
-	
-	public final Info build(String json) throws Exception {
-		var mapper = new ObjectMapper();
-		var root = mapper.readTree(json);
-		return this.build(root);
 	}
 	
 	public boolean isSuccessStatus() { return "success".equalsIgnoreCase(this.status); }

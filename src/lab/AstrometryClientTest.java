@@ -41,6 +41,10 @@ public class AstrometryClientTest {
     		var info = cl.getInfo(14207155);
     		System.out.println(info);
     		System.out.println("-------");
+    		System.out.println("Annotations");
+    		var anno = cl.getAnnotations(14207155);
+    		System.out.println(anno);
+    		System.out.println("-------");
     	} catch (Exception x) {
     		x.printStackTrace();
     	}

@@ -1,9 +1,8 @@
 package astrogeist.engine.integration.api.astrometry.model;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
-public final class CalibrationBuilder {
+public final class CalibrationBuilder extends AstrometricModelBuilder<Calibration> {
 	public static final String RA = "ra";
 	public static final String DEC = "dec";
 	public static final String RADIUS = "radius";
@@ -42,12 +41,6 @@ public final class CalibrationBuilder {
 			.withOrientation(node.get(ORIENTATION).asDouble())
 			.withParity(node.get(PARITY).asInt())
 			.build();
-	}
-	
-	public final Calibration build(String json) throws Exception {
-		var mapper = new ObjectMapper();
-		var root = mapper.readTree(json);
-		return this.build(root);
 	}
 	
 	public CalibrationBuilder withRa(double ra) { this.ra = ra; return this; }

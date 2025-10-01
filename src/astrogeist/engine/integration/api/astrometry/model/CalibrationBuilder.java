@@ -17,14 +17,13 @@ public final class CalibrationBuilder extends AstrometricModelBuilder<Calibratio
 	private double orientation = 0.0d;
 	private int parity = 0;
 	
-	public final CalibrationBuilder clear() {
+	public final void clear() {
 		this.ra = 0.0d;
 		this.dec = 0.0d;
 		this.radius = 0.0d;
 		this.pixscale = 0.0d;
 		this.orientation = 0.0d;
 		this.parity = 0;
-		return this;
 	}
 	
 	public final Calibration build() {

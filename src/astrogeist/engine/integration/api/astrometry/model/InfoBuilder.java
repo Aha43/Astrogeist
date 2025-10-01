@@ -1,6 +1,7 @@
 package astrogeist.engine.integration.api.astrometry.model;
 
 import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -21,24 +22,25 @@ public final class InfoBuilder extends AstrometricModelBuilder<Info> {
 	private final Set<String> objectsInField = new LinkedHashSet<>();
 	private final Set<String> machineTags = new LinkedHashSet<>();
 	private final Set<String> tags = new LinkedHashSet<>();
+	private Calibration calibration = null;
 	
-	public final Info build(Calibration calibration) {
+	public final Info build() {
 		return new Info(
 			this.status,
 			this.originalFileName,
-			calibration,
+			this.calibration,
 			new LinkedHashSet<String>(this.objectsInField),
 			new LinkedHashSet<String>(this.machineTags),
 			new LinkedHashSet<String>(this.tags));
 	}
 	
-	public final InfoBuilder clear() {
+	public final void clear() {
 		this.status = "unknown";
 		this.originalFileName = "";
 		this.objectsInField.clear();
 		this.machineTags.clear();
 		this.tags.clear();
-		return this;
+		this.calibration = null;
 	}
 	
 	public final Info build(JsonNode node) {
@@ -57,8 +59,9 @@ public final class InfoBuilder extends AstrometricModelBuilder<Info> {
 		var cal = node.get(CALIBRATION);
 		var calibrationBuilder = new CalibrationBuilder();
 		var calibration = calibrationBuilder.build(cal);
+		this.withCalibration(calibration);
 		
-		return this.build(calibration);
+		return this.build();
 	}
 	
 	public boolean isSuccessStatus() { return "success".equalsIgnoreCase(this.status); }
@@ -90,6 +93,12 @@ public final class InfoBuilder extends AstrometricModelBuilder<Info> {
 	public final InfoBuilder withTag(String tag) {
 		Common.requireNonEmpty(tag, "tag");
 		this.tags.add(tag);
+		return this;
+	}
+	
+	public final InfoBuilder withCalibration(Calibration calibration) {
+		Objects.requireNonNull(calibration, "calibration");
+		this.calibration = calibration;
 		return this;
 	}
 	

@@ -7,9 +7,6 @@ import java.net.http.HttpResponse;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import astrogeist.engine.integration.api.astrometry.abstraction.AstrometricClient;
 import astrogeist.engine.integration.api.astrometry.model.Annotations;
 import astrogeist.engine.integration.api.astrometry.model.AnnotationsBuilder;

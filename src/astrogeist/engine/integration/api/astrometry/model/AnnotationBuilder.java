@@ -18,13 +18,12 @@ public final class AnnotationBuilder extends AstrometricModelBuilder<Annotation>
 	private double pixely = 0.0d;
 	private double radius = 0.0d;
 	
-	public final AnnotationBuilder clear() {
+	public final void clear() {
 		this.type = "";
 		this.names.clear();
 		this.pixelx = 0.0d;
 		this.pixely = 0.0d;
 		this.radius = 0.0d;
-		return this;
 	}
 	
 	public final Annotation build() {

@@ -11,7 +11,7 @@ public final class Annotation extends AstrometricModel {
 	private final double pixely;
 	private final double radius;
 	
-	Annotation(
+	public Annotation(
 		String type,
 		Set<String> names,
 		double pixelx,

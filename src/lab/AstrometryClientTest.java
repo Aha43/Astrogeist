@@ -33,6 +33,10 @@ public class AstrometryClientTest {
     	try {
     		var cl = new DefaultAstrometricClient();
     		
+    		System.out.println("Status");
+    		var status = cl.getStatus(14207155);
+    		System.out.println(status);
+    		System.out.println("-------");
     		System.out.println("Calibration");
     		var cal = cl.getCalibration(14207155);
     		System.out.println(cal);
@@ -44,6 +48,18 @@ public class AstrometryClientTest {
     		System.out.println("Annotations");
     		var anno = cl.getAnnotations(14207155);
     		System.out.println(anno);
+    		System.out.println("-------");
+    		System.out.println("Objects in field");
+    		var objects = cl.getObjectsInField(14207155);
+    		System.out.println(objects);
+    		System.out.println("-------");
+    		System.out.println("Machine tags");
+    		var mtags = cl.getMachineTags(14207155);
+    		System.out.println(mtags);
+    		System.out.println("-------");
+    		System.out.println("Tags");
+    		var tags = cl.getTags(14207155);
+    		System.out.println(tags);
     		System.out.println("-------");
     	} catch (Exception x) {
     		x.printStackTrace();

@@ -1,4 +1,4 @@
-package astrogeist.engine.integration.api.astrometry.model;
+package astrogeist.engine.integration.api.astrometry.model.builder;
 
 import java.util.LinkedHashSet;
 import java.util.Objects;
@@ -7,15 +7,11 @@ import java.util.Set;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import astrogeist.Common;
+import astrogeist.engine.integration.api.astrometry.model.Calibration;
+import astrogeist.engine.integration.api.astrometry.model.Info;
+import astrogeist.engine.integration.api.astrometry.model.Names;
 
 public final class InfoBuilder extends AstrometricModelBuilder<Info> {
-	
-	public static final String STATUS = "status";
-	public static final String ORIGINAL_FILENAME = "original_filename";
-	public static final String CALIBRATION = "calibration";
-	public static final String OBJECTS_IN_FIELD = "objects_in_field";
-	public static final String MACHINE_TAGS = "machine_tags";
-	public static final String TAGS = "tags";
 	
 	private String status = "unknown";
 	private String originalFileName = "";
@@ -44,19 +40,19 @@ public final class InfoBuilder extends AstrometricModelBuilder<Info> {
 	}
 	
 	public final Info build(JsonNode node) {
-		this.withStatus(node.get(STATUS).asText())
-			.withOriginalFileName(node.get(ORIGINAL_FILENAME).asText());
+		this.withStatus(node.get(Names.STATUS).asText())
+			.withOriginalFileName(node.get(Names.ORIGINAL_FILENAME).asText());
 		
-		var objects = node.get(OBJECTS_IN_FIELD);
+		var objects = node.get(Names.OBJECTS_IN_FIELD);
 		for (var n : objects) this.withObjectInField(n.asText());
 		
-		var mtags = node.get(MACHINE_TAGS);
+		var mtags = node.get(Names.MACHINE_TAGS);
 		for (var n : mtags) this.withMachineTag(n.asText());
 		
-		var tags = node.get(TAGS);
+		var tags = node.get(Names.TAGS);
 		for (var n : tags) this.withTag(n.asText());
 		
-		var cal = node.get(CALIBRATION);
+		var cal = node.get(Names.CALIBRATION);
 		var calibrationBuilder = new CalibrationBuilder();
 		var calibration = calibrationBuilder.build(cal);
 		this.withCalibration(calibration);

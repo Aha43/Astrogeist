@@ -8,7 +8,7 @@ public final class Calibration extends AstrometricModel {
 	private final double orientation;
 	private final int parity;
 	
-	Calibration(
+	public Calibration(
 		double ra,
 		double dec,
 		double radius,
@@ -32,16 +32,14 @@ public final class Calibration extends AstrometricModel {
 	public final int parity() { return this.parity; }
 	
 	@Override public final String toString() {
-		var ls = System.lineSeparator();
-		var strb = new StringBuilder();
-		strb.append("ra='").append(this.ra).append("'").append(ls)
-			.append("dec='").append(this.dec).append("'").append(ls)
-			.append("radius='").append(this.radius).append("'").append(ls)
-			.append("pixscale='").append(this.pixscale).append("'").append(ls)
-			.append("orientation='").append(this.orientation).append("'").append(ls)
-			.append("parity='").append(this.parity).append("'").append(ls);
-		var retVal = strb.toString();
-		return retVal;
+		var sb = new StringBuilder();
+		appendNameValue(Names.RA, this.ra, sb);
+		appendNameValue(Names.DEC, this.dec, sb);
+		appendNameValue(Names.RADIUS, this.radius, sb);
+		appendNameValue(Names.PIXSCALE, this.pixscale, sb);
+		appendNameValue(Names.ORIENTATION, this.orientation, sb);
+		appendNameValue(Names.PARITY, this.parity, sb);
+		return sb.toString();
 	}
 	
 }

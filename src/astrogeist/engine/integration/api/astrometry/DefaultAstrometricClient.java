@@ -6,35 +6,88 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
+import java.util.logging.Logger;
 
 import astrogeist.engine.integration.api.astrometry.abstraction.AstrometricClient;
 import astrogeist.engine.integration.api.astrometry.model.Annotations;
-import astrogeist.engine.integration.api.astrometry.model.AnnotationsBuilder;
 import astrogeist.engine.integration.api.astrometry.model.AstrometricModel;
-import astrogeist.engine.integration.api.astrometry.model.AstrometricModelBuilder;
 import astrogeist.engine.integration.api.astrometry.model.Calibration;
-import astrogeist.engine.integration.api.astrometry.model.CalibrationBuilder;
 import astrogeist.engine.integration.api.astrometry.model.Info;
-import astrogeist.engine.integration.api.astrometry.model.InfoBuilder;
+import astrogeist.engine.integration.api.astrometry.model.MachineTags;
+import astrogeist.engine.integration.api.astrometry.model.ObjectsInField;
+import astrogeist.engine.integration.api.astrometry.model.Status;
+import astrogeist.engine.integration.api.astrometry.model.Tags;
+import astrogeist.engine.integration.api.astrometry.model.builder.AnnotationsBuilder;
+import astrogeist.engine.integration.api.astrometry.model.builder.AstrometricModelBuilder;
+import astrogeist.engine.integration.api.astrometry.model.builder.CalibrationBuilder;
+import astrogeist.engine.integration.api.astrometry.model.builder.InfoBuilder;
+import astrogeist.engine.integration.api.astrometry.model.builder.MachineTagsBuilder;
+import astrogeist.engine.integration.api.astrometry.model.builder.ObjectsInFieldBuilder;
+import astrogeist.engine.integration.api.astrometry.model.builder.StatusBuilder;
+import astrogeist.engine.integration.api.astrometry.model.builder.TagsBuilder;
+import astrogeist.engine.logging.Log;
 
 public final class DefaultAstrometricClient implements AstrometricClient {
+	private final Logger logger = Log.get(this);
 	
 	private final AstrometricUris uris = new AstrometricUris();
 	private final HttpClient http = HttpClient.newHttpClient();
 	
+	@Override public final Status getStatus(int jobId) throws Exception {
+		return performAstrometricGet(uris.status(jobId), new StatusBuilder()); }
+	
+	@Override public CompletableFuture<Status> getStatusAsync(int jobId) {
+		return performAstrometricGetAsync(uris.status(jobId), new StatusBuilder()); }
+	
 	@Override public final Info getInfo(int jobId) throws Exception {
-		var builder = new InfoBuilder();
-		var retVal = performAstrometricGet(uris.info(jobId), builder);
-		return retVal;
-	}
+		return performAstrometricGet(uris.info(jobId), new InfoBuilder()); }
 
 	@Override public final CompletableFuture<Info> getInfoAsync(int jobId) {
-		var req = getAstrometricGetRequest(uris.info(jobId));
+		return performAstrometricGetAsync(uris.info(jobId), new InfoBuilder()); }
+	
+	@Override public final Calibration getCalibration(int jobId) throws Exception {
+		return performAstrometricGet(uris.calibration(jobId), new CalibrationBuilder()); }
+	
+	@Override public CompletableFuture<Calibration> getCalibrationAsync(int jobId) {
+		return performAstrometricGetAsync(uris.calibration(jobId), new CalibrationBuilder()); }
+	
+	@Override public final Annotations getAnnotations(int jobId) throws Exception {
+		return performAstrometricGet(uris.annotations(jobId), new AnnotationsBuilder()); }
+	
+	@Override public CompletableFuture<Annotations> getAnnotationsAsync(int jobId) {
+		return performAstrometricGetAsync(uris.annotations(jobId), new AnnotationsBuilder()); }
+	
+	@Override public final ObjectsInField getObjectsInField(int jobId) throws Exception {
+		return performAstrometricGet(uris.objectsInField(jobId), new ObjectsInFieldBuilder()); }
+	
+	@Override public CompletableFuture<ObjectsInField> getObjectsInFieldAsync(int jobId) {
+		return performAstrometricGetAsync(uris.objectsInField(jobId), new ObjectsInFieldBuilder()); }
+
+	@Override public final MachineTags getMachineTags(int jobId) throws Exception {
+		return performAstrometricGet(uris.machineTags(jobId), new MachineTagsBuilder()); }
+	
+	@Override public CompletableFuture<MachineTags> getMachineTagsAsync(int jobId) {
+		return performAstrometricGetAsync(uris.machineTags(jobId), new MachineTagsBuilder()); }
+
+	@Override public final Tags getTags(int jobId) throws Exception {
+		return performAstrometricGet(uris.tags(jobId), new TagsBuilder()); }
+	
+	@Override public CompletableFuture<Tags> getTagsAsync(int jobId) {
+		return performAstrometricGetAsync(uris.tags(jobId), new TagsBuilder()); }
+	
+	private final HttpRequest getAstrometricGetRequest(URI uri) {
+		return HttpRequest.newBuilder(uri).GET().build(); }
+	
+	private final <T extends AstrometricModel> CompletableFuture<T> performAstrometricGetAsync(
+		URI uri, AstrometricModelBuilder<T> builder) {
+		
+		this.logger.info("URI: " + uri);
+		
+		var req = getAstrometricGetRequest(uri);
 		var retVal = this.http.sendAsync(req, HttpResponse.BodyHandlers.ofString())
 				.thenApply(HttpResponse::body)
 				.thenApply(json -> {
 					try {
-						var builder = new InfoBuilder();
 						return builder.build(json); } catch (Exception e) {
 						throw new CompletionException(e);
 					}
@@ -42,25 +95,12 @@ public final class DefaultAstrometricClient implements AstrometricClient {
 		
 		return retVal;
 	}
-
-	@Override public Calibration getCalibration(int jobId) throws Exception {
-		var builder = new CalibrationBuilder();
-		var retVal = performAstrometricGet(uris.calibration(jobId), builder);
-		return retVal;
-	}
 	
-	@Override public Annotations getAnnotations(int jobId) throws Exception {
-		var builder = new AnnotationsBuilder();
-		var retVal = performAstrometricGet(uris.annotations(jobId), builder);
-		return retVal;
-	}
-	
-	private final HttpRequest getAstrometricGetRequest(URI uri) {
-		var req = HttpRequest.newBuilder(uri).GET().build();
-		return req;
-	}
-	
-	private final <T extends AstrometricModel>  T performAstrometricGet(URI uri, AstrometricModelBuilder<T> builder) throws Exception {
+	private final <T extends AstrometricModel>  T performAstrometricGet(
+		URI uri, AstrometricModelBuilder<T> builder) throws Exception {
+		
+		this.logger.info("URI: " + uri);
+		
 		var req = this.getAstrometricGetRequest(uri);
 		var response = this.http.send(req, HttpResponse.BodyHandlers.ofString());
 		var json = response.body();
@@ -68,6 +108,4 @@ public final class DefaultAstrometricClient implements AstrometricClient {
 		return retVal;
 	}
 
-	
-	
 }

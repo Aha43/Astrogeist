@@ -1,16 +1,14 @@
-package astrogeist.engine.integration.api.astrometry.model;
+package astrogeist.engine.integration.api.astrometry.model.builder;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+import astrogeist.engine.integration.api.astrometry.model.Annotation;
+import astrogeist.engine.integration.api.astrometry.model.Names;
+
 public final class AnnotationBuilder extends AstrometricModelBuilder<Annotation> {
-	public final String TYPE = "type";
-	public final String NAMES = "names";
-	public final String PIXELX = "pixelx";
-	public final String PIXELY = "pixely";
-	public final String RADIUS = "radius"; 
 	
 	private String type = "";
 	private Set<String> names = new LinkedHashSet<>();
@@ -36,11 +34,11 @@ public final class AnnotationBuilder extends AstrometricModelBuilder<Annotation>
 	}
 	
 	public final Annotation build(JsonNode node) {
-		this.withType(node.get(TYPE).asText())
-			.withPixelx(node.get(PIXELX).asDouble())
-			.withPixely(node.get(PIXELY).asDouble())
-			.withRadius(node.get(RADIUS).asDouble());
-		for (var n : node.get(NAMES)) this.withName(n.asText());
+		this.withType(node.get(Names.TYPE).asText())
+			.withPixelx(node.get(Names.PIXELX).asDouble())
+			.withPixely(node.get(Names.PIXELY).asDouble())
+			.withRadius(node.get(Names.RADIUS).asDouble());
+		for (var n : node.get(Names.NAMES)) this.withName(n.asText());
 		return this.build();
 	}
 	

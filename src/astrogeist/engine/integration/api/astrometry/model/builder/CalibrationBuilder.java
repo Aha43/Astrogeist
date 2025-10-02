@@ -1,14 +1,11 @@
-package astrogeist.engine.integration.api.astrometry.model;
+package astrogeist.engine.integration.api.astrometry.model.builder;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+import astrogeist.engine.integration.api.astrometry.model.Calibration;
+import astrogeist.engine.integration.api.astrometry.model.Names;
+
 public final class CalibrationBuilder extends AstrometricModelBuilder<Calibration> {
-	public static final String RA = "ra";
-	public static final String DEC = "dec";
-	public static final String RADIUS = "radius";
-	public static final String PIXSCALE = "pixscale";
-	public static final String ORIENTATION = "orientation";
-	public static final String PARITY = "parity";
 	
 	private double ra = 0.0d;
 	private double dec = 0.0d;
@@ -33,12 +30,12 @@ public final class CalibrationBuilder extends AstrometricModelBuilder<Calibratio
 	
 	public final Calibration build(JsonNode node) {
 		return this
-			.withRa(node.get(RA).asDouble())
-			.withDec(node.get(DEC).asDouble())
-			.withRadius(node.get(RADIUS).asDouble())
-			.withPixscale(node.get(PIXSCALE).asDouble())
-			.withOrientation(node.get(ORIENTATION).asDouble())
-			.withParity(node.get(PARITY).asInt())
+			.withRa(node.get(Names.RA).asDouble())
+			.withDec(node.get(Names.DEC).asDouble())
+			.withRadius(node.get(Names.RADIUS).asDouble())
+			.withPixscale(node.get(Names.PIXSCALE).asDouble())
+			.withOrientation(node.get(Names.ORIENTATION).asDouble())
+			.withParity(node.get(Names.PARITY).asInt())
 			.build();
 	}
 	

@@ -16,7 +16,7 @@ public final class Info extends AstrometricModel {
 	private final String[] machineTags;
 	private final String[] tags;
 	
-	Info(
+	public Info(
 		String status,
 		String originalFileName,
 		Calibration calibration,
@@ -36,18 +36,14 @@ public final class Info extends AstrometricModel {
 	}
 	
 	@Override public final String toString() {
-		var ls = System.lineSeparator();
-		
-		var strb = new StringBuilder();
-		
-		strb.append("status='").append(this.status).append("'").append(ls)
-			.append("original-file-name='").append(this.originalFileName).append("'").append(ls)
-			.append(this.calibration)
-			.append("objects-in-field='").append(String.join(",", this.objectsInField)).append("'").append(ls)
-			.append("machine-tags='").append(String.join(",", this.machineTags)).append("'").append(ls)
-			.append("tags='").append(String.join(",", this.tags)).append("'");
-		
-		return strb.toString();
+		var sb = new StringBuilder();
+		appendNameValue(Names.STATUS, this.status, sb);
+		appendNameValue(Names.ORIGINAL_FILENAME, this.originalFileName, sb);
+		sb.append(this.calibration);
+		appendNameValues(Names.OBJECTS_IN_FIELD, this.objectsInField, sb);
+		appendNameValues(Names.MACHINE_TAGS, this.machineTags, sb);
+		appendNameValues(Names.TAGS, this.tags, sb);
+		return sb.toString();
 	}
 
 }

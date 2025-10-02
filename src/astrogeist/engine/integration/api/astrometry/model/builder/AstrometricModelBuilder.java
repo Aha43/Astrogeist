@@ -1,9 +1,13 @@
-package astrogeist.engine.integration.api.astrometry.model;
+package astrogeist.engine.integration.api.astrometry.model.builder;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import astrogeist.engine.integration.api.astrometry.model.AstrometricModel;
+
 public abstract class AstrometricModelBuilder<T extends AstrometricModel> {
+	
+	
 	public abstract T build();
 	public abstract T build(JsonNode node);
 	public abstract void clear();

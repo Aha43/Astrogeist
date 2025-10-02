@@ -14,7 +14,7 @@ import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
-import astrogeist.Common;
+import astrogeist.common.Common;
 
 public final class LoggingController {
 	private LoggingController() { Common.throwStaticClassInstantiateError(); }

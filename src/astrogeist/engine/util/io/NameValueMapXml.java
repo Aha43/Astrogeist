@@ -16,7 +16,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import astrogeist.Common;
+import astrogeist.common.Common;
 import astrogeist.engine.abstraction.timeline.TimelineValuePool;
 import astrogeist.engine.timeline.TimelineValue;
 

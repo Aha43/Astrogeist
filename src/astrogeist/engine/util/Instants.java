@@ -4,9 +4,10 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.time.ZoneOffset;
 
-import astrogeist.Common;
+import astrogeist.common.Common;
+
+import java.time.ZoneOffset;
 
 public final class Instants {
 	private Instants() { Common.throwStaticClassInstantiateError(); }

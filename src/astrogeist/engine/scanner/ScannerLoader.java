@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
 
-import astrogeist.Common;
+import astrogeist.common.Common;
 import astrogeist.engine.abstraction.Scanner;
 import astrogeist.engine.logging.Log;
 

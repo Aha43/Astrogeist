@@ -2,7 +2,7 @@ package astrogeist.engine.integration.api.astrometry.model;
 
 import java.util.Set;
 
-import astrogeist.Empty;
+import astrogeist.common.Empty;
 
 public final class ObjectsInField extends AstrometricModel {
 

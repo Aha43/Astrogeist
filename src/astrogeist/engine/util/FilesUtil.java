@@ -10,7 +10,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import astrogeist.Common;
+import astrogeist.common.Common;
 import astrogeist.engine.typesystem.Type;
 
 public final class FilesUtil {

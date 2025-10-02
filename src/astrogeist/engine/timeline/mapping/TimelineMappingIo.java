@@ -15,7 +15,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import astrogeist.Common;
+import astrogeist.common.Common;
 
 public final class TimelineMappingIo {
 	public static List<TimelineMappingEntry> load(File file) throws Exception {

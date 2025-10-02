@@ -2,7 +2,7 @@ package astrogeist.engine.setting;
 
 import java.util.LinkedHashMap;
 
-import astrogeist.Common;
+import astrogeist.common.Common;
 import astrogeist.engine.resources.Resources;
 import astrogeist.engine.util.io.NameValueMapXml;
 

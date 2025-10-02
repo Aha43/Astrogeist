@@ -9,7 +9,7 @@ import javax.swing.JComponent;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 
-import astrogeist.Common;
+import astrogeist.common.Common;
 
 public final class ColumnTooltipEnabler {
     private ColumnTooltipEnabler() { Common.throwStaticClassInstantiateError(); }

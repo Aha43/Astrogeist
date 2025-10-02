@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.Instant;
 
-import astrogeist.Common;
+import astrogeist.common.Common;
 import astrogeist.engine.util.Instants;
 
 public final class Resources {

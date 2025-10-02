@@ -1,6 +1,6 @@
 package astrogeist.engine.setting;
 
-import astrogeist.Common;
+import astrogeist.common.Common;
 
 public final class SettingKeys {
 	private SettingKeys() { Common.throwStaticClassInstantiateError(); }

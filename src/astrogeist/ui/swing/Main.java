@@ -5,7 +5,7 @@ import javax.swing.UIManager;
 
 import com.formdev.flatlaf.*;
 
-import astrogeist.Common;
+import astrogeist.common.Common;
 import astrogeist.engine.resources.Resources;
 import astrogeist.engine.setting.SettingsIo;
 import astrogeist.ui.swing.dialog.launch.LaunchDialog;

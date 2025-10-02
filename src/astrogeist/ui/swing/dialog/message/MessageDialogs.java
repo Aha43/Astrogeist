@@ -8,7 +8,7 @@ import java.util.logging.Level;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
-import astrogeist.Common;
+import astrogeist.common.Common;
 import astrogeist.engine.logging.Log;
 import astrogeist.engine.resources.Resources;
 import astrogeist.engine.util.ImageUtil;

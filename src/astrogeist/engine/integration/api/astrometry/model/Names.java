@@ -1,6 +1,6 @@
 package astrogeist.engine.integration.api.astrometry.model;
 
-import astrogeist.Common;
+import astrogeist.common.Common;
 
 public final class Names {
 	private Names() { Common.throwStaticClassInstantiateError(); }

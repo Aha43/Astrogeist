@@ -11,7 +11,7 @@ import java.util.Objects;
 
 import javax.imageio.ImageIO;
 
-import astrogeist.Common;
+import astrogeist.common.Common;
 
 public final class ImageUtil {
     private ImageUtil() { Common.throwStaticClassInstantiateError(); }

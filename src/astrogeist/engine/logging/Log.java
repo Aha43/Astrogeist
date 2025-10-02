@@ -7,7 +7,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.*;
 
-import astrogeist.Common;
+import astrogeist.common.Common;
 
 public final class Log {
     private Log() { Common.throwStaticClassInstantiateError(); }

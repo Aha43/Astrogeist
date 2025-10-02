@@ -4,7 +4,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-import astrogeist.Common;
+import astrogeist.common.Common;
 import astrogeist.engine.abstraction.timeline.TimelineNames;
 import astrogeist.ui.swing.App;
 import astrogeist.ui.swing.dialog.about.AboutDialog;

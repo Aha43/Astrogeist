@@ -5,7 +5,7 @@ import java.util.Set;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import astrogeist.Common;
+import astrogeist.common.Common;
 import astrogeist.engine.integration.api.astrometry.model.Names;
 import astrogeist.engine.integration.api.astrometry.model.ObjectsInField;
 

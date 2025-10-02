@@ -2,7 +2,7 @@ package astrogeist.ui.swing.toolbar;
 
 import javax.swing.JToolBar;
 
-import astrogeist.Common;
+import astrogeist.common.Common;
 import astrogeist.ui.swing.App;
 
 public final class ToolBarFactory {

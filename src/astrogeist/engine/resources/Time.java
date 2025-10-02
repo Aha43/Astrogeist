@@ -3,7 +3,7 @@ package astrogeist.engine.resources;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
-import astrogeist.Common;
+import astrogeist.common.Common;
 
 public final class Time {
 	private Time() { Common.throwStaticClassInstantiateError(); }

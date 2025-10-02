@@ -25,7 +25,7 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
 
-import astrogeist.Common;
+import astrogeist.common.Common;
 
 public final class PopupCellViewer {
     private PopupCellViewer() { Common.throwStaticClassInstantiateError(); }

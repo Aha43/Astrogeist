@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
-import astrogeist.Common;
+import astrogeist.common.Common;
 
 public final class Strings {
 	private Strings() { Common.throwStaticClassInstantiateError(); }

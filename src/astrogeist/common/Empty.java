@@ -1,4 +1,4 @@
-package astrogeist;
+package astrogeist.common;
 
 /**
  * <p>

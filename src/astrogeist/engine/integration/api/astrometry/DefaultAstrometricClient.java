@@ -33,46 +33,46 @@ public final class DefaultAstrometricClient implements AstrometricClient {
 	private final AstrometricUris uris = new AstrometricUris();
 	private final HttpClient http = HttpClient.newHttpClient();
 	
-	@Override public final Status getStatus(int jobId) throws Exception {
+	@Override public final Status getStatus(long jobId) throws Exception {
 		return performAstrometricGet(uris.status(jobId), new StatusBuilder()); }
 	
-	@Override public CompletableFuture<Status> getStatusAsync(int jobId) {
+	@Override public CompletableFuture<Status> getStatusAsync(long jobId) {
 		return performAstrometricGetAsync(uris.status(jobId), new StatusBuilder()); }
 	
-	@Override public final Info getInfo(int jobId) throws Exception {
+	@Override public final Info getInfo(long jobId) throws Exception {
 		return performAstrometricGet(uris.info(jobId), new InfoBuilder()); }
 
-	@Override public final CompletableFuture<Info> getInfoAsync(int jobId) {
+	@Override public final CompletableFuture<Info> getInfoAsync(long jobId) {
 		return performAstrometricGetAsync(uris.info(jobId), new InfoBuilder()); }
 	
-	@Override public final Calibration getCalibration(int jobId) throws Exception {
+	@Override public final Calibration getCalibration(long jobId) throws Exception {
 		return performAstrometricGet(uris.calibration(jobId), new CalibrationBuilder()); }
 	
-	@Override public CompletableFuture<Calibration> getCalibrationAsync(int jobId) {
+	@Override public CompletableFuture<Calibration> getCalibrationAsync(long jobId) {
 		return performAstrometricGetAsync(uris.calibration(jobId), new CalibrationBuilder()); }
 	
-	@Override public final Annotations getAnnotations(int jobId) throws Exception {
+	@Override public final Annotations getAnnotations(long jobId) throws Exception {
 		return performAstrometricGet(uris.annotations(jobId), new AnnotationsBuilder()); }
 	
-	@Override public CompletableFuture<Annotations> getAnnotationsAsync(int jobId) {
+	@Override public CompletableFuture<Annotations> getAnnotationsAsync(long jobId) {
 		return performAstrometricGetAsync(uris.annotations(jobId), new AnnotationsBuilder()); }
 	
-	@Override public final ObjectsInField getObjectsInField(int jobId) throws Exception {
+	@Override public final ObjectsInField getObjectsInField(long jobId) throws Exception {
 		return performAstrometricGet(uris.objectsInField(jobId), new ObjectsInFieldBuilder()); }
 	
-	@Override public CompletableFuture<ObjectsInField> getObjectsInFieldAsync(int jobId) {
+	@Override public CompletableFuture<ObjectsInField> getObjectsInFieldAsync(long jobId) {
 		return performAstrometricGetAsync(uris.objectsInField(jobId), new ObjectsInFieldBuilder()); }
 
-	@Override public final MachineTags getMachineTags(int jobId) throws Exception {
+	@Override public final MachineTags getMachineTags(long jobId) throws Exception {
 		return performAstrometricGet(uris.machineTags(jobId), new MachineTagsBuilder()); }
 	
-	@Override public CompletableFuture<MachineTags> getMachineTagsAsync(int jobId) {
+	@Override public CompletableFuture<MachineTags> getMachineTagsAsync(long jobId) {
 		return performAstrometricGetAsync(uris.machineTags(jobId), new MachineTagsBuilder()); }
 
-	@Override public final Tags getTags(int jobId) throws Exception {
+	@Override public final Tags getTags(long jobId) throws Exception {
 		return performAstrometricGet(uris.tags(jobId), new TagsBuilder()); }
 	
-	@Override public CompletableFuture<Tags> getTagsAsync(int jobId) {
+	@Override public CompletableFuture<Tags> getTagsAsync(long jobId) {
 		return performAstrometricGetAsync(uris.tags(jobId), new TagsBuilder()); }
 	
 	private final HttpRequest getAstrometricGetRequest(URI uri) {

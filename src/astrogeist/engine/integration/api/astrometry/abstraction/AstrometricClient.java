@@ -11,24 +11,24 @@ import astrogeist.engine.integration.api.astrometry.model.Status;
 import astrogeist.engine.integration.api.astrometry.model.Tags;
 
 public interface AstrometricClient {
-	Status getStatus(int jobId) throws Exception;
-	CompletableFuture<Status> getStatusAsync(int jobId);
+	Status getStatus(long jobId) throws Exception;
+	CompletableFuture<Status> getStatusAsync(long jobId);
 	
-	Calibration getCalibration(int jobId) throws Exception;
-	CompletableFuture<Calibration> getCalibrationAsync(int jobId);
+	Calibration getCalibration(long jobId) throws Exception;
+	CompletableFuture<Calibration> getCalibrationAsync(long jobId);
 	
-	ObjectsInField getObjectsInField(int jobId) throws Exception;
-	CompletableFuture<ObjectsInField> getObjectsInFieldAsync(int jobId);
+	ObjectsInField getObjectsInField(long jobId) throws Exception;
+	CompletableFuture<ObjectsInField> getObjectsInFieldAsync(long jobId);
 	
-	MachineTags getMachineTags(int jobId) throws Exception;
-	CompletableFuture<MachineTags> getMachineTagsAsync(int jobId);
+	MachineTags getMachineTags(long jobId) throws Exception;
+	CompletableFuture<MachineTags> getMachineTagsAsync(long jobId);
 	
-	Tags getTags(int jobId) throws Exception;
-	CompletableFuture<Tags> getTagsAsync(int jobId);
+	Tags getTags(long jobId) throws Exception;
+	CompletableFuture<Tags> getTagsAsync(long jobId);
 	
-	Info getInfo(int jobId) throws Exception;
-	CompletableFuture<Info> getInfoAsync(int jobId);
+	Info getInfo(long jobId) throws Exception;
+	CompletableFuture<Info> getInfoAsync(long jobId);
 	
-	Annotations getAnnotations(int jobId) throws Exception;
-	CompletableFuture<Annotations> getAnnotationsAsync(int jobId);
+	Annotations getAnnotations(long jobId) throws Exception;
+	CompletableFuture<Annotations> getAnnotationsAsync(long jobId);
 }

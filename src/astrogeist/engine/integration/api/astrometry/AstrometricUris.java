@@ -19,25 +19,25 @@ public final class AstrometricUris {
 	public final String base() { return this.base; }
 	
 	private final URI complete(String path) { return URI.create(this.base + path); }
-	private final String jobStem(int jobId) { return "/api/jobs/" + jobId; }
+	private final String jobStem(long jobId) { return "/api/jobs/" + jobId; }
 	
 	public final URI loginUri() { return complete("/api/login"); }
 	
 	public final URI upload() { return complete("/api/upload"); }
 	public final URI urlUpload() { return complete("/api/url_upload"); }
 	
-	public final URI submissions(int subId) { return complete("/api/submissions/" + subId); }
+	public final URI submissions(long subId) { return complete("/api/submissions/" + subId); }
 	
-	public final URI status(int jobId) { return complete(jobStem(jobId)); }
-	public final URI info(int jobId) { return complete(jobStem(jobId) + "/info"); }
-	public final URI calibration(int jobId) { return complete(jobStem(jobId) + "/calibration"); }
-	public final URI objectsInField(int jobId) { return complete(jobStem(jobId) + "/objects_in_field"); }
-	public final URI tags(int jobId) { return complete(jobStem(jobId) + "/tags"); }
-	public final URI machineTags(int jobId) { return complete(jobStem(jobId) + "/machine_tags"); }
-	public final URI annotations(int jobId) { return complete(jobStem(jobId) + "/annotations"); }
+	public final URI status(long jobId) { return complete(jobStem(jobId)); }
+	public final URI info(long jobId) { return complete(jobStem(jobId) + "/info"); }
+	public final URI calibration(long jobId) { return complete(jobStem(jobId) + "/calibration"); }
+	public final URI objectsInField(long jobId) { return complete(jobStem(jobId) + "/objects_in_field"); }
+	public final URI tags(long jobId) { return complete(jobStem(jobId) + "/tags"); }
+	public final URI machineTags(long jobId) { return complete(jobStem(jobId) + "/machine_tags"); }
+	public final URI annotations(long jobId) { return complete(jobStem(jobId) + "/annotations"); }
 	
-	public final URI joblog(int jobId) { return complete("/api/joblog/" + jobId); }
-	public final URI joblog2(int jobId) { return complete("/api/joblog2/" + jobId); }
+	public final URI joblog(long jobId) { return complete("/api/joblog/" + jobId); }
+	public final URI joblog2(long jobId) { return complete("/api/joblog2/" + jobId); }
 	
 	public final URI myJobs() { return complete("/api/myjobs"); }
 	public final URI submissionImages() { return complete("/api/submission_images"); }

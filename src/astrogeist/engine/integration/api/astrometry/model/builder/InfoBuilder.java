@@ -11,7 +11,7 @@ import astrogeist.engine.integration.api.astrometry.model.Calibration;
 import astrogeist.engine.integration.api.astrometry.model.Info;
 import astrogeist.engine.integration.api.astrometry.model.Names;
 
-public final class InfoBuilder extends AstrometricModelBuilder<Info> {
+public final class InfoBuilder extends AstrometryModelBuilder<Info> {
 	
 	private String status = "unknown";
 	private String originalFileName = "";

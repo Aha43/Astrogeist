@@ -1,6 +1,6 @@
 package astrogeist.engine.integration.api.astrometry.model;
 
-public abstract class AstrometricModel {
+public abstract class AstrometryModel {
 
 	private final static String ls = System.lineSeparator();
 	

@@ -9,7 +9,7 @@ import astrogeist.engine.integration.api.astrometry.model.Annotation;
 import astrogeist.engine.integration.api.astrometry.model.Annotations;
 import astrogeist.engine.integration.api.astrometry.model.Names;
 
-public final class AnnotationsBuilder extends AstrometricModelBuilder<Annotations> {
+public final class AnnotationsBuilder extends AstrometryModelBuilder<Annotations> {
 	
 	private final List<Annotation> annotations = new ArrayList<>();
 	

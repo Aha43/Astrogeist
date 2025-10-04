@@ -4,7 +4,7 @@ import java.util.Set;
 
 import astrogeist.common.Empty;
 
-public final class MachineTags extends AstrometricModel {
+public final class MachineTags extends AstrometryModel {
 
 	private final String[] machineTags;
 	

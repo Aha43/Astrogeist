@@ -9,7 +9,7 @@ import astrogeist.common.Common;
 import astrogeist.engine.integration.api.astrometry.model.Names;
 import astrogeist.engine.integration.api.astrometry.model.ObjectsInField;
 
-public final class ObjectsInFieldBuilder extends AstrometricModelBuilder<ObjectsInField> {
+public final class ObjectsInFieldBuilder extends AstrometryModelBuilder<ObjectsInField> {
 	
 	private final Set<String> objectsInField = new LinkedHashSet<>();
 

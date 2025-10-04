@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import astrogeist.engine.integration.api.astrometry.model.Annotation;
 import astrogeist.engine.integration.api.astrometry.model.Names;
 
-public final class AnnotationBuilder extends AstrometricModelBuilder<Annotation> {
+public final class AnnotationBuilder extends AstrometryModelBuilder<Annotation> {
 	
 	private String type = "";
 	private Set<String> names = new LinkedHashSet<>();

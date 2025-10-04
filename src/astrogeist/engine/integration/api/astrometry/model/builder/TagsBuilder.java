@@ -9,7 +9,7 @@ import astrogeist.common.Common;
 import astrogeist.engine.integration.api.astrometry.model.Names;
 import astrogeist.engine.integration.api.astrometry.model.Tags;
 
-public final class TagsBuilder extends AstrometricModelBuilder<Tags> {
+public final class TagsBuilder extends AstrometryModelBuilder<Tags> {
 	
 	private final Set<String> tags = new LinkedHashSet<>();
 

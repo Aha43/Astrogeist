@@ -1,6 +1,6 @@
 package astrogeist.engine.integration.api.astrometry.model;
 
-public final class Annotations extends AstrometricModel {
+public final class Annotations extends AstrometryModel {
 	private final Annotation[] annotations;
 	
 	public Annotations(Annotation[] annotations) {

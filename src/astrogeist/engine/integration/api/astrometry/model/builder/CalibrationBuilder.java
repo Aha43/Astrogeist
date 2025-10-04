@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import astrogeist.engine.integration.api.astrometry.model.Calibration;
 import astrogeist.engine.integration.api.astrometry.model.Names;
 
-public final class CalibrationBuilder extends AstrometricModelBuilder<Calibration> {
+public final class CalibrationBuilder extends AstrometryModelBuilder<Calibration> {
 	
 	private double ra = 0.0d;
 	private double dec = 0.0d;

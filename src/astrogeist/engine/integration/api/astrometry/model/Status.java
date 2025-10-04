@@ -1,6 +1,6 @@
 package astrogeist.engine.integration.api.astrometry.model;
 
-public final class Status extends AstrometricModel {
+public final class Status extends AstrometryModel {
 	
 	private final String status;
 	

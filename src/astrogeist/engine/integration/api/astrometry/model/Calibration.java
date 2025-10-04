@@ -1,6 +1,6 @@
 package astrogeist.engine.integration.api.astrometry.model;
 
-public final class Calibration extends AstrometricModel {
+public final class Calibration extends AstrometryModel {
 	private final double ra;
 	private final double dec;
 	private final double radius;

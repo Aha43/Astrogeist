@@ -4,7 +4,7 @@ import java.util.Set;
 
 import astrogeist.common.Empty;
 
-public final class ObjectsInField extends AstrometricModel {
+public final class ObjectsInField extends AstrometryModel {
 
 	private final String[] objectsInField;
 	

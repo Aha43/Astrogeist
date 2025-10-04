@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import astrogeist.engine.integration.api.astrometry.model.Names;
 import astrogeist.engine.integration.api.astrometry.model.Status;
 
-public class StatusBuilder extends AstrometricModelBuilder<Status> {
+public class StatusBuilder extends AstrometryModelBuilder<Status> {
 
 	private String status = "";
 	

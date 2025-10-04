@@ -3,16 +3,16 @@ package astrogeist.engine.integration.api.astrometry;
 import java.net.URI;
 import java.util.Objects;
 
-public final class AstrometricUris {
+public final class AstrometryUris {
 	private static final String DEFAULT_BASE = "https://nova.astrometry.net";
     private static final String ENV_VAR = "ASTROMETRY_BASE_URI";
 	
 	private final String base;
 	
-	public AstrometricUris() { 
+	public AstrometryUris() { 
 		this(System.getenv(ENV_VAR) != null ? System.getenv(ENV_VAR) : DEFAULT_BASE); }
 	
-	public AstrometricUris(String base) {
+	public AstrometryUris(String base) {
 		Objects.requireNonNull(base, "base");
         if (base.isBlank()) throw new IllegalArgumentException("base");
         // normalize: no trailing slash
@@ -24,7 +24,7 @@ public final class AstrometricUris {
 	private final URI complete(String path) { return URI.create(this.base + path); }
 	private final String jobStem(long jobId) { return "/api/jobs/" + jobId; }
 	
-	public final URI loginUri() { return complete("/api/login"); }
+	public final URI login() { return complete("/api/login"); }
 	
 	public final URI upload() { return complete("/api/upload"); }
 	public final URI urlUpload() { return complete("/api/url_upload"); }

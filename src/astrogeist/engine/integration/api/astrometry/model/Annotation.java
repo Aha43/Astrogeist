@@ -4,7 +4,7 @@ import java.util.Set;
 
 import astrogeist.common.Empty;
 
-public final class Annotation extends AstrometricModel {
+public final class Annotation extends AstrometryModel {
 	private final String type;
 	private final String[] names;
 	private final double pixelx;

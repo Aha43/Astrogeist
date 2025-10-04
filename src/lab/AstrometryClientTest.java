@@ -10,7 +10,7 @@ import java.util.concurrent.CompletableFuture;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import astrogeist.engine.integration.api.astrometry.DefaultAstrometricClient;
+import astrogeist.engine.integration.api.astrometry.DefaultAstrometryClient;
 
 
 
@@ -31,7 +31,7 @@ public class AstrometryClientTest {
     public static void main(String[] args) {
     	
     	try {
-    		var cl = new DefaultAstrometricClient(null, null);
+    		var cl = new DefaultAstrometryClient(null, null);
     		
     		System.out.println("Status");
     		var status = cl.getStatus(14207155);
@@ -61,6 +61,13 @@ public class AstrometryClientTest {
     		var tags = cl.getTags(14207155);
     		System.out.println(tags);
     		System.out.println("-------");
+    		System.out.println("my-jobs 1");
+    		var myJobs = cl.getMyJobs();
+    		System.out.println(myJobs);
+    		System.out.println("-------");
+    		System.out.println("my-jobs 2");
+    		var myJobs2 = cl.getMyJobs();
+    		System.out.println(myJobs2);
     	} catch (Exception x) {
     		x.printStackTrace();
     	}

@@ -1,5 +1,7 @@
 package astrogeist.engine.integration.api.astrometry.abstraction;
 
+import java.nio.file.Path;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 import astrogeist.engine.integration.api.astrometry.model.Annotations;
@@ -10,7 +12,7 @@ import astrogeist.engine.integration.api.astrometry.model.ObjectsInField;
 import astrogeist.engine.integration.api.astrometry.model.Status;
 import astrogeist.engine.integration.api.astrometry.model.Tags;
 
-public interface AstrometricClient {
+public interface AstrometryClient {
 	Status getStatus(long jobId) throws Exception;
 	CompletableFuture<Status> getStatusAsync(long jobId);
 	
@@ -31,4 +33,9 @@ public interface AstrometricClient {
 	
 	Annotations getAnnotations(long jobId) throws Exception;
 	CompletableFuture<Annotations> getAnnotationsAsync(long jobId);
+	
+	int uploadFile(Path file, Map<String,Object> opts) throws Exception;
+	CompletableFuture<Integer> uploadFileAsync(Path file, Map<String, Object> opts);
+	
+	CompletableFuture<Integer> uploadByUrlAsync(String imageUrl, Map<String, Object> opts);
 }

@@ -4,10 +4,13 @@ import java.net.URI;
 import java.util.Objects;
 
 public final class AstrometricUris {
+	private static final String DEFAULT_BASE = "https://nova.astrometry.net";
+    private static final String ENV_VAR = "ASTROMETRY_BASE_URI";
 	
 	private final String base;
 	
-	public AstrometricUris() { this("https://nova.astrometry.net"); }
+	public AstrometricUris() { 
+		this(System.getenv(ENV_VAR) != null ? System.getenv(ENV_VAR) : DEFAULT_BASE); }
 	
 	public AstrometricUris(String base) {
 		Objects.requireNonNull(base, "base");

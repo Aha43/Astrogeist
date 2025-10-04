@@ -31,7 +31,7 @@ public class AstrometryClientTest {
     public static void main(String[] args) {
     	
     	try {
-    		var cl = new DefaultAstrometricClient();
+    		var cl = new DefaultAstrometricClient(null, null);
     		
     		System.out.println("Status");
     		var status = cl.getStatus(14207155);

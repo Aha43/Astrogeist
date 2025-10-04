@@ -8,6 +8,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 import java.util.logging.Logger;
 
+import astrogeist.common.net.HttpUtils;
 import astrogeist.engine.integration.api.astrometry.abstraction.AstrometricClient;
 import astrogeist.engine.integration.api.astrometry.model.Annotations;
 import astrogeist.engine.integration.api.astrometry.model.AstrometricModel;
@@ -30,8 +31,16 @@ import astrogeist.engine.logging.Log;
 public final class DefaultAstrometricClient implements AstrometricClient {
 	private final Logger logger = Log.get(this);
 	
-	private final AstrometricUris uris = new AstrometricUris();
-	private final HttpClient http = HttpClient.newHttpClient();
+	private final AstrometricUris uris;
+	private final HttpClient http;
+	
+	public DefaultAstrometricClient(
+		AstrometricUris uris,
+		HttpClient http) {
+		
+		this.uris = uris == null ? new AstrometricUris() : uris;
+		this.http = http == null ? HttpClient.newHttpClient() : http;
+	}
 	
 	@Override public final Status getStatus(long jobId) throws Exception {
 		return performAstrometricGet(uris.status(jobId), new StatusBuilder()); }
@@ -75,17 +84,24 @@ public final class DefaultAstrometricClient implements AstrometricClient {
 	@Override public CompletableFuture<Tags> getTagsAsync(long jobId) {
 		return performAstrometricGetAsync(uris.tags(jobId), new TagsBuilder()); }
 	
-	private final HttpRequest getAstrometricGetRequest(URI uri) {
-		return HttpRequest.newBuilder(uri).GET().build(); }
+	private HttpRequest get(URI uri) {
+	    return HttpRequest.newBuilder(uri)
+	        .header("Accept", "application/json")
+	        .timeout(java.time.Duration.ofSeconds(30))
+	        .GET().build();
+	 }
 	
 	private final <T extends AstrometricModel> CompletableFuture<T> performAstrometricGetAsync(
 		URI uri, AstrometricModelBuilder<T> builder) {
 		
 		this.logger.info("URI: " + uri);
 		
-		var req = getAstrometricGetRequest(uri);
+		var req = get(uri);
 		var retVal = this.http.sendAsync(req, HttpResponse.BodyHandlers.ofString())
-				.thenApply(HttpResponse::body)
+				.thenApply(response -> {
+					HttpUtils.ensureSuccess(response);
+					return response.body();
+				})
 				.thenApply(json -> {
 					try {
 						return builder.build(json); } catch (Exception e) {
@@ -101,8 +117,9 @@ public final class DefaultAstrometricClient implements AstrometricClient {
 		
 		this.logger.info("URI: " + uri);
 		
-		var req = this.getAstrometricGetRequest(uri);
+		var req = this.get(uri);
 		var response = this.http.send(req, HttpResponse.BodyHandlers.ofString());
+		HttpUtils.ensureSuccess(response);
 		var json = response.body();
 		var retVal = builder.build(json);
 		return retVal;

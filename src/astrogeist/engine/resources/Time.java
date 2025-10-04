@@ -3,10 +3,10 @@ package astrogeist.engine.resources;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
-import astrogeist.common.Common;
+import astrogeist.common.Guards;
 
 public final class Time {
-	private Time() { Common.throwStaticClassInstantiateError(); }
+	private Time() { Guards.throwStaticClassInstantiateError(); }
 	
 	public static final DateTimeFormatter TimeFormatter = 
 		DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(ZoneId.of("UTC"));

@@ -8,7 +8,7 @@ import java.util.logging.Level;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
-import astrogeist.common.Common;
+import astrogeist.common.Guards;
 import astrogeist.engine.logging.Log;
 import astrogeist.engine.resources.Resources;
 import astrogeist.engine.util.ImageUtil;
@@ -19,7 +19,7 @@ import astrogeist.engine.util.ImageUtil;
  * </p>
  */
 public final class MessageDialogs {
-	private MessageDialogs() { Common.throwStaticClassInstantiateError(); }
+	private MessageDialogs() { Guards.throwStaticClassInstantiateError(); }
 	
 	private static final ImageIcon _errorIcon;
     private static final ImageIcon _warningIcon;

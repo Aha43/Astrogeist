@@ -3,12 +3,12 @@ package astrogeist.engine.timeline.mapping;
 import java.util.LinkedHashMap;
 import java.util.Set;
 
-import astrogeist.common.Common;
+import astrogeist.common.Guards;
 
 public final class TimelineMap {
 	private static final LinkedHashMap<String, String> _mapping = new LinkedHashMap<>();
 	
-	private TimelineMap() { Common.throwStaticClassInstantiateError(); }
+	private TimelineMap() { Guards.throwStaticClassInstantiateError(); }
 	
 	public static void Add(String normalized, String ...synonyms) {
 		_mapping.put(normalized, normalized);

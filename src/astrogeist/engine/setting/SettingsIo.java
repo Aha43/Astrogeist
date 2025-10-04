@@ -2,12 +2,12 @@ package astrogeist.engine.setting;
 
 import java.util.LinkedHashMap;
 
-import astrogeist.common.Common;
+import astrogeist.common.Guards;
 import astrogeist.engine.resources.Resources;
 import astrogeist.engine.util.io.NameValueMapXml;
 
 public final class SettingsIo {
-	private SettingsIo() { Common.throwStaticClassInstantiateError(); }
+	private SettingsIo() { Guards.throwStaticClassInstantiateError(); }
 	
     public static final LinkedHashMap<String, String> DEFAULTS = new LinkedHashMap<>();
     

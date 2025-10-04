@@ -5,7 +5,7 @@ import java.util.Set;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import astrogeist.common.Common;
+import astrogeist.common.Guards;
 import astrogeist.engine.integration.api.astrometry.model.Names;
 import astrogeist.engine.integration.api.astrometry.model.ObjectsInField;
 
@@ -24,7 +24,7 @@ public final class ObjectsInFieldBuilder extends AstrometryModelBuilder<ObjectsI
 	@Override public void clear() { this.objectsInField.clear(); }
 	
 	public final ObjectsInFieldBuilder withObjectInField(String object) {
-		Common.requireNonEmpty(object, "object");
+		Guards.requireNonEmpty(object, "object");
 		this.objectsInField.add(object);
 		return this;
 	}

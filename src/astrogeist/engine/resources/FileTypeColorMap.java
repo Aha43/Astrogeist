@@ -3,11 +3,11 @@ package astrogeist.engine.resources;
 import java.awt.Color;
 import java.util.Map;
 
-import astrogeist.common.Common;
+import astrogeist.common.Guards;
 import astrogeist.engine.typesystem.Type;
 
 public final class FileTypeColorMap { 
-	private FileTypeColorMap() { Common.throwStaticClassInstantiateError(); }
+	private FileTypeColorMap() { Guards.throwStaticClassInstantiateError(); }
 
 	public static final Map<Type.DiskFile, Color> EXTENSION_COLORS = Map.ofEntries(
 	        Map.entry(Type.FitFile(), new Color(255, 250, 205)),      // fit - light yellow (LemonChiffon)

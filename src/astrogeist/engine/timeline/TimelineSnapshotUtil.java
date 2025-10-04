@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
-import astrogeist.common.Common;
+import astrogeist.common.Guards;
 import astrogeist.engine.typesystem.Type;
 
 public final class TimelineSnapshotUtil {
@@ -26,5 +26,5 @@ public final class TimelineSnapshotUtil {
 	    return result;
 	}
 	
-	private TimelineSnapshotUtil() { Common.throwStaticClassInstantiateError(); }
+	private TimelineSnapshotUtil() { Guards.throwStaticClassInstantiateError(); }
 }

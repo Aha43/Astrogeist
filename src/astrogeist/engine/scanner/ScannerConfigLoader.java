@@ -20,7 +20,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import astrogeist.common.Common;
+import astrogeist.common.Guards;
 import astrogeist.engine.abstraction.Scanner;
 
 /**
@@ -30,7 +30,7 @@ import astrogeist.engine.abstraction.Scanner;
  * </p>
  */
 public final class ScannerConfigLoader {
-    private ScannerConfigLoader() { Common.throwStaticClassInstantiateError(); }
+    private ScannerConfigLoader() { Guards.throwStaticClassInstantiateError(); }
     
     /**
      * <p>

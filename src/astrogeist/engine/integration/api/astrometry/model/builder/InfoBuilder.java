@@ -6,7 +6,7 @@ import java.util.Set;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import astrogeist.common.Common;
+import astrogeist.common.Guards;
 import astrogeist.engine.integration.api.astrometry.model.Calibration;
 import astrogeist.engine.integration.api.astrometry.model.Info;
 import astrogeist.engine.integration.api.astrometry.model.Names;
@@ -63,31 +63,31 @@ public final class InfoBuilder extends AstrometryModelBuilder<Info> {
 	public boolean isSuccessStatus() { return "success".equalsIgnoreCase(this.status); }
 	
 	public final InfoBuilder withStatus(String status) {
-		Common.requireNonEmpty(status, "status");
+		Guards.requireNonEmpty(status, "status");
 		this.status = status;
 		return this;
 	}
 	
 	public final InfoBuilder withOriginalFileName(String originalFileName) {
-		Common.requireNonEmpty(originalFileName, "originalFileName");
+		Guards.requireNonEmpty(originalFileName, "originalFileName");
 		this.originalFileName = originalFileName;
 		return this;
 	}
 	
 	public final InfoBuilder withObjectInField(String object) {
-		Common.requireNonEmpty(object, "object");
+		Guards.requireNonEmpty(object, "object");
 		this.objectsInField.add(object);
 		return this;
 	}
 	
 	public final InfoBuilder withMachineTag(String machineTag) {
-		Common.requireNonEmpty(machineTag, "machineTag");
+		Guards.requireNonEmpty(machineTag, "machineTag");
 		this.machineTags.add(machineTag);
 		return this;
 	}
 	
 	public final InfoBuilder withTag(String tag) {
-		Common.requireNonEmpty(tag, "tag");
+		Guards.requireNonEmpty(tag, "tag");
 		this.tags.add(tag);
 		return this;
 	}

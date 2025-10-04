@@ -5,12 +5,12 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-import astrogeist.common.Common;
+import astrogeist.common.Guards;
 
 import java.time.ZoneOffset;
 
 public final class Instants {
-	private Instants() { Common.throwStaticClassInstantiateError(); }
+	private Instants() { Guards.throwStaticClassInstantiateError(); }
 	
 	public static String toFileSafeString(Instant instant) { return FORMATTER.format(instant); }
 

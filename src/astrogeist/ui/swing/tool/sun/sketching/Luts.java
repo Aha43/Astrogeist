@@ -4,11 +4,11 @@ import java.awt.Color;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import astrogeist.common.Common;
+import astrogeist.common.Guards;
 import astrogeist.ui.swing.tool.abstraction.ColorLut;
 
 public final class Luts {
-    private Luts() { Common.throwStaticClassInstantiateError(); }
+    private Luts() { Guards.throwStaticClassInstantiateError(); }
 
     // Linear greyscale black → white
     public static final ColorLut GREYSCALE = t -> {

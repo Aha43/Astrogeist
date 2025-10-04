@@ -8,11 +8,11 @@ import java.util.LinkedHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import astrogeist.common.Common;
+import astrogeist.common.Guards;
 import astrogeist.engine.logging.Log;
 
 public final class CameraSettingParser {
-	private CameraSettingParser() { Common.throwStaticClassInstantiateError(); }
+	private CameraSettingParser() { Guards.throwStaticClassInstantiateError(); }
 	
 	private static Logger _logger = Log.get(CameraSettingParser.class);
 	

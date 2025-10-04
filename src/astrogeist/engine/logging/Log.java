@@ -7,10 +7,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.*;
 
-import astrogeist.common.Common;
+import astrogeist.common.Guards;
 
 public final class Log {
-    private Log() { Common.throwStaticClassInstantiateError(); }
+    private Log() { Guards.throwStaticClassInstantiateError(); }
 
     private static final String ROOT_NAME = "astrogeist";
     private static final ConcurrentHashMap<String, Logger> cache = new ConcurrentHashMap<>();

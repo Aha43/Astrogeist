@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import astrogeist.common.Common;
+import astrogeist.common.Guards;
 import astrogeist.engine.util.Strings;
 
 public final class Settings {
-	private Settings() { Common.throwStaticClassInstantiateError(); }
+	private Settings() { Guards.throwStaticClassInstantiateError(); }
 	
     private static LinkedHashMap<String, String> current;
 

@@ -6,10 +6,10 @@ import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.time.Instant;
 
-import astrogeist.common.Common;
+import astrogeist.common.Guards;
 
 public final class FileTimes {
-	private FileTimes() { Common.throwStaticClassInstantiateError(); }
+	private FileTimes() { Guards.throwStaticClassInstantiateError(); }
 	
     /**
      * <p>

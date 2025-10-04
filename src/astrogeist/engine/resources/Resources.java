@@ -5,11 +5,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.Instant;
 
-import astrogeist.common.Common;
+import astrogeist.common.Guards;
 import astrogeist.engine.util.Instants;
 
 public final class Resources {
-	private Resources() { Common.throwStaticClassInstantiateError(); }
+	private Resources() { Guards.throwStaticClassInstantiateError(); }
 	
 	private static boolean _dev = true;
 	

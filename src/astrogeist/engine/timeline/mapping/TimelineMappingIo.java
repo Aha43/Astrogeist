@@ -15,7 +15,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import astrogeist.common.Common;
+import astrogeist.common.Guards;
 
 public final class TimelineMappingIo {
 	public static List<TimelineMappingEntry> load(File file) throws Exception {
@@ -71,5 +71,5 @@ public final class TimelineMappingIo {
         transformer.transform(new DOMSource(doc), new StreamResult(file));
     }
 	
-	private TimelineMappingIo() { Common.throwStaticClassInstantiateError(); }
+	private TimelineMappingIo() { Guards.throwStaticClassInstantiateError(); }
 }

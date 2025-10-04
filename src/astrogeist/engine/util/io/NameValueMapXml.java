@@ -16,7 +16,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import astrogeist.common.Common;
+import astrogeist.common.Guards;
 import astrogeist.engine.abstraction.timeline.TimelineValuePool;
 import astrogeist.engine.timeline.TimelineValue;
 
@@ -119,5 +119,5 @@ public final class NameValueMapXml {
         return retVal;
 	}
 
-	private NameValueMapXml() { Common.throwStaticClassInstantiateError(); }
+	private NameValueMapXml() { Guards.throwStaticClassInstantiateError(); }
 }

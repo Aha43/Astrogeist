@@ -8,7 +8,7 @@ import javax.swing.ListCellRenderer;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
-import astrogeist.common.Common;
+import astrogeist.common.Guards;
 import astrogeist.engine.timeline.TimelineValue;
 
 public final class TimelineValueRenderers {
@@ -46,6 +46,6 @@ public final class TimelineValueRenderers {
         };
     }
     
-    private TimelineValueRenderers() { Common.throwStaticClassInstantiateError(); }
+    private TimelineValueRenderers() { Guards.throwStaticClassInstantiateError(); }
 }
 

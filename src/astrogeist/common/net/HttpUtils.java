@@ -2,10 +2,10 @@ package astrogeist.common.net;
 
 import java.net.http.HttpResponse;
 
-import astrogeist.common.Common;
+import astrogeist.common.Guards;
 
 public final class HttpUtils {
-    private HttpUtils() { Common.throwStaticClassInstantiateError(); }
+    private HttpUtils() { Guards.throwStaticClassInstantiateError(); }
 
     public final static <T> HttpResponse<T> ensureSuccess(HttpResponse<T> resp) {
         int code = resp.statusCode();

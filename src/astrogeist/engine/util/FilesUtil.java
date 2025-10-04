@@ -10,11 +10,11 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import astrogeist.common.Common;
+import astrogeist.common.Guards;
 import astrogeist.engine.typesystem.Type;
 
 public final class FilesUtil {
-	private FilesUtil() { Common.throwStaticClassInstantiateError(); }
+	private FilesUtil() { Guards.throwStaticClassInstantiateError(); }
 	
 	public static String getBaseName(File file) { return getBaseName(file.getName()); }
 	public static String getBaseName(Path path) { return getBaseName(path.getFileName().toString()); }

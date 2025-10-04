@@ -5,7 +5,7 @@ import java.util.Set;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import astrogeist.common.Common;
+import astrogeist.common.Guards;
 import astrogeist.engine.integration.api.astrometry.model.MachineTags;
 import astrogeist.engine.integration.api.astrometry.model.Names;
 
@@ -24,7 +24,7 @@ public final class MachineTagsBuilder extends AstrometryModelBuilder<MachineTags
 	@Override public void clear() { this.machineTags.clear(); }
 	
 	public final MachineTagsBuilder withMachineTag(String machineTag) {
-		Common.requireNonEmpty(machineTag, "machineTag");
+		Guards.requireNonEmpty(machineTag, "machineTag");
 		this.machineTags.add(machineTag);
 		return this;
 	}

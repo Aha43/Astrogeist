@@ -1,13 +1,12 @@
 package astrogeist.engine.integration.api.astrometry.model;
 
-public enum TriState {
-    DEFAULT("d"), 
-    YES("y"), 
-    NO("n");
+public enum Visibility {
+    PUBLIC("y"),
+    PRIVATE("n");
 
     private final String code;
     
-    TriState(String code) { this.code = code; }
+    Visibility(String code) { this.code = code; }
     
     public String code() { return code; }
 }

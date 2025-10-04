@@ -9,8 +9,8 @@ package astrogeist.common;
  *   (i.e. String) should be put in a separate utility class for that type.
  * </p>
  */
-public final class Common {
-	private Common() { throwStaticClassInstantiateError(); }
+public final class Guards {
+	private Guards() { throwStaticClassInstantiateError(); }
 	
 	/**
 	 * <p>

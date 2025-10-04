@@ -5,7 +5,7 @@ import javax.swing.UIManager;
 
 import com.formdev.flatlaf.*;
 
-import astrogeist.common.Common;
+import astrogeist.common.Guards;
 import astrogeist.engine.resources.Resources;
 import astrogeist.engine.setting.SettingsIo;
 import astrogeist.ui.swing.dialog.launch.LaunchDialog;
@@ -41,5 +41,5 @@ public final class Main {
 		SettingsIo.loadOrCreate();
 	}
 	
-	private Main() { Common.throwStaticClassInstantiateError(); }
+	private Main() { Guards.throwStaticClassInstantiateError(); }
 }

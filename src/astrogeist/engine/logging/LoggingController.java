@@ -14,10 +14,10 @@ import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
-import astrogeist.common.Common;
+import astrogeist.common.Guards;
 
 public final class LoggingController {
-	private LoggingController() { Common.throwStaticClassInstantiateError(); }
+	private LoggingController() { Guards.throwStaticClassInstantiateError(); }
 	
     private static final Logger root = Logger.getLogger("");
     private static final Deque<Map<String, Level>> levelStack = new ArrayDeque<>();

@@ -6,7 +6,7 @@ import java.nio.file.Path;
 import java.util.Objects;
 import java.util.logging.Logger;
 
-import astrogeist.common.Common;
+import astrogeist.common.Guards;
 import astrogeist.engine.abstraction.Scanner;
 import astrogeist.engine.logging.Log;
 
@@ -21,7 +21,7 @@ public abstract class AbstractScanner implements Scanner {
 	}
 	
 	protected AbstractScanner(String path) {  
-		Common.requireNonEmpty(path, "path");
+		Guards.requireNonEmpty(path, "path");
 		this.path = Path.of(path);
 	}
 	

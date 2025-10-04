@@ -11,10 +11,10 @@ import java.util.Objects;
 
 import javax.imageio.ImageIO;
 
-import astrogeist.common.Common;
+import astrogeist.common.Guards;
 
 public final class ImageUtil {
-    private ImageUtil() { Common.throwStaticClassInstantiateError(); }
+    private ImageUtil() { Guards.throwStaticClassInstantiateError(); }
 
     public static BufferedImage loadImage(String resourcePath) {
         try {

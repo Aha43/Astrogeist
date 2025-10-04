@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
 
-import astrogeist.common.Common;
+import astrogeist.common.Guards;
 import astrogeist.engine.abstraction.Scanner;
 import astrogeist.engine.logging.Log;
 
@@ -17,7 +17,7 @@ import astrogeist.engine.logging.Log;
  * </p>
  */
 public final class ScannerLoader {
-    private ScannerLoader() { Common.throwStaticClassInstantiateError(); }
+    private ScannerLoader() { Guards.throwStaticClassInstantiateError(); }
     
     private final static Logger _logger = Log.get(ScannerLoader.class);
 

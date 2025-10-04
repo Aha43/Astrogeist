@@ -4,10 +4,10 @@ import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 
-import astrogeist.common.Common;
+import astrogeist.common.Guards;
 
 public final class SunSketchFileNamer {
-	private SunSketchFileNamer() { Common.throwStaticClassInstantiateError(); }
+	private SunSketchFileNamer() { Guards.throwStaticClassInstantiateError(); }
 	
     private static final DateTimeFormatter SAFE_ISO =
         DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH-mm-ss'Z'")

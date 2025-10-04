@@ -9,10 +9,10 @@ import javax.swing.JComponent;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 
-import astrogeist.common.Common;
+import astrogeist.common.Guards;
 
 public final class ColumnTooltipEnabler {
-    private ColumnTooltipEnabler() { Common.throwStaticClassInstantiateError(); }
+    private ColumnTooltipEnabler() { Guards.throwStaticClassInstantiateError(); }
 
     /** Enable tooltips for the given view-column indices. Shows the cell's toString(). */
     public final static void enable(JTable table, int... viewCols) {

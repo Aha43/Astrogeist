@@ -25,10 +25,10 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
 
-import astrogeist.common.Common;
+import astrogeist.common.Guards;
 
 public final class PopupCellViewer {
-    private PopupCellViewer() { Common.throwStaticClassInstantiateError(); }
+    private PopupCellViewer() { Guards.throwStaticClassInstantiateError(); }
 
     /** Install a right-click popup that shows the full cell content for the given view-column indices. */
     public final static void install(JTable table, int... viewCols) {

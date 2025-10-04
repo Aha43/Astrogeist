@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
-import astrogeist.common.Common;
+import astrogeist.common.Guards;
 
 public final class Strings {
-	private Strings() { Common.throwStaticClassInstantiateError(); }
+	private Strings() { Guards.throwStaticClassInstantiateError(); }
 	
 	public static List<String> fromCsv(String s) {
 		var retVal = new ArrayList<>(Arrays.asList(s.split("\\s*,\\s*")));

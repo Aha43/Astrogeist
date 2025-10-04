@@ -4,7 +4,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-import astrogeist.common.Common;
+import astrogeist.common.Guards;
 import astrogeist.engine.abstraction.timeline.TimelineNames;
 import astrogeist.ui.swing.App;
 import astrogeist.ui.swing.dialog.about.AboutDialog;
@@ -13,7 +13,7 @@ import astrogeist.ui.swing.dialog.settings.SettingsDialog;
 import astrogeist.ui.swing.tool.sun.sketching.ShowSunDialogAction;
 
 public final class MenuBarFactory {
-	private MenuBarFactory() { Common.throwStaticClassInstantiateError(); }
+	private MenuBarFactory() { Guards.throwStaticClassInstantiateError(); }
 	
 	public static JMenuBar createMenuBar(App app, TimelineNames timelineNames) {
 		var menuBar = new JMenuBar();

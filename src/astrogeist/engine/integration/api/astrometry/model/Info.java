@@ -35,6 +35,13 @@ public final class Info extends AstrometryModel {
 		this.tags = tags.toArray(Empty.StringArray);
 	}
 	
+	public final String status() { return this.status; }
+	public final String originalFileName() { return this.originalFileName; }
+	public final Calibration calibration() { return this.calibration; }
+	public final String[] objectsInField() { return this.objectsInField.clone(); }
+	public final String[] machineTags() { return this.machineTags.clone(); }
+	public final String[] tags() { return this.tags.clone(); }
+	
 	@Override public final String toString() {
 		var sb = new StringBuilder();
 		appendNameValue(Names.STATUS, this.status, sb);

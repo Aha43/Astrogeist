@@ -3,11 +3,9 @@ package astrogeist.engine.integration.api.astrometry.model;
 public final class Annotations extends AstrometryModel {
 	private final Annotation[] annotations;
 	
-	public Annotations(Annotation[] annotations) {
-		this.annotations = annotations.clone();
-	}
+	public Annotations(Annotation[] annotations) { this.annotations = annotations.clone(); }
 	
-	public Annotation[] annotations() { return this.annotations.clone(); }
+	public final Annotation[] annotations() { return this.annotations.clone(); }
 	
 	@Override public final String toString() {
 		var ls = System.lineSeparator();

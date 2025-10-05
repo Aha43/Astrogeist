@@ -10,6 +10,8 @@ public final class Tags extends AstrometryModel {
 	
 	public Tags(Set<String> tags) { this.tags = tags.toArray(Empty.StringArray); }
 	
+	public final String[] tags() { return this.tags.clone(); }
+	
 	@Override public final String toString() {
 		var sb = new StringBuilder();
 		appendNameValues(Names.TAGS, this.tags, sb);

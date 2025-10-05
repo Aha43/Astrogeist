@@ -33,32 +33,34 @@ public class AstrometryClientTest {
     	try {
     		var cl = new DefaultAstrometryClient(null, null);
     		
+    		var jobId = 14260279L;
+    		
     		System.out.println("Status");
-    		var status = cl.getStatus(14207155);
+    		var status = cl.getStatus(jobId);
     		System.out.println(status);
     		System.out.println("-------");
     		System.out.println("Calibration");
-    		var cal = cl.getCalibration(14207155);
+    		var cal = cl.getCalibration(jobId);
     		System.out.println(cal);
     		System.out.println("-------");
     		System.out.println("Info");
-    		var info = cl.getInfo(14207155);
+    		var info = cl.getInfo(jobId);
     		System.out.println(info);
     		System.out.println("-------");
     		System.out.println("Annotations");
-    		var anno = cl.getAnnotations(14207155);
+    		var anno = cl.getAnnotations(jobId);
     		System.out.println(anno);
     		System.out.println("-------");
     		System.out.println("Objects in field");
-    		var objects = cl.getObjectsInField(14207155);
+    		var objects = cl.getObjectsInField(jobId);
     		System.out.println(objects);
     		System.out.println("-------");
     		System.out.println("Machine tags");
-    		var mtags = cl.getMachineTags(14207155);
+    		var mtags = cl.getMachineTags(jobId);
     		System.out.println(mtags);
     		System.out.println("-------");
     		System.out.println("Tags");
-    		var tags = cl.getTags(14207155);
+    		var tags = cl.getTags(jobId);
     		System.out.println(tags);
     		System.out.println("-------");
     		System.out.println("my-jobs 1");

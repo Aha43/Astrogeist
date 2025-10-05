@@ -11,6 +11,8 @@ public final class ObjectsInField extends AstrometryModel {
 	public ObjectsInField(Set<String> objectsInField) {
 		this.objectsInField = objectsInField.toArray(Empty.StringArray); }
 	
+	public final String[] objects() { return this.objectsInField.clone(); }
+	
 	@Override public final String toString() {
 		var sb = new StringBuilder();
 		appendNameValues(Names.OBJECTS_IN_FIELD, this.objectsInField, sb);

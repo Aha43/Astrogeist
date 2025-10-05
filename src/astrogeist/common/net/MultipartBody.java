@@ -14,7 +14,7 @@ public final class MultipartBody {
     private final String boundary = "----astrogeist-" + UUID.randomUUID();
     private final List<byte[]> parts = new java.util.ArrayList<>();
 
-    public String contentType() { return "multipart/form-data; boundary=" + boundary; }
+    public final String contentType() { return "multipart/form-data; boundary=" + boundary; }
 
     public final MultipartBody addText(String name, String value) {
         var s = "--" + boundary + CRLF +

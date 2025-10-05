@@ -6,7 +6,6 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.file.Path;
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -17,6 +16,7 @@ import java.util.logging.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import astrogeist.common.Durations;
 import astrogeist.common.net.HttpUtils;
 import astrogeist.common.net.MultipartBody;
 import astrogeist.engine.integration.api.astrometry.abstraction.AstrometryClient;
@@ -48,9 +48,6 @@ public final class DefaultAstrometryClient implements AstrometryClient {
 	private final AstrometryUris uris;
 	private final AstrometryBodies bodies = new AstrometryBodies();
 	private final HttpClient http;
-	
-	private static final Duration TIMEOUT30S = java.time.Duration.ofSeconds(30);
-	private static final Duration TIMEOUT60S = java.time.Duration.ofSeconds(60);
 	
 	private static final ObjectMapper MAPPER = new ObjectMapper();
 	
@@ -192,7 +189,7 @@ public final class DefaultAstrometryClient implements AstrometryClient {
 
 	    // Build request
 	    var req = java.net.http.HttpRequest.newBuilder(uris.upload())
-	        .timeout(TIMEOUT60S)
+	        .timeout(Durations.OF_60_SECONDS)
 	        .header("Content-Type", mp.contentType())
 	        .POST(mp.build())
 	        .build();
@@ -205,10 +202,8 @@ public final class DefaultAstrometryClient implements AstrometryClient {
 	    return parseSubIdOrThrow(resp.body());
 	}
 
-
 	/** Upload a local file to /api/upload → returns subid */
-	@Override public CompletableFuture<Integer> uploadFileAsync(Path file,
-		Map<String, Object> opts) {
+	@Override public CompletableFuture<Integer> uploadFileAsync(Path file, Map<String, Object> opts) {
 
 	    return ensureSessionAsync().thenCompose(sess -> {
 	        // Build request-json (Astrometry expects raw JSON as the value of the form field)
@@ -231,7 +226,7 @@ public final class DefaultAstrometryClient implements AstrometryClient {
 	        }
 
 	        var req = HttpRequest.newBuilder(uris.upload())
-	            .timeout(TIMEOUT60S)
+	            .timeout(Durations.OF_60_SECONDS)
 	            .header("Content-Type", mp.contentType())
 	            .POST(mp.build())
 	            .build();
@@ -244,9 +239,7 @@ public final class DefaultAstrometryClient implements AstrometryClient {
 	}
 
 	/** Upload-by-URL via /api/url_upload → returns subid */
-	@Override public CompletableFuture<Integer> uploadByUrlAsync(String imageUrl,
-		Map<String, Object> opts) {
-
+	@Override public CompletableFuture<Integer> uploadByUrlAsync(String imageUrl, Map<String, Object> opts) {
 	    return ensureSessionAsync().thenCompose(sess -> {
 	        var payload = new LinkedHashMap<String,Object>();
 	        payload.put("session", sess);
@@ -261,7 +254,7 @@ public final class DefaultAstrometryClient implements AstrometryClient {
 	        var form = "request-json=" + requestJson;
 
 	        var req = java.net.http.HttpRequest.newBuilder(uris.urlUpload())
-	            .timeout(TIMEOUT60S)
+	            .timeout(Durations.OF_60_SECONDS)
 	            .header("Content-Type", "application/x-www-form-urlencoded")
 	            .POST(HttpRequest.BodyPublishers.ofString(form, java.nio.charset.StandardCharsets.UTF_8))
 	            .build();
@@ -319,7 +312,7 @@ public final class DefaultAstrometryClient implements AstrometryClient {
 	private HttpRequest post(URI uri, String body) {
 		return HttpRequest.newBuilder(uri)
 			.header("Content-Type", "application/x-www-form-urlencoded")
-			.timeout(TIMEOUT30S)
+			.timeout(Durations.OF_30_SECONDS)
 			.POST(HttpRequest.BodyPublishers.ofString(body))
 			.build();
 	}

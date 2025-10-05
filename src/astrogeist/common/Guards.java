@@ -1,12 +1,11 @@
 package astrogeist.common;
 
+import java.util.Objects;
+
 /**
  * <p>
- *   Place for static utility methods used in across all packages.
- * </p>
- * <p>
- *   Should be very general programming tasks, utility methods for a given type
- *   (i.e. String) should be put in a separate utility class for that type.
+ *   Place for static utility methods that implement runtime checks, do not duplicate 
+ *   guards java comes with (i.e those in {@link Objects}.
  * </p>
  */
 public final class Guards {

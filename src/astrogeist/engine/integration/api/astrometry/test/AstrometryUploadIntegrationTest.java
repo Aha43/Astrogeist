@@ -4,7 +4,7 @@ import java.nio.file.Path;
 import java.time.Duration;
 
 import astrogeist.engine.integration.api.astrometry.DefaultAstrometryClient;
-import astrogeist.engine.integration.api.astrometry.SubmissionPoller;
+import astrogeist.engine.integration.api.astrometry.DefaultAstrometrySubmissionPoller;
 import astrogeist.engine.integration.api.astrometry.model.UploadOptions;
 import astrogeist.engine.integration.api.astrometry.model.Visibility;
 
@@ -18,7 +18,7 @@ public final class AstrometryUploadIntegrationTest {
 		
 		try {
 			var client = new DefaultAstrometryClient();
-			var poller = new SubmissionPoller();
+			var poller = new DefaultAstrometrySubmissionPoller();
 		
 			// minimal upload with defaults (public, default license flags)
 			var subId = client.uploadFile(Path.of(testFolder + "/m13.jpg"), UploadOptions.defaults());

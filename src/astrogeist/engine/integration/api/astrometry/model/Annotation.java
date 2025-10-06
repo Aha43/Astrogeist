@@ -33,11 +33,11 @@ public final class Annotation extends AstrometryModel {
 	
 	@Override public final String toString() {
 		var sb = new StringBuilder();
-		appendNameValue("type", this.type, sb);
-		appendNameValues("names", this.names, sb);
-		appendNameValue("pixelx", this.pixelx, sb);
-		appendNameValue("pixely", this.pixely, sb);
-		appendNameValue("radius", this.radius, sb);
+		super.appendNameValue("type", this.type, sb);
+		super.appendNameValues("names", this.names, sb);
+		super.appendNameValue("pixelx", this.pixelx, sb);
+		super.appendNameValue("pixely", this.pixely, sb);
+		super.appendNameValue("radius", this.radius, sb);
 		return sb.toString();
 	}
 }

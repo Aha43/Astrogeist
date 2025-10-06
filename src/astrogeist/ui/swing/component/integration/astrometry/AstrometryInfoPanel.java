@@ -1,20 +1,19 @@
 package astrogeist.ui.swing.component.integration.astrometry;
 
 import java.awt.BorderLayout;
-import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridLayout;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.TreeMap;
+import java.util.concurrent.CompletionException;
 import java.util.stream.Collectors;
 
 import javax.swing.BorderFactory;
-import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -26,9 +25,11 @@ import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
 
+import astrogeist.common.DecimalFormats;
 import astrogeist.common.Safe;
 import astrogeist.engine.integration.api.astrometry.DefaultAstrometryClient;
 import astrogeist.engine.integration.api.astrometry.abstraction.AstrometryClient;
+import astrogeist.engine.integration.api.astrometry.model.Annotations;
 import astrogeist.engine.integration.api.astrometry.model.Info;
 import astrogeist.ui.swing.panel.CollapsibleSection;
 
@@ -56,11 +57,20 @@ public final class AstrometryInfoPanel extends JPanel {
 			@Override public boolean isCellEditable(int r, int c) { return false; }
         };
     private final JTable tagsTable = new JTable(tagsModel);
+    
+    private final DefaultTableModel annoModel = 
+    	new DefaultTableModel(new Object[]{"Type", "Names", "pixelx", "pixely", "radius"}, 0) {
+			private static final long serialVersionUID = 1L;
+			@Override public boolean isCellEditable(int r, int c) { return false; }
+    	};
+    private final JTable annoTable = new JTable(annoModel);
 
     private volatile Long currentJobId;
 
     public AstrometryInfoPanel(AstrometryClient client) {
         this.client = Objects.requireNonNull(client);
+        
+        this.annoTable.getColumnModel().getColumn(1).setPreferredWidth(300);
 
         setLayout(new BorderLayout(8, 8));
         setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
@@ -79,9 +89,9 @@ public final class AstrometryInfoPanel extends JPanel {
         var center = new JPanel();
         center.setLayout(new BoxLayout(center, BoxLayout.Y_AXIS));
 
-        center.add(section("Calibration", new JScrollPane(calibTable)));
-        center.add(Box.createVerticalStrut(8));
-        center.add(section("Tags", new JScrollPane(tagsTable)));
+        center.add(new CollapsibleSection("Calibration", new JScrollPane(calibTable)));
+        center.add(new CollapsibleSection("Tags", new JScrollPane(tagsTable)));
+        center.add(new CollapsibleSection("Annotations", new JScrollPane(annoTable)));
 
         add(top, BorderLayout.NORTH);
         add(center, BorderLayout.CENTER);
@@ -94,30 +104,12 @@ public final class AstrometryInfoPanel extends JPanel {
         tagsTable.setRowHeight(20);
     }
 
-    private JComponent section(String title, JComponent content) {
-    	
-      var panel = new JPanel(new BorderLayout());
-      panel.add(content, BorderLayout.CENTER);
-      panel.setBorder(BorderFactory.createCompoundBorder(
-          BorderFactory.createTitledBorder(""),
-          BorderFactory.createEmptyBorder(4,4,4,4)
-      ));
-      var retVal = new CollapsibleSection(title, panel, true);
-      return retVal;
-//        var panel = new JPanel(new BorderLayout());
-//        var header = new JLabel(title);
-//        header.setFont(header.getFont().deriveFont(Font.BOLD));
-//        panel.add(header, BorderLayout.NORTH);
-//        panel.add(content, BorderLayout.CENTER);
-//        panel.setBorder(BorderFactory.createCompoundBorder(
-//            BorderFactory.createTitledBorder(""),
-//            BorderFactory.createEmptyBorder(4,4,4,4)
-//        ));
-//        return panel;
-    }
-
-    /** Public API: load and display info for a job id */
-    public void setJobId(long jobId) {
+    /** 
+     * <p>
+     *   Load and display info for a astrometry job id 
+     * </p>
+     */
+    public final void setJobId(long jobId) {
         this.currentJobId = jobId;
         // clear UI
         lblJobId.setText("Job Id: " + jobId);
@@ -127,14 +119,30 @@ public final class AstrometryInfoPanel extends JPanel {
         tagsModel.setRowCount(0);
         busy.setVisible(true);
 
-        // fetch async
-        client.getInfoAsync(jobId).whenComplete((info, err) -> {
+        this.loadFromAstrometry(jobId);
+    }
+    
+    private final void loadFromAstrometry(long jobId) {
+    	client.getInfoAsync(jobId).whenComplete((info, err) -> {
             SwingUtilities.invokeLater(() -> {
                 try {
                     if (err != null) throw unwrap(err);
                     if (!Objects.equals(currentJobId, jobId)) return; // user changed quickly
-
                     renderInfo(info);
+                } catch (Exception ex) {
+                    showError(ex);
+                } finally {
+                    busy.setVisible(false);
+                }
+            });
+        });
+        
+        client.getAnnotationsAsync(jobId).whenComplete((annos, err) -> {
+            SwingUtilities.invokeLater(() -> {
+                try {
+                    if (err != null) throw unwrap(err);
+                    if (!Objects.equals(currentJobId, jobId)) return; // user changed quickly
+                    renderAnnos(annos);
                 } catch (Exception ex) {
                     showError(ex);
                 } finally {
@@ -144,43 +152,56 @@ public final class AstrometryInfoPanel extends JPanel {
         });
     }
 
-    private void renderInfo(Info info) {
-    	
-        lblStatus.setText("Status: " + Safe.string(info.status()));
-        lblFile.setText("File: " + Safe.string(info.originalFileName()));
+    private final void renderInfo(Info info) {
+        this.lblStatus.setText("Status: " + Safe.string(info.status()));
+        this.lblFile.setText("File: " + Safe.string(info.originalFileName()));
 
-        calibModel.setRowCount(0);
+        this.calibModel.setRowCount(0);
         var c = info.calibration();
         if (c != null) {
-            addCalib("ra", c.ra());
-            addCalib("dec", c.dec());
-            addCalib("radius", c.radius());
-            addCalib("pixscale", c.pixscale());
-            addCalib("orientation", c.orientation());
-            addCalib("parity", c.parity());
+        	this.addCalib("ra", c.ra());
+        	this.addCalib("dec", c.dec());
+        	this.addCalib("radius", c.radius());
+        	this.addCalib("pixscale", c.pixscale());
+        	this.addCalib("orientation", c.orientation());
+        	this.addCalib("parity", c.parity());
         }
 
         // Merge tags/machine_tags/objects_in_field
-        tagsModel.setRowCount(0);
+        this.tagsModel.setRowCount(0);
         var rows = mergeTags(info);
-        for (var r : rows) tagsModel.addRow(new Object[]{r.tag, r.typeString()});
+        for (var r : rows) this.tagsModel.addRow(new Object[]{r.tag, r.typeString()});
     }
-
+    
     private void addCalib(String name, double val) {
-        calibModel.addRow(new Object[]{name, String.valueOf(val)});
+        calibModel.addRow(new Object[]{name, name.equals("pixscale") ? 
+        	DecimalFormats.DF3.format(val) : DecimalFormats.DF6.format(val)});
     }
-    private void addCalib(String name, int val) {
-        calibModel.addRow(new Object[]{name, String.valueOf(val)});
-    }
+    
+    private final void addCalib(String name, int val) {
+        calibModel.addRow(new Object[]{name, String.valueOf(val)}); }
 
-    private void showError(Exception ex) {
+    private final void showError(Exception ex) {
         lblStatus.setText("Status: error");
         JOptionPane.showMessageDialog(this,
             ex.getMessage(), "Astrometry error", JOptionPane.ERROR_MESSAGE);
     }
+    
+    private final void renderAnnos(Annotations annotations) {
+    	this.annoModel.setRowCount(0);
+    	for (var ann : annotations.annotations()) {
+    		this.annoModel.addRow(new Object[] {
+    			ann.type(),
+    			String.join(",", ann.names()),
+    			ann.pixelx(),
+    			ann.pixely(),
+    			ann.radius()
+    		});
+    	}
+    }
 
-    private static Exception unwrap(Throwable t) {
-        if (t instanceof java.util.concurrent.CompletionException ce && ce.getCause()!=null) return (Exception) ce.getCause();
+    private final static Exception unwrap(Throwable t) {
+        if (t instanceof CompletionException ce && ce.getCause() != null) return (Exception)ce.getCause();
         if (t instanceof Exception e) return e;
         return new RuntimeException(t);
     }
@@ -242,4 +263,3 @@ public final class AstrometryInfoPanel extends JPanel {
     }
     
 }
-

@@ -1,4 +1,4 @@
-package astrogeist.engine.async;
+package astrogeist.common.async;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -12,7 +12,7 @@ public final class CancellationToken {
     
     /**
      * <p>
-     *   Tells if communicate operation should be cancelled.
+     *   Tells if operation should be cancelled.
      * </p>
      * @return {@code true} if to cancel else {@code false}.
      */

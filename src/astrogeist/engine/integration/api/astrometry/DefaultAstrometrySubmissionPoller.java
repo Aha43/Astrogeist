@@ -1,28 +1,35 @@
 package astrogeist.engine.integration.api.astrometry;
 
-import java.net.http.*;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.time.Duration;
-import java.util.*;
-import java.util.concurrent.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import astrogeist.common.net.HttpUtils;
+import astrogeist.engine.integration.api.astrometry.abstraction.AstrometrySubmissionPoller;
 
-public final class SubmissionPoller {
+public final class DefaultAstrometrySubmissionPoller implements AstrometrySubmissionPoller  {
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
     private final HttpClient http;
     private final AstrometryUris uris;
 
-    public SubmissionPoller() { this(null, null); }
+    public DefaultAstrometrySubmissionPoller() { this(null, null); }
     
-    public SubmissionPoller(HttpClient http, AstrometryUris uris) {
+    public DefaultAstrometrySubmissionPoller(HttpClient http, AstrometryUris uris) {
     	this.http = http == null ? HttpClient.newHttpClient() : http;
         this.uris = uris == null ? new AstrometryUris() : uris;
     }
     
-    public List<Integer> pollJobs(long subId, Duration interval, Duration timeout) throws Exception {
+    public final List<Integer> pollJobs(long subId, Duration interval, Duration timeout) throws Exception {
         long deadline = System.nanoTime() + timeout.toNanos();
         while (true) {
             var req = HttpRequest.newBuilder(uris.submissions(subId))
@@ -63,14 +70,14 @@ public final class SubmissionPoller {
      * @param timeout     e.g. Duration.ofMinutes(5)
      * @return CompletableFuture of the list of job IDs (non-empty)
      */
-    public CompletableFuture<List<Integer>> pollJobsAsync(
+    public final CompletableFuture<List<Integer>> pollJobsAsync(
     	long subId, Duration interval, Duration timeout) {
 
         final long deadline = System.nanoTime() + timeout.toNanos();
         return pollOnce(subId, interval, deadline);
     }
 
-    private CompletableFuture<List<Integer>> pollOnce(long subId, Duration interval, long deadlineNanos) {
+    private final CompletableFuture<List<Integer>> pollOnce(long subId, Duration interval, long deadlineNanos) {
         var req = HttpRequest.newBuilder(uris.submissions(subId))
                 .header("Accept", "application/json")
                 .timeout(Duration.ofSeconds(30))

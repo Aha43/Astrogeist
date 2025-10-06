@@ -20,8 +20,10 @@ public final class CollapsibleSection extends JPanel {
 
     private final JToggleButton header;
     private final JPanel content;
+    
+    public CollapsibleSection(String title, JComponent content) { this(title, content, true); }
 
-    public CollapsibleSection(String title, JComponent contentComponent, boolean initiallyExpanded) {
+    public CollapsibleSection(String title, JComponent component, boolean expanded) {
         super(new BorderLayout());
         // Header with arrow + title
         header = new JToggleButton();
@@ -29,13 +31,13 @@ public final class CollapsibleSection extends JPanel {
         header.setHorizontalAlignment(SwingConstants.LEFT);
         header.setFocusPainted(false);
         header.setContentAreaFilled(false);
-        header.setSelected(initiallyExpanded);
+        header.setSelected(expanded);
         updateHeaderText(title);
 
         // Content wrapper (so we can hide/show cleanly)
         content = new JPanel(new BorderLayout());
-        content.add(contentComponent, BorderLayout.CENTER);
-        content.setVisible(initiallyExpanded);
+        content.add(component, BorderLayout.CENTER);
+        content.setVisible(expanded);
 
         // Divider line below header (optional)
         var headerPanel = new JPanel(new BorderLayout());

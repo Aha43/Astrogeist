@@ -8,10 +8,10 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import astrogeist.common.async.CancellationSource;
 import astrogeist.engine.abstraction.jobs.JobProgressListener;
 import astrogeist.engine.abstraction.jobs.JobRunner;
 import astrogeist.engine.abstraction.jobs.JobWorker;
-import astrogeist.engine.async.CancellationSource;
 
 public final class DefaultJobRunner implements JobRunner {
     private final ExecutorService pool;

@@ -1,8 +1,8 @@
 package astrogeist.engine.abstraction.jobs;
 
-import astrogeist.engine.async.CancellationSource;
-
 import java.util.concurrent.CompletableFuture;
+
+import astrogeist.common.async.CancellationSource;
 
 public interface JobRunner extends AutoCloseable {
     <I> JobHandle submit(JobWorker<I> worker, I input, JobProgressListener listener);

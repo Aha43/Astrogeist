@@ -1,6 +1,6 @@
 package astrogeist.engine.abstraction.jobs;
 
-import astrogeist.engine.async.CancellationToken;
+import astrogeist.common.async.CancellationToken;
 
 public interface JobWorker<I> {
 	String name();

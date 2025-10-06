@@ -1,4 +1,4 @@
-package astrogeist.engine.async;
+package astrogeist.common.async;
 
 /**
  * <p>

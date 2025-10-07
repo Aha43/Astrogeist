@@ -31,6 +31,38 @@ public final class Guards {
 	
 	/**
 	 * <p>
+	 *   Throw 
+	 *   {@link IllegalArgumentException} if {@code value < 0}.
+	 * </p>
+	 * @param value the value to check.
+	 * @param name  the name used in exception to refer to {@code value} (typically a method parameter name).
+	 * @return the {@code value}.
+	 * @throws IllegalArgumentException If {@code value < 0}.
+	 */
+	public static long requireNonNegative(long value, String name) {
+		if (value < 0)
+			throw new IllegalArgumentException(name + " must not be negative (is '" + value + "')");
+		return value;
+	}
+	
+	/**
+	 * <p>
+	 *   Throw 
+	 *   {@link IllegalArgumentException} if {@code value < 1}.
+	 * </p>
+	 * @param value the value to check.
+	 * @param name  the name used in exception to refer to {@code value} (typically a method parameter name).
+	 * @return the {@code value}.
+	 * @throws IllegalArgumentException If {@code value < 1}.
+	 */
+	public static long requirePositive(long value, String name) {
+		if (value < 1)
+			throw new IllegalArgumentException(name + " must be positive (is '" + value + "')");
+		return value;
+	}
+	
+	/**
+	 * <p>
 	 *   Should be called in the private constructor of static classes.
 	 * </p>
 	 * <p>

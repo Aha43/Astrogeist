@@ -3,13 +3,13 @@ package astrogeist.ui.swing.component.integration.astrometry;
 import java.awt.BorderLayout;
 import java.awt.Frame;
 import java.awt.GridLayout;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.TreeMap;
 import java.util.concurrent.CompletionException;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 import javax.swing.BorderFactory;
@@ -21,27 +21,53 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
 
 import astrogeist.common.DecimalFormats;
+import astrogeist.common.Guards;
 import astrogeist.common.Safe;
 import astrogeist.engine.integration.api.astrometry.DefaultAstrometryClient;
 import astrogeist.engine.integration.api.astrometry.abstraction.AstrometryClient;
 import astrogeist.engine.integration.api.astrometry.model.Annotations;
 import astrogeist.engine.integration.api.astrometry.model.Info;
+import astrogeist.ui.swing.dialog.message.MessageDialogs;
 import astrogeist.ui.swing.panel.CollapsibleSection;
 
 public final class AstrometryInfoPanel extends JPanel {
     private static final long serialVersionUID = 1L;
 
 	private final AstrometryClient client;
+	
+	private final ChangeEvent changeEvent = new ChangeEvent(this);
+	
+	private final CopyOnWriteArrayList<ChangeListener> changeListener = new CopyOnWriteArrayList<>();
+	
+	public void addChangeListener(ChangeListener l) {
+		Objects.requireNonNull(l, "l");
+		this.changeListener.add(l);
+	}
+	
+	public void removeChangeListener(ChangeListener l) {
+		Objects.requireNonNull(l, "l");
+		this.changeListener.remove(l);
+	}
+	
+	private void fireChangeEvent() {
+		for (var l : this.changeListener) l.stateChanged(this.changeEvent); }
 
     // UI widgets
-    private final JLabel lblJobId   = new JLabel("Job Id: ");
-	private final JLabel lblStatus  = new JLabel("Status: ");
-    private final JLabel lblFile    = new JLabel("File: ");
+    private final JLabel lblJobId        = new JLabel("Job Id: ");
+    private final JTextField jobIdField  = new JTextField();
+	private final JLabel lblStatus       = new JLabel("Status: ");
+	private final JTextField statusField = new JTextField();
+    private final JLabel lblFile         = new JLabel("File: ");
+    private final JTextField fileField   = new JTextField();
+    
     private final JProgressBar busy = new JProgressBar();
 
     private final DefaultTableModel calibModel =
@@ -74,12 +100,22 @@ public final class AstrometryInfoPanel extends JPanel {
 
         setLayout(new BorderLayout(8, 8));
         setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
+        
+        this.statusField.setEditable(false);
+        this.fileField.setEditable(false);
+        
+        this.jobIdField.addActionListener(e -> {
+        	this.setJobId(this.jobIdField.getText());
+        });
 
         // Top: status + file
-        var top = new JPanel(new GridLayout(0,1,2,2));
+        var top = new JPanel(new GridLayout(0,2,2,2));
         top.add(lblJobId);
+        top.add(this.jobIdField);
         top.add(lblStatus);
+        top.add(this.statusField);
         top.add(lblFile);
+        top.add(this.fileField);
 
         // Busy bar
         busy.setIndeterminate(true);
@@ -103,6 +139,15 @@ public final class AstrometryInfoPanel extends JPanel {
         calibTable.setRowHeight(20);
         tagsTable.setRowHeight(20);
     }
+    
+    public final void setJobId(String jobId) {
+    	try {
+    		var id = Long.parseLong(jobId);
+    		setJobId(id);
+    	} catch (Exception x) {
+    		MessageDialogs.showError(this, "Not valid job id : '" + jobId + "'", x);
+    	}
+    }
 
     /** 
      * <p>
@@ -110,17 +155,23 @@ public final class AstrometryInfoPanel extends JPanel {
      * </p>
      */
     public final void setJobId(long jobId) {
+    	Guards.requireNonNegative(jobId, "Job Id");
+    	
         this.currentJobId = jobId;
         // clear UI
-        lblJobId.setText("Job Id: " + jobId);
-        lblStatus.setText("Status: loading…");
-        lblFile.setText("File: –");
+        this.jobIdField.setText("" + jobId);
+        this.statusField.setText("loading…");
+        this.fileField.setText("loading…");
         calibModel.setRowCount(0);
         tagsModel.setRowCount(0);
         busy.setVisible(true);
 
         this.loadFromAstrometry(jobId);
+        
+        this.fireChangeEvent();
     }
+    
+    public final long getJobId() { return this.currentJobId; }
     
     private final void loadFromAstrometry(long jobId) {
     	client.getInfoAsync(jobId).whenComplete((info, err) -> {
@@ -153,8 +204,8 @@ public final class AstrometryInfoPanel extends JPanel {
     }
 
     private final void renderInfo(Info info) {
-        this.lblStatus.setText("Status: " + Safe.string(info.status()));
-        this.lblFile.setText("File: " + Safe.string(info.originalFileName()));
+        this.statusField.setText(Safe.string(info.status()));
+        this.fileField.setText(Safe.string(info.originalFileName()));
 
         this.calibModel.setRowCount(0);
         var c = info.calibration();

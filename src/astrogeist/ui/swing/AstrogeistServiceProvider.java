@@ -1,7 +1,8 @@
-package astrogeist.engine;
+package astrogeist.ui.swing;
 
 import astrogeist.engine.abstraction.ServiceProvider;
 import astrogeist.engine.abstraction.TypeResolver;
+import astrogeist.engine.abstraction.selection.SnapshotSelectionService;
 import astrogeist.engine.abstraction.timeline.Timeline;
 import astrogeist.engine.abstraction.timeline.TimelineNames;
 import astrogeist.engine.abstraction.timeline.TimelineValuePool;
@@ -10,18 +11,20 @@ import astrogeist.engine.timeline.DefaultTimeline;
 import astrogeist.engine.timeline.DefaultTimelineValuePool;
 import astrogeist.engine.typesystem.DefaultTypeResolver;
 import astrogeist.engine.userdata.UserDataIo;
+import astrogeist.ui.selection.DefaultSnapshotSelectionService;
 
 /**
  * <p>
  *   Simple IoC.
  * </p>
  */
-public final class DefaultServiceProvider implements ServiceProvider {
+public final class AstrogeistServiceProvider implements ServiceProvider {
 	@Override public final <T> T get(Class<? extends T> clazz) {
 		if (clazz == Timeline.class) return clazz.cast(this.timeline);
 		if (clazz == UserDataIo.class) return clazz.cast(this.userDataIo);
 		if (clazz == TimelineValuePool.class) return clazz.cast(this.timelineValuePool);
 		if (clazz == TimelineNames.class) return clazz.cast(this.timelineNames);
+		if (clazz == SnapshotSelectionService.class) return clazz.cast(this.snapshotSelectionService);
 		throw new IllegalArgumentException("Unsupported service type: " + clazz.getName());
 	}
 	
@@ -30,4 +33,5 @@ public final class DefaultServiceProvider implements ServiceProvider {
 	private final UserDataIo userDataIo = new UserDataIo(this.timelineValuePool);
 	private final TimelineNames timelineNames = new DefaultTimelineNames();
 	private final Timeline timeline = new DefaultTimeline(this.timelineValuePool, this.timelineNames);
+    private final SnapshotSelectionService snapshotSelectionService = new DefaultSnapshotSelectionService();
 }

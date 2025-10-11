@@ -1,5 +1,6 @@
 package astrogeist.engine.abstraction.selection;
 
+import java.time.Instant;
 import java.util.Map;
 
 import astrogeist.engine.timeline.TimelineValue;
@@ -38,18 +39,17 @@ public interface SnapshotSelectionService {
     
     /**
      * <p>
-     *   Entry point for UI sources. Must be called on the EDT.
+     *   Entry point for UI sources when a selection made. Must be called on the EDT.
      * </p>
-     * @param snapshot
-     * @param source
+     * @param timestamp the time selected at. 
+     * @param snapshot  the selected.
      */
-    void select(Map<String, TimelineValue> snapshot, Class<? extends SelectionSourceTag> source);
+    void selected(Instant timestamp, Map<String, TimelineValue> snapshot);
     
     /**
      * <p>
-     *   Gets current selection.
+     *   Entry point for UI sources when selection cleared. Must be called on the EDT.
      * </p>
-     * @return the current snapshot or {@code null} if non selected.
      */
-    Map<String, TimelineValue> getCurrent();
+    void cleared();
 }

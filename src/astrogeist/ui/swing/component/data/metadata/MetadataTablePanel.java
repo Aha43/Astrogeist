@@ -1,21 +1,24 @@
 package astrogeist.ui.swing.component.data.metadata;
 
 import java.awt.BorderLayout;
+import java.time.Instant;
 import java.util.Map;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import astrogeist.engine.abstraction.selection.SnapshotListener;
+import astrogeist.engine.abstraction.selection.SnapshotSelectionService;
 import astrogeist.engine.timeline.TimelineValue;
 
-public final class MetadataTablePanel extends JPanel {
+public final class MetadataTablePanel extends JPanel implements SnapshotListener {
 	private static final long serialVersionUID = 1L;
 	
 	private final JTable table;
 	private final MetadataTableModel tableModel;
 
-	public MetadataTablePanel() {
+	public MetadataTablePanel(SnapshotSelectionService snapshotSelectionService) {
 		super(new BorderLayout());
 		
 		this.tableModel = new MetadataTableModel();
@@ -26,11 +29,18 @@ public final class MetadataTablePanel extends JPanel {
 
 		var scrollPane = new JScrollPane(this.table);
 		this.add(scrollPane, BorderLayout.CENTER);
+		
+		snapshotSelectionService.addListener(this);
 	}
 
-	public void setData(Map<String, TimelineValue> data) { this.tableModel.setData(data); }
-	public JTable getTable() { return this.table; }
-	public MetadataTableModel getTableModel() { return this.tableModel; }
+	public final void setSnapshot(Map<String, TimelineValue> data) { this.tableModel.setData(data); }
+	public final JTable getTable() { return this.table; }
+	public final MetadataTableModel getTableModel() { return this.tableModel; }
 	
-	public void clear() { this.tableModel.clear(); }
+	public final void clear() { this.tableModel.clear(); }
+
+	@Override public void onSnapshotSelected(Instant timestamp, Map<String, TimelineValue> snapshot) {
+		this.setSnapshot(snapshot); }
+
+	@Override public final void onSelectionCleared() { this.clear(); }
 }

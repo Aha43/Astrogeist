@@ -14,8 +14,7 @@ public final class RefreshAction extends AbstractAction {
 		this.scannersSelectionPanel = scannersSelectionPanel;
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
+	@Override public final void actionPerformed(ActionEvent e) {
 		this.scannersSelectionPanel.refreshCanScan(); }
 
 }

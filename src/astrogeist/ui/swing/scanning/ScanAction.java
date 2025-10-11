@@ -40,7 +40,6 @@ public final class ScanAction extends AbstractAction {
 		try {
 			var scanners = this.scannersSelectionPanel.getSelectedScanners();
 			
-			//var timeline = this.app.getServices().get(Timeline.class);
 	        this.timeline.clear();
 	        
 	        this.app.getSearchPanel().timelineView(this.timeline);

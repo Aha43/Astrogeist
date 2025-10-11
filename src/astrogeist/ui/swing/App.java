@@ -12,7 +12,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 
-import astrogeist.engine.DefaultServiceProvider;
+import astrogeist.engine.abstraction.ServiceProvider;
+import astrogeist.engine.abstraction.selection.SnapshotSelectionService;
 import astrogeist.engine.abstraction.timeline.Timeline;
 import astrogeist.engine.abstraction.timeline.TimelineNames;
 import astrogeist.engine.abstraction.timeline.TimelineValuePool;
@@ -27,37 +28,37 @@ import astrogeist.ui.swing.scanning.ShowScanningDialogAction;
 import astrogeist.ui.swing.toolbar.ToolBarFactory;
 
 public final class App {
-	private final DefaultServiceProvider services = new DefaultServiceProvider();
+	private final ServiceProvider services = new AstrogeistServiceProvider();
 	
 	private JFrame frame = null;
 	
-	private final MetadataTablePanel metadataPanel = new MetadataTablePanel();
+	private final MetadataTablePanel metadataPanel = new MetadataTablePanel(
+		this.services.get(SnapshotSelectionService.class));
 	
-	private final FilesTypeGroupComponentPanel filesPanel = new FilesTypeGroupComponentPanel(this);
+	private final FilesTypeGroupComponentPanel filesPanel = new FilesTypeGroupComponentPanel(
+		this,
+		this.services.get(SnapshotSelectionService.class));
 	
 	private final TimelineTablePanel timelinePanel = new TimelineTablePanel(
 		this,
 		this.services.get(UserDataIo.class),
-		this.services.get(TimelineNames.class));
+		this.services.get(TimelineNames.class), 
+		this.services.get(SnapshotSelectionService.class));
 	
 	private final FilteredTimelineViewTablePanel searchPanel = new FilteredTimelineViewTablePanel(
 		this,
-		this.services.get(TimelineNames.class)
-		);
+		this.services.get(TimelineNames.class),
+		this.services.get(SnapshotSelectionService.class));
 	
-	public App() {}
-	
-	//public final DefaultServiceProvider getServices() { return this.services; }
-	
-	public final void clearSelectedMetaData() { this.metadataPanel.clear(); this.filesPanel.clear(); }
-	
+	// TODO: Find way to refactor so not expose internal components.
 	public final TimelineTablePanel getTimelinePanel() { return this.timelinePanel; }
 	
+	// TODO: Find way to refactor so not expose internal components.
 	public final FilteredTimelineViewTablePanel getSearchPanel() { return this.searchPanel; }
 	
 	// Actions
 	public final Action ScanAction = new ShowScanningDialogAction(
-		this, 
+		this,	
 		this.services.get(Timeline.class),
 		this.services.get(TimelineValuePool.class));
 	
@@ -100,8 +101,6 @@ public final class App {
 		this.filesPanel.setPreferredSize(new Dimension(100, 120));
 		this.frame.add(southTabs, BorderLayout.SOUTH);
 		
-		addSelectedObservationListener();
-		
 		URL url = Resources.getLogoUrl(this);
 		var icon = new ImageIcon(url).getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH);;
 		this.frame.setIconImage(icon);
@@ -114,32 +113,6 @@ public final class App {
 	public final void seetingsUpdated() { 
 		this.timelinePanel.settingsUpdated();
 		this.searchPanel.settingsUpdated();
-	}
-	
-	private final void addSelectedObservationListener() {
-		this.timelinePanel.addSelectionListener(e -> {
-			if (!e.getValueIsAdjusting()) {
-		        int selectedRow = this.timelinePanel.getSelectedRow();
-		        if (selectedRow >= 0) {
-		        	var timestamp = this.timelinePanel.getSelectedTimestamp();
-		        	var snapshot = this.timelinePanel.getSelectedSnapshot();
-		            this.metadataPanel.setData(snapshot);
-		            this.filesPanel.setData(timestamp, snapshot);
-		        }
-		    }
-		});
-		
-		this.searchPanel.addSelectionListener(e -> {
-			if (!e.getValueIsAdjusting()) {
-		        int selectedRow = this.searchPanel.getSelectedRow();
-		        if (selectedRow >= 0) {
-		        	var timestamp = this.searchPanel.getSelectedTimestamp();
-		        	var snapshot = this.searchPanel.getSelectedSnapshot();
-		            this.metadataPanel.setData(snapshot);
-		            this.filesPanel.setData(timestamp, snapshot);
-		        }
-		    }
-		});
 	}
 
 }

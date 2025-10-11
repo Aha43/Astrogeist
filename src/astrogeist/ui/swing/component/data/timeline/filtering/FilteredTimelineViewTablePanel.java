@@ -2,6 +2,7 @@ package astrogeist.ui.swing.component.data.timeline.filtering;
 
 import javax.swing.JButton;
 
+import astrogeist.engine.abstraction.selection.SnapshotSelectionService;
 import astrogeist.engine.abstraction.timeline.TimelineNames;
 import astrogeist.engine.abstraction.timeline.TimelineView;
 import astrogeist.ui.swing.App;
@@ -18,8 +19,9 @@ public class FilteredTimelineViewTablePanel extends AbstractTimelineViewTablePan
 	
 	public FilteredTimelineViewTablePanel(
 		App app,
-		TimelineNames timelineNames) { 
-		super(app, new FilteredTimelineViewTableModel(), timelineNames);
+		TimelineNames timelineNames,
+		SnapshotSelectionService snapshotSelectionService) { 
+		super(app, new FilteredTimelineViewTableModel(), timelineNames, snapshotSelectionService);
 		this.createButtons();
 	}
 	

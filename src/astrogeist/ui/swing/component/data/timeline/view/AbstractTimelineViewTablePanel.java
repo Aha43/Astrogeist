@@ -11,8 +11,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.event.ListSelectionListener;
 
+import astrogeist.engine.abstraction.selection.SnapshotSelectionService;
 import astrogeist.engine.abstraction.timeline.TimelineNames;
 import astrogeist.engine.setting.SettingKeys;
 import astrogeist.engine.setting.Settings;
@@ -42,13 +42,20 @@ public abstract class AbstractTimelineViewTablePanel  extends JPanel {
 	protected final JPanel northPanel;
 	protected final JPanel southPanel;
 	
+	protected final SnapshotSelectionService snapshotSelectionService;
+	
 	protected final App app;
 
 	protected AbstractTimelineViewTablePanel(
 		App app, 
 		AbstractTimelineViewTableModel model,
-		TimelineNames timelineNames) {
+		TimelineNames timelineNames,
+		SnapshotSelectionService snapshotSelectionService) {
+		
 		super(new BorderLayout());
+		
+		this.snapshotSelectionService = snapshotSelectionService;
+		
 		this.app = app;
 		
 		this.timelineNames = timelineNames;
@@ -71,6 +78,18 @@ public abstract class AbstractTimelineViewTablePanel  extends JPanel {
 		
 		populateNorthPanel();
 		populateSouthPanel();
+		
+		this.addaptEventSource();
+	}
+	
+	private void addaptEventSource() {
+		this.table.getSelectionModel().addListSelectionListener(e -> { 
+			var index = this.table.getSelectedRow();
+			if (index < 0) return;
+			var timestamp = this.getTimestampAt(index);
+			var snapshot = this.model.getSnapshotAt(index);
+			this.snapshotSelectionService.selected(timestamp, snapshot);
+		});
 	}
 	
 	private final void populateNorthPanel() {
@@ -120,16 +139,13 @@ public abstract class AbstractTimelineViewTablePanel  extends JPanel {
 	}
 	
 	protected final void postSetData() {
-		this.app.clearSelectedMetaData();
+		this.snapshotSelectionService.cleared();
 		this.model.setColumnsToShow(Settings.getCsv(SettingKeys.TABLE_COLUMNS));
 		this.table.getColumnModel().getColumn(0).setPreferredWidth(150);
 	}
 	
 	public final void settingsUpdated() { 
 		this.model.setColumnsToShow(Settings.getCsv(SettingKeys.TABLE_COLUMNS)); }
-	
-	public final void addSelectionListener(ListSelectionListener l) {
-		this.table.getSelectionModel().addListSelectionListener(l); }
 	
 	public final int getSelectedRow() {
 		int selectedRow = this.table.getSelectedRow();

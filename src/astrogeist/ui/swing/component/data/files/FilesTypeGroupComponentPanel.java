@@ -8,28 +8,37 @@ import java.util.Map;
 
 import javax.swing.JPanel;
 
+import astrogeist.engine.abstraction.selection.SnapshotListener;
+import astrogeist.engine.abstraction.selection.SnapshotSelectionService;
 import astrogeist.engine.timeline.TimelineSnapshotUtil;
 import astrogeist.engine.timeline.TimelineValue;
 import astrogeist.engine.typesystem.Type;
 import astrogeist.engine.util.FilesUtil;
 import astrogeist.ui.swing.App;
 
-public final class FilesTypeGroupComponentPanel extends JPanel {
+public final class FilesTypeGroupComponentPanel extends JPanel implements SnapshotListener {
 	private static final long serialVersionUID = 1L;
 	
 	private App app;
 	
-	public FilesTypeGroupComponentPanel(App app) { super.setLayout(new FlowLayout(FlowLayout.LEFT)); this.app = app; }
+	public FilesTypeGroupComponentPanel(
+		App app,
+		SnapshotSelectionService snapshotSelectionService) { 
+		
+		super.setLayout(new FlowLayout(FlowLayout.LEFT)); 
+		this.app = app;
+		snapshotSelectionService.addListener(this);
+	}
 	
-	public void setData(Instant timestamp, Map<String, TimelineValue> data) {
+	public final void setData(Instant timestamp, Map<String, TimelineValue> data) {
 		var filePaths = new ArrayList<String>();
 		for (var v : TimelineSnapshotUtil.getOfType(data, Type.DiskFile())) filePaths.add(v.value());
 		setFiles(timestamp, filePaths);
 	}
 	
-	public void clear() { super.removeAll(); revalidate(); repaint(); }
+	public final void clear() { super.removeAll(); revalidate(); repaint(); }
 	
-	private void setFiles(Instant timestamp, List<String> filePaths) {
+	private final void setFiles(Instant timestamp, List<String> filePaths) {
         super.removeAll();
         
         if (filePaths == null || filePaths.isEmpty()) return;
@@ -44,5 +53,10 @@ public final class FilesTypeGroupComponentPanel extends JPanel {
         revalidate();
         repaint();
     }
+
+	@Override public final void onSnapshotSelected(Instant timestamp, Map<String, TimelineValue> snapshot) {
+		this.setData(timestamp, snapshot); }
+
+	@Override public final void onSelectionCleared() { this.clear(); }
 
 }

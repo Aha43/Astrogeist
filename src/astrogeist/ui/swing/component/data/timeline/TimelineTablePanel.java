@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 
 import javax.swing.JButton;
 
+import astrogeist.engine.abstraction.selection.SnapshotSelectionService;
 import astrogeist.engine.abstraction.timeline.Timeline;
 import astrogeist.engine.abstraction.timeline.TimelineNames;
 import astrogeist.engine.timeline.TimelineValue;
@@ -23,8 +24,9 @@ public final class TimelineTablePanel extends AbstractTimelineViewTablePanel {
 	public TimelineTablePanel(
 		App app,
 		UserDataIo userDataIo,
-		TimelineNames timelineNames) {
-		super(app, new TimelineTableModel(), timelineNames);
+		TimelineNames timelineNames,
+		SnapshotSelectionService snapshotSelectionService) {
+		super(app, new TimelineTableModel(), timelineNames, snapshotSelectionService);
 		
 		this.userDataIo = userDataIo;
 		

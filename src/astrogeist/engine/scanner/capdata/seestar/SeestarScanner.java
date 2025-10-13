@@ -65,7 +65,9 @@ public final class SeestarScanner extends AbstractScanner {
 		}
 	}
 	
-	private final static void addInfoFromParent(String name, Instant time, Timeline timeline, LinkedHashMap<String, String> dictToUse) {
+	private final static void addInfoFromParent(String name, Instant time, Timeline timeline,
+		LinkedHashMap<String, String> dictToUse) {
+		
 		dictToUse.clear();
 		dictToUse.put("Telescope", "Seestar 50");
 		

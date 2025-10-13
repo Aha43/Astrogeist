@@ -8,10 +8,12 @@ import java.util.Map;
 import java.util.NavigableSet;
 import java.util.concurrent.ConcurrentNavigableMap;
 import java.util.concurrent.ConcurrentSkipListMap;
+import java.util.logging.Logger;
 
 import astrogeist.engine.abstraction.timeline.Timeline;
 import astrogeist.engine.abstraction.timeline.TimelineNames;
 import astrogeist.engine.abstraction.timeline.TimelineValuePool;
+import astrogeist.engine.logging.Log;
 
 /**
  * <p>
@@ -19,6 +21,8 @@ import astrogeist.engine.abstraction.timeline.TimelineValuePool;
  * </p>
  */
 public final class DefaultTimeline implements Timeline {
+	private final Logger logger = Log.get(this);
+	
 	private final TimelineNames timelineNames;
 	
 	private final TimelineValuePool pool;
@@ -39,15 +43,23 @@ public final class DefaultTimeline implements Timeline {
     	this.pool = pool; 
     }
 
-    @Override public final void clear() { this.timeline.clear(); }
+    @Override public final void clear() {
+    	this.logger.info("clears timeline");
+    	
+    	this.timeline.clear();
+    }
 
     @Override public void put(Instant time, Path file) {
+    	this.logger.info("put at time : '" + time + "' file : '" + file + "'");
+    	
         var fileTlv = this.pool.getFileValue(file);
         timeline.computeIfAbsent(time, t -> newSnapshotMap())
-                .put(fileTlv.value(), fileTlv); // key = canonical full path (from pool)
+        	.put(fileTlv.value(), fileTlv); // key = canonical full path (from pool)
     }
     
     @Override public final void put(Instant time, String name, String value) {
+    	this.logger.info("put at time : '" + time + "' : '" + name + "' = '" + value + "'");
+    	
     	var nk = this.timelineNames.getTimelineName(name);
     	if (nk == null) return;
     	var snap = this.timeline.computeIfAbsent(time, t -> newSnapshotMap());
@@ -139,6 +151,8 @@ public final class DefaultTimeline implements Timeline {
     }
 
     @Override public final void remove(Instant t, String key) {
+    	this.logger.info("remove key : '" + key +"' at time : '" + t + "'");
+    	
         if (t == null) return;
         var nk = this.timelineNames.getTimelineName(key);
         if (nk == null) return;

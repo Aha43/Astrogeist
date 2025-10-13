@@ -19,7 +19,7 @@ import astrogeist.engine.abstraction.timeline.TimelineValuePool;
  * </p>
  */
 public final class DefaultTimeline implements Timeline {
-	private TimelineNames timelineNames;
+	private final TimelineNames timelineNames;
 	
 	private final TimelineValuePool pool;
 

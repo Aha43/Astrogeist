@@ -22,6 +22,7 @@ public final class DefaultTimelineNames implements TimelineNames {
 		AddMapping("Gain");
 		AddMapping("Stars");
 		AddMapping("SerFile");
+		AddMapping("Seeing");
 		AddMapping("FitFile");
 		AddMapping("TifFile", "TiffFile");
 		AddMapping("JpgFile");

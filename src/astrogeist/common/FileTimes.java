@@ -1,12 +1,10 @@
-package astrogeist.engine.util;
+package astrogeist.common;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.time.Instant;
-
-import astrogeist.common.Guards;
 
 public final class FileTimes {
 	private FileTimes() { Guards.throwStaticClassInstantiateError(); }

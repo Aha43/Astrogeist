@@ -1,12 +1,9 @@
-package astrogeist.engine.util;
+package astrogeist.common;
 
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-
-import astrogeist.common.Guards;
-
 import java.time.ZoneOffset;
 
 public final class Instants {

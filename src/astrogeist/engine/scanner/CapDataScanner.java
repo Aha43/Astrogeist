@@ -3,13 +3,13 @@ package astrogeist.engine.scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import astrogeist.common.FilesUtil;
 import astrogeist.common.async.CancellationToken;
 import astrogeist.engine.abstraction.FileParser;
 import astrogeist.engine.abstraction.UtcExtractor;
 import astrogeist.engine.abstraction.jobs.JobProgressListener;
 import astrogeist.engine.abstraction.timeline.Timeline;
 import astrogeist.engine.logging.Log;
-import astrogeist.engine.util.FilesUtil;
 
 /**
  * <p>

@@ -12,8 +12,27 @@ import java.util.List;
 public final class Safe {
 	private Safe() { Guards.throwStaticClassInstantiateError(); }
 	
+	/**
+	 * <p>
+	 *   Returns the empty 
+	 *   {@code String} if {@code s == null}.
+	 * </p>
+	 * @param s the {@code string} to access safely.
+	 * @return {@code String} to access.
+	 */
 	public static final String string(String s) { return string(s, null); }
 	
+	/**
+	 * <p>
+	 *   Returns the empty 
+	 *   {@code String} (case where {@code c == null}) or a 
+	 *   {@code String} of an optional character if {@code s == null}.
+	 * </p>
+	 * @param s the {@code string} to access safely.
+	 * @param c the character to return as a 
+	 *          {@code String} if {@code s == null}, may be {@code null}
+	 * @return {@code String} to access.
+	 */
 	public static final String string(String s, Character c) { return s == null ? (c == null ? "" : c.toString()) : s; } 
 	
 	/**

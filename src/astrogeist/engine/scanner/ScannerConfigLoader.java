@@ -1,7 +1,5 @@
 package astrogeist.engine.scanner;
 
-// jdoc ai rev
-
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.io.ByteArrayInputStream;

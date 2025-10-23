@@ -1,5 +1,6 @@
 package astrogeist.common;
 
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -23,7 +24,7 @@ public final class Guards {
 	 * @return the {@code value}.
 	 * @throws IllegalArgumentException If {@code value} is {@code null}, of length zero or composed of blank characters only.
 	 */
-	public static String requireNonEmpty(String value, String name) {
+	public static final String requireNonEmpty(String value, String name) {
 	    if (value == null || value.isEmpty())
 	        throw new IllegalArgumentException(name + " must not be null or empty");
 	    return value;
@@ -31,7 +32,7 @@ public final class Guards {
 	
 	/**
 	 * <p>
-	 *   Throw 
+	 *   Throws 
 	 *   {@link IllegalArgumentException} if {@code value < 0}.
 	 * </p>
 	 * @param value the value to check.
@@ -39,7 +40,7 @@ public final class Guards {
 	 * @return the {@code value}.
 	 * @throws IllegalArgumentException If {@code value < 0}.
 	 */
-	public static long requireNonNegative(long value, String name) {
+	public static final long requireNonNegative(long value, String name) {
 		if (value < 0)
 			throw new IllegalArgumentException(name + " must not be negative (is '" + value + "')");
 		return value;
@@ -47,7 +48,7 @@ public final class Guards {
 	
 	/**
 	 * <p>
-	 *   Throw 
+	 *   Throws 
 	 *   {@link IllegalArgumentException} if {@code value < 1}.
 	 * </p>
 	 * @param value the value to check.
@@ -55,10 +56,42 @@ public final class Guards {
 	 * @return the {@code value}.
 	 * @throws IllegalArgumentException If {@code value < 1}.
 	 */
-	public static long requirePositive(long value, String name) {
+	public static final long requirePositive(long value, String name) {
 		if (value < 1)
 			throw new IllegalArgumentException(name + " must be positive (is '" + value + "')");
 		return value;
+	}
+	
+	/**
+	 * <p> 
+	 *   Throws
+	 *   {@link IllegalArgumentException} if map does not have given key.
+	 * </p>
+	 * @param <K> the key type.
+	 * @param <V> the value type.
+	 * @param map the map.
+	 * @param key the key.
+	 * @return the {@code map}.
+	 */
+	public static final <K, V> Map<K, V> requireKeyExists(Map<K, V> map, K key){
+		return requireKeyExists(map, key, null); }
+	
+	/**
+	 * <p> 
+	 *   Throws
+	 *   {@link IllegalArgumentException} if map does not have given key.
+	 * </p>
+	 * @param <K> the key type.
+	 * @param <V> the value type.
+	 * @param map the map.
+	 * @param key the key.
+	 * @param name the name used in exception to refer to {@code key} (typically a method parameter name).
+	 * @return the {@code map}.
+	 */
+	public static final <K, V> Map<K, V> requireKeyExists(Map<K, V> map, K key, String name){
+		if (map.containsKey(key)) return map;
+		name = (name == null) ? "key" : name;
+		throw new IllegalArgumentException(name + " not found");
 	}
 	
 	/**
@@ -70,6 +103,7 @@ public final class Guards {
 	 *   make code more explicit that this is a class that only should have static methods.
 	 * </p>
 	 */
-	public static void throwStaticClassInstantiateError() { throw new AssertionError("Can not instantiate static class"); }
+	public static final void throwStaticClassInstantiateError() {
+		throw new AssertionError("Can not instantiate static class"); }
 	
 }

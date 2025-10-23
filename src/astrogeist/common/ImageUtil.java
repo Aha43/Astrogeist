@@ -1,4 +1,4 @@
-package astrogeist.engine.util;
+package astrogeist.common;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -10,8 +10,6 @@ import java.net.URL;
 import java.util.Objects;
 
 import javax.imageio.ImageIO;
-
-import astrogeist.common.Guards;
 
 public final class ImageUtil {
     private ImageUtil() { Guards.throwStaticClassInstantiateError(); }

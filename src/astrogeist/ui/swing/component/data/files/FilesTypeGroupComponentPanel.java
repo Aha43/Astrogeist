@@ -8,12 +8,12 @@ import java.util.Map;
 
 import javax.swing.JPanel;
 
+import astrogeist.common.FilesUtil;
 import astrogeist.engine.abstraction.selection.SnapshotListener;
 import astrogeist.engine.abstraction.selection.SnapshotSelectionService;
 import astrogeist.engine.timeline.TimelineSnapshotUtil;
 import astrogeist.engine.timeline.TimelineValue;
 import astrogeist.engine.typesystem.Type;
-import astrogeist.engine.util.FilesUtil;
 import astrogeist.ui.swing.App;
 
 public final class FilesTypeGroupComponentPanel extends JPanel implements SnapshotListener {

@@ -1,4 +1,4 @@
-package astrogeist.engine.util;
+package astrogeist.common;
 
 import java.util.List;
 import java.io.File;
@@ -10,7 +10,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import astrogeist.common.Guards;
 import astrogeist.engine.typesystem.Type;
 
 public final class FilesUtil {

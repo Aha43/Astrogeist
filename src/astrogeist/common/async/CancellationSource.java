@@ -15,12 +15,12 @@ public final class CancellationSource {
      * </p>
      * @return {@code token}
      */
-    public CancellationToken token() { return token; }
+    public final CancellationToken token() { return token; }
     
     /**
      * <p>
      *   Tells the token it should be cancelled.
      * </p>
      */
-    public void cancel() { token.cancel(); }
+    public final void cancel() { token.cancel(); }
 }

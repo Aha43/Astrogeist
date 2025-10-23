@@ -6,7 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import astrogeist.common.Guards;
-import astrogeist.engine.util.Strings;
+import astrogeist.common.Strings;
 
 public final class Settings {
 	private Settings() { Guards.throwStaticClassInstantiateError(); }

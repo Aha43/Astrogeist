@@ -20,8 +20,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
+import astrogeist.common.ImageUtil;
 import astrogeist.engine.resources.Resources;
-import astrogeist.engine.util.ImageUtil;
 
 public final class LaunchDialog extends JDialog {
     private static final long serialVersionUID = 1L;

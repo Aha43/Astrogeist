@@ -2,6 +2,8 @@ package astrogeist.engine.scanner.userdata;
 
 import java.util.logging.Level;
 
+import astrogeist.common.FilesUtil;
+import astrogeist.common.Instants;
 import astrogeist.common.async.CancellationToken;
 import astrogeist.engine.abstraction.jobs.JobProgressListener;
 import astrogeist.engine.abstraction.timeline.Timeline;
@@ -9,8 +11,6 @@ import astrogeist.engine.abstraction.timeline.TimelineValuePool;
 import astrogeist.engine.resources.Resources;
 import astrogeist.engine.scanner.AbstractScanner;
 import astrogeist.engine.userdata.UserDataIo;
-import astrogeist.engine.util.FilesUtil;
-import astrogeist.engine.util.Instants;
 
 public final class UserDataScanner extends AbstractScanner {
 	private final UserDataIo userDataIo;

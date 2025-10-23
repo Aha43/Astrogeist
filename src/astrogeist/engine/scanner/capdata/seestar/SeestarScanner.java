@@ -7,12 +7,12 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.logging.Level;
 
+import astrogeist.common.FileTimes;
+import astrogeist.common.FilesUtil;
 import astrogeist.common.async.CancellationToken;
 import astrogeist.engine.abstraction.jobs.JobProgressListener;
 import astrogeist.engine.abstraction.timeline.Timeline;
 import astrogeist.engine.scanner.AbstractScanner;
-import astrogeist.engine.util.FileTimes;
-import astrogeist.engine.util.FilesUtil;
 
 public final class SeestarScanner extends AbstractScanner {
 	public SeestarScanner(String location) { super(location); }

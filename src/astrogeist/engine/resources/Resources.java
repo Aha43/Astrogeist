@@ -3,10 +3,11 @@ package astrogeist.engine.resources;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Path;
 import java.time.Instant;
 
 import astrogeist.common.Guards;
-import astrogeist.engine.util.Instants;
+import astrogeist.common.Instants;
 
 public final class Resources {
 	private Resources() { Guards.throwStaticClassInstantiateError(); }
@@ -55,6 +56,8 @@ public final class Resources {
 	}
 	
 	public static File getAstrogeistDirectory() { checkGotAstrogeistDir(); return _astrogeistDir; }
+	
+	public static Path getAstrogeistDirectoryAsPath() { return getAstrogeistDirectory().toPath(); }
 	
 	public static File getSettingsFile() {
 		checkGotAstrogeistDir();

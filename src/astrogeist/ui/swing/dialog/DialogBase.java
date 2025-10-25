@@ -37,7 +37,8 @@ public abstract class DialogBase extends JDialog {
         this(app, title, modal, false); }
 
     protected DialogBase(App app, String title, boolean modal, boolean addCloseButton) {
-        super(app.getFrame(), title, modal);
+        super(app == null ? null : app.getFrame(), title, modal);
+        
         this.app = app;
 
         // Layout

@@ -1,10 +1,7 @@
 package astrogeist.engine.abstraction.persistence;
 
-import java.io.InputStream;
 import java.io.OutputStream;
 
-public interface AstrogeistDataReaderWriter {
-	String key();
-	Object read(InputStream in) throws Exception;
+public interface AstrogeistDataWriter extends AstrogeistData {
 	void write(OutputStream out, Object data) throws Exception;
 }

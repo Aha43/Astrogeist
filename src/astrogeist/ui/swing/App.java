@@ -13,6 +13,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 
 import astrogeist.engine.abstraction.ServiceProvider;
+import astrogeist.engine.abstraction.persistence.AstrogeistStorageManager;
 import astrogeist.engine.abstraction.selection.SnapshotSelectionService;
 import astrogeist.engine.abstraction.timeline.Timeline;
 import astrogeist.engine.abstraction.timeline.TimelineNames;
@@ -58,7 +59,8 @@ public final class App {
 	
 	// Actions
 	public final Action ScanAction = new ShowScanningDialogAction(
-		this,	
+		this,
+		this.services.get(AstrogeistStorageManager.class),
 		this.services.get(Timeline.class),
 		this.services.get(TimelineValuePool.class));
 	

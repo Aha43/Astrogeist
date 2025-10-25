@@ -15,6 +15,7 @@ import astrogeist.engine.logging.Log;
  *   Loads 
  *   {@link Scanner} components.
  * </p>
+ * @deprecated
  */
 public final class ScannerLoader {
     private ScannerLoader() { Guards.throwStaticClassInstantiateError(); }

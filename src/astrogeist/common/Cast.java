@@ -18,19 +18,28 @@ public final class Cast {
 	 * <p>
      *   Safe cast similar to C# "as" operator.
      * </p>
-     * Returns the object cast to the given type, or null if it’s not compatible.
-     */
-	
-	/**
-	 * <p>
-     *   Safe cast similar to C# "as" operator.
-     * </p>
 	 * @param <T> the type to cast to.
-	 * @param t the class of the type to cast to.
-	 * @param o the object to cast.
+	 * @param t   the class of the type to cast to.
+	 * @param o   the object to cast.
 	 * @return the object cast to the given type, or null if it’s not compatible.
 	 */
 	public final static <T> T as(Class<T> t, Object o) { return is(o, t) ? t.cast(o) : null; }
+	
+	/**
+	 * <p>
+     *   Safe cast similar to C# "as" operator throws an exception if can not cast.
+     * </p> 
+	 * @param <T> the type to cast to.
+	 * @param t   the class of the type to cast to.
+	 * @param o   the object to cast.
+	 * @return the object cast to the given type.
+	 * @throws ClassCastException if it's not compatible.
+	 */
+	public static <T> T asOrThrow(Class<T> t, Object o) {
+        if (!is(o, t))
+            throw new ClassCastException("Cannot cast " + (o == null ? "null" : o.getClass().getName()) + " to " + t.getName());
+        return t.cast(o);
+    }
 	
 	/**
 	 * <p>
@@ -41,4 +50,7 @@ public final class Cast {
 	 * @return {@code true} if the object is an instance of the given type.
 	 */
     public final static boolean is(Object o, Class<?> t) { return t.isInstance(o); }
+    
+    
+
 }

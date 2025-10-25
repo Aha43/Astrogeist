@@ -18,10 +18,12 @@ import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.KeyStroke;
 
 import astrogeist.common.ImageUtil;
 import astrogeist.engine.resources.Resources;
+import astrogeist.ui.swing.component.logging.GlobalLoggingPanel;
 
 public final class LaunchDialog extends JDialog {
     private static final long serialVersionUID = 1L;
@@ -35,8 +37,6 @@ public final class LaunchDialog extends JDialog {
     private LaunchDialog() {
         super(null, "Astrogeist — Startup", ModalityType.APPLICATION_MODAL);
         
-        var logo = ImageUtil.loadImage(Resources.LOGO_PATH);
-        
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             @Override public void windowClosing(WindowEvent e) {
@@ -44,8 +44,18 @@ public final class LaunchDialog extends JDialog {
                 dispose();
             }
         });
-
-        // --- Logo ---
+        
+        var tabs = new JTabbedPane();
+        this.addMainTab(tabs);
+        this.addGlobalLoggingTab(tabs);
+        
+        setContentPane(tabs);
+        pack();
+    }
+    
+    private final void addMainTab(JTabbedPane pane) {
+    	// --- Logo ---
+    	var logo = ImageUtil.loadImage(Resources.LOGO_PATH);
         JLabel logoLabel = new JLabel();
         int logoSize = ImageUtil.dpiScaled(96); // looks good on dialogs
         if (logo != null) {
@@ -91,8 +101,12 @@ public final class LaunchDialog extends JDialog {
         content.add(logoLabel, BorderLayout.WEST);
         content.add(options, BorderLayout.CENTER);
         content.add(buttons, BorderLayout.SOUTH);
-        setContentPane(content);
-        pack();
+        
+        pane.add("Astrogeist", content);
+    }
+    
+    private void addGlobalLoggingTab(JTabbedPane pane) {
+    	pane.add("Logging", new GlobalLoggingPanel());
     }
 
     /** Shows the dialog and returns the user choices. */

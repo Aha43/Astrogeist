@@ -1,6 +1,5 @@
-package astrogeist.ui.swing.dialog.logging;
+package astrogeist.ui.swing.component.logging;
 
-import java.awt.Dialog;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -19,13 +18,11 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import astrogeist.engine.logging.Log;
-import astrogeist.ui.swing.App;
-import astrogeist.ui.swing.dialog.DialogBase;
 import astrogeist.ui.swing.dialog.message.MessageDialogs;
 
-public final class LoggingControlDialog extends DialogBase {
-    private static final long serialVersionUID = 1L;
-    
+public class GlobalLoggingPanel extends JPanel {
+	private static final long serialVersionUID = 1L;
+	
 	private static final Map<String, Level> LEVELS = new LinkedHashMap<>();
     static {
         LEVELS.put("OFF",    Level.OFF);
@@ -46,11 +43,13 @@ public final class LoggingControlDialog extends DialogBase {
     private final JButton close = new JButton("Close");
     private final JButton mark = new JButton("Insert Marker…");
     private final JButton test = new JButton("Write test logs");
-
-    private LoggingControlDialog(App app) {
-        super(app, "Logging", false);
-
-        // initial state
+	
+    public GlobalLoggingPanel() { this(null); }
+    
+	public GlobalLoggingPanel(Runnable closeFunc) {
+		super(new GridBagLayout());
+		
+		// initial state
         levelCombo.setSelectedItem(LEVELS.entrySet().stream()
                 .filter(e -> e.getValue().equals(Log.getGlobalLevel()))
                 .map(Map.Entry::getKey).findFirst().orElse("WARN"));
@@ -58,17 +57,16 @@ public final class LoggingControlDialog extends DialogBase {
         fileAppend.setSelected(true);
 
         // layout
-        JPanel p = new JPanel(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         c.insets = new Insets(6,6,6,6);
 
         c.gridx=0; c.gridy=0; c.anchor=GridBagConstraints.LINE_END;
-        p.add(new JLabel("Level:"), c);
+        super.add(new JLabel("Level:"), c);
         c.gridx=1; c.anchor=GridBagConstraints.LINE_START;
-        p.add(levelCombo, c);
+        super.add(levelCombo, c);
 
         c.gridx=0; c.gridy=1; c.gridwidth=2; c.anchor=GridBagConstraints.LINE_START;
-        p.add(fileEnable, c);
+        super.add(fileEnable, c);
 
         JPanel fp = new JPanel(new FlowLayout(FlowLayout.LEFT, 6, 0));
         fp.add(new JLabel("File:"));
@@ -77,20 +75,16 @@ public final class LoggingControlDialog extends DialogBase {
         fp.add(fileAppend);
 
         c.gridx=0; c.gridy=2; c.gridwidth=2; c.fill=GridBagConstraints.HORIZONTAL;
-        p.add(fp, c);
+        super.add(fp, c);
 
         JPanel buttons = new JPanel(new FlowLayout(FlowLayout.CENTER));
         buttons.add(mark);
         buttons.add(test);
         buttons.add(apply);
-        buttons.add(close);
+        if (closeFunc != null) buttons.add(close);
 
         c.gridx=0; c.gridy=3; c.gridwidth=2; c.fill=GridBagConstraints.NONE;
-        p.add(buttons, c);
-
-        setContentPane(p);
-        pack();
-        setLocationRelativeTo(app.getFrame());
+        super.add(buttons, c);
 
         // actions
         browse.addActionListener(e -> {
@@ -104,20 +98,20 @@ public final class LoggingControlDialog extends DialogBase {
         apply.addActionListener(e -> applyChanges());
         mark.addActionListener(e -> insertMarker());
         test.addActionListener(e -> writeTestLogs());
-        close.addActionListener(e -> dispose());
+        if (closeFunc != null) close.addActionListener(e -> closeFunc.run());
 
         updateEnabledState();
         fileEnable.addActionListener(e -> updateEnabledState());
-    }
-
-    private final void updateEnabledState() {
+	}
+	
+	private final void updateEnabledState() {
         boolean en = fileEnable.isSelected();
         filePath.setEnabled(en);
         browse.setEnabled(en);
         fileAppend.setEnabled(en);
     }
-
-    private final void applyChanges() {
+	
+	private final void applyChanges() {
         Level level = LEVELS.getOrDefault((String) levelCombo.getSelectedItem(), Level.WARNING);
         Log.setGlobalLevel(level);
 
@@ -159,12 +153,5 @@ public final class LoggingControlDialog extends DialogBase {
         Log.debug("DEBUG (FINE): detailed dev log");
         MessageDialogs.showInfo(this, "Logging settings applied");
     }
-    
-    private static Dialog _dialog = null;
-    
-    public static void show(App app) {
-    	if (_dialog == null) _dialog = new LoggingControlDialog(app);
-    	_dialog.setVisible(true);
-    }
-    
+
 }

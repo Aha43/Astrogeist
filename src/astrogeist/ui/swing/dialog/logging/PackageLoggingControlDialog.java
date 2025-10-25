@@ -7,23 +7,21 @@ import astrogeist.ui.swing.App;
 import astrogeist.ui.swing.component.logging.LoggingLevelsPanel;
 import astrogeist.ui.swing.dialog.DialogBase;
 
-public final class PackageLoggingDialog extends DialogBase {
+public final class PackageLoggingControlDialog extends DialogBase {
 	private static final long serialVersionUID = 1L;
 	
-	// App app, String title, boolean modal, boolean addCloseButton
-	private PackageLoggingDialog(App app) {
+	private PackageLoggingControlDialog(App app) {
 		super(app, "Logging by Package", false, true);
 		
 		var loggingLevelsPanel = new LoggingLevelsPanel();
 		super.add(loggingLevelsPanel, BorderLayout.CENTER);
 		super.pack();
-		//super.setSize(500, 500);
 	}
 	
 	private static Dialog _dialog = null;
 	
 	public static final void show(App app) {
-		if (_dialog == null) _dialog = new PackageLoggingDialog(app);
+		if (_dialog == null) _dialog = new PackageLoggingControlDialog(app);
 		_dialog.setVisible(true);
 	}
 

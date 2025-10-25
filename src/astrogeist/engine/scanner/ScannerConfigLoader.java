@@ -26,6 +26,7 @@ import astrogeist.engine.abstraction.Scanner;
  *   Reads/parses plug-in scanning configuration and creates {@link PluginScanner}s
  *   from that configuration.
  * </p>
+ * @deprecated
  */
 public final class ScannerConfigLoader {
     private ScannerConfigLoader() { Guards.throwStaticClassInstantiateError(); }

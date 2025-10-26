@@ -4,14 +4,18 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Set;
 
+import astrogeist.engine.abstraction.persistence.AstrogeistStorageManager;
 import astrogeist.engine.abstraction.timeline.TimelineNames;
-import astrogeist.engine.resources.Resources;
-import astrogeist.engine.userdata.UserDataDefinitions;
+import astrogeist.engine.persitence.disk.userdatadefinitions.UserDataDefinitions;
 
 public final class DefaultTimelineNames implements TimelineNames {
 	private final LinkedHashMap<String, String> mapping = new LinkedHashMap<>();
 	
-	public DefaultTimelineNames() {
+	private final AstrogeistStorageManager astrogeistStorageManager;
+	
+	public DefaultTimelineNames(AstrogeistStorageManager astrogeistStorageManager) {
+		this.astrogeistStorageManager = astrogeistStorageManager; 
+		
 		AddMapping("Binning");
 		AddMapping("Camera");
 		AddMapping("CaptureSoftware", "SharpCap");
@@ -37,7 +41,7 @@ public final class DefaultTimelineNames implements TimelineNames {
 	private void AddMapping(String normalized, String ...synonyms) {
 		this.mapping.put(normalized, normalized);
 		if (synonyms != null)
-			for (var s : synonyms) { this.mapping.put(s, normalized); }
+			for (var s : synonyms) this.mapping.put(s, normalized);
 	}
 	
 	public String getTimelineName(String key) { return this.mapping.get(key); }
@@ -48,7 +52,10 @@ public final class DefaultTimelineNames implements TimelineNames {
 		try {
 			var retVal = new HashSet<String>();
 			retVal.addAll(this.getDataTimelineNames());
-			var userDataNames = UserDataDefinitions.fromXml(Resources.getUserDataDefinitionsFile().toPath()).getUserDataNames();
+			
+			var userDataDefs = this.astrogeistStorageManager.load(UserDataDefinitions.class);
+			var userDataNames = userDataDefs.getUserDataNames();
+			
 			retVal.addAll(userDataNames);
 			return retVal;
 		} catch (Exception x) {

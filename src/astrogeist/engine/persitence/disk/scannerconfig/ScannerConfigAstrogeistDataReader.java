@@ -6,40 +6,26 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.parsers.DocumentBuilderFactory;
-
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import astrogeist.engine.abstraction.persistence.AstrogeistDataReader;
+import astrogeist.engine.persitence.AbstractXmlAstrogeistDataReader;
 
-public final class ScannerConfigAstrogeistDataReader implements AstrogeistDataReader {
-
-	@Override public final Class<?> type() { return ScanningConfiguration.class; }
+public final class ScannerConfigAstrogeistDataReader extends AbstractXmlAstrogeistDataReader {
 	
-	@Override public final String format() { return "xml"; }
+	public ScannerConfigAstrogeistDataReader() { super(ScanningConfiguration.class); } 
 	
-	@Override public Object createDefault() { return new ScanningConfiguration(); }
+	@Override public final Object createDefault() { return new ScanningConfiguration(); }
 		
-	@Override public Object read(InputStream in) throws Exception {
-		var data = parse(in);
+	@Override public final Object read(InputStream in) throws Exception {
+		var data = readXml(in);
 		var retVal = new ScanningConfiguration(data);
 		return retVal;
 	}
 	
-	private static Map<String, List<String>> parse(InputStream in) throws Exception {
-        DocumentBuilderFactory f = DocumentBuilderFactory.newInstance();
-
-        // Harden the parser (XXE-safe)
-        f.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
-        f.setFeature("http://xml.org/sax/features/external-general-entities", false);
-        f.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
-        f.setXIncludeAware(false);
-        f.setExpandEntityReferences(false);
-
-        var b = f.newDocumentBuilder();
-        var doc = b.parse(in);
+	private final Map<String, List<String>> readXml(InputStream in) throws Exception {
+        var doc = super.parse(in);
         doc.getDocumentElement().normalize();
 
         Map<String, List<String>> map = new LinkedHashMap<>(); // preserve order

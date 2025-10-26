@@ -8,9 +8,9 @@ import java.util.LinkedHashMap;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import astrogeist.engine.resources.Resources;
+import astrogeist.engine.abstraction.persistence.AstrogeistStorageManager;
+import astrogeist.engine.persitence.disk.userdatadefinitions.UserDataDefinitions;
 import astrogeist.engine.timeline.TimelineValue;
-import astrogeist.engine.userdata.UserDataDefinitions;
 import astrogeist.engine.userdata.UserDataIo;
 import astrogeist.ui.swing.App;
 import astrogeist.ui.swing.component.data.userdata.UserDataEditor;
@@ -28,6 +28,7 @@ public final class UserDataDialog extends ModalDialogBase {
 	
 	private UserDataDialog(
 		App app, 
+		AstrogeistStorageManager astrogeistStorageManager,
 		Instant time, 
 		UserDataIo userDataIo,
 		LinkedHashMap<String, TimelineValue> userData) {
@@ -38,9 +39,11 @@ public final class UserDataDialog extends ModalDialogBase {
 		
 		this.userDataIo = userDataIo;
 		
-		var path = Resources.getUserDataDefinitionsFile().toPath();
+		//var path = Resources.getUserDataDefinitionsFile().toPath();
 		try {
-			this.userDataDefs = UserDataDefinitions.fromXml(path);
+			//this.userDataDefs = UserDataDefinitions.fromXml(path);
+			this.userDataDefs = astrogeistStorageManager.load(UserDataDefinitions.class);
+			
 			this.editor = new UserDataEditor(this.userDataDefs.getUserDataDefinitions(), userData);
 			super.add(this.editor, BorderLayout.CENTER);
 			this.createButtons();
@@ -75,9 +78,12 @@ public final class UserDataDialog extends ModalDialogBase {
 	}
 	
 	public static void show(
-		App app, 
+		App app,
+		AstrogeistStorageManager astrogeistStorageManager,
 		Instant t, 
 		UserDataIo userDataIo,
 		LinkedHashMap<String, TimelineValue> userData) { 
-		new UserDataDialog(app, t, userDataIo, userData).setVisible(true); }
+		
+		new UserDataDialog(app, astrogeistStorageManager, t, userDataIo, userData).setVisible(true);
+	}
 }

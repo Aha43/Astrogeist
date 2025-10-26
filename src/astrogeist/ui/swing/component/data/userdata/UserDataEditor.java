@@ -14,9 +14,9 @@ import javax.swing.JTextField;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellEditor;
 
+import astrogeist.engine.persitence.disk.userdatadefinitions.UserDataDefinition;
 import astrogeist.engine.timeline.TimelineValue;
 import astrogeist.engine.typesystem.Type;
-import astrogeist.engine.userdata.UserDataDefinition;
 import astrogeist.ui.swing.component.data.timeline.value.TimelineValueRenderers;
 
 public final class UserDataEditor extends JPanel {

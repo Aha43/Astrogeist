@@ -1,4 +1,4 @@
-package astrogeist.engine.userdata;
+package astrogeist.engine.persitence.disk.userdatadefinitions;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -9,18 +9,19 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.w3c.dom.Element;
 
-public class UserDataDefinitions {
-    private final List<UserDataDefinition> userDataDefinitions = new ArrayList<>();
+public final class UserDataDefinitions {
+    final List<UserDataDefinition> userDataDefinitions = new ArrayList<>();
 
     public List<UserDataDefinition> getUserDataDefinitions() { return userDataDefinitions; }
     
     public List<String> getUserDataNames(){
-    	var names = userDataDefinitions.stream()
+    	var names = this.userDataDefinitions.stream()
     		.map(UserDataDefinition::name)
     		.collect(Collectors.toList());
     	return names;
     }
     
+    @Deprecated
     public static UserDataDefinitions fromXml(Path path) throws Exception {
         var doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(path.toFile());
         var defs = new UserDataDefinitions();

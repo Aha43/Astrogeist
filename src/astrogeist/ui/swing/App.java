@@ -42,6 +42,7 @@ public final class App {
 	
 	private final TimelineTablePanel timelinePanel = new TimelineTablePanel(
 		this,
+		this.services.get(AstrogeistStorageManager.class),
 		this.services.get(UserDataIo.class),
 		this.services.get(TimelineNames.class), 
 		this.services.get(SnapshotSelectionService.class));

@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 
 import javax.swing.JButton;
 
+import astrogeist.engine.abstraction.persistence.AstrogeistStorageManager;
 import astrogeist.engine.abstraction.selection.SnapshotSelectionService;
 import astrogeist.engine.abstraction.timeline.Timeline;
 import astrogeist.engine.abstraction.timeline.TimelineNames;
@@ -19,15 +20,19 @@ import astrogeist.ui.swing.dialog.timeline.mapping.TimelineMappingDialog;
 public final class TimelineTablePanel extends AbstractTimelineViewTablePanel {
 	private static final long serialVersionUID = 1L;
 	
+	private final AstrogeistStorageManager astrogeistStorageManager;
+	
 	private final UserDataIo userDataIo; 
 	
 	public TimelineTablePanel(
 		App app,
+		AstrogeistStorageManager astrogeistStorageManager,
 		UserDataIo userDataIo,
 		TimelineNames timelineNames,
 		SnapshotSelectionService snapshotSelectionService) {
 		super(app, new TimelineTableModel(), timelineNames, snapshotSelectionService);
 		
+		this.astrogeistStorageManager = astrogeistStorageManager;
 		this.userDataIo = userDataIo;
 		
 		addButtons();
@@ -58,7 +63,7 @@ public final class TimelineTablePanel extends AbstractTimelineViewTablePanel {
 			var t = this.getTimestampAt(selectedRow);
 			var userData = this.userDataIo.load(t);
 			
-			UserDataDialog.show(this.app, t, userDataIo, userData);
+			UserDataDialog.show(this.app, this.astrogeistStorageManager,  t, this.userDataIo, userData);
 		} catch(Exception x) {
 			MessageDialogs.showError(this, "Failed to load user data", x);
 		}

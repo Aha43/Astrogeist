@@ -10,6 +10,7 @@ import astrogeist.engine.abstraction.timeline.TimelineValuePool;
 import astrogeist.engine.persitence.DefaultAstrogeistStorageManager;
 import astrogeist.engine.persitence.disk.DiskAstrogeistAccessor;
 import astrogeist.engine.persitence.disk.scannerconfig.ScannerConfigAstrogeistDataReader;
+import astrogeist.engine.persitence.disk.userdatadefinitions.UserDataDefinitionsAstrogeistDataReader;
 import astrogeist.engine.scanner.DefaultTimelineNames;
 import astrogeist.engine.timeline.DefaultTimeline;
 import astrogeist.engine.timeline.DefaultTimelineValuePool;
@@ -36,11 +37,14 @@ public final class AstrogeistServiceProvider implements ServiceProvider {
 	private final TypeResolver typeResolver = new DefaultTypeResolver(); 
 	private final TimelineValuePool timelineValuePool = new DefaultTimelineValuePool(this.typeResolver); 
 	private final UserDataIo userDataIo = new UserDataIo(this.timelineValuePool);
-	private final TimelineNames timelineNames = new DefaultTimelineNames();
-	private final Timeline timeline = new DefaultTimeline(this.timelineValuePool, this.timelineNames);
+	
     private final SnapshotSelectionService snapshotSelectionService = new DefaultSnapshotSelectionService();
     
     private final AstrogeistStorageManager astrogeistStorageManager = new DefaultAstrogeistStorageManager(
     	new DiskAstrogeistAccessor(), 
-    	new ScannerConfigAstrogeistDataReader());
+    	new ScannerConfigAstrogeistDataReader(),
+    	new UserDataDefinitionsAstrogeistDataReader());
+    
+    private final TimelineNames timelineNames = new DefaultTimelineNames(this.astrogeistStorageManager);
+    private final Timeline timeline = new DefaultTimeline(this.timelineValuePool, this.timelineNames);
 }

@@ -39,9 +39,7 @@ public final class UserDataDialog extends ModalDialogBase {
 		
 		this.userDataIo = userDataIo;
 		
-		//var path = Resources.getUserDataDefinitionsFile().toPath();
 		try {
-			//this.userDataDefs = UserDataDefinitions.fromXml(path);
 			this.userDataDefs = astrogeistStorageManager.load(UserDataDefinitions.class);
 			
 			this.editor = new UserDataEditor(this.userDataDefs.getUserDataDefinitions(), userData);
@@ -53,7 +51,7 @@ public final class UserDataDialog extends ModalDialogBase {
 		}
 	}
 	
-	private void createButtons() {
+	private final void createButtons() {
 		var buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		
 		var ok = new JButton("Ok");
@@ -67,7 +65,7 @@ public final class UserDataDialog extends ModalDialogBase {
 		this.add(buttonPanel, BorderLayout.SOUTH);
 	}
 	
-	private void save() {
+	private final void save() {
 		try {
 			var values = this.editor.getValues();
 			this.userDataIo.save(this.time, values);

@@ -66,13 +66,6 @@ public final class Resources {
 		return _settingsFile;
 	}
 	
-	public static File getUserDataDefinitionsFile() {
-		checkGotAstrogeistDir();
-		if (_userDataDefinitionsFile != null) return _userDataDefinitionsFile;
-		_userDataDefinitionsFile = new File(_astrogeistDir, "userdatadef.xml");
-		return _userDataDefinitionsFile;
-	}
-	
 	public static File getUserDataDir() {
 		checkGotAstrogeistDir();
 		if (_userDataDir != null) return _userDataDir;
@@ -95,12 +88,12 @@ public final class Resources {
 		return _regexScannerPatternFile;
 	}
 	
-	public static File getScanningConfigFile() {
-		checkGotAstrogeistDir();
-		if (_scanningConfigFile != null) return _scanningConfigFile;
-		_scanningConfigFile = new File(_astrogeistDir, "scanning.xml");
-		return _scanningConfigFile;
-	}
+//	public static File getScanningConfigFile() {
+//		checkGotAstrogeistDir();
+//		if (_scanningConfigFile != null) return _scanningConfigFile;
+//		_scanningConfigFile = new File(_astrogeistDir, "scanning.xml");
+//		return _scanningConfigFile;
+//	}
 	
 	public static File getTimelineMappingPatternFile() {
 		checkGotAstrogeistDir();

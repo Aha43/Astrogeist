@@ -1,4 +1,4 @@
-package astrogeist.engine.persitence.disk.scannerconfig;
+package astrogeist.engine.persitence.scannerconfig;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;

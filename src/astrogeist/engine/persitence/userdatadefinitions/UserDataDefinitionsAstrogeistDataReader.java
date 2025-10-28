@@ -1,4 +1,4 @@
-package astrogeist.engine.persitence.disk.userdatadefinitions;
+package astrogeist.engine.persitence.userdatadefinitions;
 
 import java.io.InputStream;
 import java.util.ArrayList;

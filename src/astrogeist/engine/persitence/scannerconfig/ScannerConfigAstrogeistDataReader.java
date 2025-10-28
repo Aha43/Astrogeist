@@ -1,4 +1,4 @@
-package astrogeist.engine.persitence.disk.scannerconfig;
+package astrogeist.engine.persitence.scannerconfig;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -39,7 +39,7 @@ public final class ScannerConfigAstrogeistDataReader extends AbstractXmlAstrogei
             var type = scannerEl.getAttribute("type");
             if (type == null || type.isBlank()) continue; // skip invalid entries
 
-            List<String> locations = new ArrayList<>();
+            var locations = new ArrayList<String>();
             // collect immediate <location> children (preserve order)
             var children = scannerEl.getChildNodes();
             for (int j = 0; j < children.getLength(); j++) {

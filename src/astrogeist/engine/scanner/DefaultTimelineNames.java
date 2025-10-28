@@ -6,7 +6,7 @@ import java.util.Set;
 
 import astrogeist.engine.abstraction.persistence.AstrogeistStorageManager;
 import astrogeist.engine.abstraction.timeline.TimelineNames;
-import astrogeist.engine.persitence.disk.userdatadefinitions.UserDataDefinitions;
+import astrogeist.engine.persitence.userdatadefinitions.UserDataDefinitions;
 
 public final class DefaultTimelineNames implements TimelineNames {
 	private final LinkedHashMap<String, String> mapping = new LinkedHashMap<>();

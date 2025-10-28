@@ -6,7 +6,7 @@ import astrogeist.engine.abstraction.Scanner;
 import astrogeist.engine.abstraction.persistence.AstrogeistStorageManager;
 import astrogeist.engine.abstraction.timeline.Timeline;
 import astrogeist.engine.abstraction.timeline.TimelineValuePool;
-import astrogeist.engine.persitence.disk.scannerconfig.ScanningConfiguration;
+import astrogeist.engine.persitence.scannerconfig.ScanningConfiguration;
 import astrogeist.engine.scanner.userdata.UserDataScanner;
 import astrogeist.ui.swing.App;
 import astrogeist.ui.swing.dialog.ModalDialogBase;

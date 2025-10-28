@@ -9,7 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import astrogeist.engine.abstraction.persistence.AstrogeistStorageManager;
-import astrogeist.engine.persitence.disk.userdatadefinitions.UserDataDefinitions;
+import astrogeist.engine.persitence.userdatadefinitions.UserDataDefinitions;
 import astrogeist.engine.timeline.TimelineValue;
 import astrogeist.engine.userdata.UserDataIo;
 import astrogeist.ui.swing.App;

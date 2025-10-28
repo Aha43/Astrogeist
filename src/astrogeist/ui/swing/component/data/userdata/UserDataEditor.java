@@ -14,7 +14,7 @@ import javax.swing.JTextField;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellEditor;
 
-import astrogeist.engine.persitence.disk.userdatadefinitions.UserDataDefinition;
+import astrogeist.engine.persitence.userdatadefinitions.UserDataDefinition;
 import astrogeist.engine.timeline.TimelineValue;
 import astrogeist.engine.typesystem.Type;
 import astrogeist.ui.swing.component.data.timeline.value.TimelineValueRenderers;

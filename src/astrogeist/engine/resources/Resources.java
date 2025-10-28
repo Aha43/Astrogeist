@@ -59,12 +59,12 @@ public final class Resources {
 	
 	public static Path getAstrogeistDirectoryAsPath() { return getAstrogeistDirectory().toPath(); }
 	
-	public static File getSettingsFile() {
-		checkGotAstrogeistDir();
-		if (_settingsFile != null) return _settingsFile;
-		_settingsFile = new File(_astrogeistDir, "settings.xml");
-		return _settingsFile;
-	}
+//	public static File getSettingsFile() {
+//		checkGotAstrogeistDir();
+//		if (_settingsFile != null) return _settingsFile;
+//		_settingsFile = new File(_astrogeistDir, "settings.xml");
+//		return _settingsFile;
+//	}
 	
 	public static File getUserDataDir() {
 		checkGotAstrogeistDir();
@@ -87,13 +87,6 @@ public final class Resources {
 		_regexScannerPatternFile = new File(_astrogeistDir, "scan-regex.xml");
 		return _regexScannerPatternFile;
 	}
-	
-//	public static File getScanningConfigFile() {
-//		checkGotAstrogeistDir();
-//		if (_scanningConfigFile != null) return _scanningConfigFile;
-//		_scanningConfigFile = new File(_astrogeistDir, "scanning.xml");
-//		return _scanningConfigFile;
-//	}
 	
 	public static File getTimelineMappingPatternFile() {
 		checkGotAstrogeistDir();

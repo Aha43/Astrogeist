@@ -11,9 +11,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 
+import astrogeist.engine.abstraction.persistence.AstrogeistStorageManager;
 import astrogeist.engine.abstraction.timeline.TimelineNames;
-import astrogeist.engine.setting.Settings;
-import astrogeist.engine.setting.SettingsIo;
+import astrogeist.engine.persitence.settings.Settings;
 import astrogeist.ui.swing.App;
 import astrogeist.ui.swing.dialog.ModalDialogBase;
 import astrogeist.ui.swing.dialog.message.MessageDialogs;
@@ -22,34 +22,48 @@ import astrogeist.ui.swing.dialog.settings.editors.SettingsEditor;
 public final class SettingsDialog extends ModalDialogBase {
     private static final long serialVersionUID = 1L;
     
+    private final AstrogeistStorageManager astrogeistStorageManager;
+    
     private final SettingsEditorProvider settingsEditorProvider;
 
     private final JTabbedPane tabs = new JTabbedPane();
     private final LinkedHashMap<String, SettingsTableModel> models = new LinkedHashMap<>();
+    
+    private Settings settings;
 
     private SettingsDialog(
     	App app,
+    	AstrogeistStorageManager astrogeistStorageManager,
     	TimelineNames timelineNames) {
         super(app, "Astrogeist Settings");
+        
+        this.astrogeistStorageManager = astrogeistStorageManager;
         
         this.settingsEditorProvider = 
         	new SettingsEditorProvider(timelineNames);
         
         super.setSize(600, 400);
         super.setLayout(new BorderLayout());
-
-        try {
-            var grouped = SettingsIo.loadGrouped();
-            buildTabs(grouped);
-        } catch (Exception x) {
-            MessageDialogs.showError(this, "Failed to load config", x);
-        }
+        
+        this.settings = this.loadSettings();
+        buildTabs();
 
         add(tabs, BorderLayout.CENTER);
         add(buildButtons(), BorderLayout.SOUTH);
     }
+    
+    private final Settings loadSettings() {
+    	try {
+    		var retVal = this.astrogeistStorageManager.load(Settings.class);
+    		return retVal;
+    	} catch (Exception x) {
+    		MessageDialogs.showError(this, "Failed to load config", x);
+    		return new astrogeist.engine.persitence.settings.Settings();
+    	}
+    }
 
-    private void buildTabs(LinkedHashMap<String, LinkedHashMap<String, String>> grouped) {
+    private final void buildTabs() {
+    	var grouped = this.settings.groupByPrefix();
         for (var entry : grouped.entrySet()) {
             String group = entry.getKey();
             SettingsTableModel model = new SettingsTableModel(entry.getValue());
@@ -63,7 +77,7 @@ public final class SettingsDialog extends ModalDialogBase {
         }
     }
 
-    private JPanel buildButtons() {
+    private final JPanel buildButtons() {
     	JButton edit = new JButton("Edit");
     	edit.addActionListener(e -> onEdit());
     	
@@ -87,7 +101,7 @@ public final class SettingsDialog extends ModalDialogBase {
         return panel;
     }
     
-    private void onEdit() {
+    private final void onEdit() {
         int selectedTab = tabs.getSelectedIndex();
         if (selectedTab < 0) return;
 
@@ -120,24 +134,27 @@ public final class SettingsDialog extends ModalDialogBase {
         }
     }
 
-    private void saveAll() throws Exception {
+    private final void saveAll() throws Exception {
         LinkedHashMap<String, LinkedHashMap<String, String>> all = new LinkedHashMap<>();
         for (var entry : models.entrySet()) {
         	var key = entry.getKey();
         	var value = entry.getValue().toMap();
             all.put(key, value);
         }
-        SettingsIo.saveGrouped(all);
-        Settings.load();
+        
+        this.settings.setGrouped(all);
+        this.astrogeistStorageManager.save(this.settings);
+        
         super.app.seetingsUpdated();
     }
 
-    private String capitalize(String s) { return s.substring(0, 1).toUpperCase() + s.substring(1); }
+    private final String capitalize(String s) { return s.substring(0, 1).toUpperCase() + s.substring(1); }
     
     public static void show(
     	App app,
+    	AstrogeistStorageManager astrogeistStorageManager,
     	TimelineNames timelineNames) 
     { 
-    	new SettingsDialog(app, timelineNames).setVisible(true); 
+    	new SettingsDialog(app, astrogeistStorageManager, timelineNames).setVisible(true); 
     }
 }

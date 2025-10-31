@@ -10,7 +10,7 @@ public final class SettingsAstrogeistDataWriter extends AbstractNameValueXmlAstr
 	public SettingsAstrogeistDataWriter() { super(Settings.class); }
 
 	@Override public final void write(OutputStream out, Object data) throws Exception {
-		var map = Cast.asOrThrow(Settings.class, data).settings();
+		var map = Cast.asOrThrow(Settings.class, data).data();
 		super.write(out, map);
 	}
 

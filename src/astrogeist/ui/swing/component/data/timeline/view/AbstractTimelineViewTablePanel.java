@@ -12,10 +12,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import astrogeist.engine.abstraction.persistence.AstrogeistStorageManager;
 import astrogeist.engine.abstraction.selection.SnapshotSelectionService;
 import astrogeist.engine.abstraction.timeline.TimelineNames;
-import astrogeist.engine.setting.SettingKeys;
-import astrogeist.engine.setting.Settings;
+import astrogeist.engine.persitence.settings.Settings;
 import astrogeist.engine.timeline.TimelineValue;
 import astrogeist.ui.swing.App;
 import astrogeist.ui.swing.component.data.timeline.selectionaction.AbstractSelectionAction;
@@ -45,14 +45,20 @@ public abstract class AbstractTimelineViewTablePanel  extends JPanel {
 	protected final SnapshotSelectionService snapshotSelectionService;
 	
 	protected final App app;
+	
+	protected final AstrogeistStorageManager astrogeistStorageManager;
+	protected final Settings settings;
 
 	protected AbstractTimelineViewTablePanel(
-		App app, 
+		App app,
+		AstrogeistStorageManager astrogeistStorageManager,
 		AbstractTimelineViewTableModel model,
 		TimelineNames timelineNames,
 		SnapshotSelectionService snapshotSelectionService) {
 		
 		super(new BorderLayout());
+		
+		this.astrogeistStorageManager = astrogeistStorageManager;
 		
 		this.snapshotSelectionService = snapshotSelectionService;
 		
@@ -74,7 +80,9 @@ public abstract class AbstractTimelineViewTablePanel  extends JPanel {
 		var scrollPane = new JScrollPane(this.table);
 		this.add(scrollPane, BorderLayout.CENTER);
 		
-		this.model.setColumnsToShow(Settings.getCsv(SettingKeys.TABLE_COLUMNS));
+		this.settings = loadSettings();
+		
+		this.model.setColumnsToShow(settings.getCsv(Settings.TABLE_COLUMNS));
 		
 		populateNorthPanel();
 		populateSouthPanel();
@@ -82,7 +90,17 @@ public abstract class AbstractTimelineViewTablePanel  extends JPanel {
 		this.addaptEventSource();
 	}
 	
-	private void addaptEventSource() {
+	private final Settings loadSettings() {
+    	try {
+    		var retVal = this.astrogeistStorageManager.load(Settings.class);
+    		return retVal;
+    	} catch (Exception x) {
+    		MessageDialogs.showError(this, "Failed to load config", x);
+    		return new astrogeist.engine.persitence.settings.Settings();
+    	}
+    }
+	
+	private final void addaptEventSource() {
 		this.table.getSelectionModel().addListSelectionListener(e -> { 
 			var index = this.table.getSelectedRow();
 			if (index < 0) return;
@@ -119,7 +137,7 @@ public abstract class AbstractTimelineViewTablePanel  extends JPanel {
 		
 		columnsButton.addActionListener(e -> {
 			var all = this.timelineNames.getTimelineNames();
-			var selected = Settings.getCsv(SettingKeys.TABLE_COLUMNS);
+			var selected = this.settings.getCsv(Settings.TABLE_COLUMNS);
 			SelectionDialog.show(this.app, "Select Columns", selected, all);
 			this.model.setColumnsToShow(selected);
 			saveSelectedColumns(selected);
@@ -128,11 +146,11 @@ public abstract class AbstractTimelineViewTablePanel  extends JPanel {
 		southPanel.add(columnsButton);
 	}
 	
-	private final static void saveSelectedColumns(List<String> selected) {
+	private final void saveSelectedColumns(List<String> selected) {
 		try {
 			var setting = String.join(", ", selected);
-			Settings.set(SettingKeys.TABLE_COLUMNS, setting);
-			Settings.save();
+			this.settings.set(Settings.TABLE_COLUMNS, setting);
+			this.astrogeistStorageManager.save(this.settings);
 		} catch (Exception x) {
 			MessageDialogs.showError(null, "Failed saving selection", x);
 		}	
@@ -140,12 +158,12 @@ public abstract class AbstractTimelineViewTablePanel  extends JPanel {
 	
 	protected final void postSetData() {
 		this.snapshotSelectionService.cleared();
-		this.model.setColumnsToShow(Settings.getCsv(SettingKeys.TABLE_COLUMNS));
+		this.model.setColumnsToShow(this.settings.getCsv(Settings.TABLE_COLUMNS));
 		this.table.getColumnModel().getColumn(0).setPreferredWidth(150);
 	}
 	
 	public final void settingsUpdated() { 
-		this.model.setColumnsToShow(Settings.getCsv(SettingKeys.TABLE_COLUMNS)); }
+		this.model.setColumnsToShow(this.settings.getCsv(Settings.TABLE_COLUMNS)); }
 	
 	public final int getSelectedRow() {
 		int selectedRow = this.table.getSelectedRow();

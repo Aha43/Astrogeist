@@ -3,11 +3,10 @@ package astrogeist.ui.swing;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
-import com.formdev.flatlaf.*;
+import com.formdev.flatlaf.FlatDarculaLaf;
 
 import astrogeist.common.Guards;
 import astrogeist.engine.resources.Resources;
-import astrogeist.engine.setting.SettingsIo;
 import astrogeist.ui.swing.dialog.launch.LaunchDialog;
 import astrogeist.ui.swing.dialog.message.MessageDialogs;
 
@@ -38,7 +37,7 @@ public final class Main {
 	
 	private static void initialize() throws Exception {
 		Resources.ensureAstrogeistDirectoryExist();
-		SettingsIo.loadOrCreate();
+		//SettingsIo.loadOrCreate();
 	}
 	
 	private Main() { Guards.throwStaticClassInstantiateError(); }

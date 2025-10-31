@@ -3,6 +3,7 @@ package astrogeist.engine.persitence;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import astrogeist.common.Cast;
@@ -40,23 +41,29 @@ public final class DefaultAstrogeistStorageManager implements AstrogeistStorageM
 		}
 	}
 	
-	@Override public final <T> T load(Class<T> type) throws Exception {
-		Objects.requireNonNull(type, "type");
+	@Override public final <T> T load(Class<T> type) {
+		try {
+			Objects.requireNonNull(type, "type");
 		
-		this.logger.info("load astrogeist data using reader of type : '" + type.getName() + "'");
+			this.logger.info("load astrogeist data using reader of type : '" + type.getName() + "'");
 		
-		var reader = this.readers.get(type);
-		if (reader == null) {
-			throw new IllegalArgumentException("No reader found for data type : '" + type + "'");
+			var reader = this.readers.get(type);
+			if (reader == null) {
+				throw new IllegalArgumentException("No reader found for data type : '" + type + "'");
+			}
+		
+			var retVal = this.accessor.load(reader);
+			return Cast.asOrThrow(type, retVal);
+		} catch (Exception x) {
+			logger.log(Level.SEVERE, "Failed to save settingd", x);
+			throw new RuntimeException(x);
 		}
-		
-		var retVal = this.accessor.load(reader);
-		return Cast.asOrThrow(type, retVal);
 	}
 	
-	@Override public final <T> void save(Class<T> type, T data) throws Exception {
-		Objects.requireNonNull(type, "type");
+	@Override public final void save(Object data) throws Exception {
 		Objects.requireNonNull(data, "data");
+		
+		var type = data.getClass();
 		
 		this.logger.info("save astrogeist data using writer of type : '" + type.getName() + "'");
 		

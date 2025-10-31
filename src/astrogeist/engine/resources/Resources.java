@@ -29,14 +29,11 @@ public final class Resources {
 	}
 	
 	private static File _astrogeistDir = null;
-	private static File _settingsFile = null;
-	private static File _userDataDefinitionsFile = null;
 	private static File _userDataDir = null;
 	private static File _regexScannerPatternFile = null;
 	private static File _timelineMappingFile = null;
-	private static File _scanningConfigFile = null;
 	
-	public static File ensureAstrogeistDirectoryExist() throws IOException {
+	public final static File ensureAstrogeistDirectoryExist() throws IOException {
 		if (_astrogeistDir != null) return _astrogeistDir;
 		
 		var homeDir = new File(System.getProperty("user.home"));
@@ -55,16 +52,9 @@ public final class Resources {
 		throw new IOException("Can not create dir: " + astrogeistDir.getAbsolutePath());
 	}
 	
-	public static File getAstrogeistDirectory() { checkGotAstrogeistDir(); return _astrogeistDir; }
+	public final static File getAstrogeistDirectory() { checkGotAstrogeistDir(); return _astrogeistDir; }
 	
 	public static Path getAstrogeistDirectoryAsPath() { return getAstrogeistDirectory().toPath(); }
-	
-//	public static File getSettingsFile() {
-//		checkGotAstrogeistDir();
-//		if (_settingsFile != null) return _settingsFile;
-//		_settingsFile = new File(_astrogeistDir, "settings.xml");
-//		return _settingsFile;
-//	}
 	
 	public static File getUserDataDir() {
 		checkGotAstrogeistDir();

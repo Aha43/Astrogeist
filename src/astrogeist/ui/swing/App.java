@@ -49,6 +49,7 @@ public final class App {
 	
 	private final FilteredTimelineViewTablePanel searchPanel = new FilteredTimelineViewTablePanel(
 		this,
+		this.services.get(AstrogeistStorageManager.class),
 		this.services.get(TimelineNames.class),
 		this.services.get(SnapshotSelectionService.class));
 	
@@ -78,6 +79,7 @@ public final class App {
 
 		this.frame.setJMenuBar(MenuBarFactory.createMenuBar(
 			this,
+			this.services.get(AstrogeistStorageManager.class),
 			this.services.get(TimelineNames.class)));
 		
 		this.frame.add(ToolBarFactory.createToolBar(this), BorderLayout.NORTH);

@@ -6,7 +6,7 @@ import java.nio.file.Path;
 import java.util.Objects;
 import java.util.logging.Logger;
 
-import astrogeist.common.Guards;
+import aha.common.Guards;
 import astrogeist.engine.abstraction.Scanner;
 import astrogeist.engine.logging.Log;
 

@@ -4,8 +4,8 @@ import java.io.File;
 import java.nio.file.Path;
 import java.util.Stack;
 
-import astrogeist.common.FilesUtil;
-import astrogeist.common.Strings;
+import aha.common.FilesUtil;
+import aha.common.Strings;
 
 public abstract class Type {
 	

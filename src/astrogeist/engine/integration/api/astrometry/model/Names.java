@@ -1,6 +1,6 @@
 package astrogeist.engine.integration.api.astrometry.model;
 
-import astrogeist.common.Guards;
+import aha.common.Guards;
 
 public final class Names {
 	private Names() { Guards.throwStaticClassInstantiateError(); }

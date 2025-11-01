@@ -8,8 +8,8 @@ import java.util.logging.Level;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
-import astrogeist.common.Guards;
-import astrogeist.common.ImageUtil;
+import aha.common.Guards;
+import aha.common.ImageUtil;
 import astrogeist.engine.logging.Log;
 import astrogeist.engine.resources.Resources;
 

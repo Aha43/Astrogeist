@@ -6,7 +6,7 @@ import java.net.URL;
 import java.nio.file.Path;
 import java.time.Instant;
 
-import astrogeist.common.Guards;
+import aha.common.Guards;
 import astrogeist.common.Instants;
 
 public final class Resources {

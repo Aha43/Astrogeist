@@ -1,12 +1,10 @@
-package astrogeist.common;
+package aha.common;
 
 import java.awt.Color;
-import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.net.URL;
 import java.util.Objects;
 
 import javax.imageio.ImageIO;
@@ -16,24 +14,27 @@ public final class ImageUtil {
 
     public static BufferedImage loadImage(String resourcePath) {
         try {
-            URL url = Objects.requireNonNull(
+            var url = Objects.requireNonNull(
                 ImageUtil.class.getResource(resourcePath),
                 "Resource not found: " + resourcePath
             );
             return ImageIO.read(url);
         } catch (IOException e) {
-            throw new RuntimeException("Could not load image: " + resourcePath, e);
+            throw new RuntimeException("Could not load image: " + resourcePath,
+            	e);
         }
     }
 
-    public static int dpiScaled(int basePx) {
-        int dpi = Toolkit.getDefaultToolkit().getScreenResolution();
+    public final static int dpiScaled(int basePx) {
+        var dpi = Toolkit.getDefaultToolkit().getScreenResolution();
         return Math.max(16, (int) Math.round(basePx * dpi / 96.0));
     }
 
-    public static BufferedImage tintPreserveLuminance(BufferedImage src, Color tint) {
+    public final static BufferedImage tintPreserveLuminance(BufferedImage src,
+    	Color tint) {
+    	
         int w = src.getWidth(), h = src.getHeight();
-        BufferedImage dst = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+        var dst = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
 
         final int tr = tint.getRed(), tg = tint.getGreen(), tb = tint.getBlue();
 
@@ -59,18 +60,20 @@ public final class ImageUtil {
         }
         return dst;
     }
-    
- // Add to ImageUtil
 
     /**
-     * Make (near-)white pixels transparent. Useful when a logo was exported on white.
-     * @param src        source image (any type)
-     * @param threshold  0..255: pixels with all RGB >= threshold become transparent (e.g., 245)
+     * Make (near-)white pixels transparent. Useful when a logo was exported on 
+     * white.
+     * @param src       source image (any type)
+     * @param threshold 0..255: pixels with all RGB >= threshold become 
+     *                  transparent (e.g., 245)
      * @return ARGB image with white knocked out
      */
-    public static BufferedImage knockOutWhite(BufferedImage src, int threshold) {
+    public final static BufferedImage knockOutWhite(BufferedImage src,
+    	int threshold) {
+    	
         int w = src.getWidth(), h = src.getHeight();
-        BufferedImage dst = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+        var dst = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
 
         for (int y = 0; y < h; y++) {
             for (int x = 0; x < w; x++) {
@@ -92,17 +95,19 @@ public final class ImageUtil {
 
     /**
      * Soft knockout that fades near-white to transparent to avoid hard halos.
-     * Pixels lighter than low become fully transparent; darker than high stay opaque;
-     * between them alpha is blended linearly.
+     * Pixels lighter than low become fully transparent; darker than high stay
+     * opaque; between them alpha is blended linearly.
      * @param src   source image
      * @param low   0..255 (start of fade, e.g., 235)
      * @param high  0..255 (end of fade, e.g., 255), must be >= low
      */
-    public static BufferedImage knockOutWhiteSoft(BufferedImage src, int low, int high) {
+    public final static BufferedImage knockOutWhiteSoft(BufferedImage src, int low,
+    	int high) {
+    	
         int w = src.getWidth(), h = src.getHeight();
         if (high < low) throw new IllegalArgumentException("high must be >= low");
 
-        BufferedImage dst = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+        var dst = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
         final float span = Math.max(1, high - low); // prevent div-by-zero
 
         for (int y = 0; y < h; y++) {
@@ -130,14 +135,18 @@ public final class ImageUtil {
     }
 
     /**
-     * Generic "knock out near color" (e.g., kill a solid background that isn't white).
+     * Generic "knock out near color" (e.g., kill a solid background that isn't
+     * white).
      * @param src        source image
      * @param bg         background color to remove
-     * @param tolerance  0..255: max per-channel distance to treat as background (e.g., 15)
+     * @param tolerance  0..255: max per-channel distance to treat as background
+     *                   (e.g., 15)
      */
-    public static BufferedImage knockOutNearColor(BufferedImage src, Color bg, int tolerance) {
+    public final static BufferedImage knockOutNearColor(BufferedImage src,
+    	Color bg, int tolerance) {
+    	
         int w = src.getWidth(), h = src.getHeight();
-        BufferedImage dst = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+        var dst = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
 
         int br = bg.getRed(), bgG = bg.getGreen(), bb = bg.getBlue();
 
@@ -160,13 +169,16 @@ public final class ImageUtil {
         return dst;
     }
 
-    public static BufferedImage scale(BufferedImage src, int s) { return scale(src, s, s); }
+    public final static BufferedImage scale(BufferedImage src, int s) { 
+    	return scale(src, s, s); }
 
-    public static BufferedImage scale(BufferedImage src, int w, int h) {
-        BufferedImage out = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g = out.createGraphics();
-        g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
-        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+    public final static BufferedImage scale(BufferedImage src, int w, int h) {
+        var out = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+        var g = out.createGraphics();
+        g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+        	RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+        	RenderingHints.VALUE_ANTIALIAS_ON);
         g.drawImage(src, 0, 0, w, h, null);
         g.dispose();
         return out;

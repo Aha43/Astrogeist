@@ -2,7 +2,7 @@ package astrogeist.engine.persitence.settings;
 
 import java.io.OutputStream;
 
-import astrogeist.common.Cast;
+import aha.common.Cast;
 import astrogeist.engine.persitence.AbstractNameValueXmlAstrogeistDataWriter;
 
 public final class SettingsAstrogeistDataWriter extends AbstractNameValueXmlAstrogeistDataWriter  {

@@ -16,9 +16,9 @@ import java.util.logging.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import astrogeist.common.Durations;
-import astrogeist.common.net.HttpUtils;
-import astrogeist.common.net.MultipartBody;
+import aha.common.Durations;
+import aha.common.net.HttpUtils;
+import aha.common.net.MultipartBody;
 import astrogeist.engine.integration.api.astrometry.abstraction.AstrometryClient;
 import astrogeist.engine.integration.api.astrometry.model.Annotations;
 import astrogeist.engine.integration.api.astrometry.model.AstrometryModel;

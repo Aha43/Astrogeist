@@ -15,7 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import astrogeist.common.FilesUtil;
+import aha.common.FilesUtil;
 import astrogeist.engine.resources.FileTypeColorMap;
 import astrogeist.engine.typesystem.Type;
 import astrogeist.ui.swing.App;

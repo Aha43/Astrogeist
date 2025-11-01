@@ -16,8 +16,8 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import astrogeist.common.Guards;
-import astrogeist.common.tuple.Tuple2;
+import aha.common.Guards;
+import aha.common.tuple.Tuple2;
 import astrogeist.engine.abstraction.timeline.TimelineValuePool;
 import astrogeist.engine.timeline.TimelineValue;
 

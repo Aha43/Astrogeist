@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.logging.Logger;
 
-import astrogeist.common.Empty;
+import aha.common.Empty;
 import astrogeist.engine.abstraction.Scanner;
 import astrogeist.engine.logging.Log;
 

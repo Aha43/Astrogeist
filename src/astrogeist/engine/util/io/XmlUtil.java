@@ -3,7 +3,7 @@ package astrogeist.engine.util.io;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import astrogeist.common.Guards;
+import aha.common.Guards;
 
 public final class XmlUtil {
 	private XmlUtil() { Guards.throwStaticClassInstantiateError(); }

@@ -1,12 +1,14 @@
-package astrogeist.common.tuple;
+package aha.common.tuple;
 
 import java.util.Objects;
 
 public record Tuple3<A, B, C>(A first, B second, C third) {
 
-    public static <A, B, C> Tuple3<A, B, C> of(A a, B b, C c) { return new Tuple3<>(a, b, c); }
+    public static <A, B, C> Tuple3<A, B, C> of(A a, B b, C c) { 
+    	return new Tuple3<>(a, b, c); }
 
-    @Override public String toString() { return "(" + first + ", " + second + ", " + third + ")"; }
+    @Override public String toString() {
+    	return "(" + first + ", " + second + ", " + third + ")"; }
 
     @Override public boolean equals(Object o) {
         if (this == o) return true;
@@ -16,6 +18,7 @@ public record Tuple3<A, B, C>(A first, B second, C third) {
         	&& Objects.equals(third, other.third);
     }
 
-    @Override public int hashCode() { return Objects.hash(first, second, third); }
+    @Override public int hashCode() {
+    	return Objects.hash(first, second, third); }
 }
 

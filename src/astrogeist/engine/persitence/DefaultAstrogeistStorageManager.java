@@ -6,7 +6,7 @@ import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import astrogeist.common.Cast;
+import aha.common.Cast;
 import astrogeist.engine.abstraction.persistence.AstrogeistAccessor;
 import astrogeist.engine.abstraction.persistence.AstrogeistData;
 import astrogeist.engine.abstraction.persistence.AstrogeistDataReader;

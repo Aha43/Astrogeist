@@ -28,8 +28,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
 
-import astrogeist.common.DecimalFormats;
-import astrogeist.common.Guards;
+import aha.common.DecimalFormats;
+import aha.common.Guards;
 import astrogeist.common.Safe;
 import astrogeist.engine.integration.api.astrometry.DefaultAstrometryClient;
 import astrogeist.engine.integration.api.astrometry.abstraction.AstrometryClient;

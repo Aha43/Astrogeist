@@ -5,7 +5,7 @@ import javax.swing.UIManager;
 
 import com.formdev.flatlaf.FlatDarculaLaf;
 
-import astrogeist.common.Guards;
+import aha.common.Guards;
 import astrogeist.engine.resources.Resources;
 import astrogeist.ui.swing.dialog.launch.LaunchDialog;
 import astrogeist.ui.swing.dialog.message.MessageDialogs;

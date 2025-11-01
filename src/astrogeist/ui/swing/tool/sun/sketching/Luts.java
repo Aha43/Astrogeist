@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import astrogeist.common.Guards;
+import aha.common.Guards;
 import astrogeist.ui.swing.tool.abstraction.ColorLut;
 
 public final class Luts {

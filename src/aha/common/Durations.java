@@ -1,11 +1,11 @@
-package astrogeist.common;
+package aha.common;
 
 import java.time.Duration;
 
 /**
  * <p>
  *   Shared
- *   {@link Duration}s.ß
+ *   {@link Duration}s.
  * </p>
  */
 public final class Durations {

@@ -8,7 +8,7 @@ import java.util.LinkedHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import astrogeist.common.Guards;
+import aha.common.Guards;
 import astrogeist.engine.logging.Log;
 
 public final class CameraSettingParser {

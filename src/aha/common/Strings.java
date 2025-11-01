@@ -1,4 +1,4 @@
-package astrogeist.common;
+package aha.common;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,28 +9,60 @@ import java.util.regex.Pattern;
 /**
  * <p>
  *   Utility methods of use when working with
- *   {@code String}.
+ *   {@code String}s.
  * </p>
  */
 public final class Strings {
 	private Strings() { Guards.throwStaticClassInstantiateError(); }
 	
-	public static final List<String> fromCsv(String s) {
+	/**
+	 * <p>
+	 *   The empty
+	 *   {@link String} shared.
+	 * </p>
+	 */
+	public static final String EMPTY = "";
+	
+	/**
+	 * <p>
+	 *   Gets token of a ',' separated list given as a
+	 *   {@link String}: "aa,b bb, c" yield a list of strings:
+	 *   {"aa", "b bb", "c"}. 
+	 * </p>
+	 * @param s {@link String} to parse.
+	 * @return List of tokens.
+	 * @see #toCsv(List)
+	 */
+	public final static List<String> fromCsv(String s) {
 		var retVal = new ArrayList<>(Arrays.asList(s.split("\\s*,\\s*")));
 		return retVal;
 	}
 	
-	public static final String toCsv(List<String> l) { return String.join(", ", l); }
+	/**
+	 * <p>
+	 *   
+	 * </p>
+	 * @param l
+	 * @return
+	 */
+	public final static String toCsv(List<String> l) { 
+		return String.join(", ", l); }
 	
-	public static final boolean isNullOrBlank(String s) { return s == null || s.trim().isEmpty(); }
+	public final static boolean isNullOrBlank(String s) { 
+		return s == null || s.trim().isEmpty(); }
 	
-	public static final String nullToEmpty(String s) { return s == null ? "" : s; }
+	public final static String nullToEmpty(String s) { 
+		return s == null ? "" : s; }
 
-	public static final String nullToEmptyTrimmed(String s) { return s == null ? "" : s.trim(); }
+	public final static String nullToEmptyTrimmed(String s) { 
+		return s == null ? "" : s.trim(); }
 	
-	public static final Optional<ParsedSuffixNumberValue> parseNumberWithSuffix(String s) {
-	    // number = [+|-] digits [ '.' or ',' digits ], then optional suffix
-	    var pattern = Pattern.compile("^\\s*([+-]?\\d+(?:[\\.,]\\d+)?)\\s*(.*)$");
+	public final static Optional<ParsedSuffixNumberValue> parseNumberWithSuffix(
+		String s) {
+	    
+		// number = [+|-] digits [ '.' or ',' digits ], then optional suffix
+	    var pattern =
+	    	Pattern.compile("^\\s*([+-]?\\d+(?:[\\.,]\\d+)?)\\s*(.*)$");
 	    var matcher = pattern.matcher(s);
 
 	    if (!matcher.matches()) return Optional.empty();
@@ -66,7 +98,7 @@ public final class Strings {
      *   Leading periods (like ".gitignore") are allowed.
      * </p>
      */
-    public static final boolean isValidFileName(String name) {
+    public final static boolean isValidFileName(String name) {
         if (name == null || name.isBlank()) return false;
 
         if (name.equals(".") || name.equals("..")) return false;
@@ -88,9 +120,19 @@ public final class Strings {
         return true;
     }
 	
-	public static final String ensureFileNameValid(String s) {
-		if (isValidFileName(s)) return s.trim();
-		throw new IllegalArgumentException("'" + s + "' not valid file name");
-	}
+    /**
+     * <p>
+     *   Truncates a
+     *   {@link String} if longer than a given length.
+     * </p>
+     * @param s the {@link String} to truncate if longer than {@code s}.
+     * @param l the length to truncate.
+     * @return {@code s > l ? s.substring(0, l) : s}.
+     * @throws IllegalArgumentException if {@code l < 0}.
+     */
+    public final static String truncate(String s, int l) {
+    	Guards.requireNonNegative(l, "l");
+    	return l == 0 ? EMPTY : (s.length() > l ? s.substring(0, l) : s);
+    }
 
 }

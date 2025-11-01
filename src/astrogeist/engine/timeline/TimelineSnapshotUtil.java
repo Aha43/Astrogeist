@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
-import astrogeist.common.Guards;
+import aha.common.Guards;
 import astrogeist.engine.typesystem.Type;
 
 public final class TimelineSnapshotUtil {

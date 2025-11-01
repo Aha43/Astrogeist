@@ -1,4 +1,4 @@
-package astrogeist.common;
+package aha.common;
 
 import java.text.DecimalFormat;
 

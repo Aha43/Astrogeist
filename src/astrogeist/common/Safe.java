@@ -3,6 +3,9 @@ package astrogeist.common;
 import java.util.Collection;
 import java.util.List;
 
+import aha.common.Empty;
+import aha.common.Guards;
+
 /**
  * <p>
  *   Methods to safely work with values that may be {@code null} if then should work with a default

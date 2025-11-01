@@ -1,4 +1,4 @@
-package astrogeist.common.net;
+package aha.common.net;
 
 import java.net.URI;
 
@@ -15,6 +15,14 @@ public final class HttpRequestException extends RuntimeException {
     private final URI uri;
     private final String responseBody;
 
+    /**
+     * <p>
+     *   Constructor.
+     * </p>
+     * @param statusCode   HTTP status code.
+     * @param uri          Request URI.
+     * @param responseBody Response body text.
+     */
     public HttpRequestException(int statusCode, URI uri, String responseBody) {
         super("HTTP " + statusCode + " for " + uri +
               (responseBody != null && !responseBody.isBlank()
@@ -25,11 +33,31 @@ public final class HttpRequestException extends RuntimeException {
         this.responseBody = responseBody;
     }
 
+    /**
+     * <p>
+     *   Gets the HTTP status code.
+     * </p>
+     * @return the HTTP status code.
+     */
     public final int statusCode() { return statusCode; }
+    
+    /**
+     * <p>
+     *   Gets the URI.
+     * </p>
+     * @return the URI.
+     */
     public final URI uri() { return uri; }
+    
+    /**
+     * <p>
+     *   Gets the response body.
+     * </p>
+     * @return
+     */
     public final String responseBody() { return responseBody; }
 
-    private static String snippet(String body) {
+    // Used to truncate the response body for exception message.
+    private final static String snippet(String body) {
         return body.length() > 200 ? body.substring(0, 200) + "..." : body; }
 }
-

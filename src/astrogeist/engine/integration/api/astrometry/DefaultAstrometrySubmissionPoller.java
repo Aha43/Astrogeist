@@ -13,7 +13,7 @@ import java.util.concurrent.TimeoutException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import astrogeist.common.net.HttpUtils;
+import aha.common.net.HttpUtils;
 import astrogeist.engine.integration.api.astrometry.abstraction.AstrometrySubmissionPoller;
 
 public final class DefaultAstrometrySubmissionPoller implements AstrometrySubmissionPoller  {
@@ -85,7 +85,7 @@ public final class DefaultAstrometrySubmissionPoller implements AstrometrySubmis
 
         return http.sendAsync(req, HttpResponse.BodyHandlers.ofString())
             .thenApply(resp -> {
-                astrogeist.common.net.HttpUtils.ensureSuccess(resp);
+                aha.common.net.HttpUtils.ensureSuccess(resp);
                 return resp.body();
             })
             .thenCompose(body -> {

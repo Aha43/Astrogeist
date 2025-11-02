@@ -8,7 +8,7 @@ import astrogeist.engine.abstraction.selection.SnapshotSelectionService;
 import astrogeist.engine.abstraction.timeline.Timeline;
 import astrogeist.engine.abstraction.timeline.TimelineNames;
 import astrogeist.engine.abstraction.timeline.TimelineValuePool;
-import astrogeist.engine.persitence.disk.DiskAstrogeistAccessor;
+import astrogeist.engine.appdata.AstrogeistDiskAppDataAccessor;
 import astrogeist.engine.persitence.scannerconfig.ScannerConfigAstrogeistDataReader;
 import astrogeist.engine.persitence.settings.SettingsAstrogeistDataReader;
 import astrogeist.engine.persitence.settings.SettingsAstrogeistDataWriter;
@@ -43,7 +43,7 @@ public final class AstrogeistServiceProvider implements ServiceProvider {
     private final SnapshotSelectionService snapshotSelectionService = new DefaultSnapshotSelectionService();
     
     private final AppDataManager astrogeistStorageManager = new DefaultAppDataManager(
-    	new DiskAstrogeistAccessor(), 
+    	new AstrogeistDiskAppDataAccessor(), 
     	new ScannerConfigAstrogeistDataReader(),
     	new UserDataDefinitionsAstrogeistDataReader(),
     	new SettingsAstrogeistDataReader(),

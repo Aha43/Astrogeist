@@ -10,7 +10,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import astrogeist.engine.persitence.AbstractXmlAstrogeistDataReader;
+import astrogeist.engine.appdata.AbstractXmlAstrogeistDataReader;
 
 public final class ScannerConfigAstrogeistDataReader extends AbstractXmlAstrogeistDataReader {
 	

@@ -1,4 +1,4 @@
-package astrogeist.engine.persitence;
+package astrogeist.engine.appdata;
 
 import java.io.OutputStream;
 import java.util.LinkedHashMap;

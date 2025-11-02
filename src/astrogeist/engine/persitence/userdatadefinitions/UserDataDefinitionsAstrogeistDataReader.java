@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.w3c.dom.Element;
 
-import astrogeist.engine.persitence.AbstractXmlAstrogeistDataReader;
+import astrogeist.engine.appdata.AbstractXmlAstrogeistDataReader;
 
 public final class UserDataDefinitionsAstrogeistDataReader extends AbstractXmlAstrogeistDataReader {
 

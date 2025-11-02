@@ -2,7 +2,7 @@ package astrogeist.engine.persitence.settings;
 
 import java.io.InputStream;
 
-import astrogeist.engine.persitence.AbstractNameValueXmlAstrogeistDataReader;
+import astrogeist.engine.appdata.AbstractNameValueXmlAstrogeistDataReader;
 
 public final class SettingsAstrogeistDataReader extends AbstractNameValueXmlAstrogeistDataReader  {
 

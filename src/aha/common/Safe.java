@@ -5,8 +5,8 @@ import java.util.List;
 
 /**
  * <p>
- *   Methods to safely work with values that may be {@code null} if then should work with a default
- *   (i.e. empty collection type).
+ *   Methods to safely work with values that may be {@code null} if then should
+ *   work with a default (i.e. empty collection type).
  * </p>
  */
 public final class Safe {
@@ -20,7 +20,7 @@ public final class Safe {
 	 * @param s the {@code string} to access safely.
 	 * @return {@code String} to access.
 	 */
-	public static final String string(String s) { return string(s, null); }
+	public final static String string(String s) { return string(s, null); }
 	
 	/**
 	 * <p>
@@ -33,7 +33,8 @@ public final class Safe {
 	 *          {@code String} if {@code s == null}, may be {@code null}
 	 * @return {@code String} to access.
 	 */
-	public static final String string(String s, Character c) { return s == null ? (c == null ? "" : c.toString()) : s; } 
+	public final static String string(String s, Character c) {
+		return s == null ? (c == null ? "" : c.toString()) : s; } 
 	
 	/**
 	 * <p>
@@ -43,7 +44,8 @@ public final class Safe {
 	 * @param a Passed array.
 	 * @return Array to access.
 	 */
-	public static final String[] array(String[] a) { return a == null ? Empty.StringArray : a; }
+	public final static String[] array(String[] a) {
+		return a == null ? Empty.StringArray : a; }
 	
 	/**
 	 * <p>
@@ -52,5 +54,7 @@ public final class Safe {
 	 * @param c Passed collection.
 	 * @return Collection to access.
 	 */
-	public static Collection<String> collection(Collection<String> c) { return c == null ? List.of() : c; }
+	public final static Collection<String> collection(Collection<String> c) {
+		return c == null ? List.of() : c; }
+
 }

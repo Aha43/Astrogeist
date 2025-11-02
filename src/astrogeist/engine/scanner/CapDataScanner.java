@@ -4,7 +4,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import aha.common.FilesUtil;
-import astrogeist.common.async.CancellationToken;
+import aha.common.async.CancellationToken;
 import astrogeist.engine.abstraction.FileParser;
 import astrogeist.engine.abstraction.UtcExtractor;
 import astrogeist.engine.abstraction.jobs.JobProgressListener;

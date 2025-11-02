@@ -30,7 +30,7 @@ import javax.swing.table.DefaultTableModel;
 
 import aha.common.DecimalFormats;
 import aha.common.Guards;
-import astrogeist.common.Safe;
+import aha.common.Safe;
 import astrogeist.engine.integration.api.astrometry.DefaultAstrometryClient;
 import astrogeist.engine.integration.api.astrometry.abstraction.AstrometryClient;
 import astrogeist.engine.integration.api.astrometry.model.Annotations;

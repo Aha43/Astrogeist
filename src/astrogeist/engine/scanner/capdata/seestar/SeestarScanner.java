@@ -7,9 +7,9 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.logging.Level;
 
+import aha.common.FileTimes;
 import aha.common.FilesUtil;
-import astrogeist.common.FileTimes;
-import astrogeist.common.async.CancellationToken;
+import aha.common.async.CancellationToken;
 import astrogeist.engine.abstraction.jobs.JobProgressListener;
 import astrogeist.engine.abstraction.timeline.Timeline;
 import astrogeist.engine.scanner.AbstractScanner;

@@ -1,4 +1,4 @@
-package astrogeist.common;
+package aha.common;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -6,8 +6,11 @@ import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.time.Instant;
 
-import aha.common.Guards;
-
+/**
+ * <p>
+ *   Utility methods of use when working with time stamps of files. 
+ * </p>
+ */
 public final class FileTimes {
 	private FileTimes() { Guards.throwStaticClassInstantiateError(); }
 	
@@ -25,7 +28,8 @@ public final class FileTimes {
         var modified = attrs.lastModifiedTime();
 
         // Some Linux filesystems just return the same as lastModifiedTime
-        if (creation != null && !creation.equals(modified)) return creation.toInstant();
+        if (creation != null && !creation.equals(modified)) 
+        	return creation.toInstant();
         
         // Fallback: use last modified time
         return modified.toInstant();

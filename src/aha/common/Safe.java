@@ -1,10 +1,7 @@
-package astrogeist.common;
+package aha.common;
 
 import java.util.Collection;
 import java.util.List;
-
-import aha.common.Empty;
-import aha.common.Guards;
 
 /**
  * <p>

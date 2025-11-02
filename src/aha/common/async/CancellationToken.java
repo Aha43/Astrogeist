@@ -1,4 +1,4 @@
-package astrogeist.common.async;
+package aha.common.async;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 

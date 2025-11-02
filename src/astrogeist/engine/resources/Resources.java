@@ -7,7 +7,7 @@ import java.nio.file.Path;
 import java.time.Instant;
 
 import aha.common.Guards;
-import astrogeist.common.Instants;
+import aha.common.Instants;
 
 public final class Resources {
 	private Resources() { Guards.throwStaticClassInstantiateError(); }

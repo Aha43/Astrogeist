@@ -3,8 +3,8 @@ package astrogeist.engine.scanner.userdata;
 import java.util.logging.Level;
 
 import aha.common.FilesUtil;
-import astrogeist.common.Instants;
-import astrogeist.common.async.CancellationToken;
+import aha.common.Instants;
+import aha.common.async.CancellationToken;
 import astrogeist.engine.abstraction.jobs.JobProgressListener;
 import astrogeist.engine.abstraction.timeline.Timeline;
 import astrogeist.engine.abstraction.timeline.TimelineValuePool;

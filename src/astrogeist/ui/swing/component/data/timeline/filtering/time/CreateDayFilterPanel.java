@@ -9,7 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import astrogeist.common.Instants;
+import aha.common.Instants;
 import astrogeist.engine.timeline.view.filters.TimeRangeTimelineViewFilter;
 import astrogeist.ui.swing.component.data.timeline.filtering.FiltersTableModel;
 import astrogeist.ui.swing.dialog.message.MessageDialogs;

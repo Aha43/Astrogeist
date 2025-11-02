@@ -21,7 +21,7 @@ public final class FileTimes {
      * </p>
      * @param path Path to file to get time for.
      */
-    public static final Instant getCreationTime(Path path) throws IOException {
+    public final static Instant getCreationTime(Path path) throws IOException {
         var attrs = Files.readAttributes(path, BasicFileAttributes.class);
 
         var creation = attrs.creationTime();

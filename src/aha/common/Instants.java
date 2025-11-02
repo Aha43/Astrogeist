@@ -39,15 +39,15 @@ public final class Instants {
 	 * @return Time.
 	 * @see #toFileSafeString(Instant)
 	 */
-    public static Instant fromFileSafeString(String input) {
+    public final static Instant fromFileSafeString(String input) {
     	return Instant.from(PARSER.parse(input)); }
 	
     // Note: ':' replaced with '-' for filesystem safety
-	private static final DateTimeFormatter FORMATTER =
+	private final static DateTimeFormatter FORMATTER =
 		DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH-mm-ss.SSSX").
 			withZone(ZoneOffset.UTC);
 
-	private static final DateTimeFormatter PARSER =
+	private final static DateTimeFormatter PARSER =
 		DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH-mm-ss.SSSX").
 			withZone(ZoneOffset.UTC);
 	    
@@ -61,14 +61,14 @@ public final class Instants {
 	 *                {@link String}.
 	 * @return the {@link Interval} of the day.
 	 */
-	public static Interval dayInterval(String isoDate) {
+	public final static Interval dayInterval(String isoDate) {
         LocalDate date = LocalDate.parse(isoDate); // parse "YYYY-MM-DD"
         Instant from = date.atStartOfDay(ZoneOffset.UTC).toInstant();
         Instant to   = from.plus(1, java.time.temporal.ChronoUnit.DAYS);
         return new Interval(from, to);
     }
 	
-	private static final DateTimeFormatter ISO_DATE =
+	private final static DateTimeFormatter ISO_DATE =
 		DateTimeFormatter.ISO_LOCAL_DATE;
 	
 	/**
@@ -79,7 +79,7 @@ public final class Instants {
 	 * @param s the {@link String} to test.
 	 * @return {@code true} if is else {@code false}.
 	 */
-	public static boolean isIsoDate(String s) {
+	public final static boolean isIsoDate(String s) {
         if (s == null) return false;
         try {
             LocalDate.parse(s, ISO_DATE);
@@ -93,7 +93,7 @@ public final class Instants {
      * </p>
      * @return Date string as specified.
      */
-    public static String todayIsoUtc() {
+    public final static String todayIsoUtc() {
         return LocalDate.now(ZoneOffset.UTC).toString(); }
      
     /**
@@ -102,7 +102,7 @@ public final class Instants {
      * </p>
      * @return ISO time.
      */
-    public static String nowIsoUtcDateTime() { 
+    public final static String nowIsoUtcDateTime() { 
     	return Instant.now().toString(); }
     
     /**

@@ -101,8 +101,8 @@ public final class ImageUtil {
      * @param low   0..255 (start of fade, e.g., 235)
      * @param high  0..255 (end of fade, e.g., 255), must be >= low
      */
-    public final static BufferedImage knockOutWhiteSoft(BufferedImage src, int low,
-    	int high) {
+    public final static BufferedImage knockOutWhiteSoft(BufferedImage src, 
+    	int low, int high) {
     	
         int w = src.getWidth(), h = src.getHeight();
         if (high < low) throw new IllegalArgumentException("high must be >= low");

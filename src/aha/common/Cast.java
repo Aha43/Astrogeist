@@ -55,6 +55,5 @@ public final class Cast {
 	 * @return {@code true} if the object is an instance of the given type.
 	 */
     public final static boolean is(Object o, Class<?> t) {
-    	return t.isInstance(o); }
-    
+    	return t.isInstance(o); }  
 }

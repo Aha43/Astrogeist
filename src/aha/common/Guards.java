@@ -23,7 +23,7 @@ public final class Guards {
 	 *   only should have static methods.
 	 * </p>
 	 */
-	public static final void throwStaticClassInstantiateError() {
+	public final static void throwStaticClassInstantiateError() {
 		throw new AssertionError("Can not instantiate static class"); }
 	
 	/**
@@ -40,7 +40,7 @@ public final class Guards {
 	 * @throws IllegalArgumentException If {@code value} is {@code null}, of
 	 *         length zero or composed of blank characters only.
 	 */
-	public static final String requireNonEmpty(String value, String name) {
+	public final static String requireNonEmpty(String value, String name) {
 	    if (value == null || value.isEmpty())
 	        throw new IllegalArgumentException(name +
 	        	" must not be null or empty");
@@ -58,7 +58,7 @@ public final class Guards {
 	 * @return the {@code value}.
 	 * @throws IllegalArgumentException If {@code value < 0}.
 	 */
-	public static final long requireNonNegative(long value, String name) {
+	public final static long requireNonNegative(long value, String name) {
 		if (value < 0)
 			throw new IllegalArgumentException(name +
 				" must not be negative (is '" + value + "')");
@@ -76,7 +76,7 @@ public final class Guards {
 	 * @return the {@code value}.
 	 * @throws IllegalArgumentException If {@code value < 1}.
 	 */
-	public static final long requirePositive(long value, String name) {
+	public final static long requirePositive(long value, String name) {
 		if (value < 1)
 			throw new IllegalArgumentException(name +
 				" must be positive (is '" + value + "')");
@@ -94,7 +94,7 @@ public final class Guards {
 	 * @param key the key.
 	 * @return the {@code map}.
 	 */
-	public static final <K, V> Map<K, V> requireKeyExists(Map<K, V> map, K key){
+	public final static <K, V> Map<K, V> requireKeyExists(Map<K, V> map, K key){
 		return requireKeyExists(map, key, null); }
 	
 	/**
@@ -110,8 +110,8 @@ public final class Guards {
 	 *             (typically a method parameter name).
 	 * @return the {@code map}.
 	 */
-	public static final <K, V> Map<K, V> requireKeyExists(Map<K, V> map, K key,
-		String name){
+	public final static <K, V> Map<K, V> requireKeyExists(Map<K, V> map, K key,
+		String name) {
 		
 		if (map.containsKey(key)) return map;
 		name = (name == null) ? "key" : name;

@@ -16,7 +16,13 @@ public final class CancellationToken {
      * </p>
      * @return {@code true} if to cancel else {@code false}.
      */
-    public boolean isCancelled() { return cancelled.get(); }
+    public final boolean isCancelled() { return cancelled.get(); }
     
-    void cancel() { cancelled.set(true); }
+    /**
+     * <p>
+     *   Invoked from
+     *   {@link CancellationSource}.
+     * </p>
+     */
+    final void cancel() { cancelled.set(true); }
 }

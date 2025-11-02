@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-import astrogeist.engine.abstraction.persistence.AstrogeistStorageManager;
+import aha.common.abstraction.appdata.AppDataManager;
 import astrogeist.engine.abstraction.selection.SnapshotSelectionService;
 import astrogeist.engine.abstraction.timeline.TimelineNames;
 import astrogeist.engine.persitence.settings.Settings;
@@ -46,12 +46,12 @@ public abstract class AbstractTimelineViewTablePanel  extends JPanel {
 	
 	protected final App app;
 	
-	protected final AstrogeistStorageManager astrogeistStorageManager;
+	protected final AppDataManager astrogeistStorageManager;
 	protected final Settings settings;
 
 	protected AbstractTimelineViewTablePanel(
 		App app,
-		AstrogeistStorageManager astrogeistStorageManager,
+		AppDataManager astrogeistStorageManager,
 		AbstractTimelineViewTableModel model,
 		TimelineNames timelineNames,
 		SnapshotSelectionService snapshotSelectionService) {

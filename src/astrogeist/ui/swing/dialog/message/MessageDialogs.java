@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 
 import aha.common.Guards;
 import aha.common.ImageUtil;
-import astrogeist.engine.logging.Log;
+import aha.common.logging.Log;
 import astrogeist.engine.resources.Resources;
 
 /**

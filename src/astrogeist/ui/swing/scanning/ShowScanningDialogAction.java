@@ -5,7 +5,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 
-import astrogeist.engine.abstraction.persistence.AstrogeistStorageManager;
+import aha.common.abstraction.appdata.AppDataManager;
 import astrogeist.engine.abstraction.timeline.Timeline;
 import astrogeist.engine.abstraction.timeline.TimelineValuePool;
 import astrogeist.ui.swing.App;
@@ -21,13 +21,13 @@ public final class ShowScanningDialogAction extends AbstractAction {
 	private static final long serialVersionUID = 1L;
 	
 	private final App app;
-	private final AstrogeistStorageManager astrogeistStorageManager;
+	private final AppDataManager astrogeistStorageManager;
 	private final Timeline timeline;
 	private final TimelineValuePool tvp;
 	
 	public ShowScanningDialogAction(
 		App app,
-		AstrogeistStorageManager astrogeistStorageManager,
+		AppDataManager astrogeistStorageManager,
 		Timeline timeline,
 		TimelineValuePool tvp) {
 		

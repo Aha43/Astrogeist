@@ -11,7 +11,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 
-import astrogeist.engine.abstraction.persistence.AstrogeistStorageManager;
+import aha.common.abstraction.appdata.AppDataManager;
 import astrogeist.engine.abstraction.timeline.TimelineNames;
 import astrogeist.engine.persitence.settings.Settings;
 import astrogeist.ui.swing.App;
@@ -22,7 +22,7 @@ import astrogeist.ui.swing.dialog.settings.editors.SettingsEditor;
 public final class SettingsDialog extends ModalDialogBase {
     private static final long serialVersionUID = 1L;
     
-    private final AstrogeistStorageManager astrogeistStorageManager;
+    private final AppDataManager astrogeistStorageManager;
     
     private final SettingsEditorProvider settingsEditorProvider;
 
@@ -33,7 +33,7 @@ public final class SettingsDialog extends ModalDialogBase {
 
     private SettingsDialog(
     	App app,
-    	AstrogeistStorageManager astrogeistStorageManager,
+    	AppDataManager astrogeistStorageManager,
     	TimelineNames timelineNames) {
         super(app, "Astrogeist Settings");
         
@@ -152,7 +152,7 @@ public final class SettingsDialog extends ModalDialogBase {
     
     public static void show(
     	App app,
-    	AstrogeistStorageManager astrogeistStorageManager,
+    	AppDataManager astrogeistStorageManager,
     	TimelineNames timelineNames) 
     { 
     	new SettingsDialog(app, astrogeistStorageManager, timelineNames).setVisible(true); 

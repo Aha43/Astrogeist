@@ -9,8 +9,8 @@ import java.util.Optional;
 import java.util.logging.Logger;
 
 import aha.common.Empty;
+import aha.common.logging.Log;
 import astrogeist.engine.abstraction.Scanner;
-import astrogeist.engine.logging.Log;
 
 /**
  * <p>

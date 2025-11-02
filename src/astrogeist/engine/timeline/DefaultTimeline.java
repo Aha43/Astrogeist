@@ -10,10 +10,10 @@ import java.util.concurrent.ConcurrentNavigableMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.logging.Logger;
 
+import aha.common.logging.Log;
 import astrogeist.engine.abstraction.timeline.Timeline;
 import astrogeist.engine.abstraction.timeline.TimelineNames;
 import astrogeist.engine.abstraction.timeline.TimelineValuePool;
-import astrogeist.engine.logging.Log;
 
 /**
  * <p>

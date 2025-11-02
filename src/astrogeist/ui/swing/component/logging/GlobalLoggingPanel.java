@@ -17,7 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import astrogeist.engine.logging.Log;
+import aha.common.logging.Log;
 import astrogeist.ui.swing.dialog.message.MessageDialogs;
 
 public class GlobalLoggingPanel extends JPanel {

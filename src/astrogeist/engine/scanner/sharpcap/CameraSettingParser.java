@@ -9,7 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import aha.common.Guards;
-import astrogeist.engine.logging.Log;
+import aha.common.logging.Log;
 
 public final class CameraSettingParser {
 	private CameraSettingParser() { Guards.throwStaticClassInstantiateError(); }

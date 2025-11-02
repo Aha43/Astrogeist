@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-import astrogeist.engine.logging.LoggingController;
+import aha.common.logging.LoggingController;
 
 public final class LoggingLevelsPanel extends JPanel {
     private static final long serialVersionUID = 1L;

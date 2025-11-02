@@ -5,7 +5,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 import aha.common.Guards;
-import astrogeist.engine.abstraction.persistence.AstrogeistStorageManager;
+import aha.common.abstraction.appdata.AppDataManager;
 import astrogeist.engine.abstraction.timeline.TimelineNames;
 import astrogeist.ui.swing.App;
 import astrogeist.ui.swing.dialog.about.AboutDialog;
@@ -17,7 +17,7 @@ public final class MenuBarFactory {
 	private MenuBarFactory() { Guards.throwStaticClassInstantiateError(); }
 	
 	public final static JMenuBar createMenuBar(App app, 
-		AstrogeistStorageManager astrogeistStorageManager, TimelineNames timelineNames) {
+		AppDataManager astrogeistStorageManager, TimelineNames timelineNames) {
 		
 		var menuBar = new JMenuBar();
 		menuBar.add(createAstrogeistMenu(app, astrogeistStorageManager, timelineNames));
@@ -28,7 +28,7 @@ public final class MenuBarFactory {
 	}
 	
 	private final static JMenu createAstrogeistMenu(App app,
-		AstrogeistStorageManager astrogeistStorageManager, TimelineNames timelineNames) {
+		AppDataManager astrogeistStorageManager, TimelineNames timelineNames) {
 		
 		var retVal = new JMenu("File");
 		retVal.add(createSettingsItem(app, astrogeistStorageManager, timelineNames));
@@ -37,7 +37,7 @@ public final class MenuBarFactory {
 	}
 	
 	private final static JMenuItem createSettingsItem(App app,
-		AstrogeistStorageManager astrogeistStorageManager, TimelineNames timelineNames) {
+		AppDataManager astrogeistStorageManager, TimelineNames timelineNames) {
 		
 		var retVal = new JMenuItem("Settings");
 		retVal.addActionListener(e -> SettingsDialog.show(app, astrogeistStorageManager, timelineNames));

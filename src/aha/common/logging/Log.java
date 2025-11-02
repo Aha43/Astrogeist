@@ -1,38 +1,51 @@
-package astrogeist.engine.logging;
+package aha.common.logging;
 
 import java.io.IOException;
 import java.nio.file.Path;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.logging.*;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.FileHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 import aha.common.Guards;
 
+/**
+ * <p>
+ *   Logging.
+ * </p>
+ */
 public final class Log {
     private Log() { Guards.throwStaticClassInstantiateError(); }
 
     private static final String ROOT_NAME = "astrogeist";
-    private static final ConcurrentHashMap<String, Logger> cache = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<String, Logger> cache =
+    	new ConcurrentHashMap<>();
 
     // Global state
-    private static volatile Level currentLevel = Level.WARNING; // default: hide INFO unless debugging
+    private static volatile Level currentLevel =
+    	Level.WARNING; // default: hide INFO unless debugging
     private static volatile FileHandler fileHandler;
 
-    public static Logger get(Object o) { return get(o.getClass()); }
+    public final static Logger get(Object o) { return get(o.getClass()); }
 
-    public static Logger get(Class<?> cls) {
+    public final static Logger get(Class<?> cls) {
         String fullName = cls.getName();
-        String loggerName = fullName.startsWith(ROOT_NAME + ".") ? fullName : ROOT_NAME + "." + fullName;
+        String loggerName = fullName.startsWith(ROOT_NAME + ".") ?
+        	fullName : ROOT_NAME + "." + fullName;
         return cache.computeIfAbsent(loggerName, Log::createLogger);
     }
 
-    public static Logger get(String moduleSuffix) {
+    public final static Logger get(String moduleSuffix) {
         String loggerName = ROOT_NAME + "." + moduleSuffix;
         return cache.computeIfAbsent(loggerName, Log::createLogger);
     }
 
-    private static Logger createLogger(String name) {
+    private final static Logger createLogger(String name) {
         Logger logger = Logger.getLogger(name);
         logger.setUseParentHandlers(false);
 
@@ -42,17 +55,16 @@ public final class Log {
 
         logger.addHandler(console);
         if (fileHandler != null) {
-            logger.addHandler(fileHandler);
-        }
+            logger.addHandler(fileHandler); }
         logger.setLevel(currentLevel);
         return logger;
     }
 
     // ----- Global level control -----
 
-    public static Level getGlobalLevel() { return currentLevel; }
+    public final static Level getGlobalLevel() { return currentLevel; }
 
-    public static synchronized void setGlobalLevel(Level level) {
+    public final static synchronized void setGlobalLevel(Level level) {
         Level old = currentLevel;
         if (old == level) return;
 
@@ -75,7 +87,8 @@ public final class Log {
         }
         if (fileHandler != null) fileHandler.setLevel(level);
 
-        // Post-change marker: guaranteed visible even if you just turned logging down
+        // Post-change marker: guaranteed visible even if you just turned
+        // logging down
         if (level.intValue() <= Level.INFO.intValue()) {
             markerLog.info(marker("Log level is now", old, level));
         } else {
@@ -83,17 +96,21 @@ public final class Log {
         }
     }
     
-    private static final DateTimeFormatter TS = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
+    private static final DateTimeFormatter TS =
+    	DateTimeFormatter.ISO_OFFSET_DATE_TIME;
 
-    private static String marker(String prefix, Level from, Level to) {
+    private final static String marker(String prefix, Level from, Level to) {
         String ts = ZonedDateTime.now().format(TS);
-        return "════════ " + prefix + " [" + from.getName() + " → " + to.getName() + "] at " + ts + " ════════";
+        return "════════ " + prefix + " [" + from.getName() + " → " +
+        	to.getName() + "] at " + ts + " ════════";
     }
 
     // ----- Optional file logging -----
 
-    public static synchronized void enableFileLogging(Path path, boolean append) throws IOException {
-        disableFileLogging();
+    public final static synchronized void enableFileLogging(Path path,
+    	boolean append) throws IOException {
+        
+    	disableFileLogging();
         fileHandler = new FileHandler(path.toString(), append);
         fileHandler.setFormatter(new SimpleFormatter());
         fileHandler.setLevel(currentLevel);

@@ -7,8 +7,8 @@ import java.util.Objects;
 import java.util.logging.Logger;
 
 import aha.common.Guards;
+import aha.common.logging.Log;
 import astrogeist.engine.abstraction.Scanner;
-import astrogeist.engine.logging.Log;
 
 public abstract class AbstractScanner implements Scanner {
 	protected final Path path;

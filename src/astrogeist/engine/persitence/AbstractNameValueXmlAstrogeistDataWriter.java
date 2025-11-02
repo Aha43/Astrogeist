@@ -3,10 +3,10 @@ package astrogeist.engine.persitence;
 import java.io.OutputStream;
 import java.util.LinkedHashMap;
 
-import astrogeist.engine.abstraction.persistence.AstrogeistDataWriter;
+import aha.common.abstraction.appdata.AppDataWriter;
 import astrogeist.engine.util.io.NameValueMapXml;
 
-public abstract class AbstractNameValueXmlAstrogeistDataWriter implements AstrogeistDataWriter {
+public abstract class AbstractNameValueXmlAstrogeistDataWriter implements AppDataWriter {
 	
 	private final Class<?> type;
 	

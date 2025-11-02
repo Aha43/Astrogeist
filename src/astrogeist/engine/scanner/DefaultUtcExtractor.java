@@ -10,8 +10,8 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import aha.common.logging.Log;
 import astrogeist.engine.abstraction.UtcExtractor;
-import astrogeist.engine.logging.Log;
 
 public final class DefaultUtcExtractor implements UtcExtractor  {
 	private final Logger logger = Log.get(this);

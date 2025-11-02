@@ -1,13 +1,13 @@
 package astrogeist.ui.swing;
 
+import aha.common.abstraction.appdata.AppDataManager;
+import aha.common.appdata.DefaultAppDataManager;
 import astrogeist.engine.abstraction.ServiceProvider;
 import astrogeist.engine.abstraction.TypeResolver;
-import astrogeist.engine.abstraction.persistence.AstrogeistStorageManager;
 import astrogeist.engine.abstraction.selection.SnapshotSelectionService;
 import astrogeist.engine.abstraction.timeline.Timeline;
 import astrogeist.engine.abstraction.timeline.TimelineNames;
 import astrogeist.engine.abstraction.timeline.TimelineValuePool;
-import astrogeist.engine.persitence.DefaultAstrogeistStorageManager;
 import astrogeist.engine.persitence.disk.DiskAstrogeistAccessor;
 import astrogeist.engine.persitence.scannerconfig.ScannerConfigAstrogeistDataReader;
 import astrogeist.engine.persitence.settings.SettingsAstrogeistDataReader;
@@ -32,7 +32,7 @@ public final class AstrogeistServiceProvider implements ServiceProvider {
 		if (clazz == TimelineValuePool.class) return clazz.cast(this.timelineValuePool);
 		if (clazz == TimelineNames.class) return clazz.cast(this.timelineNames);
 		if (clazz == SnapshotSelectionService.class) return clazz.cast(this.snapshotSelectionService);
-		if (clazz == AstrogeistStorageManager.class) return clazz.cast(this.astrogeistStorageManager);
+		if (clazz == AppDataManager.class) return clazz.cast(this.astrogeistStorageManager);
 		throw new IllegalArgumentException("Unsupported service type: " + clazz.getName());
 	}
 	
@@ -42,7 +42,7 @@ public final class AstrogeistServiceProvider implements ServiceProvider {
 	
     private final SnapshotSelectionService snapshotSelectionService = new DefaultSnapshotSelectionService();
     
-    private final AstrogeistStorageManager astrogeistStorageManager = new DefaultAstrogeistStorageManager(
+    private final AppDataManager astrogeistStorageManager = new DefaultAppDataManager(
     	new DiskAstrogeistAccessor(), 
     	new ScannerConfigAstrogeistDataReader(),
     	new UserDataDefinitionsAstrogeistDataReader(),

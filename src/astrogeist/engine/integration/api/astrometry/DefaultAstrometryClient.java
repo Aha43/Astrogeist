@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import aha.common.Durations;
+import aha.common.logging.Log;
 import aha.common.net.HttpUtils;
 import aha.common.net.MultipartBody;
 import astrogeist.engine.integration.api.astrometry.abstraction.AstrometryClient;
@@ -36,7 +37,6 @@ import astrogeist.engine.integration.api.astrometry.model.builder.MachineTagsBui
 import astrogeist.engine.integration.api.astrometry.model.builder.ObjectsInFieldBuilder;
 import astrogeist.engine.integration.api.astrometry.model.builder.StatusBuilder;
 import astrogeist.engine.integration.api.astrometry.model.builder.TagsBuilder;
-import astrogeist.engine.logging.Log;
 
 public final class DefaultAstrometryClient implements AstrometryClient {
 	private final Logger logger = Log.get(this);

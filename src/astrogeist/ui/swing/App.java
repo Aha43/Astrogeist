@@ -12,8 +12,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 
+import aha.common.abstraction.appdata.AppDataManager;
 import astrogeist.engine.abstraction.ServiceProvider;
-import astrogeist.engine.abstraction.persistence.AstrogeistStorageManager;
 import astrogeist.engine.abstraction.selection.SnapshotSelectionService;
 import astrogeist.engine.abstraction.timeline.Timeline;
 import astrogeist.engine.abstraction.timeline.TimelineNames;
@@ -42,14 +42,14 @@ public final class App {
 	
 	private final TimelineTablePanel timelinePanel = new TimelineTablePanel(
 		this,
-		this.services.get(AstrogeistStorageManager.class),
+		this.services.get(AppDataManager.class),
 		this.services.get(UserDataIo.class),
 		this.services.get(TimelineNames.class), 
 		this.services.get(SnapshotSelectionService.class));
 	
 	private final FilteredTimelineViewTablePanel searchPanel = new FilteredTimelineViewTablePanel(
 		this,
-		this.services.get(AstrogeistStorageManager.class),
+		this.services.get(AppDataManager.class),
 		this.services.get(TimelineNames.class),
 		this.services.get(SnapshotSelectionService.class));
 	
@@ -62,7 +62,7 @@ public final class App {
 	// Actions
 	public final Action ScanAction = new ShowScanningDialogAction(
 		this,
-		this.services.get(AstrogeistStorageManager.class),
+		this.services.get(AppDataManager.class),
 		this.services.get(Timeline.class),
 		this.services.get(TimelineValuePool.class));
 	
@@ -79,7 +79,7 @@ public final class App {
 
 		this.frame.setJMenuBar(MenuBarFactory.createMenuBar(
 			this,
-			this.services.get(AstrogeistStorageManager.class),
+			this.services.get(AppDataManager.class),
 			this.services.get(TimelineNames.class)));
 		
 		this.frame.add(ToolBarFactory.createToolBar(this), BorderLayout.NORTH);

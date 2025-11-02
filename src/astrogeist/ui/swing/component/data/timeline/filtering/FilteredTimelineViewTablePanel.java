@@ -3,7 +3,7 @@ package astrogeist.ui.swing.component.data.timeline.filtering;
 import javax.swing.JButton;
 import javax.swing.JTable;
 
-import astrogeist.engine.abstraction.persistence.AstrogeistStorageManager;
+import aha.common.abstraction.appdata.AppDataManager;
 import astrogeist.engine.abstraction.selection.SnapshotSelectionService;
 import astrogeist.engine.abstraction.timeline.TimelineNames;
 import astrogeist.engine.abstraction.timeline.TimelineView;
@@ -22,7 +22,7 @@ public class FilteredTimelineViewTablePanel extends AbstractTimelineViewTablePan
 	
 	public FilteredTimelineViewTablePanel(
 		App app,
-		AstrogeistStorageManager astrogeistStorageManager,
+		AppDataManager astrogeistStorageManager,
 		TimelineNames timelineNames,
 		SnapshotSelectionService snapshotSelectionService) { 
 		super(app, astrogeistStorageManager, new FilteredTimelineViewTableModel(), timelineNames, snapshotSelectionService);

@@ -5,11 +5,11 @@ import java.util.logging.Logger;
 
 import aha.common.FilesUtil;
 import aha.common.async.CancellationToken;
+import aha.common.logging.Log;
 import astrogeist.engine.abstraction.FileParser;
 import astrogeist.engine.abstraction.UtcExtractor;
 import astrogeist.engine.abstraction.jobs.JobProgressListener;
 import astrogeist.engine.abstraction.timeline.Timeline;
-import astrogeist.engine.logging.Log;
 
 /**
  * <p>

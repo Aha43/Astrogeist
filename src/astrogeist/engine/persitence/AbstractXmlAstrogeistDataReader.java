@@ -4,10 +4,10 @@ import java.io.InputStream;
 
 import org.w3c.dom.Document;
 
-import astrogeist.engine.abstraction.persistence.AstrogeistDataReader;
+import aha.common.abstraction.appdata.AppDataReader;
 import astrogeist.engine.util.io.XmlUtil;
 
-public abstract class AbstractXmlAstrogeistDataReader implements AstrogeistDataReader  {
+public abstract class AbstractXmlAstrogeistDataReader implements AppDataReader  {
 	
 	private final Class<?> type;
 	

@@ -4,16 +4,16 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Set;
 
-import astrogeist.engine.abstraction.persistence.AstrogeistStorageManager;
+import aha.common.abstraction.appdata.AppDataManager;
 import astrogeist.engine.abstraction.timeline.TimelineNames;
 import astrogeist.engine.persitence.userdatadefinitions.UserDataDefinitions;
 
 public final class DefaultTimelineNames implements TimelineNames {
 	private final LinkedHashMap<String, String> mapping = new LinkedHashMap<>();
 	
-	private final AstrogeistStorageManager astrogeistStorageManager;
+	private final AppDataManager astrogeistStorageManager;
 	
-	public DefaultTimelineNames(AstrogeistStorageManager astrogeistStorageManager) {
+	public DefaultTimelineNames(AppDataManager astrogeistStorageManager) {
 		this.astrogeistStorageManager = astrogeistStorageManager; 
 		
 		AddMapping("Binning");

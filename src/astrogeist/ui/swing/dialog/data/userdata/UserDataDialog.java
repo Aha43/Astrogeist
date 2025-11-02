@@ -8,7 +8,7 @@ import java.util.LinkedHashMap;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import astrogeist.engine.abstraction.persistence.AstrogeistStorageManager;
+import aha.common.abstraction.appdata.AppDataManager;
 import astrogeist.engine.persitence.userdatadefinitions.UserDataDefinitions;
 import astrogeist.engine.timeline.TimelineValue;
 import astrogeist.engine.userdata.UserDataIo;
@@ -28,7 +28,7 @@ public final class UserDataDialog extends ModalDialogBase {
 	
 	private UserDataDialog(
 		App app, 
-		AstrogeistStorageManager astrogeistStorageManager,
+		AppDataManager astrogeistStorageManager,
 		Instant time, 
 		UserDataIo userDataIo,
 		LinkedHashMap<String, TimelineValue> userData) {
@@ -77,7 +77,7 @@ public final class UserDataDialog extends ModalDialogBase {
 	
 	public static void show(
 		App app,
-		AstrogeistStorageManager astrogeistStorageManager,
+		AppDataManager astrogeistStorageManager,
 		Instant t, 
 		UserDataIo userDataIo,
 		LinkedHashMap<String, TimelineValue> userData) { 

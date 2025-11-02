@@ -2,8 +2,8 @@ package astrogeist.ui.swing.scanning;
 
 import java.util.List;
 
+import aha.common.abstraction.appdata.AppDataManager;
 import astrogeist.engine.abstraction.Scanner;
-import astrogeist.engine.abstraction.persistence.AstrogeistStorageManager;
 import astrogeist.engine.abstraction.timeline.Timeline;
 import astrogeist.engine.abstraction.timeline.TimelineValuePool;
 import astrogeist.engine.persitence.scannerconfig.ScanningConfiguration;
@@ -16,11 +16,11 @@ public final class ScanningDialog extends ModalDialogBase {
 	
 	private final ScannersSelectionPanel scannersSelectionPanel;
 	
-	private final AstrogeistStorageManager astrogeistStorageManager;
+	private final AppDataManager astrogeistStorageManager;
 	
 	public ScanningDialog(
 		App app,
-		AstrogeistStorageManager astrogeistStorageManager,
+		AppDataManager astrogeistStorageManager,
 		Timeline timeline,
 		TimelineValuePool tvp) throws Exception {
 		

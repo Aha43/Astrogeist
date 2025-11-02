@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import aha.common.logging.Log;
 import astrogeist.engine.abstraction.FileParser;
 import astrogeist.engine.abstraction.timeline.Timeline;
-import astrogeist.engine.logging.Log;
 
 /**
  * <p>

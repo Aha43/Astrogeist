@@ -1,4 +1,4 @@
-package astrogeist.engine.logging;
+package aha.common.logging;
 
 import java.util.ArrayDeque;
 import java.util.Date;
@@ -16,20 +16,28 @@ import java.util.logging.SimpleFormatter;
 
 import aha.common.Guards;
 
+/**
+ * <p>
+ *   Logging control.
+ * </p>
+ */
 public final class LoggingController {
 	private LoggingController() { Guards.throwStaticClassInstantiateError(); }
 	
     private static final Logger root = Logger.getLogger("");
-    private static final Deque<Map<String, Level>> levelStack = new ArrayDeque<>();
+    private static final Deque<Map<String, Level>> levelStack =
+    	new ArrayDeque<>();
 
     /**
      * <p> 
-     *   Apply levels for specific package prefixes. Example: {"astrogeist.engine": FINE, "astrogeist.ui": INFO} 
+     *   Apply levels for specific package prefixes. Example: 
+     *   {"astrogeist.engine": FINE, "astrogeist.ui": INFO} 
      * </p>
      */
-    public static void apply(Map<String, Level> packageLevels) {
+    public final static void apply(Map<String, Level> packageLevels) {
         Objects.requireNonNull(packageLevels, "packageLevels");
-        // Ensure console handler prints at least as verbose as the most verbose package we ask for.
+        // Ensure console handler prints at least as verbose as the most
+        // verbose package we ask for.
         ensureConsoleHandler();
 
         // Remember current levels for these packages so we can restore.
@@ -48,8 +56,12 @@ public final class LoggingController {
         }
     }
 
-    /** Restore the most recent apply() call’s levels. Safe if stack is empty. */
-    public static void pop() {
+    /**
+     * <p> 
+     *   Restore the most recent apply() call’s levels. Safe if stack is empty.
+     * </p>
+     */
+    public final static void pop() {
         if (levelStack.isEmpty()) return;
         Map<String, Level> prev = levelStack.pop();
         for (Map.Entry<String, Level> e : prev.entrySet()) {
@@ -58,8 +70,13 @@ public final class LoggingController {
         }
     }
 
-    /** Convenience: parse "astrogeist.engine=FINE, astrogeist.ui=INFO, *=WARNING" */
-    public static Map<String, Level> parse(String spec) {
+    /**
+     * <p> 
+     *   Convenience: parse 
+     *   "astrogeist.engine=FINE, astrogeist.ui=INFO, *=WARNING"
+     * </p>
+     */
+    public final static Map<String, Level> parse(String spec) {
         Map<String, Level> result = new LinkedHashMap<>();
         if (spec == null || spec.isBlank()) return result;
         for (String part : spec.split(",")) {
@@ -80,7 +97,7 @@ public final class LoggingController {
         return result;
     }
 
-    private static Level parseLevel(String s) {
+    private final static Level parseLevel(String s) {
         // Accept JUL names and numbers; fall back to INFO
         try {
             return Level.parse(s);
@@ -89,7 +106,7 @@ public final class LoggingController {
         }
     }
 
-    private static void ensureConsoleHandler() {
+    private final static void ensureConsoleHandler() {
         // Add a single ConsoleHandler if not present; keep it simple.
         boolean hasConsole = false;
         for (Handler h : root.getHandlers()) {
@@ -99,22 +116,26 @@ public final class LoggingController {
             ConsoleHandler ch = new ConsoleHandler();
             ch.setLevel(Level.ALL);
             ch.setFormatter(new SimpleFormatter() {
-                private static final String fmt = "%1$tF %1$tT %4$s %2$s - %5$s%6$s%n";
+                String fmt = "%1$tF %1$tT %4$s %2$s - %5$s%6$s%n";
                 @Override public synchronized String format(LogRecord r) {
-                    String thrown = (r.getThrown() == null) ? "" : ("\n" + stackTrace(r.getThrown()));
+                    String thrown = (r.getThrown() == null) 
+                    	? "" : ("\n" + stackTrace(r.getThrown()));
                     return String.format(Locale.ROOT, fmt,
-                            new Date(r.getMillis()), r.getLoggerName(), r.getSourceMethodName(),
-                            r.getLevel().getName(), r.getMessage(), thrown);
+                    	new Date(r.getMillis()), r.getLoggerName(),
+                    	r.getSourceMethodName(),
+                    	r.getLevel().getName(), r.getMessage(), thrown);
                 }
             });
             root.addHandler(ch);
-            // Let root inherit platform default level; individual packages will override.
+            // Let root inherit platform default level; individual packages 
+            // will override.
         }
     }
 
-    private static String stackTrace(Throwable t) {
+    private final static String stackTrace(Throwable t) {
         var sw = new java.io.StringWriter();
         t.printStackTrace(new java.io.PrintWriter(sw));
         return sw.toString();
     }
+    
 }

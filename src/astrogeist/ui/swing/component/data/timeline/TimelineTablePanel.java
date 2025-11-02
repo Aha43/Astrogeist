@@ -5,7 +5,7 @@ import java.util.LinkedHashMap;
 
 import javax.swing.JButton;
 
-import astrogeist.engine.abstraction.persistence.AstrogeistStorageManager;
+import aha.common.abstraction.appdata.AppDataManager;
 import astrogeist.engine.abstraction.selection.SnapshotSelectionService;
 import astrogeist.engine.abstraction.timeline.Timeline;
 import astrogeist.engine.abstraction.timeline.TimelineNames;
@@ -20,13 +20,13 @@ import astrogeist.ui.swing.dialog.timeline.mapping.TimelineMappingDialog;
 public final class TimelineTablePanel extends AbstractTimelineViewTablePanel {
 	private static final long serialVersionUID = 1L;
 	
-	private final AstrogeistStorageManager astrogeistStorageManager;
+	private final AppDataManager astrogeistStorageManager;
 	
 	private final UserDataIo userDataIo; 
 	
 	public TimelineTablePanel(
 		App app,
-		AstrogeistStorageManager astrogeistStorageManager,
+		AppDataManager astrogeistStorageManager,
 		UserDataIo userDataIo,
 		TimelineNames timelineNames,
 		SnapshotSelectionService snapshotSelectionService) {

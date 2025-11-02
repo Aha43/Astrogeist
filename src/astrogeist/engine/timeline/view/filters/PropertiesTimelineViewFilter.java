@@ -5,8 +5,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import aha.common.logging.Log;
 import astrogeist.engine.abstraction.timeline.TimelineView;
-import astrogeist.engine.logging.Log;
 
 public final class PropertiesTimelineViewFilter extends AbstractTimelineViewFilter {
 	private final Logger logger = Log.get(this);

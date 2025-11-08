@@ -1,4 +1,4 @@
-package aha.common.appdata;
+package aha.common.io.appdata;
 
 import java.util.HashMap;
 import java.util.Map;

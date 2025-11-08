@@ -1,4 +1,4 @@
-package aha.common.appdata;
+package aha.common.io.appdata;
 
 import java.io.File;
 import java.io.FileInputStream;

@@ -3,7 +3,7 @@ package astrogeist.engine.appdata;
 import java.nio.file.Path;
 
 import aha.common.abstraction.appdata.AppDataAccessor;
-import aha.common.appdata.DiskAppDataAccessor;
+import aha.common.io.appdata.DiskAppDataAccessor;
 import astrogeist.engine.resources.Resources;
 
 /**

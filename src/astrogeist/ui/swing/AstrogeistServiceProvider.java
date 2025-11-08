@@ -1,7 +1,7 @@
 package astrogeist.ui.swing;
 
 import aha.common.abstraction.appdata.AppDataManager;
-import aha.common.appdata.DefaultAppDataManager;
+import aha.common.io.appdata.DefaultAppDataManager;
 import astrogeist.engine.abstraction.ServiceProvider;
 import astrogeist.engine.abstraction.TypeResolver;
 import astrogeist.engine.abstraction.selection.SnapshotSelectionService;

@@ -8,8 +8,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.logging.Logger;
 
-import aha.common.Empty;
 import aha.common.logging.Log;
+import aha.common.util.Empty;
 import astrogeist.engine.abstraction.Scanner;
 
 /**

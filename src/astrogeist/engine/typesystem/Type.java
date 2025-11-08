@@ -4,8 +4,8 @@ import java.io.File;
 import java.nio.file.Path;
 import java.util.Stack;
 
-import aha.common.FilesUtil;
-import aha.common.Strings;
+import aha.common.util.FilesUtil;
+import aha.common.util.Strings;
 
 public abstract class Type {
 	

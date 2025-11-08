@@ -3,7 +3,7 @@ package astrogeist.engine.resources;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
-import aha.common.Guards;
+import aha.common.util.Guards;
 
 public final class Time {
 	private Time() { Guards.throwStaticClassInstantiateError(); }

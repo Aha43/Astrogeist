@@ -3,8 +3,8 @@ package astrogeist.engine.persitence.settings;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import aha.common.Guards;
-import aha.common.Strings;
+import aha.common.util.Guards;
+import aha.common.util.Strings;
 
 public final class Settings {
 	public static final String TABLE_COLUMNS="ui:table-columns";

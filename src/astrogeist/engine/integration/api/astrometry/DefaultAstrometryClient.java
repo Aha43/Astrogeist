@@ -16,10 +16,10 @@ import java.util.logging.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import aha.common.Durations;
 import aha.common.logging.Log;
 import aha.common.net.HttpUtils;
 import aha.common.net.MultipartBody;
+import aha.common.util.Durations;
 import astrogeist.engine.integration.api.astrometry.abstraction.AstrometryClient;
 import astrogeist.engine.integration.api.astrometry.model.Annotations;
 import astrogeist.engine.integration.api.astrometry.model.AstrometryModel;

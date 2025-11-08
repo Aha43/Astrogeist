@@ -2,7 +2,7 @@ package astrogeist.engine.integration.api.astrometry.model;
 
 import java.util.Set;
 
-import aha.common.Empty;
+import aha.common.util.Empty;
 
 public final class MachineTags extends AstrometryModel {
 

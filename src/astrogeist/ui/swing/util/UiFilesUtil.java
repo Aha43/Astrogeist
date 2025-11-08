@@ -3,7 +3,7 @@ package astrogeist.ui.swing.util;
 import java.io.File;
 import java.nio.file.Path;
 
-import aha.common.Guards;
+import aha.common.util.Guards;
 import astrogeist.ui.swing.dialog.message.MessageDialogs;
 
 public final class UiFilesUtil {

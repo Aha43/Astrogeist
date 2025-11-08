@@ -2,7 +2,7 @@ package aha.common.net;
 
 import java.net.http.HttpResponse;
 
-import aha.common.Guards;
+import aha.common.util.Guards;
 
 public final class HttpUtils {
     private HttpUtils() { Guards.throwStaticClassInstantiateError(); }

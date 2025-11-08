@@ -2,7 +2,7 @@ package astrogeist.engine.timeline.view.filters;
 
 import java.time.Instant;
 
-import aha.common.Instants.Interval;
+import aha.common.util.Instants.Interval;
 import astrogeist.engine.abstraction.timeline.TimelineView;
 
 public final class TimeRangeTimelineViewFilter extends AbstractTimelineViewFilter {

@@ -8,7 +8,7 @@ import java.util.Map;
 
 import javax.swing.JPanel;
 
-import aha.common.FilesUtil;
+import aha.common.util.FilesUtil;
 import astrogeist.engine.abstraction.selection.SnapshotListener;
 import astrogeist.engine.abstraction.selection.SnapshotSelectionService;
 import astrogeist.engine.timeline.TimelineSnapshotUtil;

@@ -6,13 +6,13 @@ import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import aha.common.Cast;
 import aha.common.abstraction.appdata.AppData;
 import aha.common.abstraction.appdata.AppDataAccessor;
 import aha.common.abstraction.appdata.AppDataManager;
 import aha.common.abstraction.appdata.AppDataReader;
 import aha.common.abstraction.appdata.AppDataWriter;
 import aha.common.logging.Log;
+import aha.common.util.Cast;
 
 /**
  * <p>

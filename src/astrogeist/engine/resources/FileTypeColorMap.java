@@ -3,7 +3,7 @@ package astrogeist.engine.resources;
 import java.awt.Color;
 import java.util.Map;
 
-import aha.common.Guards;
+import aha.common.util.Guards;
 import astrogeist.engine.typesystem.Type;
 
 public final class FileTypeColorMap { 

@@ -1,4 +1,4 @@
-package aha.common;
+package aha.common.util;
 
 import java.time.Instant;
 import java.time.LocalDate;

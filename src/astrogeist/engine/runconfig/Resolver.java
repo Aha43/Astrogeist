@@ -2,7 +2,7 @@ package astrogeist.engine.runconfig;
 
 import java.util.Map;
 
-import aha.common.Guards;
+import aha.common.util.Guards;
 
 public final class Resolver {
 	private Resolver() { Guards.throwStaticClassInstantiateError(); }

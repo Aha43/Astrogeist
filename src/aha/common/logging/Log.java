@@ -12,7 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
-import aha.common.Guards;
+import aha.common.util.Guards;
 
 /**
  * <p>

@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
-import aha.common.OS;
+import aha.common.util.OS;
 
 public final class VariableBag extends HashMap<String,String> {
 	private static final long serialVersionUID = 1L;

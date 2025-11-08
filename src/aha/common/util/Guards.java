@@ -1,4 +1,4 @@
-package aha.common;
+package aha.common.util;
 
 import java.util.Map;
 import java.util.Objects;

@@ -9,7 +9,7 @@ import javax.swing.JComponent;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 
-import aha.common.Guards;
+import aha.common.util.Guards;
 
 public final class ColumnTooltipEnabler {
     private ColumnTooltipEnabler() { Guards.throwStaticClassInstantiateError(); }

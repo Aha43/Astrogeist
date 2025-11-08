@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import aha.common.Guards;
+import aha.common.util.Guards;
 import astrogeist.engine.runconfig.model.Command;
 import astrogeist.engine.runconfig.model.CopyRule;
 import astrogeist.engine.runconfig.model.RunConfig;

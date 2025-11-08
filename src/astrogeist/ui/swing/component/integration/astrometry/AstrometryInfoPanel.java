@@ -28,9 +28,9 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
 
-import aha.common.DecimalFormats;
-import aha.common.Guards;
-import aha.common.Safe;
+import aha.common.util.DecimalFormats;
+import aha.common.util.Guards;
+import aha.common.util.Safe;
 import astrogeist.engine.integration.api.astrometry.DefaultAstrometryClient;
 import astrogeist.engine.integration.api.astrometry.abstraction.AstrometryClient;
 import astrogeist.engine.integration.api.astrometry.model.Annotations;

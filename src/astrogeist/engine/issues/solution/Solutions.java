@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
-import aha.common.Guards;
+import aha.common.util.Guards;
 import astrogeist.engine.abstraction.Solution;
 import astrogeist.engine.issues.Issue;
 

@@ -2,7 +2,7 @@ package astrogeist.ui.swing.dialog.settings.editors;
 
 import javax.swing.JComponent;
 
-import aha.common.Strings;
+import aha.common.util.Strings;
 import astrogeist.engine.abstraction.timeline.TimelineNames;
 import astrogeist.ui.swing.component.selection.SelectionTablePanel;
 

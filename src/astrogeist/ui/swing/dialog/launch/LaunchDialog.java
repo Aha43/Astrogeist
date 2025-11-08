@@ -21,7 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.KeyStroke;
 
-import aha.common.ImageUtil;
+import aha.common.util.ImageUtil;
 import astrogeist.engine.resources.Resources;
 import astrogeist.ui.swing.component.logging.GlobalLoggingPanel;
 

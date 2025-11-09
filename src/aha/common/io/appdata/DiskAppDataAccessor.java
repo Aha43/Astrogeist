@@ -7,10 +7,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.logging.Logger;
 
-import aha.common.abstraction.appdata.AppData;
-import aha.common.abstraction.appdata.AppDataAccessor;
-import aha.common.abstraction.appdata.AppDataReader;
-import aha.common.abstraction.appdata.AppDataWriter;
+import aha.common.abstraction.io.appdata.AppData;
+import aha.common.abstraction.io.appdata.AppDataAccessor;
+import aha.common.abstraction.io.appdata.AppDataReader;
+import aha.common.abstraction.io.appdata.AppDataWriter;
 import aha.common.logging.Log;
 
 /**

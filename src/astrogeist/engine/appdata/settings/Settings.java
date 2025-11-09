@@ -1,4 +1,4 @@
-package astrogeist.engine.persitence.settings;
+package astrogeist.engine.appdata.settings;
 
 import java.util.LinkedHashMap;
 import java.util.List;

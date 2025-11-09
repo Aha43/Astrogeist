@@ -1,4 +1,4 @@
-package aha.common.abstraction.appdata;
+package aha.common.abstraction.io.appdata;
 
 import java.io.InputStream;
 

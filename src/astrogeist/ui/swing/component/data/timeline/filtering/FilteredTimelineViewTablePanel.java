@@ -3,7 +3,7 @@ package astrogeist.ui.swing.component.data.timeline.filtering;
 import javax.swing.JButton;
 import javax.swing.JTable;
 
-import aha.common.abstraction.appdata.AppDataManager;
+import aha.common.abstraction.io.appdata.AppDataManager;
 import astrogeist.engine.abstraction.selection.SnapshotSelectionService;
 import astrogeist.engine.abstraction.timeline.TimelineNames;
 import astrogeist.engine.abstraction.timeline.TimelineView;

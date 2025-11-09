@@ -4,25 +4,27 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-import aha.common.abstraction.appdata.AppDataManager;
+import aha.common.abstraction.io.appdata.AppDataManager;
 import aha.common.util.Guards;
 import astrogeist.engine.abstraction.timeline.TimelineNames;
 import astrogeist.ui.swing.App;
 import astrogeist.ui.swing.dialog.about.AboutDialog;
 import astrogeist.ui.swing.dialog.logging.LoggingMenu;
 import astrogeist.ui.swing.dialog.settings.SettingsDialog;
+import astrogeist.ui.swing.runconfig.RunConfigurationsMenu;
 import astrogeist.ui.swing.tool.sun.sketching.ShowSunDialogAction;
 
 public final class MenuBarFactory {
 	private MenuBarFactory() { Guards.throwStaticClassInstantiateError(); }
 	
 	public final static JMenuBar createMenuBar(App app, 
-		AppDataManager astrogeistStorageManager, TimelineNames timelineNames) {
+		AppDataManager appDataManager, TimelineNames timelineNames) {
 		
 		var menuBar = new JMenuBar();
-		menuBar.add(createAstrogeistMenu(app, astrogeistStorageManager, timelineNames));
+		menuBar.add(createAstrogeistMenu(app, appDataManager, timelineNames));
 		menuBar.add(createDiagnosticMenu(app));
 		menuBar.add(createVisualMenu(app));
+		menuBar.add(createRunMenu(appDataManager));
 		menuBar.add(createHelpMenu(app));
 		return menuBar;
 	}
@@ -31,16 +33,18 @@ public final class MenuBarFactory {
 		AppDataManager astrogeistStorageManager, TimelineNames timelineNames) {
 		
 		var retVal = new JMenu("File");
-		retVal.add(createSettingsItem(app, astrogeistStorageManager, timelineNames));
+		retVal.add(createSettingsItem(app, astrogeistStorageManager,
+			timelineNames));
 		retVal.add(createExitItem());
 		return retVal;
 	}
 	
 	private final static JMenuItem createSettingsItem(App app,
-		AppDataManager astrogeistStorageManager, TimelineNames timelineNames) {
+		AppDataManager appDataManager, TimelineNames timelineNames) {
 		
 		var retVal = new JMenuItem("Settings");
-		retVal.addActionListener(e -> SettingsDialog.show(app, astrogeistStorageManager, timelineNames));
+		retVal.addActionListener(e -> SettingsDialog.show(app, 
+			appDataManager, timelineNames));
 		return retVal;
 	}
 	
@@ -59,6 +63,11 @@ public final class MenuBarFactory {
 	private final static JMenu createVisualMenu(App app) {
 		var retVal = new JMenu("Visual");
 		retVal.add(new ShowSunDialogAction(app));
+		return retVal;
+	}
+	
+	private final static JMenu createRunMenu(AppDataManager appDataManager) {
+		var retVal = new RunConfigurationsMenu(appDataManager);
 		return retVal;
 	}
 	

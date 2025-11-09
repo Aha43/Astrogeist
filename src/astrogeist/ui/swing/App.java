@@ -12,7 +12,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 
-import aha.common.abstraction.appdata.AppDataManager;
+import aha.common.abstraction.io.appdata.AppDataManager;
 import astrogeist.engine.abstraction.ServiceProvider;
 import astrogeist.engine.abstraction.selection.SnapshotSelectionService;
 import astrogeist.engine.abstraction.timeline.Timeline;

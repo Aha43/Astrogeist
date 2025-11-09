@@ -22,7 +22,6 @@ import aha.common.util.Guards;
 public final class Log {
     private Log() { Guards.throwStaticClassInstantiateError(); }
 
-    private static final String ROOT_NAME = "astrogeist";
     private static final ConcurrentHashMap<String, Logger> cache =
     	new ConcurrentHashMap<>();
 
@@ -31,18 +30,28 @@ public final class Log {
     	Level.WARNING; // default: hide INFO unless debugging
     private static volatile FileHandler fileHandler;
 
+    
+    /**
+     * <p>
+     *   Gets
+     *   {@link Logger} to use.
+     * </p>
+     * @param o the object doing the logging.
+     * @return the {@link Logger} to use.
+     */
     public final static Logger get(Object o) { return get(o.getClass()); }
-
+    
+    /**
+     * <p>
+     *   Gets
+     *   {@link Logger} to use.
+     * </p>
+     * @param cls the class of the object doing the logging.
+     * @return the {@link Logger} to use.
+     */
     public final static Logger get(Class<?> cls) {
         String fullName = cls.getName();
-        String loggerName = fullName.startsWith(ROOT_NAME + ".") ?
-        	fullName : ROOT_NAME + "." + fullName;
-        return cache.computeIfAbsent(loggerName, Log::createLogger);
-    }
-
-    public final static Logger get(String moduleSuffix) {
-        String loggerName = ROOT_NAME + "." + moduleSuffix;
-        return cache.computeIfAbsent(loggerName, Log::createLogger);
+        return cache.computeIfAbsent(fullName, Log::createLogger);
     }
 
     private final static Logger createLogger(String name) {
@@ -62,8 +71,22 @@ public final class Log {
 
     // ----- Global level control -----
 
+    /**
+     * <p>
+     *   Gets the current global log
+     *   {@link Level}.
+     * </p>
+     * @return the {@link Level}.
+     */
     public final static Level getGlobalLevel() { return currentLevel; }
 
+    /**
+     * <p>
+     *   Sets the current global log
+     *   {@link Level}.
+     * </p>
+     * @param level the {@link Level} to set.
+     */
     public final static synchronized void setGlobalLevel(Level level) {
         Level old = currentLevel;
         if (old == level) return;
@@ -119,7 +142,7 @@ public final class Log {
         for (Logger l : cache.values()) l.addHandler(fileHandler);
     }
 
-    public static synchronized void disableFileLogging() {
+    public final static synchronized void disableFileLogging() {
         if (fileHandler != null) {
             for (Logger l : cache.values()) l.removeHandler(fileHandler);
             try { fileHandler.close(); } catch (Exception ignored) {}
@@ -131,10 +154,18 @@ public final class Log {
 
     // Root convenience
     private static final Logger root = get("root");
-    public static void info(String msg)  { root.info(msg); }
-    public static void warn(String msg)  { root.warning(msg); }
-    public static void error(String msg) { root.severe(msg); }
-    public static void debug(String msg) { root.fine(msg); }
-    public static void error(String msg, Throwable t) { root.log(Level.SEVERE, msg, t); }
-    public static void debug(String msg, Throwable t) { root.log(Level.FINE, msg, t); }
+    public final static void info(String msg)  { root.info(msg); }
+    public final static void warn(String msg)  { root.warning(msg); }
+    public final static void error(String msg) { root.severe(msg); }
+    public final static void debug(String msg) { root.fine(msg); }
+    public final static void error(String msg, Throwable t) { 
+    	root.log(Level.SEVERE, msg, t); }
+    public final static void debug(String msg, Throwable t) { 
+    	root.log(Level.FINE, msg, t); }
+    
+    // Error convenience
+    public final static void error(Logger logger, Throwable t) {
+    	error(logger, "Severe error", t); }
+    public final static void error(Logger logger, String msg, Throwable t) {
+    	logger.log(Level.SEVERE, msg, t); }
 }

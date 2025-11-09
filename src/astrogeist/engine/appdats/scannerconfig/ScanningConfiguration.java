@@ -1,4 +1,4 @@
-package astrogeist.engine.persitence.scannerconfig;
+package astrogeist.engine.appdats.scannerconfig;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;

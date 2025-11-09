@@ -49,12 +49,24 @@ public final class Safe {
 	
 	/**
 	 * <p>
-	 *   Returns a empty collection id passed collection is {@code null}.
+	 *   Returns an empty collection id passed collection is {@code null}.
 	 * </p>
 	 * @param c Passed collection.
 	 * @return Collection to access.
 	 */
 	public final static Collection<String> collection(Collection<String> c) {
 		return c == null ? List.of() : c; }
+	
+	/**
+	 * <p>
+	 *   If {@code o == null} returns 'null' else 
+	 *   {@code o.getClass().toString()}. 
+	 * </p>
+	 * @param o Object to get class name for.
+	 * @return the string 'null' if {@code o == null} else the class name of
+	 *         {@code o}. 
+	 */
+	public final static String className(Object o) {
+		return o == null ? "null" : o.getClass().toString(); }
 
 }

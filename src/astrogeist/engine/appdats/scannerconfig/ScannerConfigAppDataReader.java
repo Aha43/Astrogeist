@@ -1,4 +1,4 @@
-package astrogeist.engine.persitence.scannerconfig;
+package astrogeist.engine.appdats.scannerconfig;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -10,13 +10,17 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import astrogeist.engine.appdata.AbstractXmlAstrogeistDataReader;
+import aha.common.abstraction.io.appdata.AppDataReader;
+import aha.common.io.XmlUtil;
+import aha.common.io.appdata.AbstractAppData;
 
-public final class ScannerConfigAstrogeistDataReader extends AbstractXmlAstrogeistDataReader {
+public final class ScannerConfigAppDataReader extends AbstractAppData
+	implements AppDataReader {
 	
-	public ScannerConfigAstrogeistDataReader() { super(ScanningConfiguration.class); } 
+	public ScannerConfigAppDataReader() { super(ScanningConfiguration.class); } 
 	
-	@Override public final Object createDefault() { return new ScanningConfiguration(); }
+	@Override public final Object createDefault() { 
+		return new ScanningConfiguration(); }
 		
 	@Override public final Object read(InputStream in) throws Exception {
 		var data = readXml(in);
@@ -24,8 +28,10 @@ public final class ScannerConfigAstrogeistDataReader extends AbstractXmlAstrogei
 		return retVal;
 	}
 	
-	private final Map<String, List<String>> readXml(InputStream in) throws Exception {
-        var doc = super.parse(in);
+	private final Map<String, List<String>> readXml(InputStream in) 
+		throws Exception {
+        
+		var doc = XmlUtil.parse(in);
         doc.getDocumentElement().normalize();
 
         Map<String, List<String>> map = new LinkedHashMap<>(); // preserve order
@@ -43,9 +49,12 @@ public final class ScannerConfigAstrogeistDataReader extends AbstractXmlAstrogei
             // collect immediate <location> children (preserve order)
             var children = scannerEl.getChildNodes();
             for (int j = 0; j < children.getLength(); j++) {
-                var c = children.item(j);
-                if (c.getNodeType() == Node.ELEMENT_NODE && "location".equals(c.getNodeName())) {
-                    var value = c.getTextContent();
+                
+            	var c = children.item(j);
+                if (c.getNodeType() == Node.ELEMENT_NODE && 
+                	"location".equals(c.getNodeName())) {
+                    
+                	var value = c.getTextContent();
                     if (value != null) {
                         var trimmed = value.trim();
                         if (!trimmed.isEmpty()) locations.add(trimmed);

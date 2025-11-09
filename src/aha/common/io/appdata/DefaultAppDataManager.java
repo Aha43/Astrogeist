@@ -1,16 +1,17 @@
 package aha.common.io.appdata;
 
+import static aha.common.logging.Log.error;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import aha.common.abstraction.appdata.AppData;
-import aha.common.abstraction.appdata.AppDataAccessor;
-import aha.common.abstraction.appdata.AppDataManager;
-import aha.common.abstraction.appdata.AppDataReader;
-import aha.common.abstraction.appdata.AppDataWriter;
+import aha.common.abstraction.io.appdata.AppData;
+import aha.common.abstraction.io.appdata.AppDataAccessor;
+import aha.common.abstraction.io.appdata.AppDataManager;
+import aha.common.abstraction.io.appdata.AppDataReader;
+import aha.common.abstraction.io.appdata.AppDataWriter;
 import aha.common.logging.Log;
 import aha.common.util.Cast;
 
@@ -48,13 +49,13 @@ public final class DefaultAppDataManager implements AppDataManager {
 		var reader = Cast.as(AppDataReader.class, ad);
 		if (reader != null) {
 			this.logger.info("add : '" + type.getName() +
-				"' as reader of astrogeist data");
+				"' as reader of app data");
 			this.readers.put(type, reader);
 		}
 		var writer = Cast.as(AppDataWriter.class, ad);
 		if (writer != null) {
 			this.logger.info("add : '" + type.getName() +
-				"' as writer of astrogeist data");
+				"' as writer of app data");
 			this.writers.put(type, writer);
 		}
 	}
@@ -63,7 +64,7 @@ public final class DefaultAppDataManager implements AppDataManager {
 		try {
 			Objects.requireNonNull(type, "type");
 		
-			this.logger.info("load astrogeist data using reader of type : '" +
+			this.logger.info("load app data using reader of type : '" +
 				type.getName() + "'");
 		
 			var reader = this.readers.get(type);
@@ -75,7 +76,7 @@ public final class DefaultAppDataManager implements AppDataManager {
 			var retVal = this.accessor.load(reader);
 			return Cast.asOrThrow(type, retVal);
 		} catch (Exception x) {
-			logger.log(Level.SEVERE, "Failed to save settingd", x);
+			error(this.logger, "Failed to save", x);
 			throw new RuntimeException(x);
 		}
 	}

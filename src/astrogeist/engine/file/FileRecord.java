@@ -6,7 +6,9 @@ import java.time.Instant;
 import aha.common.util.FilesUtil;
 import astrogeist.engine.typesystem.Type;
 
-public record FileRecord(Type.DiskFile fileType, Path path, long sizeKB, Instant timestamp, String lastModified) {
-	public String getName() { return FilesUtil.getBaseName(path); }
-	public String getExtension() { return FilesUtil.getExtension(path); }
+public record FileRecord(Type.DiskFile fileType, Path path, long sizeKB, 
+	Instant timestamp, String lastModified) {
+	
+	public String name() { return FilesUtil.getBaseName(path); }
+	public String extension() { return FilesUtil.getExtension(path); }
 }

@@ -16,5 +16,6 @@ public final class PackageLoggingControlAction extends AbstractAction {
 		this.app = app;
 	}
 
-	@Override public void actionPerformed(ActionEvent e) { PackageLoggingControlDialog.show(app); }
+	@Override public final void actionPerformed(ActionEvent e) {
+		PackageLoggingControlDialog.show(app); }
 }

@@ -11,9 +11,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 
-import aha.common.abstraction.appdata.AppDataManager;
+import aha.common.abstraction.io.appdata.AppDataManager;
 import astrogeist.engine.abstraction.timeline.TimelineNames;
-import astrogeist.engine.persitence.settings.Settings;
+import astrogeist.engine.appdata.settings.Settings;
 import astrogeist.ui.swing.App;
 import astrogeist.ui.swing.dialog.ModalDialogBase;
 import astrogeist.ui.swing.dialog.message.MessageDialogs;
@@ -58,7 +58,7 @@ public final class SettingsDialog extends ModalDialogBase {
     		return retVal;
     	} catch (Exception x) {
     		MessageDialogs.showError(this, "Failed to load config", x);
-    		return new astrogeist.engine.persitence.settings.Settings();
+    		return new astrogeist.engine.appdata.settings.Settings();
     	}
     }
 

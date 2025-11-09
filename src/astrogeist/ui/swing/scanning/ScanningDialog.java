@@ -2,11 +2,11 @@ package astrogeist.ui.swing.scanning;
 
 import java.util.List;
 
-import aha.common.abstraction.appdata.AppDataManager;
+import aha.common.abstraction.io.appdata.AppDataManager;
 import astrogeist.engine.abstraction.Scanner;
 import astrogeist.engine.abstraction.timeline.Timeline;
 import astrogeist.engine.abstraction.timeline.TimelineValuePool;
-import astrogeist.engine.persitence.scannerconfig.ScanningConfiguration;
+import astrogeist.engine.appdats.scannerconfig.ScanningConfiguration;
 import astrogeist.engine.scanner.userdata.UserDataScanner;
 import astrogeist.ui.swing.App;
 import astrogeist.ui.swing.dialog.ModalDialogBase;

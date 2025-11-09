@@ -12,10 +12,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-import aha.common.abstraction.appdata.AppDataManager;
+import aha.common.abstraction.io.appdata.AppDataManager;
 import astrogeist.engine.abstraction.selection.SnapshotSelectionService;
 import astrogeist.engine.abstraction.timeline.TimelineNames;
-import astrogeist.engine.persitence.settings.Settings;
+import astrogeist.engine.appdata.settings.Settings;
 import astrogeist.engine.timeline.TimelineValue;
 import astrogeist.ui.swing.App;
 import astrogeist.ui.swing.component.data.timeline.selectionaction.AbstractSelectionAction;
@@ -96,7 +96,7 @@ public abstract class AbstractTimelineViewTablePanel  extends JPanel {
     		return retVal;
     	} catch (Exception x) {
     		MessageDialogs.showError(this, "Failed to load config", x);
-    		return new astrogeist.engine.persitence.settings.Settings();
+    		return new astrogeist.engine.appdata.settings.Settings();
     	}
     }
 	

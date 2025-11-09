@@ -39,9 +39,9 @@ public final class FilesTableModel extends AbstractTableModel {
 	@Override public final Object getValueAt(int row, int col) {
 		var entry = entries.get(row);
 		return switch (col) {
-			case NAME      -> entry.getName().toString();
+			case NAME      -> entry.name().toString();
 			case TYPE      -> entry.fileType().getFileTypeName();
-			case EXTENSION -> entry.getExtension();
+			case EXTENSION -> entry.extension();
 			case SIZE      -> entry.sizeKB();
 			case TIMESTAMP -> Time.TimeFormatter.format(entry.timestamp());
 			case MODIFIED  -> entry.lastModified();

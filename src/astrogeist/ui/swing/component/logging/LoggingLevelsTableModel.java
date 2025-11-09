@@ -14,17 +14,16 @@ public final class LoggingLevelsTableModel extends AbstractTableModel {
     private static final long serialVersionUID = 1L;
 
     private static final List<Level> LEVELS = List.of(
-        Level.OFF, Level.SEVERE, Level.WARNING, Level.INFO, Level.CONFIG, Level.FINE, Level.FINER, Level.FINEST, Level.ALL
+        Level.OFF, Level.SEVERE, Level.WARNING, Level.INFO, Level.CONFIG, 
+        Level.FINE, Level.FINER, Level.FINEST, Level.ALL
     );
 
     private final List<String> namespaces = new ArrayList<>();
     private final Map<String, Level> levels = new LinkedHashMap<>();
 
-    public LoggingLevelsTableModel() {
-        refreshFromLogManager();
-    }
+    public LoggingLevelsTableModel() { refreshFromLogManager(); }
 
-    public void refreshFromLogManager() {
+    public final void refreshFromLogManager() {
         namespaces.clear();
         levels.clear();
 
@@ -56,14 +55,14 @@ public final class LoggingLevelsTableModel extends AbstractTableModel {
     }
 
     // Compute effective (inherited) level for display hint
-    private Level effectiveLevel(Logger l) {
+    private final Level effectiveLevel(Logger l) {
         for (Logger cur = l; cur != null; cur = cur.getParent()) {
             if (cur.getLevel() != null) return cur.getLevel();
         }
         return Level.INFO; // JUL default if nothing set
     }
 
-    public Map<String, Level> toPackageLevelMap() {
+    public final Map<String, Level> toPackageLevelMap() {
         Map<String, Level> map = new LinkedHashMap<>();
         for (String ns : namespaces) {
             map.put(ns, levels.get(ns));
@@ -71,40 +70,41 @@ public final class LoggingLevelsTableModel extends AbstractTableModel {
         return map;
     }
 
-    @Override public int getRowCount() { return namespaces.size(); }
-    @Override public int getColumnCount() { return 2; }
+    @Override public final int getRowCount() { return namespaces.size(); }
+    @Override public final int getColumnCount() { return 2; }
 
-    @Override public String getColumnName(int c) {
-        return (c == 0) ? "Namespace" : "Level";
-    }
+    @Override public final String getColumnName(int c) {
+        return (c == 0) ? "Namespace" : "Level"; }
 
-    @Override public Class<?> getColumnClass(int c) {
-        return (c == 0) ? String.class : Level.class;
-    }
+    @Override public final Class<?> getColumnClass(int c) {
+        return (c == 0) ? String.class : Level.class; }
 
-    @Override public boolean isCellEditable(int row, int col) {
-        return col == 1; // only the Level column is editable
-    }
+    @Override public final boolean isCellEditable(int row, int col) {
+    	return false; }
 
-    @Override public Object getValueAt(int row, int col) {
+    @Override public final Object getValueAt(int row, int col) {
         String ns = namespaces.get(row);
         return (col == 0) ? (ns.isEmpty() ? "*" : ns) : levels.get(ns);
     }
 
-    @Override public void setValueAt(Object aValue, int row, int col) {
+    @Override public final void setValueAt(Object aValue, int row, int col) {
         if (col != 1) return;
-        String ns = namespaces.get(row);
-        if (aValue instanceof Level) {
-            levels.put(ns, (Level) aValue);
-            fireTableCellUpdated(row, col);
-        } else if (aValue instanceof String) {
-            try {
-                levels.put(ns, Level.parse((String) aValue));
-                fireTableCellUpdated(row, col);
-            } catch (IllegalArgumentException ignored) {}
+        var ns = namespaces.get(row);
+        
+        switch (aValue) {
+        	case Level l -> {
+        		this.levels.put(ns, l);
+        		fireTableCellUpdated(row, col);
+        	}
+        	case String s -> {
+        		try {
+        			levels.put(ns, Level.parse(s));
+        			fireTableCellUpdated(row, col);
+        		} catch (IllegalArgumentException ignored) {}
+        	}
+        	default -> {}
         }
     }
 
-    public static List<Level> allLevels() { return LEVELS; }
+    public final static List<Level> allLevels() { return LEVELS; }
 }
-

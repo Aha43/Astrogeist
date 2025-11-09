@@ -134,5 +134,14 @@ public final class Strings {
     	Guards.requireNonNegative(l, "l");
     	return l == 0 ? EMPTY : (s.length() > l ? s.substring(0, l) : s);
     }
+    
+    /**
+     * <p>
+     *   Quotes.
+     * </p>
+     * @param o the object to quote.
+     * @return the string {@code ' + o + '}
+     */
+    public final static String quote(Object o) { return "'" + o + "'"; }
 
 }

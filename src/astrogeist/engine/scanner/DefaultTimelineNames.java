@@ -4,9 +4,9 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Set;
 
-import aha.common.abstraction.appdata.AppDataManager;
+import aha.common.abstraction.io.appdata.AppDataManager;
 import astrogeist.engine.abstraction.timeline.TimelineNames;
-import astrogeist.engine.persitence.userdatadefinitions.UserDataDefinitions;
+import astrogeist.engine.appdata.userdatadefinitions.UserDataDefinitions;
 
 public final class DefaultTimelineNames implements TimelineNames {
 	private final LinkedHashMap<String, String> mapping = new LinkedHashMap<>();

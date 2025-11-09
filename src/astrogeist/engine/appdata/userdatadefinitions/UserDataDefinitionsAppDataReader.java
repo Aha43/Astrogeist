@@ -1,4 +1,4 @@
-package astrogeist.engine.persitence.userdatadefinitions;
+package astrogeist.engine.appdata.userdatadefinitions;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -6,18 +6,22 @@ import java.util.List;
 
 import org.w3c.dom.Element;
 
-import astrogeist.engine.appdata.AbstractXmlAstrogeistDataReader;
+import aha.common.abstraction.io.appdata.AppDataReader;
+import aha.common.io.XmlUtil;
+import aha.common.io.appdata.AbstractAppData;
 
-public final class UserDataDefinitionsAstrogeistDataReader extends AbstractXmlAstrogeistDataReader {
+public final class UserDataDefinitionsAppDataReader extends AbstractAppData
+	implements AppDataReader {
 
-	public UserDataDefinitionsAstrogeistDataReader() { super(UserDataDefinitions.class); }
+	public UserDataDefinitionsAppDataReader() {
+		super(UserDataDefinitions.class); }
 	
-	@Override public Object createDefault() { return new UserDataDefinitions(); }
+	@Override public final Object createDefault() { 
+		return new UserDataDefinitions(); }
 
-	@Override public Object read(InputStream in) throws Exception {
-		var doc = super.parse(in);
+	@Override public final Object read(InputStream in) throws Exception {
+		var doc = XmlUtil.parse(in);
 		
-		//var doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(path.toFile());
         var defs = new UserDataDefinitions();
         
         var nodes = doc.getElementsByTagName("Def");
@@ -33,7 +37,8 @@ public final class UserDataDefinitionsAstrogeistDataReader extends AbstractXmlAs
                 values.add(valueNodes.item(j).getTextContent().trim());
             }
 
-            defs.userDataDefinitions.add(new UserDataDefinition(name, type, values));
+            defs.userDataDefinitions.add(new UserDataDefinition(name, type,
+            	values));
         }
 
         return defs;

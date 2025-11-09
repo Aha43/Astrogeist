@@ -1,4 +1,4 @@
-package astrogeist.engine.persitence.userdatadefinitions;
+package astrogeist.engine.appdata.userdatadefinitions;
 
 import java.util.List;
 

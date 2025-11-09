@@ -24,7 +24,7 @@ public class FilePropertiesPanel extends JPanel {
 
 		model.setProperties(new String[][]{
 			{"Type", file.fileType().getFileTypeName()},
-			{"Name", file.getName()},
+			{"Name", file.name()},
 			{"Full Name", file.path().getFileName().toString()},
 			{"Path", file.path().toString()},
 			{"Size (KB)", Long.toString(file.sizeKB())},

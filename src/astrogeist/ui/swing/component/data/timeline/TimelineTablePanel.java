@@ -5,7 +5,7 @@ import java.util.LinkedHashMap;
 
 import javax.swing.JButton;
 
-import aha.common.abstraction.appdata.AppDataManager;
+import aha.common.abstraction.io.appdata.AppDataManager;
 import astrogeist.engine.abstraction.selection.SnapshotSelectionService;
 import astrogeist.engine.abstraction.timeline.Timeline;
 import astrogeist.engine.abstraction.timeline.TimelineNames;

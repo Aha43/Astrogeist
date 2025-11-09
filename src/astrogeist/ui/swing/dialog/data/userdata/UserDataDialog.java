@@ -8,8 +8,8 @@ import java.util.LinkedHashMap;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import aha.common.abstraction.appdata.AppDataManager;
-import astrogeist.engine.persitence.userdatadefinitions.UserDataDefinitions;
+import aha.common.abstraction.io.appdata.AppDataManager;
+import astrogeist.engine.appdata.userdatadefinitions.UserDataDefinitions;
 import astrogeist.engine.timeline.TimelineValue;
 import astrogeist.engine.userdata.UserDataIo;
 import astrogeist.ui.swing.App;

@@ -3,7 +3,7 @@ package astrogeist.ui.swing.dialog.settings;
 import java.util.LinkedHashMap;
 
 import astrogeist.engine.abstraction.timeline.TimelineNames;
-import astrogeist.engine.persitence.settings.Settings;
+import astrogeist.engine.appdata.settings.Settings;
 import astrogeist.ui.swing.dialog.settings.editors.SettingsEditor;
 import astrogeist.ui.swing.dialog.settings.editors.TablePropertiesEditor;
 import astrogeist.ui.swing.dialog.settings.editors.TextEditor;

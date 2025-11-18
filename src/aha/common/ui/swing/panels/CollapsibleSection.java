@@ -1,4 +1,4 @@
-package astrogeist.ui.swing.panel;
+package aha.common.ui.swing.panels;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -21,11 +21,31 @@ public final class CollapsibleSection extends JPanel {
     private final JToggleButton header;
     private final JPanel content;
     
-    public CollapsibleSection(String title, JComponent content) { this(title, content, true); }
+    /**
+     * <p>
+     *   Construct initial expanded panel.
+     * </p>
+     * @param title     the title of the panel.
+     * @param component the content of the panel.
+     */
+    public CollapsibleSection(String title, JComponent content) {
+    	this(title, content, true); }
 
-    public CollapsibleSection(String title, JComponent component, boolean expanded) {
-        super(new BorderLayout());
-        // Header with arrow + title
+    /**
+     * <p>
+     *   Constructor.
+     * </p>
+     * @param title     the title of the panel.
+     * @param component the content of the panel.
+     * @param expanded  {@code true} if panel initial expanded, {@code false} if
+     *                  panel initial collapsed.
+     */
+    public CollapsibleSection(String title, JComponent component,
+    	boolean expanded) {
+        
+    	super(new BorderLayout());
+        
+    	// Header with arrow + title
         header = new JToggleButton();
         header.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
         header.setHorizontalAlignment(SwingConstants.LEFT);
@@ -42,7 +62,8 @@ public final class CollapsibleSection extends JPanel {
         // Divider line below header (optional)
         var headerPanel = new JPanel(new BorderLayout());
         headerPanel.add(header, BorderLayout.CENTER);
-        headerPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(220, 220, 220)));
+        headerPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0,
+        	new Color(220, 220, 220)));
 
         add(headerPanel, BorderLayout.NORTH);
         add(content, BorderLayout.CENTER);
@@ -57,7 +78,7 @@ public final class CollapsibleSection extends JPanel {
 
     private final void updateHeaderText(String title) {
         // ▾ expanded, ▸ collapsed
-        String arrow = header.isSelected() ? "▾" : "▸";
+        var arrow = header.isSelected() ? "▾" : "▸";
         header.setText(" " + arrow + "  " + title);
     }
 
@@ -72,4 +93,3 @@ public final class CollapsibleSection extends JPanel {
     }
     
 }
-

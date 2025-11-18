@@ -28,6 +28,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
 
+import aha.common.ui.swing.panels.CollapsibleSection;
 import aha.common.util.DecimalFormats;
 import aha.common.util.Guards;
 import aha.common.util.Safe;
@@ -36,7 +37,6 @@ import astrogeist.engine.integration.api.astrometry.abstraction.AstrometryClient
 import astrogeist.engine.integration.api.astrometry.model.Annotations;
 import astrogeist.engine.integration.api.astrometry.model.Info;
 import astrogeist.ui.swing.dialog.message.MessageDialogs;
-import astrogeist.ui.swing.panel.CollapsibleSection;
 
 public final class AstrometryInfoPanel extends JPanel {
     private static final long serialVersionUID = 1L;

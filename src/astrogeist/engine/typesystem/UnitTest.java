@@ -1,6 +1,6 @@
 package astrogeist.engine.typesystem;
 
-import static astrogeist.engine.unittest.fluentassert.AssertThat.*;
+import static aha.common.unittest.fluentassert.AssertThat.*;
 
 public class UnitTest {
 	public static void runAll() {

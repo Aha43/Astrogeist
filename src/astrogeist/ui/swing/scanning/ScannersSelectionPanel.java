@@ -73,15 +73,18 @@ public final class ScannersSelectionPanel extends JPanel {
      * </p>
      */
     public final void refreshCanScan() {
-        SwingUtilities.invokeLater(() -> { model.refreshCanScan(); fireChanged(); }); }
+        SwingUtilities.invokeLater(() -> { 
+        	model.refreshCanScan(); fireChanged(); }); }
 
     /**
      * <p>
-     *   Return currently selected scanners that can scan right now.  
+     *   Return currently selected 
+     *   {@link Scanner}s that can scan right now.  
      * </p>
-     * @return
+     * @return the {@link Scanner}s.
      */
-    public final List<Scanner> getSelectedScanners() { return model.getSelectedScanners(); }
+    public final List<Scanner> getSelectedScanners() { 
+    	return model.getSelectedScanners(); }
     
     /**
      * <p>
@@ -89,7 +92,8 @@ public final class ScannersSelectionPanel extends JPanel {
      * </p>
      * @param l {@link ChangeListener} to add.
      */
-    public final void addChangeListener(ChangeListener l) { listeners.add(ChangeListener.class, l); }
+    public final void addChangeListener(ChangeListener l) { 
+    	listeners.add(ChangeListener.class, l); }
     
     /**
      * <p>
@@ -97,7 +101,8 @@ public final class ScannersSelectionPanel extends JPanel {
      * </p>
      * @param l {@link ChangeListener} to remove.
      */
-    public final void removeChangeListener(ChangeListener l) { listeners.remove(ChangeListener.class, l); }
+    public final void removeChangeListener(ChangeListener l) {
+    	listeners.remove(ChangeListener.class, l); }
 
     private final ChangeEvent changeEvent = new ChangeEvent(this);
     private final void fireChanged() {
@@ -160,7 +165,8 @@ public final class ScannersSelectionPanel extends JPanel {
         @SuppressWarnings("unused")
 		final Row rowAt(int viewRow) {
             int modelRow = table.convertRowIndexToModel(viewRow);
-            return (modelRow >= 0 && modelRow < rows.size()) ? rows.get(modelRow) : null;
+            return modelRow >= 0 && modelRow < rows.size() ?
+            	rows.get(modelRow) : null;
         }
 
         @Override public final int getRowCount() { return rows.size(); }
@@ -174,8 +180,10 @@ public final class ScannersSelectionPanel extends JPanel {
             };
         }
 
-        @Override public final boolean isCellEditable(int rowIndex, int columnIndex) {
-            Row r = rows.get(rowIndex);
+        @Override public final boolean isCellEditable(int rowIndex,
+        	int columnIndex) {
+            
+        	Row r = rows.get(rowIndex);
             if (columnIndex == 0) {
                 // Checkbox is editable only when canScan == true
                 return r.canScan;
@@ -183,8 +191,10 @@ public final class ScannersSelectionPanel extends JPanel {
             return false;
         }
 
-        @Override public final Object getValueAt(int rowIndex, int columnIndex) {
-            Row r = rows.get(rowIndex);
+        @Override public final Object getValueAt(int rowIndex,
+        	int columnIndex) {
+            
+        	Row r = rows.get(rowIndex);
             return switch (columnIndex) {
                 case 0 -> r.selected;
                 case 1 -> safeString(r.scanner.name());
@@ -193,8 +203,10 @@ public final class ScannersSelectionPanel extends JPanel {
             };
         }
 
-        @Override public final void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-            if (columnIndex == 0 && rowIndex >= 0 && rowIndex < rows.size()) {
+        @Override public final void setValueAt(Object aValue, int rowIndex,
+        	int columnIndex) {
+            
+        	if (columnIndex == 0 && rowIndex >= 0 && rowIndex < rows.size()) {
                 Row r = rows.get(rowIndex);
                 boolean newVal = Boolean.TRUE.equals(aValue);
                 if (r.canScan) {
@@ -220,26 +232,27 @@ public final class ScannersSelectionPanel extends JPanel {
 
         RedRowRenderer(Model model) { this.model = model; }
 
-        @Override public final Component getTableCellRendererComponent(JTable table, Object value,
-                                                       boolean isSelected, boolean hasFocus,
-                                                       int row, int column) {
-            Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+        @Override public final Component getTableCellRendererComponent(
+        	JTable table, Object value, boolean isSelected, boolean hasFocus,
+        	int row, int column) {
+            
+        	var c = super.getTableCellRendererComponent(table, value,
+        		isSelected, hasFocus, row, column);
 
             // Determine model row
             int modelRow = table.convertRowIndexToModel(row);
             boolean canScan = true;
             if (modelRow >= 0 && modelRow < model.rows.size()) {
-                canScan = model.rows.get(modelRow).canScan;
-            }
+                canScan = model.rows.get(modelRow).canScan; }
 
             if (!canScan) {
                 c.setBackground(isSelected ? unavailableSelBg : unavailableBg);
                 if (c instanceof JComponent jc) {
-                    jc.setToolTipText("Unavailable (see description)");
-                }
+                    jc.setToolTipText("Unavailable (see description)"); }
             } else {
                 // restore normal background (important when reusing renderers)
-                c.setBackground(isSelected ? table.getSelectionBackground() : table.getBackground());
+                c.setBackground(isSelected ? table.getSelectionBackground() :
+                	table.getBackground());
                 if (c instanceof JComponent jc) jc.setToolTipText(null);
             }
             return c;
@@ -247,8 +260,9 @@ public final class ScannersSelectionPanel extends JPanel {
     }
 
     /** Ensures Boolean renderer also uses the row coloring. */
-    private static final class BooleanWithRowColorRenderer extends DefaultTableCellRenderer {
-        private static final long serialVersionUID = 1L;
+    private static final class BooleanWithRowColorRenderer
+    	extends DefaultTableCellRenderer {
+    	private static final long serialVersionUID = 1L;
         
 		private final RedRowRenderer rowRenderer;
 
@@ -257,13 +271,16 @@ public final class ScannersSelectionPanel extends JPanel {
             setHorizontalAlignment(SwingConstants.CENTER);
         }
 
-        @Override public final Component getTableCellRendererComponent(JTable table, Object value,
-                                                       boolean isSelected, boolean hasFocus,
-                                                       int row, int column) {
+        @Override public final Component getTableCellRendererComponent(
+        	JTable table, Object value, boolean isSelected, boolean hasFocus,
+        	int row, int column) {
             // reuse red-row coloring; then set a checkbox-like text
-            Component c = rowRenderer.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+            
+        	var c = rowRenderer.getTableCellRendererComponent(table, value,
+        		isSelected, hasFocus, row, column);
             if (c instanceof JLabel lbl) {
-                lbl.setText(Boolean.TRUE.equals(value) ? "✔" : ""); // simple visual; editor is the real checkbox
+            	// simple visual; editor is the real checkbox
+                lbl.setText(Boolean.TRUE.equals(value) ? "✔" : "");
             }
             return c;
         }

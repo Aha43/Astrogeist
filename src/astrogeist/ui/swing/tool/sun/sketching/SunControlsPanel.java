@@ -1,13 +1,15 @@
 package astrogeist.ui.swing.tool.sun.sketching;
 
 import javax.swing.*;
+
+import aha.common.ui.swing.panels.CollapsibleSection;
+
 import java.awt.*;
 import java.nio.file.Path;
 import java.time.Instant;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import astrogeist.ui.swing.panel.CollapsibleSection;
 import astrogeist.ui.swing.tool.component.UtcInstantField;
 
 public final class SunControlsPanel extends JPanel {

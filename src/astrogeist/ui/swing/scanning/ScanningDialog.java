@@ -16,17 +16,17 @@ public final class ScanningDialog extends ModalDialogBase {
 	
 	private final ScannersSelectionPanel scannersSelectionPanel;
 	
-	private final AppDataManager astrogeistStorageManager;
+	private final AppDataManager appDataManager;
 	
 	public ScanningDialog(
 		App app,
-		AppDataManager astrogeistStorageManager,
+		AppDataManager appDataManager,
 		Timeline timeline,
 		TimelineValuePool tvp) throws Exception {
 		
 		super(app, "Scanning...");
 		
-		this.astrogeistStorageManager = astrogeistStorageManager;
+		this.appDataManager = appDataManager;
 		
 		var scanners = loadScanners(tvp);
 		this.scannersSelectionPanel = new ScannersSelectionPanel();
@@ -38,8 +38,11 @@ public final class ScanningDialog extends ModalDialogBase {
 		super.addOkButton(new ScanAction(app, timeline, scannersSelectionPanel));
 	}
 	
-	private final List<Scanner> loadScanners(TimelineValuePool tvp) throws Exception {
-		var config = this.astrogeistStorageManager.load(ScanningConfiguration.class);
+	private final List<Scanner> loadScanners(TimelineValuePool tvp) throws 
+		Exception {
+		
+		var config = this.appDataManager.load(
+			ScanningConfiguration.class);
 		var retVal = config.createScanners();
 		var userScanner = new UserDataScanner(tvp);
 		retVal.add(userScanner);

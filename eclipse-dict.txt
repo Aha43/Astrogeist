@@ -5,3 +5,6 @@ deseralized
 orchestrating
 app
 astrogeist
+siril
+clickable
+collapsible

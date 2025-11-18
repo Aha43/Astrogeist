@@ -58,7 +58,7 @@ public final class ScanAction extends AbstractAction {
 	        for (var scanner : scanners) {
 	            // Build a JobProgress row for UI
 	            var jp = new JobProgress(scanner.getClass().getSimpleName())
-	            		.setDescription(scanner.description());
+	            	.setDescription(scanner.description());
 	                  
 	            dlg.addJob(jp);
 	

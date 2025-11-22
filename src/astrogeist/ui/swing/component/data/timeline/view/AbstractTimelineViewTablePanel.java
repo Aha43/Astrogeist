@@ -13,6 +13,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import aha.common.abstraction.io.appdata.AppDataManager;
+import aha.common.util.Strings;
 import astrogeist.engine.abstraction.selection.SnapshotSelectionService;
 import astrogeist.engine.abstraction.timeline.TimelineNames;
 import astrogeist.engine.appdata.settings.Settings;
@@ -82,7 +83,8 @@ public abstract class AbstractTimelineViewTablePanel  extends JPanel {
 		
 		this.settings = loadSettings();
 		
-		this.model.setColumnsToShow(settings.getCsv(Settings.TABLE_COLUMNS));
+		this.model.setColumnsToShow(
+			settings.getCsv(Settings.TABLE_COLUMNS, Strings.EMPTY));
 		
 		populateNorthPanel();
 		populateSouthPanel();
@@ -137,7 +139,8 @@ public abstract class AbstractTimelineViewTablePanel  extends JPanel {
 		
 		columnsButton.addActionListener(e -> {
 			var all = this.timelineNames.getTimelineNames();
-			var selected = this.settings.getCsv(Settings.TABLE_COLUMNS);
+			var selected = this.settings.getCsv(Settings.TABLE_COLUMNS, 
+				Strings.EMPTY);
 			SelectionDialog.show(this.app, "Select Columns", selected, all);
 			this.model.setColumnsToShow(selected);
 			saveSelectedColumns(selected);
@@ -158,12 +161,14 @@ public abstract class AbstractTimelineViewTablePanel  extends JPanel {
 	
 	protected final void postSetData() {
 		this.snapshotSelectionService.cleared();
-		this.model.setColumnsToShow(this.settings.getCsv(Settings.TABLE_COLUMNS));
+		this.model.setColumnsToShow(this.settings.getCsv(
+			Settings.TABLE_COLUMNS, Strings.EMPTY));
 		this.table.getColumnModel().getColumn(0).setPreferredWidth(150);
 	}
 	
 	public final void settingsUpdated() { 
-		this.model.setColumnsToShow(this.settings.getCsv(Settings.TABLE_COLUMNS)); }
+		this.model.setColumnsToShow(this.settings.getCsv(
+			Settings.TABLE_COLUMNS, Strings.EMPTY)); }
 	
 	public final int getSelectedRow() {
 		int selectedRow = this.table.getSelectedRow();

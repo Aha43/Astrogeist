@@ -13,7 +13,7 @@ public final class SettingsAppDataWriter
 	@Override public final void write(OutputStream out, Object data)
 		throws Exception {
 		
-		var map = Cast.asOrThrow(Settings.class, data).data();
+		var map = Cast.asOrThrow(Settings.class, data).asMap();
 		super.write(out, map);
 	}
 

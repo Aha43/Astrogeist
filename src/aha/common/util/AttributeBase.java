@@ -11,8 +11,8 @@ import static java.lang.Long.parseLong;
 import static java.util.Objects.requireNonNull;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static java.lang.Short.parseShort;
 
@@ -47,12 +47,29 @@ import static java.lang.Short.parseShort;
  * </p>
  * @see AttributeObject
  */
-public abstract class AttributeBase<T extends AttributeBase<T>> {
-	
+public abstract class AttributeBase<T extends AttributeBase<T>> {	
 	@SuppressWarnings("unchecked")
 	private final T self() { return (T) this; }
 	
-	private final Map<String, Object> data = new HashMap<>();
+	private final ConcurrentHashMap<String, Object> data =
+		new ConcurrentHashMap<>();
+	
+	/**
+	 * <p>
+	 *   Creates empty map.
+	 * </p>
+	 */
+	protected AttributeBase() {}
+	
+	/**
+	 * <p>
+	 *   Constructor.
+	 * </p>
+	 * @param data Initial data. All values stored as 
+	 *             {@link String} objects.
+	 */
+	protected AttributeBase(Map<String, String> data) {
+		for (var e : data.entrySet()) this.data.put(e.getKey(), e.getValue()); }
 	
 	public final boolean exists(String name) {
 		requireNonEmpty(name, "name");
@@ -65,6 +82,8 @@ public abstract class AttributeBase<T extends AttributeBase<T>> {
         return exists(name);
     }
 	
+	public final void clear() { this.data.clear(); }
+	
 	public final boolean remove(String name) {
 		requireNonEmpty(name, "name");
 		return this.data.remove(name) != null;
@@ -76,6 +95,31 @@ public abstract class AttributeBase<T extends AttributeBase<T>> {
         return remove(name);
     }
 	
+	/**
+	 * <p>
+	 *   Stores the given value using its runtime class name as the key.
+	 * </p>
+	 * <p>
+	 *   The key used is {@code value.getClass().getName()}, ensuring global
+	 *   uniqueness across packages (e.g. {@code com.example.Foo} and
+	 *   {@code com.other.Foo} do not collide). Only one value is stored per
+	 *   concrete class; calling this method again with another instance of
+	 *   the same class replaces the previous one.
+	 * <p>
+	 *   The value must not be {@code null}.
+	 *
+	 *   <h4>Example</h4>
+	 *   <pre>{@code
+	 *   ctx.set(new AuthContext(userId));
+	 *   ctx.set(new RequestInfo(remoteAddress));
+	 *
+	 *   AuthContext auth = ctx.get(AuthContext.class);
+	 *   }</pre>
+	 * </p>
+	 * @param value the non-null value to store
+	 * @return this instance for fluent chaining
+	 * @throws NullPointerException if {@code value} is null
+	 */
 	public final T set(Object value) {
 		requireNonNull(value, "value");
 		var name = value.getClass().getName();
@@ -95,9 +139,8 @@ public abstract class AttributeBase<T extends AttributeBase<T>> {
 		return self();
 	}
 	
-	
-	
 	public final Object get(String name) {
+		requireNonEmpty(name, "name");
 		if (!this.exists(name)) throw new IllegalArgumentException(quote(name) + 
 			" does not exist");
 		return data.get(name);
@@ -112,7 +155,15 @@ public abstract class AttributeBase<T extends AttributeBase<T>> {
 	}
 	
 	public final String getAsString(String name) {
-		return this.get(name).toString(); }
+		requireNonEmpty(name, "name");
+		return this.get(name).toString(); 
+	}
+	
+	public final String getAsString(String name, String def) {
+		requireNonEmpty(name, "name");
+		requireNonNull(def, "def");
+		return this.get(name, def).toString(); 
+	}
 	
 	public final <V> V get(String name, Class<V> type) {
 		requireNonEmpty(name, "name");

@@ -1,7 +1,7 @@
 package astrogeist.engine.appdata;
 
 import java.io.OutputStream;
-import java.util.LinkedHashMap;
+import java.util.Map;
 
 import aha.common.abstraction.io.appdata.AppDataWriter;
 import aha.common.io.appdata.AbstractAppData;
@@ -12,8 +12,8 @@ public abstract class AbstractNameValueXmlAppDataWriter extends AbstractAppData
 	
 	protected AbstractNameValueXmlAppDataWriter(Class<?> type) { super(type); }
 	
-	protected final void write(OutputStream out,
-		LinkedHashMap<String, String> data) throws Exception {
+	protected final void write(OutputStream out, Map<String, Object> data)
+		throws Exception {
 		
 		NameValueMapXml.save(data, out); 
 	}

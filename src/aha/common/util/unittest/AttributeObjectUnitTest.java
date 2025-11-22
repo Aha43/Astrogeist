@@ -51,6 +51,13 @@ public final class AttributeObjectUnitTest {
 		getAsBigDecimalSupportsBigDecimalAndString();
 		asMapReturnsUnmodifiableCopy();
 		fluentSetReturnsConcreteType();
+		
+		typeBasedSetAndGetRoundTrip();
+		typeBasedGetUsesFullyQualifiedClassNameAsKey();
+		typeBasedGetThrowsIfMissing();
+		typeBasedExistsReflectsPresence();
+		typeBasedRemoveRemovesAndReturnsTrueIfPresent();
+		typeBasedSetOverwritesExistingOfSameType();
 	}
 	
 	static void setAndGetRoundTrip() {
@@ -69,7 +76,11 @@ public final class AttributeObjectUnitTest {
 			that(x.getMessage()).contains("missing");
 			logger.info("getThrowsIfMissing passed");
 			return;
-		}
+		} catch (Exception x) {
+        	throw new AssertionError(
+        		"Expected 'IllegalArgumentException' not : " + 
+        			quote(x.getClass().getName()));
+        }
 		
 		throw new AssertionError("expected exception");
 	}
@@ -322,5 +333,93 @@ public final class AttributeObjectUnitTest {
         that(attrs.getAsInt("y")).isEqualTo(2);
         logger.info("fluentSetReturnsConcreteType passed");
     }
+    
+    
+    static final class FooContext {
+        final String value;
+        FooContext(String value) { this.value = value; }
+    }
+
+    static final class BarContext {
+        final int number;
+        BarContext(int number) { this.number = number; }
+    }
+
+    static void typeBasedSetAndGetRoundTrip() {
+        var attrs = new AttributeObject();
+
+        var foo = new FooContext("hello");
+        var bar = new BarContext(42);
+
+        attrs.set(foo).set(bar);
+
+        var fooResult = attrs.get(FooContext.class);
+        var barResult = attrs.get(BarContext.class);
+
+        that(fooResult).isEqualTo(foo);
+        that(barResult).isEqualTo(bar);
+        that(fooResult.value).isEqualTo("hello");
+        that(barResult.number).isEqualTo(42);
+        logger.info("typeBasedSetAndGetRoundTrip passed");
+    }
+
+    static void typeBasedGetUsesFullyQualifiedClassNameAsKey() {
+        var attrs = new AttributeObject();
+        FooContext foo = new FooContext("x");
+
+        attrs.set(foo);
+
+        // asMap should contain the FQN key
+        var map = attrs.asMap();
+        that(map.containsKey(FooContext.class.getName())).isTrue();
+        that(map.get(FooContext.class.getName())).isEqualTo(foo);
+        logger.info("typeBasedGetUsesFullyQualifiedClassNameAsKey passed");
+    }
+
+    static void typeBasedGetThrowsIfMissing() {
+        var attrs = new AttributeObject();
+
+        try {
+        	attrs.get(FooContext.class);
+        } catch (IllegalArgumentException iax) {
+        	logger.info("typeBasedGetThrowsIfMissing passed");
+        	return;
+        } catch (Exception x) {
+        	throw new AssertionError(
+        		"Expected 'IllegalArgumentException' not : " + 
+        			quote(x.getClass().getName()));
+        }
+        
+        throw new AssertionError("expected exception");
+    }
+    
+    static void typeBasedExistsReflectsPresence() {
+        var attrs = new AttributeObject();
+
+        that(attrs.exists(FooContext.class)).isFalse();
+        attrs.set(new FooContext("abc"));
+        that(attrs.exists(FooContext.class)).isTrue();
+        logger.info("typeBasedExistsReflectsPresence passed");
+    }
+    
+    static void typeBasedRemoveRemovesAndReturnsTrueIfPresent() {
+        var attrs = new AttributeObject().set(new FooContext("abc"));
+
+        that(attrs.exists(FooContext.class)).isTrue();
+        that(attrs.remove(FooContext.class)).isTrue();
+        that(attrs.exists(FooContext.class)).isFalse();
+        that(attrs.remove(FooContext.class)).isFalse();
+        logger.info("typeBasedRemoveRemovesAndReturnsTrueIfPresent passed");
+    }
+    
+    static void typeBasedSetOverwritesExistingOfSameType() {
+        var attrs = new AttributeObject().set(new FooContext("first"));
+
+        attrs.set(new FooContext("second"));
+
+        var result = attrs.get(FooContext.class);
+        that(result.value).isEqualTo("second");
+        logger.info("typeBasedSetOverwritesExistingOfSameType passed");
+    }    
 
 }

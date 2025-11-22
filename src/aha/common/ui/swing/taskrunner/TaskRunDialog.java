@@ -21,6 +21,7 @@ import javax.swing.Timer;
 import aha.common.abstraction.taskrunner.TaskStep;
 import aha.common.taskrunner.TaskEvent;
 import aha.common.taskrunner.TaskRunner;
+import aha.common.util.AttributeObject;
 
 public final class TaskRunDialog extends JDialog {
     private static final long serialVersionUID = 1L;
@@ -29,14 +30,21 @@ public final class TaskRunDialog extends JDialog {
     private final JTextArea logArea = new JTextArea(12, 60);
     private final JLabel statusLabel = new JLabel("Ready");
     private final JButton cancelButton = new JButton("Cancel");
+    
+    public TaskRunDialog(Window owner, String title, 
+    	List<? extends TaskStep> steps) {
+    	
+    	this(owner, title, steps, new AttributeObject());
+    }
 
     public TaskRunDialog(
     	Window owner,
     	String title, 
-    	List<? extends TaskStep> steps) {
+    	List<? extends TaskStep> steps,
+    	AttributeObject contextData) {
     	
         super(owner, title, ModalityType.APPLICATION_MODAL);
-
+        
         logArea.setEditable(false);
 
         setLayout(new BorderLayout());
@@ -69,7 +77,7 @@ public final class TaskRunDialog extends JDialog {
         // Background worker
         SwingWorker<Void, TaskEvent> worker = new SwingWorker<>() {
             @Override protected Void doInBackground() {
-                runner.run();
+                runner.run(contextData);
                 return null;
             }
 

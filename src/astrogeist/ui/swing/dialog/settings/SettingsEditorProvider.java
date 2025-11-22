@@ -14,7 +14,8 @@ public final class SettingsEditorProvider {
     private final SettingsEditor defaultEditor = new TextEditor();
 
     public SettingsEditorProvider(TimelineNames timelineNames) {
-        this.editors.put(Settings.TABLE_COLUMNS, new TablePropertiesEditor(timelineNames));
+        this.editors.put(Settings.TABLE_COLUMNS, 
+        	new TablePropertiesEditor(timelineNames));
     }
 
     public SettingsEditor getEditor(String scopedKey) {

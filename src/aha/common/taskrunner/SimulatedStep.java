@@ -1,8 +1,9 @@
 package aha.common.taskrunner;
 
-import aha.common.abstraction.taskrunner.TaskStep;
-
 import java.util.Random;
+
+import aha.common.abstraction.taskrunner.TaskStep;
+import aha.common.util.AttributeObject;
 
 /**
  * <p>
@@ -10,8 +11,7 @@ import java.util.Random;
  * </p>
  */
 public final class SimulatedStep implements TaskStep {
-
-    private static final Random RANDOM = new Random();
+	private static final Random RANDOM = new Random();
 
     private final String id;
     private final String label;
@@ -43,7 +43,9 @@ public final class SimulatedStep implements TaskStep {
     @Override public final String label() { return label; }
     @Override public final int weight() { return weight; }
 
-    @Override public final void run(TaskRunContext ctx) throws Exception {
+    @Override public final void run(TaskRunContext ctx, 
+    	AttributeObject ctxData) throws Exception {
+    	
         ctx.log(label + " started");
 
         for (int i = 1; i <= ticks; i++) {

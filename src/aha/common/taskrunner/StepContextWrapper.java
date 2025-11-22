@@ -41,7 +41,4 @@ final class StepContextWrapper extends TaskRunContext {
     @Override public final void cancel() { inner.cancel(); }
     @Override public final boolean isCancelled() { return inner.isCancelled(); }
     @Override public final void checkCancelled() { inner.checkCancelled(); }
-    @Override public final void put(String key, Object value) {
-    	inner.put(key, value); }
-    @Override public final <T> T get(String key) { return inner.get(key); }
 }

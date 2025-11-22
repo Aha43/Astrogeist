@@ -25,7 +25,9 @@ public class FilteredTimelineViewTablePanel extends AbstractTimelineViewTablePan
 		AppDataManager astrogeistStorageManager,
 		TimelineNames timelineNames,
 		SnapshotSelectionService snapshotSelectionService) { 
-		super(app, astrogeistStorageManager, new FilteredTimelineViewTableModel(), timelineNames, snapshotSelectionService);
+		super(app, astrogeistStorageManager,
+			new FilteredTimelineViewTableModel(), timelineNames,
+				snapshotSelectionService);
 		this.createButtons();
 	}
 	

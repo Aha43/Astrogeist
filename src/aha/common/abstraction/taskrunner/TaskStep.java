@@ -1,6 +1,7 @@
 package aha.common.abstraction.taskrunner;
 
 import aha.common.taskrunner.TaskRunContext;
+import aha.common.util.AttributeObject;
 
 public interface TaskStep {    
 	/**
@@ -37,5 +38,6 @@ public interface TaskStep {
      * </p>
      * @throws Exception Throw exception to mark failure.
      */
-    void run(TaskRunContext context) throws Exception;
+    void run(TaskRunContext context, AttributeObject contextData)
+    	throws Exception;
 }

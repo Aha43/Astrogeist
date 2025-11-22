@@ -76,7 +76,7 @@ public final class DefaultAppDataManager implements AppDataManager {
 			var retVal = this.accessor.load(reader);
 			return Cast.asOrThrow(type, retVal);
 		} catch (Exception x) {
-			error(this.logger, "Failed to save", x);
+			error(this.logger, "Failed to load", x);
 			throw new RuntimeException(x);
 		}
 	}

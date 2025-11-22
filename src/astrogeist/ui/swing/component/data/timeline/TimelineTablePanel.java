@@ -30,7 +30,9 @@ public final class TimelineTablePanel extends AbstractTimelineViewTablePanel {
 		UserDataIo userDataIo,
 		TimelineNames timelineNames,
 		SnapshotSelectionService snapshotSelectionService) {
-		super(app, astrogeistStorageManager, new TimelineTableModel(), timelineNames, snapshotSelectionService);
+		
+		super(app, astrogeistStorageManager, new TimelineTableModel(), 
+			timelineNames, snapshotSelectionService);
 		
 		this.astrogeistStorageManager = astrogeistStorageManager;
 		this.userDataIo = userDataIo;
@@ -38,16 +40,20 @@ public final class TimelineTablePanel extends AbstractTimelineViewTablePanel {
 		addButtons();
 	}
 	
-	private final TimelineTableModel model() { return (TimelineTableModel)super.model; }
+	private final TimelineTableModel model() {
+		return (TimelineTableModel)super.model; }
 	
-	public final void update(Instant t, LinkedHashMap<String, TimelineValue> values) { 
+	public final void update(Instant t, 
+		LinkedHashMap<String, TimelineValue> values) { 
+		
 		var model = (TimelineTableModel)super.model;
 		model.update(t, values); 
 	}
 	
 	private final void addButtons() {
 		var mappingButton = new JButton("Mapping");
-		mappingButton.addActionListener(e -> TimelineMappingDialog.show(this.app));
+		mappingButton.addActionListener(
+			e -> TimelineMappingDialog.show(this.app));
 		super.southPanel.add(mappingButton);
 		
 		var userPropsButton = new JButton("User Data");
@@ -63,7 +69,8 @@ public final class TimelineTablePanel extends AbstractTimelineViewTablePanel {
 			var t = this.getTimestampAt(selectedRow);
 			var userData = this.userDataIo.load(t);
 			
-			UserDataDialog.show(this.app, this.astrogeistStorageManager,  t, this.userDataIo, userData);
+			UserDataDialog.show(this.app, this.astrogeistStorageManager, t,
+				this.userDataIo, userData);
 		} catch(Exception x) {
 			MessageDialogs.showError(this, "Failed to load user data", x);
 		}

@@ -25,7 +25,9 @@ import astrogeist.engine.timeline.TimelineValue;
 public final class NameValueMapXml {
 	private NameValueMapXml() { Guards.throwStaticClassInstantiateError(); }
 	
-	private final static Tuple2<Document, Element> newDocumentWithRoot() throws Exception {
+	private final static Tuple2<Document, Element> newDocumentWithRoot() 
+		throws Exception {
+		
 		var docBuilder = XmlUtil.newDocumentBuilder();
 		var doc = docBuilder.newDocument();
         var rootElement = doc.createElement("data");
@@ -34,7 +36,9 @@ public final class NameValueMapXml {
         return retVal;
 	}
 	
-	private final static void serialize(Document doc, OutputStream os) throws Exception {
+	private final static void serialize(Document doc, OutputStream os)
+		throws Exception {
+		
 		var transformer = TransformerFactory.newInstance().newTransformer();
         transformer.setOutputProperty(OutputKeys.INDENT, "yes"); // Pretty print
         var source = new DOMSource(doc);
@@ -42,28 +46,40 @@ public final class NameValueMapXml {
         transformer.transform(source, result);
 	}
 	
-	public final static void save(LinkedHashMap<String, String> data, File file) throws Exception {
-		try (var os = new FileOutputStream(file)) { save(data, os); } }
+	public final static void save(Map<String, Object> data, File file)
+		throws Exception {
+		
+		try (var os = new FileOutputStream(file)) { save(data, os); } 
+	}
 	
-	public final static void save(LinkedHashMap<String, String> data, OutputStream os) throws Exception {
-        var docAndRoot = newDocumentWithRoot();
+	public final static void save(Map<String, Object> data,
+		OutputStream os) throws Exception {
+        
+		var docAndRoot = newDocumentWithRoot();
         var doc = docAndRoot.first();
         var rootElement = docAndRoot.second();
 
         for (var entry : data.entrySet()) {
             Element setting = doc.createElement("e");
             setting.setAttribute("key", entry.getKey());
-            setting.setAttribute("value", entry.getValue());
+            setting.setAttribute("value", entry.getValue().toString());
             rootElement.appendChild(setting);
         }
 
         serialize(doc, os);
     }
 	
-	public final static void saveTimelineValues(LinkedHashMap<String, TimelineValue> data, File file) throws Exception {
-		try (var os = new FileOutputStream(file)) { saveTimelineValues(data, os); } }
+	public final static void saveTimelineValues(
+		LinkedHashMap<String, TimelineValue> data, File file) throws Exception {
+		
+		try (var os = new FileOutputStream(file)) { 
+			saveTimelineValues(data, os); } 
+	}
 	
-	public final static void saveTimelineValues(LinkedHashMap<String, TimelineValue> data, OutputStream os) throws Exception {
+	public final static void saveTimelineValues(
+		LinkedHashMap<String, TimelineValue> data, OutputStream os)
+			throws Exception {
+		
 		var docAndRoot = newDocumentWithRoot();
         var doc = docAndRoot.first();
         var rootElement = docAndRoot.second();
@@ -90,13 +106,17 @@ public final class NameValueMapXml {
         return doc;
 	}
 	
-	public final static LinkedHashMap<String, String> load(File file) throws Exception {
+	public final static LinkedHashMap<String, String> load(File file)
+		throws Exception {
+		
 		if (file.length() == 0L) return new LinkedHashMap<String, String>();
 		try (var is = new FileInputStream(file)){ return load(is); }
 	}
 	
-	public final static LinkedHashMap<String, String> load(InputStream is) throws Exception {
-        LinkedHashMap<String, String> retVal = new LinkedHashMap<>();
+	public final static LinkedHashMap<String, String> load(InputStream is)
+		throws Exception {
+        
+		LinkedHashMap<String, String> retVal = new LinkedHashMap<>();
 
         var doc = parse(is);
 
@@ -114,8 +134,10 @@ public final class NameValueMapXml {
 	public final static LinkedHashMap<String, TimelineValue> loadTimeLineValues(
 		TimelineValuePool pool, File file) throws Exception {
 		
-		if (file.length() == 0L) return new LinkedHashMap<String, TimelineValue>();
-		try (var is = new FileInputStream(file)) { return loadTimeLineValues(pool, is); }
+		if (file.length() == 0L) 
+			return new LinkedHashMap<String, TimelineValue>();
+		try (var is = new FileInputStream(file)) { 
+			return loadTimeLineValues(pool, is); }
 	}
 	
 	public final static LinkedHashMap<String, TimelineValue> loadTimeLineValues(

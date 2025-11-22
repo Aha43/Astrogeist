@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 
 import aha.common.abstraction.taskrunner.TaskStep;
 import aha.common.logging.Log;
+import aha.common.util.AttributeObject;
 
 public final class TaskRunner {
 	private final Logger logger = Log.get(this);
@@ -30,7 +31,7 @@ public final class TaskRunner {
     
     public final TaskRunContext context() { return this.ctx; }
 
-    public void run() {
+    public void run(AttributeObject contextData) {
         eventSink.accept(TaskEvent.state(TaskEvent.StateType.STARTED,
         	"Task run started"));
 
@@ -51,7 +52,7 @@ public final class TaskRunner {
                 var scw = new StepContextWrapper(this.ctx, step, consumedWeight,
                     totalWeight);
                 
-                step.run(scw);
+                step.run(scw, contextData);
 
                 consumedWeight += stepWeight;
 

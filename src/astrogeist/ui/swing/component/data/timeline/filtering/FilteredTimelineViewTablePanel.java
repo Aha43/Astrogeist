@@ -17,17 +17,18 @@ import astrogeist.ui.swing.dialog.filtering.FiltersDialog;
  *   {@link JTable}.
  * </p>
  */
-public class FilteredTimelineViewTablePanel extends AbstractTimelineViewTablePanel {
+public final class FilteredTimelineViewTablePanel 
+	extends AbstractTimelineViewTablePanel {
+	
 	private static final long serialVersionUID = 1L;
 	
 	public FilteredTimelineViewTablePanel(
 		App app,
 		AppDataManager astrogeistStorageManager,
 		TimelineNames timelineNames,
-		SnapshotSelectionService snapshotSelectionService) { 
+		SnapshotSelectionService sss) { 
 		super(app, astrogeistStorageManager,
-			new FilteredTimelineViewTableModel(), timelineNames,
-				snapshotSelectionService);
+			new FilteredTimelineViewTableModel(), timelineNames, sss);
 		this.createButtons();
 	}
 	

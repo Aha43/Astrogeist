@@ -1,5 +1,7 @@
 package astrogeist.ui.swing.component.data.timeline.view;
 
+import static aha.common.util.Cast.as;
+
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.time.Instant;
@@ -27,9 +29,12 @@ import astrogeist.ui.swing.dialog.selection.SelectionDialog;
 
 /**
  * <p>
- *   Panel that shows TimelineView. Used both to show complete time line (Timeline) and filtered
- *   time line (TimelineView). Got some common tools but implementations may / can add buttons 
- *   north / south.
+ *   Panel that shows TimelineView. Used both to show complete time line 
+ *   (Timeline) and filtered time line (TimelineView).
+ * </p>
+ * <p>
+ *   Got some common tools
+ *   but implementations may / can add buttons north / south.
  * </p>
  */
 public abstract class AbstractTimelineViewTablePanel  extends JPanel {
@@ -47,21 +52,21 @@ public abstract class AbstractTimelineViewTablePanel  extends JPanel {
 	
 	protected final App app;
 	
-	protected final AppDataManager astrogeistStorageManager;
+	protected final AppDataManager appDataManager;
 	protected final Settings settings;
 
 	protected AbstractTimelineViewTablePanel(
 		App app,
-		AppDataManager astrogeistStorageManager,
+		AppDataManager appDataManager,
 		AbstractTimelineViewTableModel model,
 		TimelineNames timelineNames,
-		SnapshotSelectionService snapshotSelectionService) {
+		SnapshotSelectionService sss) {
 		
 		super(new BorderLayout());
 		
-		this.astrogeistStorageManager = astrogeistStorageManager;
+		this.appDataManager = appDataManager;
 		
-		this.snapshotSelectionService = snapshotSelectionService;
+		this.snapshotSelectionService = sss;
 		
 		this.app = app;
 		
@@ -94,7 +99,7 @@ public abstract class AbstractTimelineViewTablePanel  extends JPanel {
 	
 	private final Settings loadSettings() {
     	try {
-    		var retVal = this.astrogeistStorageManager.load(Settings.class);
+    		var retVal = this.appDataManager.load(Settings.class);
     		return retVal;
     	} catch (Exception x) {
     		MessageDialogs.showError(this, "Failed to load config", x);
@@ -123,7 +128,8 @@ public abstract class AbstractTimelineViewTablePanel  extends JPanel {
 	        int viewRow = table.getSelectedRow();
 	        if (viewRow < 0) return;
 
-	        var action =  (AbstractSelectionAction)selectionActionsComboBox.getSelectedItem();
+	        var action =  as(AbstractSelectionAction.class, 
+	        	selectionActionsComboBox.getSelectedItem());
 	        if (action == null || action == NoSelectionAction.INSTANCE) return;
 
 	        int modelRow = table.convertRowIndexToModel(viewRow);
@@ -153,7 +159,7 @@ public abstract class AbstractTimelineViewTablePanel  extends JPanel {
 		try {
 			var setting = String.join(", ", selected);
 			this.settings.set(Settings.TABLE_COLUMNS, setting);
-			this.astrogeistStorageManager.save(this.settings);
+			this.appDataManager.save(this.settings);
 		} catch (Exception x) {
 			MessageDialogs.showError(null, "Failed saving selection", x);
 		}	
@@ -166,6 +172,7 @@ public abstract class AbstractTimelineViewTablePanel  extends JPanel {
 		this.table.getColumnModel().getColumn(0).setPreferredWidth(150);
 	}
 	
+	// TODO: replace with event infrastructure
 	public final void settingsUpdated() { 
 		this.model.setColumnsToShow(this.settings.getCsv(
 			Settings.TABLE_COLUMNS, Strings.EMPTY)); }
@@ -183,11 +190,6 @@ public abstract class AbstractTimelineViewTablePanel  extends JPanel {
 		return this.model.getSnapshotAt(selectedRow);
 	}
 	
-	public final Instant getSelectedTimestamp() { 
-		var selectedRow = this.getSelectedRow();
-		if (selectedRow == -1) return null;
-		return getTimestampAt(selectedRow);
-	}
-	
-	public final Instant getTimestampAt(int row) { return this.model.getTimestampAt(row); }
+	public final Instant getTimestampAt(int row) {
+		return this.model.getTimestampAt(row); }
 }

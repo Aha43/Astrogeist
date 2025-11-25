@@ -1,10 +1,13 @@
 package aha.common.util;
 
+import static aha.common.util.Guards.throwStaticClassInstantiateError;
+
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
 
 /**
  * <p>
@@ -13,7 +16,7 @@ import java.time.ZoneOffset;
  * </p>
  */
 public final class Instants {
-	private Instants() { Guards.throwStaticClassInstantiateError(); }
+	private Instants() { throwStaticClassInstantiateError(); }
 	
 	/**
 	 * <p>
@@ -62,9 +65,9 @@ public final class Instants {
 	 * @return the {@link Interval} of the day.
 	 */
 	public final static Interval dayInterval(String isoDate) {
-        LocalDate date = LocalDate.parse(isoDate); // parse "YYYY-MM-DD"
-        Instant from = date.atStartOfDay(ZoneOffset.UTC).toInstant();
-        Instant to   = from.plus(1, java.time.temporal.ChronoUnit.DAYS);
+        var date = LocalDate.parse(isoDate); // parse "YYYY-MM-DD"
+        var from = date.atStartOfDay(ZoneOffset.UTC).toInstant();
+        var to   = from.plus(1, ChronoUnit.DAYS);
         return new Interval(from, to);
     }
 	

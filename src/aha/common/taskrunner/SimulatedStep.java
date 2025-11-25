@@ -23,11 +23,11 @@ public final class SimulatedStep implements TaskStep {
      * <p>
      *    Constructor.
      * </p>
-     * @param id       stable id for logging
-     * @param label    human-readable label
-     * @param weight   relative progress weight
-     * @param ticks    how many increments (higher = longer)
-     * @param mayFail  if true, sometimes throws to simulate errors
+     * @param id      stable id for logging
+     * @param label   human-readable label
+     * @param weight  relative progress weight
+     * @param ticks   how many increments (higher = longer)
+     * @param mayFail if true, sometimes throws to simulate errors
      */
     public SimulatedStep(String id, String label, int weight, int ticks,
     	boolean mayFail) {

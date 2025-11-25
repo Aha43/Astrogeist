@@ -3,7 +3,8 @@ package aha.common.taskrunner;
 import aha.common.abstraction.taskrunner.TaskStep;
 
 /**
- * Wraps context to map per-step progress (0-100) into overall percent.
+ * <p>
+ *   Wraps context to map per-step progress (0-100) into overall percent.
  */
 final class StepContextWrapper extends TaskRunContext {
 

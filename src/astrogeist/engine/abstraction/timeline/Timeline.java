@@ -13,13 +13,54 @@ import astrogeist.engine.timeline.TimelineValue;
  * </p>
  */
 public interface Timeline extends TimelineView {
+	/**
+	 * <p>
+	 *   Removes all data.
+	 * </p>
+	 */
 	void clear();
+	
 	void put(Instant time, Path path);
 	void put(Instant time, String name, String value);
 	void put(Instant time, LinkedHashMap<String, String> values);
-	void putTimelineValues(Instant time, LinkedHashMap<String, TimelineValue> values);
-	void update(Instant t, Map<String, TimelineValue> values);   // add/update/remove
-	void updateStrings(Instant t, Map<String, String> values);   // convenience
-	void upsert(Instant t, String key, TimelineValue value);     // single key
-	void remove(Instant t, String key);                          // delete single key
+	void putTimelineValues(Instant time,
+		LinkedHashMap<String, TimelineValue> values);
+	
+	/**
+	 * <p>
+	 *   Add/update/remove.
+	 * </p>
+	 * @param t
+	 * @param values
+	 */
+	void update(Instant t, Map<String, TimelineValue> values); 
+	
+	/**
+	 * <p>
+	 *   Convenience.
+	 * </p>
+	 * @param t
+	 * @param values
+	 */
+	void updateStrings(Instant t, Map<String, String> values); 
+	
+	/**
+	 * <p>
+	 *   Single key.
+	 * </p>
+	 * @param t
+	 * @param key
+	 * @param value
+	 */
+	void upsert(Instant t, String key, TimelineValue value);
+	
+	/**
+	 * <p>
+	 *   Delete single key.
+	 * </p>
+	 * @param t
+	 * @param key
+	 */
+	void remove(Instant t, String key);
+	
 }

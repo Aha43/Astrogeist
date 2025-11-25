@@ -28,29 +28,39 @@ import astrogeist.ui.selection.DefaultSnapshotSelectionService;
  */
 public final class AstrogeistServiceProvider implements ServiceProvider {
 	@Override public final <T> T get(Class<? extends T> clazz) {
-		if (clazz == Timeline.class) return clazz.cast(this.timeline);
-		if (clazz == UserDataIo.class) return clazz.cast(this.userDataIo);
-		if (clazz == TimelineValuePool.class) return clazz.cast(this.timelineValuePool);
-		if (clazz == TimelineNames.class) return clazz.cast(this.timelineNames);
-		if (clazz == SnapshotSelectionService.class) return clazz.cast(this.snapshotSelectionService);
-		if (clazz == AppDataManager.class) return clazz.cast(this.astrogeistStorageManager);
-		throw new IllegalArgumentException("Unsupported service type: " + clazz.getName());
+		if (clazz == Timeline.class) 
+			return clazz.cast(this.timeline);
+		if (clazz == UserDataIo.class) 
+			return clazz.cast(this.userDataIo);
+		if (clazz == TimelineValuePool.class)
+			return clazz.cast(this.timelineValuePool);
+		if (clazz == TimelineNames.class)
+			return clazz.cast(this.timelineNames);
+		if (clazz == SnapshotSelectionService.class)
+			return clazz.cast(this.snapshotSelectionService);
+		if (clazz == AppDataManager.class)
+			return clazz.cast(this.astrogeistStorageManager);
+		throw new IllegalArgumentException("Unsupported service type: " + 
+			clazz.getName());
 	}
 	
 	private final TypeResolver typeResolver = new DefaultTypeResolver(); 
-	private final TimelineValuePool timelineValuePool = new DefaultTimelineValuePool(this.typeResolver); 
-	private final UserDataIo userDataIo = new UserDataIo(this.timelineValuePool);
-	
-    private final SnapshotSelectionService snapshotSelectionService = new DefaultSnapshotSelectionService();
-    
-    private final AppDataManager astrogeistStorageManager = new DefaultAppDataManager(
-    	new AstrogeistDiskAppDataAccessor(), 
-    	new ScannerConfigAppDataReader(),
-    	new UserDataDefinitionsAppDataReader(),
-    	new SettingsAppDataReader(),
-    	new SettingsAppDataWriter(),
-    	new RunConfigurationsAppDataReader());
-    
-    private final TimelineNames timelineNames = new DefaultTimelineNames(this.astrogeistStorageManager);
-    private final Timeline timeline = new DefaultTimeline(this.timelineValuePool, this.timelineNames);
+	private final TimelineValuePool timelineValuePool =
+		new DefaultTimelineValuePool(this.typeResolver); 
+	private final UserDataIo userDataIo =
+		new UserDataIo(this.timelineValuePool);
+    private final SnapshotSelectionService snapshotSelectionService =
+    	new DefaultSnapshotSelectionService();
+    private final AppDataManager astrogeistStorageManager =
+    	new DefaultAppDataManager(
+    		new AstrogeistDiskAppDataAccessor(), 
+    		new ScannerConfigAppDataReader(),
+    		new UserDataDefinitionsAppDataReader(),
+    		new SettingsAppDataReader(),
+    		new SettingsAppDataWriter(),
+    		new RunConfigurationsAppDataReader());
+    private final TimelineNames timelineNames =
+    	new DefaultTimelineNames(this.astrogeistStorageManager);
+    private final Timeline timeline =
+    	new DefaultTimeline(this.timelineValuePool, this.timelineNames);
 }

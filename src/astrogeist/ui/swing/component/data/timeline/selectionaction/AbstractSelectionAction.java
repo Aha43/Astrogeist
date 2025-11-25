@@ -13,5 +13,6 @@ public abstract class AbstractSelectionAction {
 	
 	public abstract void Perform(Map<String, TimelineValue> snapshot);
 	
-	public static AbstractSelectionAction[] EMPTY_ARRAY = new AbstractSelectionAction[0]; 
+	public static AbstractSelectionAction[] EMPTY_ARRAY = 
+		new AbstractSelectionAction[0]; 
 }

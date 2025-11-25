@@ -1,5 +1,7 @@
 package aha.common.util;
 
+import static aha.common.util.Guards.throwStaticClassInstantiateError;
+
 import java.util.Collection;
 import java.util.List;
 
@@ -10,7 +12,7 @@ import java.util.List;
  * </p>
  */
 public final class Safe {
-	private Safe() { Guards.throwStaticClassInstantiateError(); }
+	private Safe() { throwStaticClassInstantiateError(); }
 	
 	/**
 	 * <p>

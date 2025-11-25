@@ -1,5 +1,7 @@
 package aha.common.util;
 
+import static aha.common.util.Guards.throwStaticClassInstantiateError;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,11 +14,11 @@ import java.time.Instant;
  * </p>
  */
 public final class FileTimes {
-	private FileTimes() { Guards.throwStaticClassInstantiateError(); }
+	private FileTimes() { throwStaticClassInstantiateError(); }
 	
     /**
      * <p>
-     *   Returns the creation time if supported by the OS/filesystem,
+     *   Returns the creation time if supported by the OS/file system,
      *   otherwise falls back to last modified time.
      * </p>
      * @param path Path to file to get time for.
@@ -27,7 +29,7 @@ public final class FileTimes {
         var creation = attrs.creationTime();
         var modified = attrs.lastModifiedTime();
 
-        // Some Linux filesystems just return the same as lastModifiedTime
+        // Some Linux file systems just return the same as lastModifiedTime
         if (creation != null && !creation.equals(modified)) 
         	return creation.toInstant();
         

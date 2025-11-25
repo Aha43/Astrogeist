@@ -1,5 +1,7 @@
 package astrogeist.engine.util.io;
 
+import static aha.common.io.XmlUtil.newDocumentBuilder;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -16,7 +18,6 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import aha.common.io.XmlUtil;
 import aha.common.tuple.Tuple2;
 import aha.common.util.Guards;
 import astrogeist.engine.abstraction.timeline.TimelineValuePool;
@@ -28,7 +29,7 @@ public final class NameValueMapXml {
 	private final static Tuple2<Document, Element> newDocumentWithRoot() 
 		throws Exception {
 		
-		var docBuilder = XmlUtil.newDocumentBuilder();
+		var docBuilder = newDocumentBuilder();
 		var doc = docBuilder.newDocument();
         var rootElement = doc.createElement("data");
         doc.appendChild(rootElement);
@@ -100,7 +101,7 @@ public final class NameValueMapXml {
     }
 	
 	private final static Document parse(InputStream is) throws Exception {
-		var docBuilder = XmlUtil.newDocumentBuilder();
+		var docBuilder = newDocumentBuilder();
         var doc = docBuilder.parse(is);
         doc.getDocumentElement().normalize();
         return doc;

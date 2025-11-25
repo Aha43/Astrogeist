@@ -28,11 +28,15 @@ public final class DefaultTimeline implements Timeline {
 	private final TimelineValuePool pool;
 
     // Chronological, thread-safe, navigable
-    private final ConcurrentNavigableMap<Instant, ConcurrentNavigableMap<String, TimelineValue>> timeline =
+    private final ConcurrentNavigableMap<Instant,
+    	ConcurrentNavigableMap<String, TimelineValue>> timeline =
     		new ConcurrentSkipListMap<>();
 
-    private static ConcurrentNavigableMap<String, TimelineValue> newSnapshotMap() {
-        // Sorted by key (natural order). If you need case-insensitive: String.CASE_INSENSITIVE_ORDER
+    private static ConcurrentNavigableMap<String, TimelineValue> 
+    	newSnapshotMap() {
+        
+    	// Sorted by key (natural order). If you need case-insensitive:
+    	// String.CASE_INSENSITIVE_ORDER
         return new ConcurrentSkipListMap<>();
     }
 
@@ -45,7 +49,6 @@ public final class DefaultTimeline implements Timeline {
 
     @Override public final void clear() {
     	this.logger.info("clears timeline");
-    	
     	this.timeline.clear();
     }
 
@@ -53,12 +56,15 @@ public final class DefaultTimeline implements Timeline {
     	this.logger.info("put at time : '" + time + "' file : '" + file + "'");
     	
         var fileTlv = this.pool.getFileValue(file);
+        
+        // key = canonical full path (from pool)
         timeline.computeIfAbsent(time, t -> newSnapshotMap())
-        	.put(fileTlv.value(), fileTlv); // key = canonical full path (from pool)
+        	.put(fileTlv.value(), fileTlv);
     }
     
     @Override public final void put(Instant time, String name, String value) {
-    	this.logger.info("put at time : '" + time + "' : '" + name + "' = '" + value + "'");
+    	this.logger.info("put at time : '" + time + "' : '" + name + "' = '" +
+    		value + "'");
     	
     	var nk = this.timelineNames.getTimelineName(name);
     	if (nk == null) return;
@@ -66,8 +72,10 @@ public final class DefaultTimeline implements Timeline {
     	snap.put(nk, pool.get(nk, value));
     }
 
-    @Override public final void put(Instant time, LinkedHashMap<String, String> values) {
-        var snap = this.timeline.computeIfAbsent(time, t -> newSnapshotMap());
+    @Override public final void put(Instant time,
+    	LinkedHashMap<String, String> values) {
+        
+    	var snap = this.timeline.computeIfAbsent(time, t -> newSnapshotMap());
         for (var e : values.entrySet()) {
             var nk = this.timelineNames.getTimelineName(e.getKey());
             if (nk == null) continue;
@@ -75,28 +83,37 @@ public final class DefaultTimeline implements Timeline {
         }
     }
 
-    @Override public final void putTimelineValues(Instant time, LinkedHashMap<String, TimelineValue> values) {
-        var snap = this.timeline.computeIfAbsent(time, t -> newSnapshotMap());
+    @Override public final void putTimelineValues(Instant time,
+    	LinkedHashMap<String, TimelineValue> values) {
+        
+    	var snap = this.timeline.computeIfAbsent(time, t -> newSnapshotMap());
         for (var e : values.entrySet()) {
-            var nk = this.timelineNames.getTimelineName(e.getKey()); // keep normalization consistent
-            if (nk == null) continue;
+        	// keep normalization consistent
+        	var nk = this.timelineNames.getTimelineName(e.getKey());
+            
+        	if (nk == null) continue;
             snap.put(nk, e.getValue());
         }
     }
 
     @Override public final Map<String, TimelineValue> snapshot(Instant time) {
         var m = this.timeline.get(time);
-        // Return a stable, unmodifiable snapshot view (copy = iteration-safe for UI)
+        // Return a stable, unmodifiable snapshot view
+        // (copy = iteration-safe for UI)
         return m == null ? Map.of() : Map.copyOf(m);
     }
 
     @Override public final NavigableSet<Instant> timestamps() {
-        // Live view is mutable; wrap to avoid external mutation, remains navigable/ordered
-        return Collections.unmodifiableNavigableSet(this.timeline.navigableKeySet());
+        // Live view is mutable; wrap to avoid external mutation, remains
+    	// navigable/ordered
+        return Collections.unmodifiableNavigableSet(
+        	this.timeline.navigableKeySet());
     }
 
-    @Override public final void update(Instant t, Map<String, TimelineValue> values) {
-        if (t == null || values == null || values.isEmpty()) return;
+    @Override public final void update(Instant t,
+    	Map<String, TimelineValue> values) {
+        
+    	if (t == null || values == null || values.isEmpty()) return;
         var snap = this.timeline.get(t);
         if (snap == null) return;
 
@@ -116,8 +133,10 @@ public final class DefaultTimeline implements Timeline {
         }
     }
 
-    @Override public final void updateStrings(Instant t, Map<String, String> values) {
-        if (t == null || values == null || values.isEmpty()) return;
+    @Override public final void updateStrings(Instant t,
+    	Map<String, String> values) {
+        
+    	if (t == null || values == null || values.isEmpty()) return;
         var snap = this.timeline.get(t);
         if (snap == null) return;
 
@@ -134,8 +153,10 @@ public final class DefaultTimeline implements Timeline {
         }
     }
 
-    @Override public final void upsert(Instant t, String key, TimelineValue value) {
-        if (t == null) return;
+    @Override public final void upsert(Instant t, String key,
+    	TimelineValue value) {
+        
+    	if (t == null) return;
         var nk = this.timelineNames.getTimelineName(key);
         if (nk == null) return;
 

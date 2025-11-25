@@ -1,5 +1,8 @@
 package astrogeist.engine.scanner.capdata.seestar;
 
+import static aha.common.util.FileTimes.getCreationTime;
+import static aha.common.util.FilesUtil.getRegularFilePaths;
+
 import java.nio.file.Path;
 import java.time.Instant;
 import java.util.Arrays;
@@ -8,8 +11,6 @@ import java.util.LinkedHashMap;
 import java.util.logging.Level;
 
 import aha.common.async.CancellationToken;
-import aha.common.util.FileTimes;
-import aha.common.util.FilesUtil;
 import astrogeist.engine.abstraction.jobs.JobProgressListener;
 import astrogeist.engine.abstraction.timeline.Timeline;
 import astrogeist.engine.scanner.AbstractScanner;
@@ -28,7 +29,7 @@ public final class SeestarScanner extends AbstractScanner {
 		
 		var dict = new LinkedHashMap<String, String>();
 		
-		var paths = FilesUtil.getRegularFilePaths(super.path);
+		var paths = getRegularFilePaths(super.path);
 		
 		listener.onStart(paths.size());
 		
@@ -41,7 +42,7 @@ public final class SeestarScanner extends AbstractScanner {
 				var parent = path.getParent();
 				if (parent == null) continue;
 				
-				var time = FileTimes.getCreationTime(parent);
+				var time = getCreationTime(parent);
 				
 				timeline.put(time, path);
 				
@@ -49,9 +50,8 @@ public final class SeestarScanner extends AbstractScanner {
 					var parentComponent = parent.getFileName();
 					if (parentComponent != null) {
 						var name = parentComponent.toString();
-						if (name != null && !name.isBlank()) {
+						if (name != null && !name.isBlank())
 							addInfoFromParent(name, time, timeline, dict);
-						}
 					}
 					pathsDone.add(parent);
 				}
@@ -59,14 +59,15 @@ public final class SeestarScanner extends AbstractScanner {
 				listener.onSuccess(path, null);
 			}
 			catch (Exception x) {
-				this.logger.log(Level.WARNING, "failed to analyze path : '" + path + "'", x);
+				this.logger.log(Level.WARNING, "failed to analyze path : '" +
+					path + "'", x);
 				listener.onFailure(path, x);
 			}
 		}
 	}
 	
-	private final static void addInfoFromParent(String name, Instant time, Timeline timeline,
-		LinkedHashMap<String, String> dictToUse) {
+	private final static void addInfoFromParent(String name, Instant time, 
+		Timeline timeline, LinkedHashMap<String, String> dictToUse) {
 		
 		dictToUse.clear();
 		dictToUse.put("Telescope", "Seestar 50");

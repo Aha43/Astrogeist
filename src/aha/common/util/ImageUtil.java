@@ -1,32 +1,32 @@
 package aha.common.util;
 
+import static aha.common.util.Guards.throwStaticClassInstantiateError;
+import static java.awt.Toolkit.getDefaultToolkit;
+import static java.util.Objects.requireNonNull;
+
 import java.awt.Color;
 import java.awt.RenderingHints;
-import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.Objects;
 
 import javax.imageio.ImageIO;
 
 public final class ImageUtil {
-    private ImageUtil() { Guards.throwStaticClassInstantiateError(); }
+    private ImageUtil() { throwStaticClassInstantiateError(); }
 
-    public static BufferedImage loadImage(String resourcePath) {
+    public static BufferedImage loadImage(String path) {
         try {
-            var url = Objects.requireNonNull(
-                ImageUtil.class.getResource(resourcePath),
-                "Resource not found: " + resourcePath
+            var url = requireNonNull(ImageUtil.class.getResource(path),
+                "Resource not found: " + path
             );
             return ImageIO.read(url);
         } catch (IOException e) {
-            throw new RuntimeException("Could not load image: " + resourcePath,
-            	e);
+            throw new RuntimeException("Could not load image: " + path, e);
         }
     }
 
     public final static int dpiScaled(int basePx) {
-        var dpi = Toolkit.getDefaultToolkit().getScreenResolution();
+        var dpi = getDefaultToolkit().getScreenResolution();
         return Math.max(16, (int) Math.round(basePx * dpi / 96.0));
     }
 
@@ -62,8 +62,10 @@ public final class ImageUtil {
     }
 
     /**
-     * Make (near-)white pixels transparent. Useful when a logo was exported on 
-     * white.
+     * <p>
+     *   Make (near-)white pixels transparent. Useful when a logo was exported
+     *   on white.
+     * </p>
      * @param src       source image (any type)
      * @param threshold 0..255: pixels with all RGB >= threshold become 
      *                  transparent (e.g., 245)
@@ -84,9 +86,7 @@ public final class ImageUtil {
                 int b =  argb         & 0xFF;
 
                 // Hard knockout: near-white → fully transparent
-                if (r >= threshold && g >= threshold && b >= threshold) {
-                    a = 0;
-                }
+                if (r >= threshold && g >= threshold && b >= threshold) a = 0;
                 dst.setRGB(x, y, (a << 24) | (r << 16) | (g << 8) | b);
             }
         }
@@ -94,9 +94,11 @@ public final class ImageUtil {
     }
 
     /**
-     * Soft knockout that fades near-white to transparent to avoid hard halos.
-     * Pixels lighter than low become fully transparent; darker than high stay
-     * opaque; between them alpha is blended linearly.
+     * <p>
+     *   Soft knockout that fades near-white to transparent to avoid hard halos.
+     *   Pixels lighter than low become fully transparent; darker than high stay
+     *   opaque; between them alpha is blended linearly.
+     * </p>
      * @param src   source image
      * @param low   0..255 (start of fade, e.g., 235)
      * @param high  0..255 (end of fade, e.g., 255), must be >= low
@@ -135,8 +137,10 @@ public final class ImageUtil {
     }
 
     /**
-     * Generic "knock out near color" (e.g., kill a solid background that isn't
-     * white).
+     * <p>
+     *   Generic "knock out near color" (e.g., kill a solid background that
+     *   isn't white).
+     * </p>
      * @param src        source image
      * @param bg         background color to remove
      * @param tolerance  0..255: max per-channel distance to treat as background

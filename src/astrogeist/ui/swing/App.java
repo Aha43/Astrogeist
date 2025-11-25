@@ -36,7 +36,8 @@ public final class App {
 	private final MetadataTablePanel metadataPanel = new MetadataTablePanel(
 		this.services.get(SnapshotSelectionService.class));
 	
-	private final FilesTypeGroupComponentPanel filesPanel = new FilesTypeGroupComponentPanel(
+	private final FilesTypeGroupComponentPanel filesPanel = 
+			new FilesTypeGroupComponentPanel(
 		this,
 		this.services.get(SnapshotSelectionService.class));
 	
@@ -47,17 +48,20 @@ public final class App {
 		this.services.get(TimelineNames.class), 
 		this.services.get(SnapshotSelectionService.class));
 	
-	private final FilteredTimelineViewTablePanel searchPanel = new FilteredTimelineViewTablePanel(
+	private final FilteredTimelineViewTablePanel searchPanel =
+			new FilteredTimelineViewTablePanel(
 		this,
 		this.services.get(AppDataManager.class),
 		this.services.get(TimelineNames.class),
 		this.services.get(SnapshotSelectionService.class));
 	
 	// TODO: Find way to refactor so not expose internal components.
-	public final TimelineTablePanel getTimelinePanel() { return this.timelinePanel; }
+	public final TimelineTablePanel getTimelinePanel() { 
+		return this.timelinePanel; }
 	
 	// TODO: Find way to refactor so not expose internal components.
-	public final FilteredTimelineViewTablePanel getSearchPanel() { return this.searchPanel; }
+	public final FilteredTimelineViewTablePanel getSearchPanel() { 
+		return this.searchPanel; }
 	
 	// Actions
 	public final Action ScanAction = new ShowScanningDialogAction(
@@ -80,7 +84,8 @@ public final class App {
 		this.frame.setJMenuBar(MenuBarFactory.createMenuBar(
 			this,
 			this.services.get(AppDataManager.class),
-			this.services.get(TimelineNames.class)));
+			this.services.get(TimelineNames.class),
+			this.services.get(SnapshotSelectionService.class)));
 		
 		this.frame.add(ToolBarFactory.createToolBar(this), BorderLayout.NORTH);
 
@@ -96,7 +101,8 @@ public final class App {
 		centerTabs.addTab("Filtered", timelineViewScroll);
 
 		// Split Pane: Left (tabs) + Center (table)
-		var splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftTabs, centerTabs);
+		var splitPane =
+			new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftTabs, centerTabs);
 		splitPane.setDividerLocation(250); // Initial size of left pane
 		this.frame.add(splitPane, BorderLayout.CENTER);
 
@@ -107,7 +113,8 @@ public final class App {
 		this.frame.add(southTabs, BorderLayout.SOUTH);
 		
 		URL url = Resources.getLogoUrl(this);
-		var icon = new ImageIcon(url).getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH);;
+		var icon = new ImageIcon(url).getImage().getScaledInstance(16, 16,
+			Image.SCALE_SMOOTH);;
 		this.frame.setIconImage(icon);
 
 		this.frame.setVisible(true);

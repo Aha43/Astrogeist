@@ -9,10 +9,12 @@ import javax.swing.JTable;
 
 import astrogeist.engine.file.FileRecord;
 
-public class FilePropertiesPanel extends JPanel {
+public final class FilePropertiesPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
-	private final FilePropertiesTableModel model = new FilePropertiesTableModel();
+	private final FilePropertiesTableModel model =
+		new FilePropertiesTableModel();
+	
 	private final JTable table = new JTable(model);
 
 	public FilePropertiesPanel(FileRecord file) {
@@ -31,12 +33,6 @@ public class FilePropertiesPanel extends JPanel {
 			{"Timestamp", file.timestamp().toString()},
 			{"Last Modified", file.lastModified()}
 		});
-
-		// Future button bar for actions
-		//var actionBar = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-		//actionBar.add(new JButton("Open"));      // placeholder
-		//actionBar.add(new JButton("Delete"));    // future
-		//actionBar.add(new JButton("Rename"));    // future
-		//add(actionBar, BorderLayout.SOUTH);
 	}
+	
 }

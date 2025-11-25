@@ -39,7 +39,8 @@ public interface SnapshotSelectionService {
     
     /**
      * <p>
-     *   Entry point for UI sources when a selection made. Must be called on the EDT.
+     *   Entry point for UI sources when a selection made. Must be called on 
+     *   the EDT.
      * </p>
      * @param timestamp the time selected at. 
      * @param snapshot  the selected.
@@ -48,7 +49,8 @@ public interface SnapshotSelectionService {
     
     /**
      * <p>
-     *   Entry point for UI sources when selection cleared. Must be called on the EDT.
+     *   Entry point for UI sources when selection cleared. Must be called on
+     *   the EDT.
      * </p>
      */
     void cleared();

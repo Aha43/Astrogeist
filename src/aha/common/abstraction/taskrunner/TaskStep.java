@@ -38,6 +38,5 @@ public interface TaskStep {
      * </p>
      * @throws Exception Throw exception to mark failure.
      */
-    void run(TaskRunContext context, AttributeObject contextData)
-    	throws Exception;
+    void run(TaskRunContext ctx, AttributeObject ctxtData) throws Exception;
 }

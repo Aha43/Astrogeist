@@ -1,8 +1,9 @@
 package astrogeist.engine.appdata.settings;
 
+import static aha.common.util.Cast.asOrThrow;
+
 import java.io.OutputStream;
 
-import aha.common.util.Cast;
 import astrogeist.engine.appdata.AbstractNameValueXmlAppDataWriter;
 
 public final class SettingsAppDataWriter
@@ -13,7 +14,7 @@ public final class SettingsAppDataWriter
 	@Override public final void write(OutputStream out, Object data)
 		throws Exception {
 		
-		var map = Cast.asOrThrow(Settings.class, data).asMap();
+		var map = asOrThrow(Settings.class, data).asMap();
 		super.write(out, map);
 	}
 

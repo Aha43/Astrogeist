@@ -24,16 +24,13 @@ public final class ScanAction extends AbstractAction {
 	
 	private final Timeline timeline;
 	
-	public ScanAction(
-		App app,
-		Timeline timeline,
-		ScannersSelectionPanel scannersSelectionPanel) {
+	public ScanAction(App app, Timeline timeline, ScannersSelectionPanel ssp) {
 		
 		super("Scan");
 		
 		this.app = app;
 		this.timeline = timeline;
-		this.scannersSelectionPanel = scannersSelectionPanel;
+		this.scannersSelectionPanel = ssp;
 	}
 
 	@Override public final void actionPerformed(ActionEvent e) {

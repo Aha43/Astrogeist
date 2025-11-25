@@ -3,10 +3,14 @@ package aha.common.util;
 import java.util.Map;
 import java.util.Objects;
 
+import static aha.common.util.Strings.isValidFileName;
+
 /**
  * <p>
- *   Place for static utility methods that implements runtime checks. Do not
- *   duplicate guards java comes with (i.e those in 
+ *   Place for static utility methods that implements runtime checks.
+ * </p>
+ * <p>
+ *   Do <b>not duplicate</b> guards java comes with (i.e those in 
  *   {@link Objects}).
  * </p>
  */
@@ -128,7 +132,7 @@ public final class Guards {
      * @throws IllegalArgumentException if {@code s} not valid file name.
      */
 	public final static String ensureFileNameValid(String s) {
-		if (Strings.isValidFileName(s)) return s.trim();
+		if (isValidFileName(s)) return s.trim();
 		throw new IllegalArgumentException("'" + s + "' not valid file name");
 	}
 	

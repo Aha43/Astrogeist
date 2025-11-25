@@ -8,13 +8,12 @@ import static java.lang.Double.parseDouble;
 import static java.lang.Float.parseFloat;
 import static java.lang.Integer.parseInt;
 import static java.lang.Long.parseLong;
+import static java.lang.Short.parseShort;
 import static java.util.Objects.requireNonNull;
 
 import java.math.BigDecimal;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
-import static java.lang.Short.parseShort;
 
 /**
  * <p>
@@ -56,32 +55,76 @@ public abstract class AttributeBase<T extends AttributeBase<T>> {
 	
 	/**
 	 * <p>
-	 *   Creates empty map.
+	 *   Creates an empty attribute object with no initial entries.
 	 * </p>
 	 */
 	protected AttributeBase() {}
 	
 	/**
 	 * <p>
-	 *   Constructor.
+	 *   Creates an attribute object initialized from a map of string
+	 *   attributes.
 	 * </p>
-	 * @param data Initial data. All values stored as 
-	 *             {@link String} objects.
+	 * <p>
+	 *   Each entry in {@code data} is copied into this object using the same 
+	 *   key, and the associated value is stored as a {@link String}. The map
+	 *   must not contain {@code null} keys or values, and keys must be 
+	 *   non-empty.
+	 * </p>
+	 * @param data the initial key–value pairs to populate this object with
+	 * @throws NullPointerException if {@code data} or any value in it is
+	 *         {@code null}
+	 * @throws IllegalArgumentException if a key in {@code data} is empty
 	 */
 	protected AttributeBase(Map<String, String> data) {
-		for (var e : data.entrySet()) this.data.put(e.getKey(), e.getValue()); }
+		requireNonNull(data, "data");
+	    for (var entry : data.entrySet()) {
+	        requireNonEmpty(entry.getKey(), "key");
+	        requireNonNull(entry.getValue(), "value");
+	        this.data.put(entry.getKey(), entry.getValue());
+	    }
+	}
 	
+	/**
+	 * <p>
+	 *   Returns {@code true} if a value has been stored under the given name.
+	 * </p>
+	 * @param name the key to check
+	 * @return {@code true} if a value is associated with {@code name},
+	 *         otherwise {@code false}
+	 * @throws IllegalArgumentException if {@code name} is empty
+	 * @throws NullPointerException if {@code name} is {@code null}
+	 */
 	public final boolean exists(String name) {
 		requireNonEmpty(name, "name");
 		return this.data.containsKey(name);
 	}
 	
+	/**
+	 * <p>
+	 *   Returns {@code true} if a value has been stored for the given type.
+	 * </p>
+	 * <p>
+	 *   The lookup key is {@code type.getName()}, consistent with
+	 *   {@link #set(Object)} and {@link #get(Class)}.
+	 * </p>
+	 * @param <V>  the type whose presence should be checked
+	 * @param type the class representing the stored value
+	 * @return {@code true} if a value of the given type exists,
+	 *         otherwise {@code false}
+	 * @throws NullPointerException if {@code type} is null
+	 */
 	public final <V> boolean exists(Class<V> type) {
         requireNonNull(type, "type");
         var name = type.getName();
         return exists(name);
     }
 	
+	/**
+	 * <p>
+	 *   Removes all attributes from this object.
+	 * </p>
+	 */
 	public final void clear() { this.data.clear(); }
 	
 	public final boolean remove(String name) {
@@ -89,6 +132,20 @@ public abstract class AttributeBase<T extends AttributeBase<T>> {
 		return this.data.remove(name) != null;
 	}
 	
+	/**
+	 * <p>
+	 *   Removes the value stored for the given type, if present.
+	 * </p>
+	 * <p>
+	 *   The lookup key is {@code type.getName()}. If a value exists, it is
+	 *   removed and the method returns {@code true}. If no such value was
+	 *   stored, it returns {@code false}.
+	 * </p>
+	 * @param <V>  the type of the value to remove
+	 * @param type the class representing the stored value
+	 * @return {@code true} if a value was removed, otherwise {@code false}
+	 * @throws NullPointerException if {@code type} is null
+	 */
 	public final <V> boolean remove(Class<V> type) {
         requireNonNull(type, "type");
         var name = type.getName();
@@ -126,6 +183,27 @@ public abstract class AttributeBase<T extends AttributeBase<T>> {
 		return set(name, value);
 	}
 	
+	/**
+	 * <p>
+	 *   Retrieves a previously stored value by its type.
+	 * </p>
+	 * <p>
+	 *   The lookup key is {@code type.getName()}. This method is equivalent
+	 *   to retrieving the value stored by {@link #set(Object)} for the same
+	 *   class. If no such value exists, an exception is thrown.
+	 *
+	 *   <h4>Example</h4>
+	 *   <pre>{@code
+	 *   AuthContext auth = ctx.get(AuthContext.class);
+	 *   }</pre>
+	 * </p>
+	 * @param <V>  the expected value type
+	 * @param type the class object representing the value type
+	 * @return the stored value, cast to the given type
+	 * @throws NullPointerException if {@code type} is null
+	 * @throws IllegalArgumentException if no value has been stored for this
+	 *         type
+	 */
 	public final <V> V get(Class<V> type) {
 		requireNonNull(type, "type");
 		var name = type.getName();

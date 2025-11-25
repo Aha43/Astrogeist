@@ -9,7 +9,8 @@ import astrogeist.ui.swing.dialog.settings.editors.TablePropertiesEditor;
 import astrogeist.ui.swing.dialog.settings.editors.TextEditor;
 
 public final class SettingsEditorProvider {
-    private final LinkedHashMap<String, SettingsEditor> editors = new LinkedHashMap<>();
+    private final LinkedHashMap<String, SettingsEditor> editors =
+    	new LinkedHashMap<>();
     
     private final SettingsEditor defaultEditor = new TextEditor();
 

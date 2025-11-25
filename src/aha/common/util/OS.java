@@ -1,32 +1,48 @@
 package aha.common.util;
 
+import static java.lang.System.getProperty;
+
 /**
  * <p>
- *   Utility methods of use when reasoning about the operating system running 
- *   in. 
+ *   Enum for OS classes. 
  * </p>
  */
-public final class OS {
-	private OS() { Guards.throwStaticClassInstantiateError(); }
+public enum OS {
 	
-	public static final String WINDOWS = "windows";
-	public static final String MAC = "mac";
-	public static final String LINUX = "linux";
+	WINDOWS("windows"),
+	MAC("mac"),
+	LINUX("linux");
+	
+	private final String name;
+	
+	private OS(String name) { this.name = name; }
 	
 	/**
 	 * <p>
-	 *   Gets best guess of being on
-	 *   {@link #WINDOWS},
-	 *   {@link #MAC} or
-	 *   {@link #LINUX}.
+	 *   Gets OS name.
 	 * </p>
-	 * @return Name on OS likely run on.
+	 * @return Name of OS.
 	 */
-	public final static String osName() {
-        String os = System.getProperty("os.name","").toLowerCase();
-        if (os.contains("win")) return WINDOWS;
-        if (os.contains("mac")) return MAC;
-        return LINUX;
-    }
+	public String getName() { return this.name; }
+	
+	/**
+	 * <p>
+     *   Attempts to guess the current operating system based on the "os.name" 
+     *   system property.
+     * </p>
+     * <p>
+     *   This method retrieves the system property {@code "os.name"} 
+     *   and performs a case-insensitive check for common identifiers 
+     *   ("win", "mac"). It defaults to {@code LINUX} if neither Windows nor
+     *   macOS identifiers are found.
+     * </p>
+     * @return The determined {@link OS} enum constant (WINDOWS, MAC, or LINUX).
+     */
+	public static OS guess() {
+		var os = getProperty("os.name", Strings.EMPTY).toLowerCase();
+		if (os.contains("win")) return WINDOWS;
+		if (os.contains("mac")) return MAC;
+		return LINUX;
+	}
 	
 }

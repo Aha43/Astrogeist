@@ -28,13 +28,15 @@ public final class FilesTableModel extends AbstractTableModel {
 		"Extension", 
 		"Size (KB)",
 		"Timestamp",
-		"Last Modified" };
+		"Last Modified"
+	};
 	
 	private final List<FileRecord> entries = new ArrayList<>();
 
 	@Override public final int getRowCount() { return entries.size(); }
 	@Override public final int getColumnCount() { return columns.length; }
-	@Override public final String getColumnName(int col) { return columns[col]; }
+	@Override public final String getColumnName(int col) { 
+		return columns[col]; }
 
 	@Override public final Object getValueAt(int row, int col) {
 		var entry = entries.get(row);
@@ -54,13 +56,16 @@ public final class FilesTableModel extends AbstractTableModel {
 		return null;
 	}
 
-	public final void setFiles(Type.DiskFile fileType, Instant timestamp, List<Path> files) {
+	public final void setFiles(Type.DiskFile fileType, Instant timestamp,
+		List<Path> files) {
+		
 		entries.clear();
 		for (Path path : files) {
 			try {
 				var size = Files.size(path) / 1024;
 				var lastModified = Files.getLastModifiedTime(path).toString();
-				entries.add(new FileRecord(fileType, path, size, timestamp, lastModified));
+				entries.add(new FileRecord(fileType, path, size, timestamp,
+					lastModified));
 			} catch (Exception e) {
 				entries.add(new FileRecord(fileType, path, -1, timestamp, "?"));
 			}

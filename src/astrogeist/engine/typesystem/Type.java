@@ -13,14 +13,13 @@ public abstract class Type {
 	
 	public Type getParentType() { return null; }
 	
-	public String getUnit() { return ""; }
+	public String getUnit() { return Strings.EMPTY; }
 	
 	protected Type() {}
 	
 	@Override public String toString() { return getName(); }
 	
-	public boolean isA(Type type) 
-	{ 
+	public boolean isA(Type type) { 
 		if (type == null) return false;
 		return type.getClass().isAssignableFrom(this.getClass());
 	}
@@ -38,7 +37,8 @@ public abstract class Type {
 		
 		var stack = new Stack<String>();
 		var curr = this;
-		while (curr != null) { stack.push(curr.getName()); curr = curr.getParentType(); }
+		while (curr != null) { stack.push(curr.getName()); 
+			curr = curr.getParentType(); }
 		var sb = new StringBuilder();
 		while (!stack.isEmpty()) {
 			if (sb.length() > 0) sb.append(" <- ");
@@ -50,7 +50,8 @@ public abstract class Type {
 	}
 	
 	@Override final public boolean equals(Object o) { return this == o; }
-	@Override final public int hashCode() { return System.identityHashCode(this); }
+	@Override final public int hashCode() { 
+		return System.identityHashCode(this); }
 	
 	// TYPES
 	
@@ -84,19 +85,24 @@ public abstract class Type {
 		
 		public void validate(double n) throws TypeValidationException {
 			if (this.mustBeNonZero() && n == 0)
-				throw new TypeValidationException(this, n, "can not be zero"); 
+				throw new TypeValidationException(this, n,
+					"can not be zero"); 
 			
 			if (this.mustBePositive() && n < 0)
-				throw new TypeValidationException(this, n, "can not be less than zero"); 
+				throw new TypeValidationException(this, n,
+					"can not be less than zero"); 
 			
 			if (this.mustBeNegative() && n > 0)
-				throw new TypeValidationException(this, n, "can not be larger than zero");
+				throw new TypeValidationException(this, n,
+					"can not be larger than zero");
 			
 			if (n < getMin())
-	            throw new TypeValidationException(this, n, "must be >= " + getMin());
+	            throw new TypeValidationException(this, n,
+	            	"must be >= " + getMin());
 
 	        if (n > getMax())
-	            throw new TypeValidationException(this, n, "must be <= " + getMax());
+	            throw new TypeValidationException(this, n,
+	            	"must be <= " + getMax());
 		}
 	}
 	
@@ -145,20 +151,25 @@ public abstract class Type {
 			if (parsed.isEmpty()) return VOID_INSTANCE;
 			var suffix = parsed.get().suffix().toLowerCase();
 			return (suffix.equals("ms") ? Type.ExposureInMilliseconds() : 
-				(suffix.equals("s") ? Type.ExposureInSeconds() : VOID_INSTANCE));
+				(suffix.equals("s") ? Type.ExposureInSeconds() : 
+					VOID_INSTANCE));
 		}
 	}
 	
-	private static final ExposureInMilliseconds EXPOSUREINMILLISECONDS_INSTANCE = new ExposureInMilliseconds();
-	public static final ExposureInMilliseconds ExposureInMilliseconds() { return EXPOSUREINMILLISECONDS_INSTANCE; }
+	private static final ExposureInMilliseconds 
+		EXPOSUREINMILLISECONDS_INSTANCE = new ExposureInMilliseconds();
+	public static final ExposureInMilliseconds ExposureInMilliseconds() {
+		return EXPOSUREINMILLISECONDS_INSTANCE; }
 	public static final class ExposureInMilliseconds extends Exposure {
 		private ExposureInMilliseconds() { }
 		@Override public final Type getParentType() { return Type.Exposure(); }
 		@Override public final String getUnit() { return "ms"; }
 	}
 	
-	private static final ExposureInSeconds EXPOSUREINSECONDS_INSTANCE = new ExposureInSeconds();
-	public static ExposureInSeconds ExposureInSeconds() { return EXPOSUREINSECONDS_INSTANCE; }
+	private static final ExposureInSeconds 
+		EXPOSUREINSECONDS_INSTANCE = new ExposureInSeconds();
+	public static ExposureInSeconds ExposureInSeconds() {
+		return EXPOSUREINSECONDS_INSTANCE; }
 	public static final class ExposureInSeconds extends Exposure {
 		private ExposureInSeconds() { }
 		@Override public final Type getParentType() { return Type.Exposure(); }

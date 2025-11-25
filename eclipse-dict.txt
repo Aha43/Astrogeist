@@ -8,3 +8,7 @@ astrogeist
 siril
 clickable
 collapsible
+gitignore
+enum
+knockout
+luminance

@@ -2,7 +2,7 @@ package aha.common.util.unittest;
 
 /**
  * <p>
- *   Type used in unit test. Not for any other use.
+ *   Type used in unit test. <b>Not</b> for any other use.
  * </p>
  */
 public final class Amount {

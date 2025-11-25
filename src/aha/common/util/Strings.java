@@ -1,5 +1,8 @@
 package aha.common.util;
 
+import static aha.common.util.Guards.requireNonNegative;
+import static aha.common.util.Guards.throwStaticClassInstantiateError;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -13,7 +16,7 @@ import java.util.regex.Pattern;
  * </p>
  */
 public final class Strings {
-	private Strings() { Guards.throwStaticClassInstantiateError(); }
+	private Strings() { throwStaticClassInstantiateError(); }
 	
 	/**
 	 * <p>
@@ -40,23 +43,131 @@ public final class Strings {
 	
 	/**
 	 * <p>
-	 *   
+	 *   Converts a list of values to a single CSV-formatted line.
+	 * <p>
+	 * <p>
+	 *   Each element is converted using {@link Object#toString()}, with
+	 *   CSV escaping applied according to RFC&nbsp;4180:
+	 *   <ul>
+	 *     <li>
+	 *       Values containing commas, quotes, or newlines are enclosed in
+	 *       quotes.
+	 *     </li>
+	 *     <li>
+	 *       Quotes inside a quoted value are doubled.
+	 *     </li>
+	 *   </ul>
 	 * </p>
-	 * @param l
-	 * @return
+	 * <p>
+	 *   The method accepts a list of any element type. {@code null} elements
+	 *   are represented as empty CSV fields.
+	 * </p>
+	 * @param list the list of values to convert; may be {@code null} or empty
+	 * @return a CSV-formatted string containing one field per list element,
+	 *         or an empty string if the input is {@code null} or empty
 	 */
-	public final static String toCsv(List<String> l) { 
-		return String.join(", ", l); }
-	
+	public static String toCsv(List<?> list) {
+	    if (list == null || list.isEmpty()) return "";
+
+	    var sb = new StringBuilder();
+	    var first = true;
+
+	    for (var o : list) {
+	        if (!first) {
+	            sb.append(',');
+	        }
+	        first = false;
+
+	        if (o == null) {
+	            sb.append("");
+	            continue;
+	        }
+
+	        String s = o.toString();
+
+	        // Escape CSV if needed
+	        if (s.contains(",") || s.contains("\"") || s.contains("\n")) {
+	            sb.append('"');
+	            sb.append(s.replace("\"", "\"\""));
+	            sb.append('"');
+	        } else {
+	            sb.append(s);
+	        }
+	    }
+
+	    return sb.toString();
+	}
+
+	/**
+	 * <p>
+	 *   Checks if a given string is null, empty, or consists only of whitespace
+	 *   characters.
+	 * </p>
+	 * <p>
+	 *   This method is a convenience utility that checks for {@code null}
+	 *   first, and if not null, checks if the string is blank (contains only
+	 *   whitespace) after trimming.
+	 * </p>
+	 * @param s The string to check.
+	 * @return {@code true} if the string is null or blank, {@code false}
+	 *         otherwise.
+	 */
 	public final static boolean isNullOrBlank(String s) { 
 		return s == null || s.trim().isEmpty(); }
 	
+	/**
+	 * <p>
+	 *   Converts a null string reference to an empty string ("").
+	 * </p>
+	 * <p>
+	 *   This safe access method prevents {@link NullPointerException} when
+	 *   a string value is required but the input might be null.</p>
+	 * </p>
+	 * @param s The input string, which may be null.
+	 * @return The original string if it is not null, otherwise an empty 
+	 *         string ("").
+	 */
 	public final static String nullToEmpty(String s) { 
 		return s == null ? "" : s; }
 
+	/**
+	 * <p>
+	 *   Converts a null string reference to an empty string ("") after trimming
+	 *   leading and trailing whitespace from the input if it is not null.
+	 * </p>
+	 * <p>
+	 *   This is useful for normalizing input values, ensuring that the result
+	 *   is never null and contains no surrounding whitespace.</p>
+	 * </p>
+	 * @param s The input string, which may be null.
+	 * @return The trimmed original string if it is not null, otherwise an empty
+	 *         string ("").
+	 */
 	public final static String nullToEmptyTrimmed(String s) { 
 		return s == null ? "" : s.trim(); }
 	
+	/**
+	 * <p>
+     *   Attempts to parse a number from the beginning of a given string
+     *   {@code s}, capturing the remaining text as a suffix.
+     * </p>
+     * <p>
+     *   The parser supports a flexible format:
+     *   {@code [whitespace][+|-][digits][.|,][digits][whitespace][suffix]}
+     * </p>
+     * <p>
+     *   The input string is normalized internally to accept both comma (',')
+     *   and period ('.') as decimal separators before parsing the number as a
+     *   standard {@code double}.
+     * </p>
+     * @param s The input string to parse.
+     * @return An 
+     *         {@link Optional} containing a
+     *         {@link ParsedSuffixNumberValue} if
+     *         a number was successfully extracted from the start of the string,
+     *         otherwise
+     *         {@link Optional#empty()}.
+     */
 	public final static Optional<ParsedSuffixNumberValue> parseNumberWithSuffix(
 		String s) {
 	    
@@ -71,7 +182,7 @@ public final class Strings {
 	    String suffix = matcher.group(2).trim();
 
 	    try {
-	        double number = Double.parseDouble(numberPart);
+	        var number = Double.parseDouble(numberPart);
 	        return Optional.of(new ParsedSuffixNumberValue(number, suffix));
 	    } catch (NumberFormatException e) {
 	        return Optional.empty();
@@ -131,7 +242,7 @@ public final class Strings {
      * @throws IllegalArgumentException if {@code l < 0}.
      */
     public final static String truncate(String s, int l) {
-    	Guards.requireNonNegative(l, "l");
+    	requireNonNegative(l, "l");
     	return l == 0 ? EMPTY : (s.length() > l ? s.substring(0, l) : s);
     }
     

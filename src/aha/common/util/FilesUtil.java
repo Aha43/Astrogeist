@@ -1,5 +1,7 @@
 package aha.common.util;
 
+import static aha.common.util.Guards.throwStaticClassInstantiateError;
+
 import java.util.List;
 import java.io.File;
 import java.io.IOException;
@@ -12,13 +14,15 @@ import java.util.stream.Collectors;
 
 import astrogeist.engine.typesystem.Type;
 
+// TODO: Break astrogeist dependency (Type system).
+
 /**
  * <p>
  *   Utility methods of use when working with files.
  * </p>
  */
 public final class FilesUtil {
-	private FilesUtil() { Guards.throwStaticClassInstantiateError(); }
+	private FilesUtil() { throwStaticClassInstantiateError(); }
 	
 	public final static String getBaseName(File file) {
 		return getBaseName(file.getName()); }

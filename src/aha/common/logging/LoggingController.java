@@ -1,5 +1,7 @@
 package aha.common.logging;
 
+import static aha.common.util.Guards.throwStaticClassInstantiateError;
+
 import java.util.ArrayDeque;
 import java.util.Date;
 import java.util.Deque;
@@ -14,15 +16,13 @@ import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
-import aha.common.util.Guards;
-
 /**
  * <p>
  *   Logging control.
  * </p>
  */
 public final class LoggingController {
-	private LoggingController() { Guards.throwStaticClassInstantiateError(); }
+	private LoggingController() { throwStaticClassInstantiateError(); }
 	
     private static final Logger root = Logger.getLogger("");
     private static final Deque<Map<String, Level>> levelStack =

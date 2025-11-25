@@ -1,6 +1,10 @@
 package astrogeist.ui.swing.component.data.files;
 
+import static astrogeist.ui.swing.dialog.message.MessageDialogs.showError;
+import static astrogeist.ui.swing.dialog.message.MessageDialogs.showWarning;
+
 import java.awt.BorderLayout;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.nio.file.Path;
@@ -17,7 +21,6 @@ import javax.swing.JTable;
 import astrogeist.engine.typesystem.Type;
 import astrogeist.ui.swing.App;
 import astrogeist.ui.swing.dialog.files.FilePropertiesDialog;
-import astrogeist.ui.swing.dialog.message.MessageDialogs;
 
 public class FilesTablePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -73,8 +76,8 @@ public class FilesTablePanel extends JPanel {
 		super.add(buttons, BorderLayout.SOUTH);
 	}
 
-	public void setFiles(Type.DiskFile fileType, Instant timestamp, List<Path> files) { 
-		model.setFiles(fileType, timestamp, files); }
+	public void setFiles(Type.DiskFile fileType, Instant t, List<Path> files) { 
+		model.setFiles(fileType, t, files); }
 
 	private void openFile() {
 		var entry = model.getEntry(table.getSelectedRow());
@@ -82,24 +85,23 @@ public class FilesTablePanel extends JPanel {
 			try {
 				java.awt.Desktop.getDesktop().open(entry.path().toFile());
 			} catch (Exception x) {
-				MessageDialogs.showError("Failed to open file: ", x);
+				showError("Failed to open file: ", x);
 			}
 		} else {
-			MessageDialogs.showWarning(this, NO_FILE_SELECTED_MESSAGE);
+			showWarning(this, NO_FILE_SELECTED_MESSAGE);
 		}
-		
 	}
 
 	private void openInLocation() {
 		var entry = model.getEntry(table.getSelectedRow());
 		if (entry != null) {
 			try {
-				java.awt.Desktop.getDesktop().open(entry.path().getParent().toFile());
+				Desktop.getDesktop().open(entry.path().getParent().toFile());
 			} catch (Exception x) {
-				MessageDialogs.showError("Failed to open location: ", x);
+				showError("Failed to open location: ", x);
 			}
 		} else {
-			MessageDialogs.showWarning(this, NO_FILE_SELECTED_MESSAGE);
+			showWarning(this, NO_FILE_SELECTED_MESSAGE);
 		}
 	}
 	
@@ -108,7 +110,7 @@ public class FilesTablePanel extends JPanel {
 		if (entry != null) {
 			FilePropertiesDialog.show(app, entry);
 		} else {
-			MessageDialogs.showWarning(this, NO_FILE_SELECTED_MESSAGE);
+			showWarning(this, NO_FILE_SELECTED_MESSAGE);
 		}
 	}
 	

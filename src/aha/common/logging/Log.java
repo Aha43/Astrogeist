@@ -1,5 +1,7 @@
 package aha.common.logging;
 
+import static aha.common.util.Guards.throwStaticClassInstantiateError;
+
 import java.io.IOException;
 import java.nio.file.Path;
 import java.time.ZonedDateTime;
@@ -12,15 +14,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
-import aha.common.util.Guards;
-
 /**
  * <p>
  *   Logging.
  * </p>
  */
 public final class Log {
-    private Log() { Guards.throwStaticClassInstantiateError(); }
+    private Log() { throwStaticClassInstantiateError(); }
 
     private static final ConcurrentHashMap<String, Logger> cache =
     	new ConcurrentHashMap<>();
@@ -168,4 +168,9 @@ public final class Log {
     	error(logger, "Severe error", t); }
     public final static void error(Logger logger, String msg, Throwable t) {
     	logger.log(Level.SEVERE, msg, t); }
+    
+    private static boolean recordStories = false;
+    
+    public static void recordStories(boolean v) { recordStories = v; }
+    public static boolean recordStories() { return recordStories; }
 }

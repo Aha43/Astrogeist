@@ -7,6 +7,7 @@ import astrogeist.engine.scanner.CapDataScanner;
  *   Scan for files produced by SharpCap.
  * </p>
  */
-public class SharpCapScanner extends CapDataScanner {
-	public SharpCapScanner(String location) { super(location, new SharpCapFileParser()); }
+public final class SharpCapScanner extends CapDataScanner {
+	public SharpCapScanner(String location) {
+		super(location, new SharpCapFileParser()); }
 }

@@ -3,20 +3,23 @@ package astrogeist.ui.swing.component.data.timeline.view;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.table.AbstractTableModel;
 
+import aha.common.util.Strings;
 import astrogeist.engine.abstraction.timeline.TimelineView;
 import astrogeist.engine.resources.Time;
-import astrogeist.engine.timeline.TimelineValue;
+import astrogeist.engine.timeline.Snapshot;
 
 /**
  * <p>
- *   Table model showing timeline. Used to show both complete time line and filtered time line.
+ *   Table model showing timeline. Used to show both complete time line and
+ *   filtered time line.
  * </p>
  */
-public abstract class AbstractTimelineViewTableModel extends AbstractTableModel { 
+public abstract class AbstractTimelineViewTableModel
+	extends AbstractTableModel { 
+	
 	private static final long serialVersionUID = 1L;
 	
 	protected final List<Instant> timestamps = new ArrayList<>();
@@ -42,23 +45,26 @@ public abstract class AbstractTimelineViewTableModel extends AbstractTableModel 
 	
 	@Override public final int getRowCount() { return this.timestamps.size(); }
 	@Override public final int getColumnCount() { return this.columns.size(); }
-	@Override public final String getColumnName(int column) { return this.columns.get(column); }
+	@Override public final String getColumnName(int col) { 
+		return this.columns.get(col); }
 
-	@Override public final  Object getValueAt(int row, int col) {
+	@Override public final Object getValueAt(int row, int col) {
 		var timestamp = this.timestamps.get(row);
 		var column = this.columns.get(col);
 
-		if (TIME_COLUMN.equals(column)) return Time.TimeFormatter.format(timestamp); 
+		if (TIME_COLUMN.equals(column))
+			return Time.TimeFormatter.format(timestamp); 
 
 		var view = this.getTimelineView();
 		var snapshot = view.snapshot(timestamp);
-		var tlv = snapshot.getOrDefault(column, TimelineValue.Empty);
-		return tlv.value();
+		var tlv = snapshot.value(column);
+		return tlv == null ? Strings.EMPTY : tlv.value();
 	}
 
-	public final Instant getTimestampAt(int row) { return this.timestamps.get(row); }
+	public final Instant getTimestampAt(int row) {
+		return this.timestamps.get(row); }
 	
-	public final Map<String, TimelineValue> getSnapshotAt(int row) {
+	public final Snapshot getSnapshotAt(int row) {
 		var time = this.timestamps.get(row);
 		var view = this.getTimelineView();
 		var retVal = view.snapshot(time);

@@ -16,10 +16,11 @@ public final class DefaultTypeResolver implements TypeResolver {
 		"framecount", v -> Type.FrameCount()
 	);
 	
-	@Override public Type resolve(String name, String value) {
+	@Override public final Type resolve(String name, String value) {
 		var key = (name == null ? "" : name.trim().toLowerCase(Locale.ROOT));
 	    return rules.getOrDefault(key, v -> Type.Text()).apply(value);
 	}
 	
-	@Override public Type resolveFileType(Path path) { return resolve("file", path.toString()); }
+	@Override public final Type resolveFileType(Path path) { 
+		return resolve("file", path.toString()); }
 }

@@ -1,8 +1,6 @@
 package astrogeist.engine.abstraction.selection;
 
-import java.util.Map;
-
-import astrogeist.engine.timeline.TimelineValue;
+import astrogeist.engine.timeline.Snapshot;
 
 /**
  * <p>
@@ -11,7 +9,6 @@ import astrogeist.engine.timeline.TimelineValue;
  * </p>
  */
 public interface Augmenter {
-	
 	/**
 	 * <p>
 	 *   Give this
@@ -22,5 +19,5 @@ public interface Augmenter {
 	 *         {@code false} if snapshot not changed.
 	 * @throws Exception If failed.
 	 */
-	boolean augment(Map<String, TimelineValue> snapshot) throws Exception;
+	boolean augment(Snapshot snapshot) throws Exception;
 }

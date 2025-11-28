@@ -8,7 +8,9 @@ import java.util.logging.Logger;
 import aha.common.logging.Log;
 import astrogeist.engine.abstraction.timeline.TimelineView;
 
-public final class PropertiesTimelineViewFilter extends AbstractTimelineViewFilter {
+public final class PropertiesTimelineViewFilter 
+	extends AbstractTimelineViewFilter {
+	
 	private final Logger logger = Log.get(this);
 	
 	private final LinkedHashMap<String, String> searched;
@@ -27,7 +29,7 @@ public final class PropertiesTimelineViewFilter extends AbstractTimelineViewFilt
 			var key = e.getKey();
 			var value = e.getValue();
 			
-			var tlv = snapshot.get(key);
+			var tlv = snapshot.value(key);
 			if (tlv == null) return false;
 			
 			if (!value.equals(tlv.value())) return false;

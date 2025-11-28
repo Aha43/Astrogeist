@@ -5,14 +5,13 @@ import static aha.common.ui.swing.AhaSwingUtil.ensureEdt;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import astrogeist.engine.abstraction.selection.Augmenter;
 import astrogeist.engine.abstraction.selection.SnapshotListener;
 import astrogeist.engine.abstraction.selection.SnapshotSelectionService;
-import astrogeist.engine.timeline.TimelineValue;
+import astrogeist.engine.timeline.Snapshot;
 
 public final class DefaultSnapshotSelectionService
 	implements SnapshotSelectionService {
@@ -29,15 +28,13 @@ public final class DefaultSnapshotSelectionService
     @Override public final void removeListener(SnapshotListener l) {
     	ll.remove(Objects.requireNonNull(l)); }
     
-    @Override public final void selected(Instant timestamp,
-    	Map<String, TimelineValue> sh) {
-    	
+    @Override public final void selected(Instant timestamp, Snapshot snapshot) {
     	ensureEdt();
         
-    	if (sh == null) return;
+    	if (snapshot == null) return;
 
         try { 
-        	for (Augmenter a : augmenters) a.augment(sh);
+        	for (Augmenter a : augmenters) a.augment(snapshot);
         } catch (Exception ex) {
             // log + decide policy; for now, propagate partially augmented 
         	// snapshot
@@ -45,7 +42,7 @@ public final class DefaultSnapshotSelectionService
         }
 
         // Now notify downstream listeners in EDT, after augmentation
-        for (var l : ll) l.onSnapshotSelected(timestamp, sh);
+        for (var l : ll) l.onSnapshotSelected(timestamp, snapshot);
     }
     
     @Override public final void cleared() {

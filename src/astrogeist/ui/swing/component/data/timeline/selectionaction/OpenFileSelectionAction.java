@@ -1,10 +1,6 @@
 package astrogeist.ui.swing.component.data.timeline.selectionaction;
 
-import static astrogeist.engine.timeline.TimelineSnapshotUtil.getOfType;
-
-import java.util.Map;
-
-import astrogeist.engine.timeline.TimelineValue;
+import astrogeist.engine.timeline.Snapshot;
 import astrogeist.engine.typesystem.Type;
 import astrogeist.ui.swing.util.UiFilesUtil;
 
@@ -16,14 +12,14 @@ public final class OpenFileSelectionAction extends AbstractSelectionAction {
 		this.fileType = fileType;
 	}
 
-	@Override public final void Perform(Map<String, TimelineValue> sh) {
-		var path = getFile(sh);
+	@Override public final void Perform(Snapshot snapshot) {
+		var path = getFile(snapshot);
 		if (path == null) return;
 		UiFilesUtil.openFile(path);
 	}
 	
-	private final String getFile(Map<String, TimelineValue> sh) {
-		var values = getOfType(sh, this.fileType);
+	private final String getFile(Snapshot snapshot) {
+		var values = snapshot.getOfType(this.fileType);
 		if (values.size() == 0) return null;
 		var first = values.get(0);
 		return first.value();

@@ -1,8 +1,6 @@
 package astrogeist.ui.swing.component.data.timeline.selectionaction;
 
-import java.util.Map;
-
-import astrogeist.engine.timeline.TimelineValue;
+import astrogeist.engine.timeline.Snapshot;
 
 /**
  * <p>
@@ -21,5 +19,5 @@ public final class NoSelectionAction extends AbstractSelectionAction {
 	public static final NoSelectionAction INSTANCE = new NoSelectionAction();
     
     private NoSelectionAction() { super("— No action —"); }
-	@Override public void Perform(Map<String, TimelineValue> sh) { }
+	@Override public void Perform(Snapshot snapshot) { }
 }

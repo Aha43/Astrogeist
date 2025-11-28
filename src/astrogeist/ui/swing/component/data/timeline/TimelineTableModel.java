@@ -18,7 +18,8 @@ public final class TimelineTableModel extends AbstractTimelineViewTableModel {
 	
 	private Timeline timeline;
 	
-	@Override public final TimelineView getTimelineView() { return this.timeline(); }
+	@Override public final TimelineView getTimelineView() {
+		return this.timeline(); }
 	
 	/**
 	 * <p>
@@ -33,8 +34,10 @@ public final class TimelineTableModel extends AbstractTimelineViewTableModel {
 	
 	public final Timeline timeline() { return this.timeline; }
 	
-	public final void update(Instant time, LinkedHashMap<String, TimelineValue> values) {
-	    for (var e : values.entrySet()) {
+	public final void update(Instant time, 
+		LinkedHashMap<String, TimelineValue> values) {
+	    
+		for (var e : values.entrySet()) {
 	        var key = e.getKey();
 	        var tlv = e.getValue();
 	        if (tlv == TimelineValue.Empty) {

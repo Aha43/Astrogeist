@@ -96,11 +96,9 @@ public final class DefaultTimeline implements Timeline {
         }
     }
 
-    @Override public final Map<String, TimelineValue> snapshot(Instant time) {
+    @Override public final Snapshot snapshot(Instant time) {
         var m = this.timeline.get(time);
-        // Return a stable, unmodifiable snapshot view
-        // (copy = iteration-safe for UI)
-        return m == null ? Map.of() : Map.copyOf(m);
+        return m == null ? Snapshot.Empty : new Snapshot(m);
     }
 
     @Override public final NavigableSet<Instant> timestamps() {

@@ -1,10 +1,9 @@
 package astrogeist.engine.abstraction.selection;
 
 import java.time.Instant;
-import java.util.Map;
 
 import astrogeist.engine.abstraction.timeline.Timeline;
-import astrogeist.engine.timeline.TimelineValue;
+import astrogeist.engine.timeline.Snapshot;
 
 /**
  * <p>
@@ -20,6 +19,12 @@ public interface SnapshotListener {
 	 * @param timestamp the time of snapshot.
 	 * @param snapshot  the selected snapshot.
 	 */
-	void onSnapshotSelected(Instant timestamp, Map<String, TimelineValue> snapshot);
+	void onSnapshotSelected(Instant timestamp, Snapshot snapshot);
+	
+	/**
+	 * <p>
+	 *   Invoked when selection cleared.
+	 * </p>
+	 */
 	void onSelectionCleared();
 }

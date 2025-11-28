@@ -6,27 +6,29 @@ import java.util.Map;
 
 import javax.swing.table.AbstractTableModel;
 
-import astrogeist.engine.timeline.TimelineSnapshotUtil;
+import astrogeist.engine.timeline.Snapshot;
 import astrogeist.engine.timeline.TimelineValue;
 import astrogeist.engine.typesystem.Type;
 
 public final class MetadataTableModel extends AbstractTableModel {
     private static final long serialVersionUID = 1L;
 
-    private final List<Map.Entry<String, TimelineValue>> entries = new ArrayList<>();
+    private final List<Map.Entry<String, TimelineValue>> entries = 
+    	new ArrayList<>();
 
-    public void setData(Map<String, TimelineValue> data) {
+    public void setData(Snapshot data) {
         this.entries.clear();
         if (data != null) {
-        	var withNoFiles = TimelineSnapshotUtil.getExcludingTypeMap(data, Type.DiskFile());
+        	var withNoFiles = data.getExcludingTypeMap(Type.DiskFile());
             this.entries.addAll(withNoFiles.entrySet());
         }
         fireTableDataChanged();
     }
 
     @Override public final int getRowCount() { return this.entries.size(); }
-    @Override public final int getColumnCount() { return 3; } // Property, Value, Type
-    @Override public final boolean isCellEditable(int row, int col) { return false; }
+    @Override public final int getColumnCount() { return 3; }
+    @Override public final boolean isCellEditable(int row, int col) {
+    	return false; }
     
     @Override public final Object getValueAt(int rowIndex, int columnIndex) {
         Map.Entry<String, TimelineValue> entry = this.entries.get(rowIndex);

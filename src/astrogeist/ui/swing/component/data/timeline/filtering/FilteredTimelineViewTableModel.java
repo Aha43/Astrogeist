@@ -2,6 +2,7 @@ package astrogeist.ui.swing.component.data.timeline.filtering;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.concurrent.ConcurrentNavigableMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 
@@ -16,7 +17,9 @@ import astrogeist.ui.swing.component.data.timeline.view.AbstractTimelineViewTabl
  *   Table model showing filtered time line.
  * </p>
  */
-public final class FilteredTimelineViewTableModel  extends AbstractTimelineViewTableModel {
+public final class FilteredTimelineViewTableModel 
+	extends AbstractTimelineViewTableModel {
+	
 	private static final long serialVersionUID = 1L;
 	
 	private TimelineView unfilteredView;
@@ -25,7 +28,8 @@ public final class FilteredTimelineViewTableModel  extends AbstractTimelineViewT
 	
 	private final ArrayList<TimelineViewFilter> filters = new ArrayList<>();
 
-	@Override protected TimelineView getTimelineView() { return this.filteredView; }
+	@Override protected TimelineView getTimelineView() {
+		return this.filteredView; }
 	
 	public final void setTimeline(TimelineView view) {
 		this.unfilteredView = view;
@@ -36,7 +40,8 @@ public final class FilteredTimelineViewTableModel  extends AbstractTimelineViewT
 	
 	public final int getFilterCount() { return this.filters.size(); }
 	
-	public final TimelineViewFilter getFilter(int idx) { return this.filters.get(idx); }
+	public final TimelineViewFilter getFilter(int idx) {
+		return this.filters.get(idx); }
 	
 	public final void clearFilters() {
 		this.filters.clear();
@@ -53,13 +58,14 @@ public final class FilteredTimelineViewTableModel  extends AbstractTimelineViewT
 	private final void filter() {
 		if (this.unfilteredView == null) return;
 		
-		ConcurrentNavigableMap<Instant, ConcurrentNavigableMap<String, TimelineValue>> filtered =
+		ConcurrentNavigableMap<Instant, 
+			Map<String, TimelineValue>> filtered =
 				new ConcurrentSkipListMap<>();
 		
 		for (var time : this.unfilteredView.timestamps()) {
 			if (accept(time)) {
 				var snapshot = this.unfilteredView.snapshot(time);
-				filtered.put(time, new ConcurrentSkipListMap<>(snapshot));
+				filtered.put(time, snapshot.asMap());
 			}
 		}
 		

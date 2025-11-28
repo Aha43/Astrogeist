@@ -16,10 +16,11 @@ import astrogeist.engine.timeline.TimelineValue;
 public interface TimelineValuePool {
 	/**
 	 * <p>
-	 *   Gets 
+	 *   Gets the named
+	 *   {@link TimelineValue}.
 	 * </p>
-	 * @param name
-	 * @param value
+	 * @param name  the name of the value.
+	 * @param value the v
 	 * @return
 	 */
 	TimelineValue get(String name, String value);

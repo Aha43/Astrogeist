@@ -8,14 +8,12 @@ import java.awt.FlowLayout;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.JPanel;
 
 import astrogeist.engine.abstraction.selection.SnapshotListener;
 import astrogeist.engine.abstraction.selection.SnapshotSelectionService;
-import astrogeist.engine.timeline.TimelineSnapshotUtil;
-import astrogeist.engine.timeline.TimelineValue;
+import astrogeist.engine.timeline.Snapshot;
 import astrogeist.engine.typesystem.Type;
 import astrogeist.ui.swing.App;
 
@@ -31,15 +29,15 @@ public final class FilesTypeGroupComponentPanel extends JPanel {
 		super.setLayout(new FlowLayout(FlowLayout.LEFT)); 
 		sss.addListener(new SnapshotListener() {
 			@Override public void onSnapshotSelected(Instant t,
-				Map<String, TimelineValue> ss) { setData(app, t, ss); }
+				Snapshot sh) { setData(app, t, sh); }
 			@Override public void onSelectionCleared() { 
 				removeAll(); revalidate(); repaint(); }
 		});
 	}
 	
-	private final void setData(App a, Instant t, Map<String, TimelineValue> s) {
+	private final void setData(App a, Instant t, Snapshot s) {
 		var filePaths = new ArrayList<String>();
-		for (var v : TimelineSnapshotUtil.getOfType(s, Type.DiskFile())) 
+		for (var v : s.getOfType(Type.DiskFile())) 
 			filePaths.add(v.value());
 		setFiles(a, t, filePaths);
 	}

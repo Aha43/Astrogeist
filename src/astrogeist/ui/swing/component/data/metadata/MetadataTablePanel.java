@@ -2,7 +2,6 @@ package astrogeist.ui.swing.component.data.metadata;
 
 import java.awt.BorderLayout;
 import java.time.Instant;
-import java.util.Map;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -10,7 +9,7 @@ import javax.swing.JTable;
 
 import astrogeist.engine.abstraction.selection.SnapshotListener;
 import astrogeist.engine.abstraction.selection.SnapshotSelectionService;
-import astrogeist.engine.timeline.TimelineValue;
+import astrogeist.engine.timeline.Snapshot;
 
 /**
  * <p>
@@ -43,7 +42,7 @@ public final class MetadataTablePanel extends JPanel {
 		
 		sss.addListener(new SnapshotListener() {
 			@Override public void onSnapshotSelected(Instant timestamp, 
-				Map<String, TimelineValue> snapshot) {
+				Snapshot snapshot) {
 					tableModel.setData(snapshot); }
 			@Override public void onSelectionCleared() { tableModel.clear(); }
 		});

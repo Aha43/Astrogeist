@@ -5,12 +5,12 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 import aha.common.abstraction.io.appdata.AppDataManager;
+import aha.common.ui.swing.diagnostic.LoggingMenu;
 import aha.common.util.Guards;
 import astrogeist.engine.abstraction.selection.SnapshotSelectionService;
 import astrogeist.engine.abstraction.timeline.TimelineNames;
 import astrogeist.ui.swing.App;
 import astrogeist.ui.swing.dialog.about.AboutDialog;
-import astrogeist.ui.swing.dialog.logging.LoggingMenu;
 import astrogeist.ui.swing.dialog.settings.SettingsDialog;
 import astrogeist.ui.swing.integration.runconfig.RunConfigurationsMenu;
 import astrogeist.ui.swing.tool.sun.sketching.ShowSunDialogAction;
@@ -64,7 +64,7 @@ public final class MenuBarFactory {
 	
 	private final static JMenu createDiagnosticMenu(App app) {
 		var retVal = new JMenu("Diagnostic");
-		retVal.add(new LoggingMenu(app));
+		retVal.add(new LoggingMenu(app.getFrame()));
 		return retVal;
 	}
 	

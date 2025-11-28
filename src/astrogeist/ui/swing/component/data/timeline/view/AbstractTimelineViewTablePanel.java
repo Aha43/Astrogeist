@@ -6,7 +6,6 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.time.Instant;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -19,7 +18,7 @@ import aha.common.util.Strings;
 import astrogeist.engine.abstraction.selection.SnapshotSelectionService;
 import astrogeist.engine.abstraction.timeline.TimelineNames;
 import astrogeist.engine.appdata.settings.Settings;
-import astrogeist.engine.timeline.TimelineValue;
+import astrogeist.engine.timeline.Snapshot;
 import astrogeist.ui.swing.App;
 import astrogeist.ui.swing.component.data.timeline.selectionaction.AbstractSelectionAction;
 import astrogeist.ui.swing.component.data.timeline.selectionaction.NoSelectionAction;
@@ -184,7 +183,7 @@ public abstract class AbstractTimelineViewTablePanel  extends JPanel {
 		return modelRow;
 	}
 	
-	public final Map<String, TimelineValue> getSelectedSnapshot() {
+	public final Snapshot getSelectedSnapshot() {
 		var selectedRow = this.getSelectedRow();
 		if (selectedRow == -1) return null;
 		return this.model.getSnapshotAt(selectedRow);

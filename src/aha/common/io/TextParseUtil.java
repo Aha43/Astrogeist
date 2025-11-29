@@ -1,6 +1,6 @@
 package aha.common.io;
 
-import aha.common.util.Guards;
+import aha.common.guard.Guards;
 import aha.common.util.Strings;
 
 /**

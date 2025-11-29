@@ -1,9 +1,16 @@
-package aha.common.util;
+package aha.common.guard;
 
+import static aha.common.util.Strings.isValidFileName;
+import static java.util.Objects.requireNonNull;
+import static aha.common.util.Strings.quote;
+
+import java.io.File;
+import java.util.Collection;
 import java.util.Map;
 import java.util.Objects;
 
-import static aha.common.util.Strings.isValidFileName;
+import static aha.common.util.FilesUtil.getExtension;
+import static aha.common.util.Strings.isNullOrBlank;
 
 /**
  * <p>
@@ -50,6 +57,46 @@ public final class Guards {
 	        	" must not be null or empty");
 	    return value;
 	}
+	
+	/**
+	 * <p>
+     *   Requires that the collection itself is non-null and that all elements 
+     *   are non-null.
+     * </p>
+     * @return the {@code value}.
+     * @throws NullPointerException If {@code value} is {@code null} or contain
+     *         an element that is {@code null}.
+     */
+	public final static <T, C extends Collection<T>> C requireAllNonNull(
+		C value, String name) {
+	    
+		requireNonNull(value, name);
+	    int i = 0;
+	    for (T element : value) {
+	        if (element == null)
+	            throw new NullPointerException(name + "[" + i + "] is null");
+	        i++;
+	    }
+	    return value;
+	}
+	
+	/**
+	 * <p>
+     *   Requires that the array itself is non-null and that all elements are
+     *   non-null.
+     * </p>
+     * @return the {@code value}.
+     * @throws NullPointerException If {@code value} is {@code null} or contain
+     *         an element that is {@code null}. 
+     */
+	public static <T> T[] requireAllNonNull(T[] value, String name) {
+        requireNonNull(value, name);
+        for (int i = 0; i < value.length; i++) {
+            if (value[i] == null)
+                throw new NullPointerException(name + "[" + i + "] is null");
+        }
+        return value;
+    }
 	
 	/**
 	 * <p>
@@ -136,4 +183,41 @@ public final class Guards {
 		throw new IllegalArgumentException("'" + s + "' not valid file name");
 	}
 	
+	public static File requireFileHasExtension(File file, String ext) {
+	    requireNonNull(file, "file");
+	    requireNonEmpty(ext, "ext");
+
+	    if (!file.exists()) {
+	        throw fileException(file, " does not exist");
+	    }
+	    if (file.isDirectory()) {
+	        throw fileException(file, " is a directory");
+	    }
+
+	    // Normalize expected extension: remove leading dot and lower-case
+	    String expected = ext.startsWith(".")
+	            ? ext.substring(1)
+	            : ext;
+	    expected = expected.toLowerCase();
+
+	    String fext = getExtension(file); // assuming this returns WITHOUT dot
+	    if (isNullOrBlank(fext)) {
+	        throw fileException(file, " is missing an extension");
+	    }
+
+	    String actual = fext.toLowerCase();
+	    if (!actual.equals(expected)) {
+	        throw fileException(
+	                file,
+	                " has not extension " + quote(expected) + " but " + quote(fext)
+	        );
+	    }
+
+	    return file;
+	}
+
+	private static RuntimeException fileException(File file, String msg) {
+	    return new IllegalArgumentException("file " + quote(file) + msg);
+	}
+
 }

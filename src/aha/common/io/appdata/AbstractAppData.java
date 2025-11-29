@@ -1,6 +1,6 @@
 package aha.common.io.appdata;
 
-import static aha.common.util.Guards.requireNonEmpty;
+import static aha.common.guard.Guards.requireNonEmpty;
 import static java.util.Objects.requireNonNull;
 
 import aha.common.abstraction.io.appdata.AppData;

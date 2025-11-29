@@ -1,6 +1,6 @@
 package astrogeist.engine.appdata.runconfig;
 
-import aha.common.util.Guards;
+import aha.common.guard.Guards;
 import astrogeist.engine.abstraction.integration.runconfig.RunConfigurationStep;
 
 public abstract class AbstractRunConfigurationStep

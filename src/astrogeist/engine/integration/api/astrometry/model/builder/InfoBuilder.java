@@ -6,7 +6,7 @@ import java.util.Set;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import aha.common.util.Guards;
+import aha.common.guard.Guards;
 import astrogeist.engine.integration.api.astrometry.model.Calibration;
 import astrogeist.engine.integration.api.astrometry.model.Info;
 import astrogeist.engine.integration.api.astrometry.model.Names;

@@ -2,6 +2,8 @@ package aha.common.util;
 
 import java.text.DecimalFormat;
 
+import aha.common.guard.Guards;
+
 /**
  * <p>
  *   Shared decimal formats.

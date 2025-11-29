@@ -6,8 +6,8 @@ import java.nio.file.Path;
 import java.util.Objects;
 import java.util.logging.Logger;
 
+import aha.common.guard.Guards;
 import aha.common.logging.Log;
-import aha.common.util.Guards;
 import astrogeist.engine.abstraction.Scanner;
 
 public abstract class AbstractScanner implements Scanner {

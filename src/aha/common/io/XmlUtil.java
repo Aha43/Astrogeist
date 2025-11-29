@@ -9,7 +9,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.w3c.dom.Document;
 
-import aha.common.util.Guards;
+import aha.common.guard.Guards;
 
 /**
  * <p>

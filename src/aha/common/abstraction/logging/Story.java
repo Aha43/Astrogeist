@@ -1,8 +1,8 @@
 package aha.common.abstraction.logging;
 
+import static aha.common.guard.Guards.requireNonEmpty;
 import static aha.common.logging.Log.recordStories;
 import static aha.common.logging.story.ForgettableStory.FORGETTABLE_STORY;
-import static aha.common.util.Guards.requireNonEmpty;
 
 import aha.common.logging.story.StoryWithContent;
 

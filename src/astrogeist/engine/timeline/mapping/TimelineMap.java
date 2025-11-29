@@ -3,7 +3,7 @@ package astrogeist.engine.timeline.mapping;
 import java.util.LinkedHashMap;
 import java.util.Set;
 
-import aha.common.util.Guards;
+import aha.common.guard.Guards;
 
 public final class TimelineMap {
 	private static final LinkedHashMap<String, String> _mapping = new LinkedHashMap<>();

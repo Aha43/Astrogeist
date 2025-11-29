@@ -5,8 +5,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 import aha.common.abstraction.io.appdata.AppDataManager;
+import aha.common.guard.Guards;
 import aha.common.ui.swing.diagnostic.LoggingMenu;
-import aha.common.util.Guards;
 import astrogeist.engine.abstraction.selection.SnapshotSelectionService;
 import astrogeist.engine.abstraction.timeline.TimelineNames;
 import astrogeist.ui.swing.App;

@@ -1,7 +1,7 @@
 package astrogeist.engine.integration.runconfig;
 
-import static aha.common.util.Guards.requireNonEmpty;
-import static aha.common.util.Guards.requirePositive;
+import static aha.common.guard.Guards.requireNonEmpty;
+import static aha.common.guard.Guards.requirePositive;
 
 import java.util.UUID;
 

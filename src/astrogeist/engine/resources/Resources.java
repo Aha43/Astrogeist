@@ -6,7 +6,7 @@ import java.net.URL;
 import java.nio.file.Path;
 import java.time.Instant;
 
-import aha.common.util.Guards;
+import aha.common.guard.Guards;
 import aha.common.util.Instants;
 
 public final class Resources {

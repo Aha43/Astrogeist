@@ -25,7 +25,7 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
 
-import aha.common.util.Guards;
+import aha.common.guard.Guards;
 
 public final class PopupCellViewer {
     private PopupCellViewer() { Guards.throwStaticClassInstantiateError(); }

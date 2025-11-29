@@ -1,6 +1,6 @@
 package aha.common.logging.story;
 
-import static aha.common.util.Guards.requireNonEmpty;
+import static aha.common.guard.Guards.requireNonEmpty;
 
 import aha.common.abstraction.logging.Story;
 

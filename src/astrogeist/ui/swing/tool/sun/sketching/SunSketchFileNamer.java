@@ -4,7 +4,7 @@ import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 
-import aha.common.util.Guards;
+import aha.common.guard.Guards;
 
 public final class SunSketchFileNamer {
 	private SunSketchFileNamer() { Guards.throwStaticClassInstantiateError(); }

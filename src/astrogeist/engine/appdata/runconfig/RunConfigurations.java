@@ -1,6 +1,6 @@
 package astrogeist.engine.appdata.runconfig;
 
-import static aha.common.util.Guards.requireNonEmpty;
+import static aha.common.guard.Guards.requireNonEmpty;
 
 import java.util.ArrayList;
 import java.util.Collection;

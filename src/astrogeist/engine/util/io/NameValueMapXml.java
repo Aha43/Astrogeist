@@ -18,8 +18,8 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import aha.common.guard.Guards;
 import aha.common.tuple.Tuple2;
-import aha.common.util.Guards;
 import astrogeist.engine.abstraction.timeline.TimelineValuePool;
 import astrogeist.engine.timeline.TimelineValue;
 

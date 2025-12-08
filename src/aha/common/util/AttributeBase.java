@@ -15,6 +15,9 @@ import java.math.BigDecimal;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import aha.common.exceptions.runtime.NotFoundException;
+import aha.common.exceptions.runtime.ReadOnlyException;
+
 /**
  * <p>
  *   AttributeBase is a strongly typed attribute map with the following
@@ -50,15 +53,51 @@ public abstract class AttributeBase<T extends AttributeBase<T>> {
 	@SuppressWarnings("unchecked")
 	private final T self() { return (T) this; }
 	
-	private final ConcurrentHashMap<String, Object> data =
-		new ConcurrentHashMap<>();
+	private final ConcurrentHashMap<String, Object> data;
+	
+	private boolean readonly = false;
+	
+	/**
+	 * <p>
+	 *   Makes this read only.
+	 * </p>
+	 * <p>
+	 *   One way, once made read only can not change to read / write.
+	 * </p>
+	 * @return {@code this}.
+	 */
+	public final T seal() { this.readonly = true; return self(); }
+	
+	/**
+	 * <p>
+	 *   Tells if {@code this} is read only.
+	 * <p>
+	 * @return {@code true} if is read only, {@code false} if is read / write.
+	 */
+	public final boolean readonly() { return this.readonly; }
+	
+	private T requireNotReadonly() {
+		if (readonly) throw new ReadOnlyException();
+		return self();
+	}
 	
 	/**
 	 * <p>
 	 *   Creates an empty attribute object with no initial entries.
 	 * </p>
 	 */
-	protected AttributeBase() {}
+	protected AttributeBase() { this.data = new ConcurrentHashMap<>(); }
+	
+	/**
+	 * <p>
+	 *   Copy constructor.
+	 * </p>
+	 * @param o Other to copy.
+	 */
+	protected AttributeBase(AttributeBase<T> o) {
+		requireNonNull(o, "o");
+		this.data = new ConcurrentHashMap<>(o.data);
+	}
 	
 	/**
 	 * <p>
@@ -77,6 +116,7 @@ public abstract class AttributeBase<T extends AttributeBase<T>> {
 	 * @throws IllegalArgumentException if a key in {@code data} is empty
 	 */
 	protected AttributeBase(Map<String, String> data) {
+		this();
 		requireNonNull(data, "data");
 	    for (var entry : data.entrySet()) {
 	        requireNonEmpty(entry.getKey(), "key");
@@ -124,11 +164,21 @@ public abstract class AttributeBase<T extends AttributeBase<T>> {
 	 * <p>
 	 *   Removes all attributes from this object.
 	 * </p>
+	 * @throws ReadOnlyException If {@code #readonly() == true}.
 	 */
-	public final void clear() { this.data.clear(); }
+	public final void clear() { requireNotReadonly(); this.data.clear(); }
 	
+	/**
+	 * <p>
+	 *   Removes named attribute.
+	 * </p>
+	 * @param name Name of attribute to remove.
+	 * @return {@code true} if removed, {@code false} if not found.
+	 * @throws ReadOnlyException If {@code #readonly() == true}. 
+	 */
 	public final boolean remove(String name) {
 		requireNonEmpty(name, "name");
+		requireNotReadonly();
 		return this.data.remove(name) != null;
 	}
 	
@@ -141,13 +191,15 @@ public abstract class AttributeBase<T extends AttributeBase<T>> {
 	 *   removed and the method returns {@code true}. If no such value was
 	 *   stored, it returns {@code false}.
 	 * </p>
-	 * @param <V>  the type of the value to remove
-	 * @param type the class representing the stored value
-	 * @return {@code true} if a value was removed, otherwise {@code false}
-	 * @throws NullPointerException if {@code type} is null
+	 * @param <V>  the type of the value to remove.
+	 * @param type the class representing the stored value.
+	 * @return {@code true} if a value was removed, otherwise {@code false}.
+	 * @throws NullPointerException if {@code type} is null.
+	 * @throws ReadOnlyException If {@code #readonly() == true}. 
 	 */
 	public final <V> boolean remove(Class<V> type) {
         requireNonNull(type, "type");
+        requireNotReadonly();
         var name = type.getName();
         return remove(name);
     }
@@ -173,14 +225,30 @@ public abstract class AttributeBase<T extends AttributeBase<T>> {
 	 *   AuthContext auth = ctx.get(AuthContext.class);
 	 *   }</pre>
 	 * </p>
-	 * @param value the non-null value to store
-	 * @return this instance for fluent chaining
-	 * @throws NullPointerException if {@code value} is null
+	 * @param value the non-null value to store.
+	 * @return this instance for fluent chaining.
+	 * @throws NullPointerException if {@code value} is null.
+	 * @throws ReadOnlyException If {@code #readonly() == true}.
 	 */
 	public final T set(Object value) {
 		requireNonNull(value, "value");
+		requireNotReadonly();
 		var name = value.getClass().getName();
 		return set(name, value);
+	}
+	
+	/**
+	 * <p>
+	 *   Tell if attribute's value equal to given value.
+	 * </p>
+	 * @param name  the name of the attribute.
+	 * @param value the value to check.
+	 * @return {@code true} if is equal, {@code false} if is not.
+	 */
+	public final boolean equals(String name, Object value) {
+		requireNonEmpty(name, "name");
+		requireNonNull(value, "value");
+		return this.get(name).equals(value);
 	}
 	
 	/**
@@ -197,12 +265,12 @@ public abstract class AttributeBase<T extends AttributeBase<T>> {
 	 *   AuthContext auth = ctx.get(AuthContext.class);
 	 *   }</pre>
 	 * </p>
-	 * @param <V>  the expected value type
-	 * @param type the class object representing the value type
-	 * @return the stored value, cast to the given type
-	 * @throws NullPointerException if {@code type} is null
+	 * @param <V>  the expected value type.
+	 * @param type the class object representing the value type.
+	 * @return the stored value, cast to the given type.
+	 * @throws NullPointerException if {@code type} is null.
 	 * @throws IllegalArgumentException if no value has been stored for this
-	 *         type
+	 *         type.
 	 */
 	public final <V> V get(Class<V> type) {
 		requireNonNull(type, "type");
@@ -210,17 +278,36 @@ public abstract class AttributeBase<T extends AttributeBase<T>> {
 		return get(name, type);
 	}
 	
+	/**
+	 * <p>
+	 *   Sets attribute.
+	 * </p>
+	 * @param name  Attribute name.
+	 * @param value Attribute value.
+	 * @return {@code this}.
+	 * @throws IllegalArgumentException if {@code name} is {@code null} or the
+	 *         empty string.
+	 * @throws NullPointerException if {@code value} is {@code null}.
+	 * @throws ReadOnlyException If {@code #readonly() == true}. 
+	 */
 	public final T set(String name, Object value) {
 		requireNonEmpty(name, "name");
 		requireNonNull(value, "value");
+		requireNotReadonly();
 		this.data.put(name, value);
 		return self();
 	}
 	
+	/**
+	 * <p>
+	 *   
+	 * </p>
+	 * @param name
+	 * @return
+	 */
 	public final Object get(String name) {
 		requireNonEmpty(name, "name");
-		if (!this.exists(name)) throw new IllegalArgumentException(quote(name) + 
-			" does not exist");
+		if (!this.exists(name)) throw new NotFoundException(name); 
 		return data.get(name);
 	}
 	

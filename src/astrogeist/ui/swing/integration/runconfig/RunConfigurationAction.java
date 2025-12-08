@@ -1,6 +1,7 @@
 package astrogeist.ui.swing.integration.runconfig;
 
 import java.awt.event.ActionEvent;
+import java.nio.file.Path;
 import java.time.Instant;
 import java.util.logging.Logger;
 
@@ -50,5 +51,16 @@ public final class RunConfigurationAction extends AbstractAction {
 			logger.info("No fit file info found");
 			return;
 		}
+		
+		var pathCollection = new PathCollection("fit");
+		var n = fitFileInfo.size();
+		for (var i = 0; i < n; i++) {
+			var item = fitFileInfo.get(i);
+			var ps = item.value();
+			var path = Path.of(ps);
+			pathCollection.add(path);
+		}
+		
+		
 	}
 }

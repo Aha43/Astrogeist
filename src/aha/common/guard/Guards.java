@@ -1,20 +1,16 @@
 package aha.common.guard;
 
 import static aha.common.util.Strings.isValidFileName;
-import static java.util.Objects.requireNonNull;
 import static aha.common.util.Strings.quote;
+import static java.util.Objects.requireNonNull;
 
-import java.io.File;
-import java.util.Collection;
-import java.util.Map;
-import java.util.Objects;
-
-import static aha.common.util.FilesUtil.getExtension;
+import aha.common.exceptions.runtime.SelfReferenceException;
 import static aha.common.util.Strings.isNullOrBlank;
 
 /**
  * <p>
- *   Place for static utility methods that implements runtime checks.
+ *   Place for static utility methods that implements runtime checks, special
+ *   argument checks.
  * </p>
  * <p>
  *   Do <b>not duplicate</b> guards java comes with (i.e those in 
@@ -33,9 +29,77 @@ public final class Guards {
 	 *   constructor but also make code more explicit that this is a class that
 	 *   only should have static methods.
 	 * </p>
+	 * <p>
+	 *   Example of use is this class's source.
+	 * </p>
 	 */
 	public final static void throwStaticClassInstantiateError() {
 		throw new AssertionError("Can not instantiate static class"); }
+	
+	/**
+	 * <p>
+	 *   Throws 
+	 *   {@link RuntimeException} if given boolean value is {@code true}.
+	 * </p>
+	 * @param v   the value to check.
+	 * @param msg the error message.
+	 */
+	public final static void throwIf(boolean v, String msg) {
+		if (v) throw new RuntimeException(msg); }
+	
+	/**
+	 * <p>
+	 *   Ensures that {@code other} is not the same object reference as 
+	 *   {@code thiz}.
+	 * </p>
+	 * <p>
+	 *   Typical usage is to prevent self-references, e.g. when assigning a 
+	 *   parent:
+	 * </p>
+	 * @param other the value being validated (usually the one that will be 
+	 *              assigned).
+	 * @param thiz  the reference {@code other} must not be identical to (often 
+	 *              {@code this}).
+	 * @return {@code other}.
+	 * @throws NullPointerException   if {@code other} or {@code thiz} is
+	 *                                {@code null}.
+	 * @throws SelfReferenceException if {@code other == thiz}.
+	 * @see #requireNotSame(Object, Object, String)
+	 */
+	public final static <T> T requireNotSame(T other, T thiz) {
+		return requireNotSame(other, thiz, null); }
+	
+	/**
+	 * <p>
+	 *   Ensures that {@code other} is not the same object reference as 
+	 *   {@code thiz}.
+	 * </p>
+	 * <p>
+	 *   Typical usage is to prevent self-references, e.g. when assigning a 
+	 *   parent:
+	 * </p>
+	 * <pre>{@code
+	 *   this.parent = requireNotSame(parent, this, 
+	 *     "An object cannot be its own parent");
+	 * }</pre>
+	 * @param other the value being validated (usually the one that will be 
+	 *              assigned).
+	 * @param thiz  the reference {@code other} must not be identical to (often 
+	 *              {@code this}).
+	 * @param msg   the detail message for the
+	 *              {@link SelfReferenceException}.
+	 * @return {@code other}.
+	 * @throws NullPointerException   if {@code other} or {@code thiz} is
+	 *                                {@code null}.
+	 * @throws SelfReferenceException if {@code other == thiz}.
+	 * @see #requireNotSame(Object, Object)
+	 */
+	public final static <T> T requireNotSame(T other, T thiz, String msg) {
+		requireNonNull(other, "other");
+		requireNonNull(thiz, "thiz");
+		if (other == thiz) throw new SelfReferenceException(msg);
+		return other; 
+	}
 	
 	/**
 	 * <p>
@@ -51,52 +115,12 @@ public final class Guards {
 	 * @throws IllegalArgumentException If {@code value} is {@code null}, of
 	 *         length zero or composed of blank characters only.
 	 */
-	public final static String requireNonEmpty(String value, String name) {
+	public static String requireNonEmpty(String value, String name) {
 	    if (value == null || value.isEmpty())
 	        throw new IllegalArgumentException(name +
 	        	" must not be null or empty");
 	    return value;
 	}
-	
-	/**
-	 * <p>
-     *   Requires that the collection itself is non-null and that all elements 
-     *   are non-null.
-     * </p>
-     * @return the {@code value}.
-     * @throws NullPointerException If {@code value} is {@code null} or contain
-     *         an element that is {@code null}.
-     */
-	public final static <T, C extends Collection<T>> C requireAllNonNull(
-		C value, String name) {
-	    
-		requireNonNull(value, name);
-	    int i = 0;
-	    for (T element : value) {
-	        if (element == null)
-	            throw new NullPointerException(name + "[" + i + "] is null");
-	        i++;
-	    }
-	    return value;
-	}
-	
-	/**
-	 * <p>
-     *   Requires that the array itself is non-null and that all elements are
-     *   non-null.
-     * </p>
-     * @return the {@code value}.
-     * @throws NullPointerException If {@code value} is {@code null} or contain
-     *         an element that is {@code null}. 
-     */
-	public static <T> T[] requireAllNonNull(T[] value, String name) {
-        requireNonNull(value, name);
-        for (int i = 0; i < value.length; i++) {
-            if (value[i] == null)
-                throw new NullPointerException(name + "[" + i + "] is null");
-        }
-        return value;
-    }
 	
 	/**
 	 * <p>
@@ -109,10 +133,10 @@ public final class Guards {
 	 * @return the {@code value}.
 	 * @throws IllegalArgumentException If {@code value < 0}.
 	 */
-	public final static long requireNonNegative(long value, String name) {
+	public static long requireNonNegative(long value, String name) {
 		if (value < 0)
 			throw new IllegalArgumentException(name +
-				" must not be negative (is '" + value + "')");
+				" must not be negative (is " + quote(value) + ")");
 		return value;
 	}
 	
@@ -127,46 +151,11 @@ public final class Guards {
 	 * @return the {@code value}.
 	 * @throws IllegalArgumentException If {@code value < 1}.
 	 */
-	public final static long requirePositive(long value, String name) {
+	public static long requirePositive(long value, String name) {
 		if (value < 1)
 			throw new IllegalArgumentException(name +
-				" must be positive (is '" + value + "')");
+				" must be positive (is " + quote(value) + ")");
 		return value;
-	}
-	
-	/**
-	 * <p> 
-	 *   Throws
-	 *   {@link IllegalArgumentException} if map does not have given key.
-	 * </p>
-	 * @param <K> the key type.
-	 * @param <V> the value type.
-	 * @param map the map.
-	 * @param key the key.
-	 * @return the {@code map}.
-	 */
-	public final static <K, V> Map<K, V> requireKeyExists(Map<K, V> map, K key){
-		return requireKeyExists(map, key, null); }
-	
-	/**
-	 * <p> 
-	 *   Throws
-	 *   {@link IllegalArgumentException} if map does not have given key.
-	 * </p>
-	 * @param <K> the key type.
-	 * @param <V> the value type.
-	 * @param map the map.
-	 * @param key the key.
-	 * @param name the name used in exception to refer to {@code key} 
-	 *             (typically a method parameter name).
-	 * @return the {@code map}.
-	 */
-	public final static <K, V> Map<K, V> requireKeyExists(Map<K, V> map, K key,
-		String name) {
-		
-		if (map.containsKey(key)) return map;
-		name = (name == null) ? "key" : name;
-		throw new IllegalArgumentException(name + " not found");
 	}
 	
 	/**
@@ -178,46 +167,9 @@ public final class Guards {
      * @return {@code s}.
      * @throws IllegalArgumentException if {@code s} not valid file name.
      */
-	public final static String ensureFileNameValid(String s) {
+	public static String ensureFileNameValid(String s) {
 		if (isValidFileName(s)) return s.trim();
-		throw new IllegalArgumentException("'" + s + "' not valid file name");
+		throw new IllegalArgumentException(quote(s) + " not valid file name");
 	}
 	
-	public static File requireFileHasExtension(File file, String ext) {
-	    requireNonNull(file, "file");
-	    requireNonEmpty(ext, "ext");
-
-	    if (!file.exists()) {
-	        throw fileException(file, " does not exist");
-	    }
-	    if (file.isDirectory()) {
-	        throw fileException(file, " is a directory");
-	    }
-
-	    // Normalize expected extension: remove leading dot and lower-case
-	    String expected = ext.startsWith(".")
-	            ? ext.substring(1)
-	            : ext;
-	    expected = expected.toLowerCase();
-
-	    String fext = getExtension(file); // assuming this returns WITHOUT dot
-	    if (isNullOrBlank(fext)) {
-	        throw fileException(file, " is missing an extension");
-	    }
-
-	    String actual = fext.toLowerCase();
-	    if (!actual.equals(expected)) {
-	        throw fileException(
-	                file,
-	                " has not extension " + quote(expected) + " but " + quote(fext)
-	        );
-	    }
-
-	    return file;
-	}
-
-	private static RuntimeException fileException(File file, String msg) {
-	    return new IllegalArgumentException("file " + quote(file) + msg);
-	}
-
 }

@@ -15,3 +15,7 @@ luminance
 mega
 xmx
 validator
+deg
+mm
+misc
+spectral

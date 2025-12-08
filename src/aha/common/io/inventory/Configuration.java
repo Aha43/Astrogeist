@@ -1,6 +1,7 @@
 package aha.common.io.inventory;
 
 import static aha.common.guard.Guards.requireNonEmpty;
+import static aha.common.util.Strings.quote;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -31,7 +32,8 @@ public final class Configuration {
 	public List<String> part(String part) { 
 		requireNonEmpty(part, "part");
 		if (!this.items.containsKey(part))
-			throw new IllegalArgumentException("")
+			throw new IllegalArgumentException("Part : " + quote(part) +
+				" not found");
 		var l = this.items.get(part);
 		return l;
 		

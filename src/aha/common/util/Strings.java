@@ -189,12 +189,20 @@ public final class Strings {
 	    }
 	}
 	
-	// Windows forbidden characters: \ / : * ? " < > |
-    private static final Pattern INVALID_WINDOWS_CHARS =
+	/**
+	 * <p>
+	 *   Windows forbidden characters: \ / : * ? " < > |
+	 * </p>
+	 */
+    public static final Pattern INVALID_WINDOWS_CHARS =
     	Pattern.compile("[\\\\/:*?\"<>|]");
 
-    // Windows reserved device names (case-insensitive)
-    private static final String[] RESERVED_WINDOWS_NAMES = {
+    /**
+     * <p>
+     *   Windows reserved device names (case-insensitive).
+     * </p>
+     */
+    public static final String[] RESERVED_WINDOWS_NAMES = {
         "CON", "PRN", "AUX", "NUL",
         "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9",
         "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9"
@@ -254,5 +262,51 @@ public final class Strings {
      * @return the string {@code ' + o + '}
      */
     public final static String quote(Object o) { return "'" + o + "'"; }
+    
+    private final static String[] BLANKS = new String[] {
+    	"",
+    	" ",
+    	"  ",
+    	"   ",
+    	"    ",
+    	"     ",
+    	"      ",
+    	"       ",
+    	"        ",
+    	"         ",
+    	"          ",
+    	"           ",
+    	"            ",
+    	"             ",
+    	"              ",
+    	"               ",
+    	"                ",
+    	"                 ",
+    	"                  ",
+    	"                   ",
+    	"                    ",
+    	"                     ",
+    	"                      ",
+    	"                       ",
+    	"                        ",
+    	"                         ",
+    	"                          ",
+    };
+    
+    /**
+     * <p>
+     *   Gets the string with blanks only (' ') of given length.
+     * </p>
+     * @param n the required length.
+     * @return the string.
+     * @throws IllegalArgumentException if {@code n < 0}.
+     */
+    public final static String padding(int n) {
+    	requireNonNegative(n, "n");
+    	if (n < BLANKS.length) return BLANKS[n];
+    	var sb = new StringBuilder(n);
+    	for (var i = 0; i < n; i++) sb.append(' ');
+    	return sb.toString();
+    }
 
 }

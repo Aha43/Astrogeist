@@ -1,5 +1,6 @@
 package aha.common.abstraction.taskrunner;
 
+import aha.common.exceptions.TaskStepException;
 import aha.common.taskrunner.TaskRunContext;
 import aha.common.util.AttributeObject;
 
@@ -36,7 +37,8 @@ public interface TaskStep {
      *   Execute this step. May use context to log, check cancellation, share
      *   data.
      * </p>
-     * @throws Exception Throw exception to mark failure.
+     * @throws TaskStepException Throw exception to mark failure.
      */
-    void run(TaskRunContext ctx, AttributeObject ctxtData) throws Exception;
+    void run(TaskRunContext ctx, AttributeObject ctxtData)
+    	throws TaskStepException;
 }

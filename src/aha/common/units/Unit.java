@@ -1,6 +1,13 @@
 package aha.common.units;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+
+import aha.common.util.Strings;
 
 /**
  * <p>
@@ -10,12 +17,12 @@ import java.util.*;
  *   Supports canonical string codes (e.g. "mm") and multiple alias spellings.
  * </p>
  * <p>
- * Usage:
- *     Unit u = Unit.fromString("inch");
+ *   Usage: {@code Unit u = Unit.fromString("inch");}
  * </p>
  */
 public enum Unit {
-
+	NO_UNIT(""),
+	
     // --- Length units ---
     MM("mm", "millimeter", "millimetre"),
     CM("cm", "centimeter", "centimetre"),
@@ -43,7 +50,7 @@ public enum Unit {
     NM("nm", "nanometer", "nanometre"),
     ANGSTROM("Å", "angstrom"),
 
-    // --- Misc for inventory ---
+    // --- Weight units ---
     KG("kg", "kilogram"),
     G("g", "gram");
 
@@ -58,7 +65,7 @@ public enum Unit {
         this.aliases = Collections.unmodifiableSet(a);
     }
 
-    public String canonical() { return canonical; }
+    public final String canonical() { return canonical; }
 
     private static final Map<String, Unit> LOOKUP;
 
@@ -73,14 +80,15 @@ public enum Unit {
     }
 
     /**
-     * Parses a string into a Unit.
-     *
-     * @param s the input string such as "mm", "inch", "deg"
-     * @return the Unit enum
-     * @throws IllegalArgumentException if unknown
+     * <p>
+     *   Parses a string into a Unit.
+     * </p>
+     * @param s the input string such as "mm", "inch", "deg".
+     * @return the Unit enum.
+     * @throws IllegalArgumentException if unknown.
      */
-    public static Unit fromString(String s) {
-        Objects.requireNonNull(s, "Unit string cannot be null");
+    public final static Unit fromString(String s) {
+        s = (s == null) ? Strings.EMPTY : s.trim();
         Unit u = LOOKUP.get(s.toLowerCase());
         if (u == null) {
             throw new IllegalArgumentException("Unknown unit: " + s);
@@ -93,9 +101,13 @@ public enum Unit {
      *   Returns all string variants recognized for this unit.
      * </p>
      */
-    public Set<String> aliases() { return aliases; }
+    public final Set<String> aliases() { return aliases; }
     
-    /** Lenient: returns empty if unknown instead of throwing. */
+    /**
+     * <p> 
+     *   Lenient: returns empty if unknown instead of throwing.
+     * </p>
+     */
     public static Optional<Unit> tryParse(String s) {
         if (s == null || s.isBlank()) return Optional.empty();
         return Optional.ofNullable(LOOKUP.get(s.toLowerCase()));

@@ -12,8 +12,8 @@ import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Objects;
 
-public final class FileGuards {
-    private FileGuards() { throwStaticClassInstantiateError(); }
+public final class PathGuards {
+    private PathGuards() { throwStaticClassInstantiateError(); }
 
     /** Entry point for fluent file/path validation. */
     public static PathGuard require(Path path) { return new PathGuard(path); }
@@ -98,7 +98,7 @@ public final class FileGuards {
 
             boolean match = Arrays.stream(exts)
             	.filter(Objects::nonNull)
-            	.map(FileGuards::normalizeExt)
+            	.map(PathGuards::normalizeExt)
             	.anyMatch(actual::equals);
 
             if (!match)

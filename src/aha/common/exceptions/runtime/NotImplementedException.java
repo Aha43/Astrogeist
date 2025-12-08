@@ -1,4 +1,4 @@
-package aha.common.exceptions;
+package aha.common.exceptions.runtime;
 
 /**
  * <p>

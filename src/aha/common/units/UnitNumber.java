@@ -1,69 +1,113 @@
 package aha.common.units;
 
 import static aha.common.guard.Guards.requireNonEmpty;
-import static java.util.Objects.requireNonNull;
+import static aha.common.util.Strings.parseNumberWithSuffix;
+import static aha.common.util.Strings.quote;
+import static java.util.Objects.requireNonNull; 
 
 import java.util.Optional;
 
-import aha.common.util.Strings;
-
+/**
+ * <p>
+ *   Models a number with unit.
+ * </p>
+ * <p>
+ *   Unit less numbers are allowed (i.e. {@code unit() -> null} and 
+ *   {@code isUnitless() -> true}.
+ * </p>
+ */
 public final class UnitNumber {
 
     private final double number;
     private final Unit unit;
 
-    public double number() { return number; }
-    public Unit unit() { return unit; }
+    public final double number() { return this.number; }
+    public final Unit unit() { return this.unit; }
+    public final boolean isUnitless() { return this.unit == null; }
 
+    /**
+     * <p>
+     *   If is an integer return value as such.
+     * </p>
+     * @return the value as integer.
+     * @throws ArithmeticException If is not an integer.
+     */
     public int asIntExact() {
         if (number % 1.0 != 0.0) {
-            throw new ArithmeticException("Value is not an integer: " + number);
+            throw new ArithmeticException("Value is not an integer: " +
+            	quote(number));
         }
         return (int) number;
     }
 
+    /**
+     * <p>
+     *   If is an integer return value as such.
+     * </p>
+     * @return the value as integer.
+     * @throws ArithmeticException If is not an integer.
+     */
     public long asLongExact() {
         if (number % 1.0 != 0.0) {
-            throw new ArithmeticException("Value is not an integer: " + number);
+            throw new ArithmeticException("Value is not an integer: " +
+            	quote(number));
         }
         return (long) number;
     }
-
+    
+    /**
+     * <p>
+     *   Constructor.
+     * </p>
+     * @param number Value.
+     * @param unit   Unit.
+     */
     public UnitNumber(double number, Unit unit) {
+    	requireNonNull(unit, "unit");
         this.number = number;
-        this.unit = requireNonNull(unit, "unit");
+        this.unit = unit;
     }
 
-    /** Strict: must parse and must have a known unit, or throws. */
+    /**
+     * <p> 
+     *   Strict: must parse and must have a known unit, or throws.
+     * </p> 
+     */
     public UnitNumber(String s) {
         requireNonEmpty(s, "s");
 
-        var parsed = Strings.parseNumberWithSuffix(s)
+        var parsed = parseNumberWithSuffix(s)
             .orElseThrow(() ->
-                new IllegalArgumentException("Cannot parse UnitNumber from: '" +
-                	s + "'"));
+                new IllegalArgumentException("Cannot parse UnitNumber from : " +
+                	quote(s)));
 
         this.number = parsed.number();
         this.unit = Unit.fromString(parsed.suffix()); // throws if unknown
     }
 
-    @Override public String toString() { return number + unit.canonical(); }
+    @Override public final String toString() {
+    	return number + unit.canonical(); }
 
-    /** Lenient: for controllers – no exceptions, just Optional. */
+    /**
+     * <p> 
+     *   Lenient: for controllers – no exceptions, just Optional.
+     * </p>
+     */
     public static Optional<UnitNumber> tryParse(String s) {
         if (s == null || s.isBlank()) return Optional.empty();
 
-        var parsedOpt = Strings.parseNumberWithSuffix(s);
+        var parsedOpt = parseNumberWithSuffix(s);
         if (parsedOpt.isEmpty()) return Optional.empty();
 
         var parsed = parsedOpt.get();
-        var unitOpt = Unit.tryParse(parsed.suffix());
-        if (unitOpt.isEmpty()) {
-            // you *could* log or collect an error here if you like
-            return Optional.empty();
-        }
-
-        return Optional.of(new UnitNumber(parsed.number(), unitOpt.get()));
+        var number = parsed.number();
+        var suffix = parsed.suffix();
+        var unitOpt = Unit.tryParse(suffix);
+        if (unitOpt.isEmpty()) return Optional.empty();
+        	
+        var unit = unitOpt.get();
+        var unitNumber = new UnitNumber(number, unit);
+        return Optional.of(unitNumber);
     }
     
 }

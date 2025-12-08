@@ -3,6 +3,7 @@ package aha.common.taskrunner;
 import java.util.Random;
 
 import aha.common.abstraction.taskrunner.TaskStep;
+import aha.common.exceptions.TaskStepException;
 import aha.common.util.AttributeObject;
 
 /**
@@ -44,7 +45,7 @@ public final class SimulatedStep implements TaskStep {
     @Override public final int weight() { return weight; }
 
     @Override public final void run(TaskRunContext ctx, 
-    	AttributeObject ctxData) throws Exception {
+    	AttributeObject ctxData) throws TaskStepException {
     	
         ctx.log(label + " started");
 

@@ -7,6 +7,7 @@ import javax.swing.JMenuItem;
 import aha.common.abstraction.io.appdata.AppDataManager;
 import aha.common.guard.Guards;
 import aha.common.ui.swing.diagnostic.LoggingMenu;
+import aha.common.ui.swing.panels.MemoryInspectorAction;
 import astrogeist.engine.abstraction.selection.SnapshotSelectionService;
 import astrogeist.engine.abstraction.timeline.TimelineNames;
 import astrogeist.ui.swing.App;
@@ -65,6 +66,7 @@ public final class MenuBarFactory {
 	private final static JMenu createDiagnosticMenu(App app) {
 		var retVal = new JMenu("Diagnostic");
 		retVal.add(new LoggingMenu(app.getFrame()));
+		retVal.add(new MemoryInspectorAction(app.getFrame()));
 		return retVal;
 	}
 	

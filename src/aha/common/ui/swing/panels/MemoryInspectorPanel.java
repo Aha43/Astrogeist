@@ -12,6 +12,11 @@ import javax.swing.Timer;
 
 import static java.lang.System.gc;
 
+/**
+ * <p>
+ *   Panel for inspecting memory use.
+ * </p>
+ */
 public final class MemoryInspectorPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	

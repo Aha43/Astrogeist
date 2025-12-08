@@ -1,4 +1,4 @@
-package astrogeist.engine.integration.runconfig;
+package aha.common.taskrunner;
 
 import static aha.common.guard.Guards.requireNonEmpty;
 import static aha.common.guard.Guards.requirePositive;
@@ -8,7 +8,6 @@ import java.util.UUID;
 import aha.common.abstraction.taskrunner.TaskStep;
 
 public abstract class TaskStepBase implements TaskStep {
-	
 	private final String id = UUID.randomUUID().toString();
 	
 	private final String label;

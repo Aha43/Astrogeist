@@ -2,9 +2,9 @@ package aha.common.ui.swing.panels.namevalueunit;
 
 import static aha.common.guard.Guards.requireNonEmpty;
 
+import aha.common.numbers.Unit;
+import aha.common.numbers.UnitNumber;
 import aha.common.tuple.Tuple2;
-import aha.common.units.Unit;
-import aha.common.units.UnitNumber;
 
 import static java.util.Objects.requireNonNull;
 

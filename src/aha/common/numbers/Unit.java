@@ -1,4 +1,4 @@
-package aha.common.units;
+package aha.common.numbers;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -21,14 +21,14 @@ import aha.common.util.Strings;
  * </p>
  */
 public enum Unit {
-	NO_UNIT(""),
+	NO_UNIT("", UnitType.VOID),
 	
     // --- Length units ---
-    MM("mm", "millimeter", "millimetre"),
-    CM("cm", "centimeter", "centimetre"),
-    M("m", "meter", "metre"),
-    INCH("inch", "in"),
-    FOOT("ft", "foot", "feet"),
+    MM("mm", UnitType.LENGTH, "millimeter", "millimetre"),
+    CM("cm", UnitType.LENGTH, "centimeter", "centimetre"),
+    M("m", UnitType.LENGTH, "meter", "metre"),
+    INCH("inch", UnitType.LENGTH, "in"),
+    FOOT("ft", UnitType.LENGTH, "foot", "feet"),
 
     // --- Angle units ---
     DEG("deg", "degree", "degrees"),
@@ -41,10 +41,10 @@ public enum Unit {
     SUBPIXEL("spx", "subpixel"),
 
     // --- Time units ---
-    MS("ms", "millisecond"),
-    S("s", "sec", "second"),
-    MIN("min", "minute"),
-    HOUR("h", "hr", "hour"),
+    MS("ms", UnitType.TIME, "millisecond"),
+    S("s", UnitType.TIME, "sec", "second"),
+    MIN("min", UnitType.TIME, "minute"),
+    HOUR("h", UnitType.TIME, "hr", "hour"),
 
     // --- Spectral units ---
     NM("nm", "nanometer", "nanometre"),
@@ -54,16 +54,20 @@ public enum Unit {
     KG("kg", "kilogram"),
     G("g", "gram");
 
+	private final UnitType type;
     private final String canonical;
     private final Set<String> aliases;
 
-    Unit(String canonical, String... aliases) {
-        this.canonical = canonical;
+    Unit(String canonical, UnitType type, String... aliases) {
+        this.type = type;
+    	this.canonical = canonical;
         Set<String> a = new HashSet<>();
         a.add(canonical.toLowerCase());
         for (var s : aliases) a.add(s.toLowerCase());
         this.aliases = Collections.unmodifiableSet(a);
     }
+    
+    public final UnitType type() { return this.type; }
 
     public final String canonical() { return canonical; }
 

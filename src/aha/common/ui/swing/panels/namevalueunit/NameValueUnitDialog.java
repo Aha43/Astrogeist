@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import aha.common.units.Unit;
+import aha.common.numbers.Unit;
 
 public final class NameValueUnitDialog extends JDialog {
 	private static final long serialVersionUID = 1L;

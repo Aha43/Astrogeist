@@ -1,7 +1,7 @@
 package astrogeist.engine.Observatory;
 
-import aha.common.units.Unit;
-import aha.common.units.UnitNumber;
+import aha.common.numbers.Unit;
+import aha.common.numbers.UnitNumber;
 import aha.common.util.AttributeBase;
 
 public final class Instrument extends AttributeBase<Instrument> {

@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Stack;
 
 import aha.common.exceptions.runtime.NotFoundException;
-import aha.common.units.Unit;
-import aha.common.units.UnitNumber;
+import aha.common.numbers.Unit;
+import aha.common.numbers.UnitNumber;
 
 public final class InstrumentNode {
 	private final Instrument instrument;

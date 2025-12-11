@@ -6,7 +6,7 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-import aha.common.units.Unit;
+import aha.common.numbers.Unit;
 
 public final class NameValueUnitDemo {
 

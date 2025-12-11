@@ -1,4 +1,4 @@
-package aha.common.units;
+package aha.common.numbers;
 
 import static aha.common.guard.Guards.requireNonEmpty;
 import static aha.common.util.Strings.parseNumberWithSuffix;
@@ -32,7 +32,7 @@ public final class UnitNumber {
      * @return the value as integer.
      * @throws ArithmeticException If is not an integer.
      */
-    public int asIntExact() {
+    public final int asIntExact() {
         if (number % 1.0 != 0.0) {
             throw new ArithmeticException("Value is not an integer: " +
             	quote(number));
@@ -47,7 +47,7 @@ public final class UnitNumber {
      * @return the value as integer.
      * @throws ArithmeticException If is not an integer.
      */
-    public long asLongExact() {
+    public final long asLongExact() {
         if (number % 1.0 != 0.0) {
             throw new ArithmeticException("Value is not an integer: " +
             	quote(number));
@@ -93,7 +93,7 @@ public final class UnitNumber {
      *   Lenient: for controllers – no exceptions, just Optional.
      * </p>
      */
-    public static Optional<UnitNumber> tryParse(String s) {
+    public final static Optional<UnitNumber> tryParse(String s) {
         if (s == null || s.isBlank()) return Optional.empty();
 
         var parsedOpt = parseNumberWithSuffix(s);

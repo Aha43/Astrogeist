@@ -15,7 +15,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import aha.common.guard.Guards;
+import aha.common.guard.ObjectGuards;
 
 public final class TimelineMappingIo {
 	public static List<TimelineMappingEntry> load(File file) throws Exception {
@@ -71,5 +71,5 @@ public final class TimelineMappingIo {
         transformer.transform(new DOMSource(doc), new StreamResult(file));
     }
 	
-	private TimelineMappingIo() { Guards.throwStaticClassInstantiateError(); }
+	private TimelineMappingIo() { ObjectGuards.throwStaticClassInstantiateError(); }
 }

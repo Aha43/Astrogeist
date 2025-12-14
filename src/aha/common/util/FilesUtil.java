@@ -2,7 +2,7 @@ package aha.common.util;
 
 import java.util.List;
 
-import static aha.common.guard.Guards.throwStaticClassInstantiateError;
+import static aha.common.guard.ObjectGuards.throwStaticClassInstantiateError;
 
 import java.io.File;
 import java.io.IOException;

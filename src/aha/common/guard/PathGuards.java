@@ -1,7 +1,7 @@
 package aha.common.guard;
 
-import static aha.common.guard.Guards.requireNonEmpty;
-import static aha.common.guard.Guards.throwStaticClassInstantiateError;
+import static aha.common.guard.ObjectGuards.throwStaticClassInstantiateError;
+import static aha.common.guard.StringGuards.requireNonEmpty;
 import static aha.common.util.Strings.isNullOrBlank;
 import static aha.common.util.Strings.quote;
 import static java.util.Objects.requireNonNull;

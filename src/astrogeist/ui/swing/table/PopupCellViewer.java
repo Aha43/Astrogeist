@@ -25,10 +25,10 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
 
-import aha.common.guard.Guards;
+import aha.common.guard.ObjectGuards;
 
 public final class PopupCellViewer {
-    private PopupCellViewer() { Guards.throwStaticClassInstantiateError(); }
+    private PopupCellViewer() { ObjectGuards.throwStaticClassInstantiateError(); }
 
     /** Install a right-click popup that shows the full cell content for the given view-column indices. */
     public final static void install(JTable table, int... viewCols) {

@@ -9,7 +9,8 @@ import astrogeist.engine.integration.api.astrometry.model.Annotation;
 import astrogeist.engine.integration.api.astrometry.model.Annotations;
 import astrogeist.engine.integration.api.astrometry.model.Names;
 
-public final class AnnotationsBuilder extends AstrometryModelBuilder<Annotations> {
+public final class AnnotationsBuilder
+	extends AstrometryModelBuilder<Annotations> {
 	
 	private final List<Annotation> annotations = new ArrayList<>();
 	
@@ -30,8 +31,5 @@ public final class AnnotationsBuilder extends AstrometryModelBuilder<Annotations
 	public final void clear() { this.annotations.clear(); }
 	
 	public final AnnotationsBuilder withAnnotation(Annotation annotation) {
-		this.annotations.add(annotation);
-		return this;
-	}
-	
+		this.annotations.add(annotation); return this; }
 }

@@ -1,8 +1,11 @@
 package aha.common.numbers;
 
 public enum UnitType {
-	VOID,
+	ANGLE,
 	LENGTH,
+	RESOLUTION,
+	SPECTRAL,
+	TIME,
+	VOID,
 	WEIGHT,
-	TIME
 }

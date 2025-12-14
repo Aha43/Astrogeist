@@ -1,11 +1,12 @@
 package astrogeist.engine.integration.api.astrometry.model.builder;
 
+import static aha.common.guard.StringGuards.requireNonEmpty;
+
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import aha.common.guard.Guards;
 import astrogeist.engine.integration.api.astrometry.model.Names;
 import astrogeist.engine.integration.api.astrometry.model.Tags;
 
@@ -15,18 +16,14 @@ public final class TagsBuilder extends AstrometryModelBuilder<Tags> {
 
 	@Override public final Tags build() { return new Tags(this.tags); }
 
-	@Override public Tags build(JsonNode node) {
+	@Override public final Tags build(JsonNode node) {
 		var objects = node.get(Names.TAGS);
 		for (var n : objects) this.withTag(n.asText());
 		return this.build();
 	}
 
-	@Override public void clear() { this.tags.clear(); }
+	@Override public final void clear() { this.tags.clear(); }
 	
 	public final TagsBuilder withTag(String tag) {
-		Guards.requireNonEmpty(tag, "tag");
-		this.tags.add(tag);
-		return this;
-	}
-
+		this.tags.add(requireNonEmpty(tag, "tag")); return this; }
 }

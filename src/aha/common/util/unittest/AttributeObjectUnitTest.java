@@ -8,7 +8,7 @@ import aha.common.logging.Log;
 import aha.common.util.AttributeObject;
 
 import static aha.common.util.Strings.quote;
-import static aha.common.guard.Guards.throwStaticClassInstantiateError;
+import static aha.common.guard.ObjectGuards.throwStaticClassInstantiateError;
 import static aha.common.unittest.fluentassert.AssertThat.*;
 
 public final class AttributeObjectUnitTest {

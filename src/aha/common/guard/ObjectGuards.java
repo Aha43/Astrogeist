@@ -1,11 +1,8 @@
 package aha.common.guard;
 
-import static aha.common.util.Strings.isValidFileName;
-import static aha.common.util.Strings.quote;
 import static java.util.Objects.requireNonNull;
 
 import aha.common.exceptions.runtime.SelfReferenceException;
-import static aha.common.util.Strings.isNullOrBlank;
 
 /**
  * <p>
@@ -17,8 +14,8 @@ import static aha.common.util.Strings.isNullOrBlank;
  *   {@link Objects}).
  * </p>
  */
-public final class Guards {
-	private Guards() { throwStaticClassInstantiateError(); }
+public final class ObjectGuards {
+	private ObjectGuards() { throwStaticClassInstantiateError(); }
 	
 	/**
 	 * <p>
@@ -99,77 +96,6 @@ public final class Guards {
 		requireNonNull(thiz, "thiz");
 		if (other == thiz) throw new SelfReferenceException(msg);
 		return other; 
-	}
-	
-	/**
-	 * <p>
-	 *   Throws 
-	 *   {@link IllegalArgumentException} if 
-	 *   {@code value} is the empty string (only blank characters or of length
-	 *   zero) or {@code null}.   
-	 * </p>
-	 * @param value the value to check.
-	 * @param name  the name used in exception to refer to {@code value}
-	 *              (typically a method parameter name).
-	 * @return the {@code value}.
-	 * @throws IllegalArgumentException If {@code value} is {@code null}, of
-	 *         length zero or composed of blank characters only.
-	 */
-	public static String requireNonEmpty(String value, String name) {
-	    if (value == null || value.isEmpty())
-	        throw new IllegalArgumentException(name +
-	        	" must not be null or empty");
-	    return value;
-	}
-	
-	/**
-	 * <p>
-	 *   Throws 
-	 *   {@link IllegalArgumentException} if {@code value < 0}.
-	 * </p>
-	 * @param value the value to check.
-	 * @param name  the name used in exception to refer to {@code value}
-	 *              (typically a method parameter name).
-	 * @return the {@code value}.
-	 * @throws IllegalArgumentException If {@code value < 0}.
-	 */
-	public static long requireNonNegative(long value, String name) {
-		if (value < 0)
-			throw new IllegalArgumentException(name +
-				" must not be negative (is " + quote(value) + ")");
-		return value;
-	}
-	
-	/**
-	 * <p>
-	 *   Throws 
-	 *   {@link IllegalArgumentException} if {@code value < 1}.
-	 * </p>
-	 * @param value the value to check.
-	 * @param name  the name used in exception to refer to {@code value}
-	 *              (typically a method parameter name).
-	 * @return the {@code value}.
-	 * @throws IllegalArgumentException If {@code value < 1}.
-	 */
-	public static long requirePositive(long value, String name) {
-		if (value < 1)
-			throw new IllegalArgumentException(name +
-				" must be positive (is " + quote(value) + ")");
-		return value;
-	}
-	
-	/**
-     * <p>
-     *   Guard for a
-     *   {@link String} is a valid file name. 
-     * </p>
-     * @param s the {@link String} to test.
-     * @return {@code s}.
-     * @throws IllegalArgumentException if {@code s} not valid file name.
-     */
-	public static String ensureFileNameValid(String s) {
-		if (isValidFileName(s)) return s.trim();
-		throw new IllegalArgumentException(quote(s) + " not valid file name");
 	}
 	
 }

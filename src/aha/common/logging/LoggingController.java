@@ -1,6 +1,6 @@
 package aha.common.logging;
 
-import static aha.common.guard.Guards.throwStaticClassInstantiateError;
+import static aha.common.guard.ObjectGuards.throwStaticClassInstantiateError;
 
 import java.util.ArrayDeque;
 import java.util.Date;

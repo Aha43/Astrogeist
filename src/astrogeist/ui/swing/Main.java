@@ -5,7 +5,7 @@ import javax.swing.UIManager;
 
 import com.formdev.flatlaf.FlatDarculaLaf;
 
-import aha.common.guard.Guards;
+import aha.common.guard.ObjectGuards;
 import astrogeist.engine.resources.Resources;
 import astrogeist.ui.swing.dialog.launch.LaunchDialog;
 import astrogeist.ui.swing.dialog.message.MessageDialogs;
@@ -40,5 +40,5 @@ public final class Main {
 		//SettingsIo.loadOrCreate();
 	}
 	
-	private Main() { Guards.throwStaticClassInstantiateError(); }
+	private Main() { ObjectGuards.throwStaticClassInstantiateError(); }
 }

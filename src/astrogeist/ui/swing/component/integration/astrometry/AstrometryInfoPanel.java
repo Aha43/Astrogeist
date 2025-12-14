@@ -28,7 +28,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
 
-import aha.common.guard.Guards;
 import aha.common.ui.swing.panels.CollapsibleSection;
 import aha.common.util.DecimalFormats;
 import aha.common.util.Safe;
@@ -38,6 +37,8 @@ import astrogeist.engine.integration.api.astrometry.model.Annotations;
 import astrogeist.engine.integration.api.astrometry.model.Info;
 import astrogeist.ui.swing.dialog.message.MessageDialogs;
 
+import static aha.common.guard.NumberGuards.requireNonNegative;
+
 public final class AstrometryInfoPanel extends JPanel {
     private static final long serialVersionUID = 1L;
 
@@ -45,7 +46,8 @@ public final class AstrometryInfoPanel extends JPanel {
 	
 	private final ChangeEvent changeEvent = new ChangeEvent(this);
 	
-	private final CopyOnWriteArrayList<ChangeListener> changeListener = new CopyOnWriteArrayList<>();
+	private final CopyOnWriteArrayList<ChangeListener> changeListener =
+		new CopyOnWriteArrayList<>();
 	
 	public void addChangeListener(ChangeListener l) {
 		Objects.requireNonNull(l, "l");
@@ -73,21 +75,26 @@ public final class AstrometryInfoPanel extends JPanel {
     private final DefaultTableModel calibModel =
         new DefaultTableModel(new Object[]{"Property", "Value"}, 0) {
             private static final long serialVersionUID = 1L;
-			@Override public boolean isCellEditable(int r, int c) { return false; }
+			@Override public boolean isCellEditable(int r, int c) { 
+				return false; }
         };
     private final JTable calibTable = new JTable(calibModel);
 
     private final DefaultTableModel tagsModel =
         new DefaultTableModel(new Object[]{"Tag", "Type"}, 0) {
             private static final long serialVersionUID = 1L;
-			@Override public boolean isCellEditable(int r, int c) { return false; }
+			@Override public boolean isCellEditable(int r, int c) {
+				return false; }
         };
     private final JTable tagsTable = new JTable(tagsModel);
     
     private final DefaultTableModel annoModel = 
-    	new DefaultTableModel(new Object[]{"Type", "Names", "pixelx", "pixely", "radius"}, 0) {
-			private static final long serialVersionUID = 1L;
-			@Override public boolean isCellEditable(int r, int c) { return false; }
+    	new DefaultTableModel(new Object[]{
+    		"Type", "Names", "pixelx", "pixely", "radius"}, 0) {
+			
+    	private static final long serialVersionUID = 1L;
+			@Override public boolean isCellEditable(int r, int c) {
+				return false; }
     	};
     private final JTable annoTable = new JTable(annoModel);
 
@@ -125,9 +132,12 @@ public final class AstrometryInfoPanel extends JPanel {
         var center = new JPanel();
         center.setLayout(new BoxLayout(center, BoxLayout.Y_AXIS));
 
-        center.add(new CollapsibleSection("Calibration", new JScrollPane(calibTable)));
-        center.add(new CollapsibleSection("Tags", new JScrollPane(tagsTable)));
-        center.add(new CollapsibleSection("Annotations", new JScrollPane(annoTable)));
+        center.add(new CollapsibleSection("Calibration",
+        	new JScrollPane(calibTable)));
+        center.add(new CollapsibleSection("Tags",
+        	new JScrollPane(tagsTable)));
+        center.add(new CollapsibleSection("Annotations",
+        	new JScrollPane(annoTable)));
 
         add(top, BorderLayout.NORTH);
         add(center, BorderLayout.CENTER);
@@ -145,7 +155,8 @@ public final class AstrometryInfoPanel extends JPanel {
     		var id = Long.parseLong(jobId);
     		setJobId(id);
     	} catch (Exception x) {
-    		MessageDialogs.showError(this, "Not valid job id : '" + jobId + "'", x);
+    		MessageDialogs.showError(this,
+    			"Not valid job id : '" + jobId + "'", x);
     	}
     }
 
@@ -155,7 +166,7 @@ public final class AstrometryInfoPanel extends JPanel {
      * </p>
      */
     public final void setJobId(long jobId) {
-    	Guards.requireNonNegative(jobId, "Job Id");
+    	requireNonNegative(jobId, "Job Id");
     	
         this.currentJobId = jobId;
         // clear UI
@@ -221,7 +232,8 @@ public final class AstrometryInfoPanel extends JPanel {
         // Merge tags/machine_tags/objects_in_field
         this.tagsModel.setRowCount(0);
         var rows = mergeTags(info);
-        for (var r : rows) this.tagsModel.addRow(new Object[]{r.tag, r.typeString()});
+        for (var r : rows) 
+        	this.tagsModel.addRow(new Object[]{r.tag, r.typeString()});
     }
     
     private void addCalib(String name, double val) {
@@ -252,7 +264,8 @@ public final class AstrometryInfoPanel extends JPanel {
     }
 
     private final static Exception unwrap(Throwable t) {
-        if (t instanceof CompletionException ce && ce.getCause() != null) return (Exception)ce.getCause();
+        if (t instanceof CompletionException ce && ce.getCause() != null) 
+        	return (Exception)ce.getCause();
         if (t instanceof Exception e) return e;
         return new RuntimeException(t);
     }
@@ -295,8 +308,10 @@ public final class AstrometryInfoPanel extends JPanel {
                 var panel = new AstrometryInfoPanel(client);
 
                 // Create dialog frame
-                var dialog = new JDialog((Frame) null, "Astrometry Job Test", false);
-                dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+                var dialog = new JDialog((Frame) null, "Astrometry Job Test", 
+                	false);
+                dialog.setDefaultCloseOperation(
+                	WindowConstants.DISPOSE_ON_CLOSE);
                 dialog.getContentPane().add(panel);
                 dialog.setSize(700, 500);
                 dialog.setLocationRelativeTo(null);

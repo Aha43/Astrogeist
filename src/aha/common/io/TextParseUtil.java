@@ -1,6 +1,6 @@
 package aha.common.io;
 
-import aha.common.guard.Guards;
+import aha.common.guard.ObjectGuards;
 import aha.common.util.Strings;
 
 /**
@@ -9,7 +9,7 @@ import aha.common.util.Strings;
  * </p>
  */
 public final class TextParseUtil {
-	private TextParseUtil() { Guards.throwStaticClassInstantiateError(); }
+	private TextParseUtil() { ObjectGuards.throwStaticClassInstantiateError(); }
 	
 	/**
 	 * <p>

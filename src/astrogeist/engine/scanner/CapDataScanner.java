@@ -13,7 +13,8 @@ import astrogeist.engine.abstraction.timeline.Timeline;
 
 /**
  * <p>
- *   Generic scanner that assumes UTC time for snapshots can be extracted from path.
+ *   Generic scanner that assumes UTC time for snapshots can be extracted from
+ *   path.
  * </p>
  */
 public abstract class CapDataScanner extends AbstractScanner {
@@ -43,7 +44,8 @@ public abstract class CapDataScanner extends AbstractScanner {
 			
 				listener.onSuccess(path, null);
 			} catch (Exception x) {
-				this.logger.log(Level.WARNING, "failed to analyze path : '" + path + "'", x);
+				this.logger.log(Level.WARNING, "failed to analyze path : '" +
+					path + "'", x);
 				listener.onFailure(path, x);
 			}
 		}		
@@ -55,11 +57,13 @@ public abstract class CapDataScanner extends AbstractScanner {
 	
 	private final CompositeFileParser fileParser;
 	
-	protected CapDataScanner(String location, FileParser... fileparsers) { this(location, true, fileparsers); }
+	protected CapDataScanner(String location, FileParser... fileparsers) {
+		this(location, true, fileparsers); }
 	
-	protected CapDataScanner(String location, boolean locationIsFolder, FileParser... fileparsers) {
+	protected CapDataScanner(String location, boolean locationIsFolder,
+		FileParser... fileparsers) {
+		
 		super(location);
 		this.fileParser = new CompositeFileParser(fileparsers);
 	}
-	
 }

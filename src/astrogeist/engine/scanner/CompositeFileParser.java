@@ -37,9 +37,12 @@ public final class CompositeFileParser implements FileParser {
 		} 
 	}
 	
-	@Override public final boolean canParse(File file) { return findParser(file) != null; }
+	@Override public final boolean canParse(File file) {
+		return findParser(file) != null; }
 	
-	@Override public final void parse(Instant time, File file, Timeline timeline) {
+	@Override public final void parse(Instant time, File file,
+		Timeline timeline) {
+		
 		var parser = findParser(file);
 		if (parser != null) {
 			this.logger.info("Parse file : '" + file + "' using file parse : '" + parser.getClass().getSimpleName() + "'");

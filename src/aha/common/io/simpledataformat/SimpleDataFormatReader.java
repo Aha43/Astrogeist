@@ -13,11 +13,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import aha.common.guard.Guards;
+import aha.common.guard.ObjectGuards;
 
 public final class SimpleDataFormatReader {
 	private SimpleDataFormatReader() {
-		Guards.throwStaticClassInstantiateError(); }
+		ObjectGuards.throwStaticClassInstantiateError(); }
 	
 	public static Map<String, Section> parse(File file) throws Exception {
 		return parse(new FileInputStream(file)); }

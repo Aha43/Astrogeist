@@ -1,12 +1,13 @@
 package astrogeist.engine.integration.api.astrometry.model.builder;
 
+import static aha.common.guard.StringGuards.requireNonEmpty;
+import static java.util.Objects.requireNonNull;
+
 import java.util.LinkedHashSet;
-import java.util.Objects;
 import java.util.Set;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import aha.common.guard.Guards;
 import astrogeist.engine.integration.api.astrometry.model.Calibration;
 import astrogeist.engine.integration.api.astrometry.model.Info;
 import astrogeist.engine.integration.api.astrometry.model.Names;
@@ -60,42 +61,37 @@ public final class InfoBuilder extends AstrometryModelBuilder<Info> {
 		return this.build();
 	}
 	
-	public boolean isSuccessStatus() { return "success".equalsIgnoreCase(this.status); }
+	public final boolean isSuccessStatus() { 
+		return "success".equalsIgnoreCase(this.status); }
 	
 	public final InfoBuilder withStatus(String status) {
-		Guards.requireNonEmpty(status, "status");
-		this.status = status;
+		this.status = requireNonEmpty(status, "status");
 		return this;
 	}
 	
 	public final InfoBuilder withOriginalFileName(String originalFileName) {
-		Guards.requireNonEmpty(originalFileName, "originalFileName");
-		this.originalFileName = originalFileName;
+		this.originalFileName = requireNonEmpty(originalFileName,
+			"originalFileName");
 		return this;
 	}
 	
 	public final InfoBuilder withObjectInField(String object) {
-		Guards.requireNonEmpty(object, "object");
-		this.objectsInField.add(object);
+		this.objectsInField.add(requireNonEmpty(object, "object")); 
 		return this;
 	}
 	
 	public final InfoBuilder withMachineTag(String machineTag) {
-		Guards.requireNonEmpty(machineTag, "machineTag");
-		this.machineTags.add(machineTag);
+		this.machineTags.add(requireNonEmpty(machineTag, "machineTag"));
 		return this;
 	}
 	
 	public final InfoBuilder withTag(String tag) {
-		Guards.requireNonEmpty(tag, "tag");
-		this.tags.add(tag);
+		this.tags.add(requireNonEmpty(tag, "tag"));
 		return this;
 	}
 	
 	public final InfoBuilder withCalibration(Calibration calibration) {
-		Objects.requireNonNull(calibration, "calibration");
-		this.calibration = calibration;
+		this.calibration = requireNonNull(calibration, "calibration");
 		return this;
 	}
-	
 }

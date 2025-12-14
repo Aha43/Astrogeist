@@ -38,22 +38,25 @@ public final class DefaultTimelineNames implements TimelineNames {
 		AddMapping("CaptureType", "FrameType");
 	} 
 	
-	private void AddMapping(String normalized, String ...synonyms) {
+	private final void AddMapping(String normalized, String ...synonyms) {
 		this.mapping.put(normalized, normalized);
 		if (synonyms != null)
 			for (var s : synonyms) this.mapping.put(s, normalized);
 	}
 	
-	public String getTimelineName(String key) { return this.mapping.get(key); }
+	public final String getTimelineName(String key) { 
+		return this.mapping.get(key); }
 	
-	public Set<String> getDataTimelineNames() { return this.mapping.keySet(); }
+	public final Set<String> getDataTimelineNames() {
+		return this.mapping.keySet(); }
 	
-	public Set<String> getTimelineNames() {
+	public final Set<String> getTimelineNames() {
 		try {
 			var retVal = new HashSet<String>();
 			retVal.addAll(this.getDataTimelineNames());
 			
-			var userDataDefs = this.astrogeistStorageManager.load(UserDataDefinitions.class);
+			var userDataDefs = this.astrogeistStorageManager.load(
+				UserDataDefinitions.class);
 			var userDataNames = userDataDefs.getUserDataNames();
 			
 			retVal.addAll(userDataNames);

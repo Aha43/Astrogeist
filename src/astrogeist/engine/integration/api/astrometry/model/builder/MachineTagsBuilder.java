@@ -1,32 +1,33 @@
 package astrogeist.engine.integration.api.astrometry.model.builder;
 
+import static aha.common.guard.StringGuards.requireNonEmpty;
+
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import aha.common.guard.Guards;
 import astrogeist.engine.integration.api.astrometry.model.MachineTags;
 import astrogeist.engine.integration.api.astrometry.model.Names;
 
-public final class MachineTagsBuilder extends AstrometryModelBuilder<MachineTags> {
+public final class MachineTagsBuilder
+	extends AstrometryModelBuilder<MachineTags> {
 	
 	private final Set<String> machineTags = new LinkedHashSet<>();
 
-	@Override public final MachineTags build() { return new MachineTags(this.machineTags); }
+	@Override public final MachineTags build() { 
+		return new MachineTags(this.machineTags); }
 
-	@Override public MachineTags build(JsonNode node) {
+	@Override public final MachineTags build(JsonNode node) {
 		var objects = node.get(Names.TAGS);
 		for (var n : objects) this.withMachineTag(n.asText());
 		return this.build();
 	}
 
-	@Override public void clear() { this.machineTags.clear(); }
+	@Override public final void clear() { this.machineTags.clear(); }
 	
 	public final MachineTagsBuilder withMachineTag(String machineTag) {
-		Guards.requireNonEmpty(machineTag, "machineTag");
-		this.machineTags.add(machineTag);
+		this.machineTags.add(requireNonEmpty(machineTag, "machineTag"));
 		return this;
 	}
-
 }

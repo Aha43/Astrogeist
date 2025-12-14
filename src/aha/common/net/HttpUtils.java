@@ -2,10 +2,10 @@ package aha.common.net;
 
 import java.net.http.HttpResponse;
 
-import aha.common.guard.Guards;
+import aha.common.guard.ObjectGuards;
 
 public final class HttpUtils {
-    private HttpUtils() { Guards.throwStaticClassInstantiateError(); }
+    private HttpUtils() { ObjectGuards.throwStaticClassInstantiateError(); }
 
     public final static <T> HttpResponse<T> ensureSuccess(
     	HttpResponse<T> resp) {

@@ -5,7 +5,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 import aha.common.abstraction.io.appdata.AppDataManager;
-import aha.common.guard.Guards;
+import aha.common.guard.ObjectGuards;
 import aha.common.ui.swing.diagnostic.LoggingMenu;
 import aha.common.ui.swing.panels.MemoryInspectorAction;
 import astrogeist.engine.abstraction.selection.SnapshotSelectionService;
@@ -22,7 +22,7 @@ import astrogeist.ui.swing.tool.sun.sketching.ShowSunDialogAction;
  * </p>
  */
 public final class MenuBarFactory {
-	private MenuBarFactory() { Guards.throwStaticClassInstantiateError(); }
+	private MenuBarFactory() { ObjectGuards.throwStaticClassInstantiateError(); }
 	
 	public final static JMenuBar createMenuBar(
 		App app, 

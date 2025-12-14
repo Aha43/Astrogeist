@@ -5,7 +5,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import astrogeist.engine.integration.api.astrometry.model.Calibration;
 import astrogeist.engine.integration.api.astrometry.model.Names;
 
-public final class CalibrationBuilder extends AstrometryModelBuilder<Calibration> {
+public final class CalibrationBuilder 
+	extends AstrometryModelBuilder<Calibration> {
 	
 	private double ra = 0.0d;
 	private double dec = 0.0d;
@@ -39,10 +40,16 @@ public final class CalibrationBuilder extends AstrometryModelBuilder<Calibration
 			.build();
 	}
 	
-	public CalibrationBuilder withRa(double ra) { this.ra = ra; return this; }
-	public CalibrationBuilder withDec(double dec) { this.dec = dec; return this; }
-	public CalibrationBuilder withRadius(double radius) { this.radius = radius; return this; }
-	public CalibrationBuilder withPixscale(double pixscale) { this.pixscale = pixscale; return this; }
-	public CalibrationBuilder withOrientation(double orientation) { this.orientation = orientation; return this; }
-	public CalibrationBuilder withParity(int parity) { this.parity = parity; return this; }
+	public final CalibrationBuilder withRa(double ra) { 
+		this.ra = ra; return this; }
+	public final CalibrationBuilder withDec(double dec) { 
+		this.dec = dec; return this; }
+	public final CalibrationBuilder withRadius(double radius) {
+		this.radius = radius; return this; }
+	public final CalibrationBuilder withPixscale(double pixscale) {
+		this.pixscale = pixscale; return this; }
+	public final CalibrationBuilder withOrientation(double orientation) {
+		this.orientation = orientation; return this; }
+	public final CalibrationBuilder withParity(int parity) {
+		this.parity = parity; return this; }
 }

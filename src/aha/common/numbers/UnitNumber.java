@@ -1,9 +1,9 @@
 package aha.common.numbers;
 
-import static aha.common.guard.Guards.requireNonEmpty;
+import static aha.common.guard.StringGuards.requireNonEmpty;
 import static aha.common.util.Strings.parseNumberWithSuffix;
 import static aha.common.util.Strings.quote;
-import static java.util.Objects.requireNonNull; 
+import static java.util.Objects.requireNonNull;
 
 import java.util.Optional;
 
@@ -16,15 +16,9 @@ import java.util.Optional;
  *   {@code isUnitless() -> true}.
  * </p>
  */
-public final class UnitNumber {
-
-    private final double number;
-    private final Unit unit;
-
-    public final double number() { return this.number; }
-    public final Unit unit() { return this.unit; }
-    public final boolean isUnitless() { return this.unit == null; }
-
+public record UnitNumber(double value, Unit unit) {
+	
+	
     /**
      * <p>
      *   If is an integer return value as such.
@@ -33,11 +27,11 @@ public final class UnitNumber {
      * @throws ArithmeticException If is not an integer.
      */
     public final int asIntExact() {
-        if (number % 1.0 != 0.0) {
+        if (value % 1.0 != 0.0) {
             throw new ArithmeticException("Value is not an integer: " +
-            	quote(number));
+            	quote(value));
         }
-        return (int) number;
+        return (int) value;
     }
 
     /**
@@ -48,32 +42,39 @@ public final class UnitNumber {
      * @throws ArithmeticException If is not an integer.
      */
     public final long asLongExact() {
-        if (number % 1.0 != 0.0) {
+        if (value % 1.0 != 0.0) {
             throw new ArithmeticException("Value is not an integer: " +
-            	quote(number));
+            	quote(value));
         }
-        return (long) number;
+        return (long) value;
     }
     
     /**
      * <p>
      *   Constructor.
      * </p>
-     * @param number Value.
-     * @param unit   Unit.
+     * @param val  Value.
+     * @param unit Unit.
      */
-    public UnitNumber(double number, Unit unit) {
-    	requireNonNull(unit, "unit");
-        this.number = number;
-        this.unit = unit;
-    }
+    public UnitNumber(double value, Unit unit) {
+    	this.unit = requireNonNull(unit, "unit"); this.value = value; }
+    
+    /**
+     * <p>
+     *   Creates a
+     *   {@link UnitNumber} with unit
+     *   {@link Unit#NO_UNIT}.
+     * </p>
+     * @param val Value.
+     */
+    public UnitNumber(double val) { this(val, Unit.NO_UNIT); }
 
     /**
      * <p> 
      *   Strict: must parse and must have a known unit, or throws.
      * </p> 
      */
-    public UnitNumber(String s) {
+    public static UnitNumber parse(String s) {
         requireNonEmpty(s, "s");
 
         var parsed = parseNumberWithSuffix(s)
@@ -81,14 +82,12 @@ public final class UnitNumber {
                 new IllegalArgumentException("Cannot parse UnitNumber from : " +
                 	quote(s)));
 
-        this.number = parsed.number();
-        this.unit = Unit.fromString(parsed.suffix()); // throws if unknown
+        var val = parsed.number();
+        var unit = Unit.fromString(parsed.suffix());
+        return new UnitNumber(val, unit);
     }
-
-    @Override public final String toString() {
-    	return number + unit.canonical(); }
-
-    /**
+	
+	/**
      * <p> 
      *   Lenient: for controllers – no exceptions, just Optional.
      * </p>

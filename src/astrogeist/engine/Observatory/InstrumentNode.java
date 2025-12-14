@@ -1,6 +1,6 @@
 package astrogeist.engine.Observatory;
 
-import static aha.common.guard.Guards.requireNotSame;
+import static aha.common.guard.ObjectGuards.requireNotSame;
 
 import java.util.ArrayList;
 import java.util.List;

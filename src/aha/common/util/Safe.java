@@ -1,6 +1,6 @@
 package aha.common.util;
 
-import static aha.common.guard.Guards.throwStaticClassInstantiateError;
+import static aha.common.guard.ObjectGuards.throwStaticClassInstantiateError;
 
 import java.util.Collection;
 import java.util.List;

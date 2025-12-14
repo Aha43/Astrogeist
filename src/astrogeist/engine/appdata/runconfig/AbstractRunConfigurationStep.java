@@ -1,6 +1,6 @@
 package astrogeist.engine.appdata.runconfig;
 
-import aha.common.guard.Guards;
+import static aha.common.guard.StringGuards.requireNonEmpty;
 import astrogeist.engine.abstraction.integration.runconfig.RunConfigurationStep;
 
 public abstract class AbstractRunConfigurationStep
@@ -9,7 +9,7 @@ public abstract class AbstractRunConfigurationStep
 	private final String name;
 	
 	protected AbstractRunConfigurationStep(String name) {
-		this.name = Guards.requireNonEmpty(name, "name"); }
+		this.name = requireNonEmpty(name, "name"); }
 	
 	@Override public final String name() { return this.name; }
 	

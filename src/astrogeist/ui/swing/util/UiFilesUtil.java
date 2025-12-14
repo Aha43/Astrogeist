@@ -3,11 +3,11 @@ package astrogeist.ui.swing.util;
 import java.io.File;
 import java.nio.file.Path;
 
-import aha.common.guard.Guards;
+import aha.common.guard.ObjectGuards;
 import astrogeist.ui.swing.dialog.message.MessageDialogs;
 
 public final class UiFilesUtil {
-	private UiFilesUtil() { Guards.throwStaticClassInstantiateError(); }
+	private UiFilesUtil() { ObjectGuards.throwStaticClassInstantiateError(); }
 	
 	public static void openFile(String path) { openFile(Path.of(path)); }
 	public static void openFile(Path path) { openFile(path.toFile()); }

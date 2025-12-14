@@ -33,7 +33,7 @@ public final class NameValueUnitDialog extends JDialog {
 
         if (toEdit != null) {
             nameField.setText(toEdit.getName());
-            valueField.setText(Double.toString(toEdit.getValue().number()));
+            valueField.setText(Double.toString(toEdit.getValue().value()));
             unitCombo.setSelectedItem(toEdit.getUnit());
         }
 

@@ -1,9 +1,10 @@
 package astrogeist.engine.appdata.runconfig;
 
+import static aha.common.guard.StringGuards.requireNonEmpty;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import aha.common.guard.Guards;
 import astrogeist.engine.abstraction.integration.runconfig.RunConfiguration;
 import astrogeist.engine.abstraction.integration.runconfig.RunConfigurationStep;
 
@@ -14,7 +15,7 @@ public final class DefaultRunConfiguration implements RunConfiguration {
 	private final List<RunConfigurationStep> steps = new ArrayList<>();
 	
 	public DefaultRunConfiguration(String name) {
-		this.name = Guards.requireNonEmpty(name, "name"); }
+		this.name = requireNonEmpty(name, "name"); }
 	
 	@Override public final String name() { return name; }
 

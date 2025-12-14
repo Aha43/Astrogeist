@@ -8,7 +8,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import astrogeist.engine.integration.api.astrometry.model.Annotation;
 import astrogeist.engine.integration.api.astrometry.model.Names;
 
-public final class AnnotationBuilder extends AstrometryModelBuilder<Annotation> {
+public final class AnnotationBuilder
+	extends AstrometryModelBuilder<Annotation> {
 	
 	private String type = "";
 	private Set<String> names = new LinkedHashSet<>();
@@ -42,10 +43,14 @@ public final class AnnotationBuilder extends AstrometryModelBuilder<Annotation> 
 		return this.build();
 	}
 	
-	public final AnnotationBuilder withType(String type) { this.type = type; return this; }
-	public final AnnotationBuilder withName(String name) { this.names.add(name); return this; }
-	public final AnnotationBuilder withPixelx(double pixelx) { this.pixelx = pixelx; return this; }
-	public final AnnotationBuilder withPixely(double pixely) { this.pixely = pixely; return this; }
-	public final AnnotationBuilder withRadius(double radius) { this.radius = radius; return this; }
-	
+	public final AnnotationBuilder withType(String type) {
+		this.type = type; return this; }
+	public final AnnotationBuilder withName(String name) {
+		this.names.add(name); return this; }
+	public final AnnotationBuilder withPixelx(double pixelx) {
+		this.pixelx = pixelx; return this; }
+	public final AnnotationBuilder withPixely(double pixely) {
+		this.pixely = pixely; return this; }
+	public final AnnotationBuilder withRadius(double radius) {
+		this.radius = radius; return this; }
 }

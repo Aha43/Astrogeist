@@ -1,6 +1,6 @@
 package aha.common.util;
 
-import aha.common.guard.Guards;
+import aha.common.guard.ObjectGuards;
 
 /**
  * <p>
@@ -15,7 +15,7 @@ import aha.common.guard.Guards;
  * </p>
  */
 public final class Cast {
-	private Cast() { Guards.throwStaticClassInstantiateError(); }
+	private Cast() { ObjectGuards.throwStaticClassInstantiateError(); }
 	
 	/**
 	 * <p>

@@ -1,6 +1,6 @@
 package aha.common.ui.swing.panels.namevalueunit;
 
-import static aha.common.guard.Guards.requireNonEmpty;
+import static aha.common.guard.StringGuards.requireNonEmpty;
 
 import aha.common.numbers.Unit;
 import aha.common.numbers.UnitNumber;
@@ -40,7 +40,7 @@ final class NameValueUnitEntry {
     // unit can be null or empty
     public final void setUnit(Unit unit) { 
     	requireNonNull(unit);
-    	this.number = new UnitNumber(this.number.number(), unit);
+    	this.number = new UnitNumber(this.number.value(), unit);
     }
     
     public final Tuple2<String, UnitNumber> toUnitNumber() {
@@ -50,7 +50,7 @@ final class NameValueUnitEntry {
     public String toString() {
         return "NameValueUnitEntry{" +
                "name='" + name + '\'' +
-               ", value='" + this.number.number() + '\'' +
+               ", value='" + this.number.value() + '\'' +
                ", unit='" + this.number.unit() + '\'' +
                '}';
     }

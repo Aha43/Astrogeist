@@ -9,10 +9,10 @@ import javax.swing.JComponent;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 
-import aha.common.guard.Guards;
+import aha.common.guard.ObjectGuards;
 
 public final class ColumnTooltipEnabler {
-    private ColumnTooltipEnabler() { Guards.throwStaticClassInstantiateError(); }
+    private ColumnTooltipEnabler() { ObjectGuards.throwStaticClassInstantiateError(); }
 
     /** Enable tooltips for the given view-column indices. Shows the cell's toString(). */
     public final static void enable(JTable table, int... viewCols) {

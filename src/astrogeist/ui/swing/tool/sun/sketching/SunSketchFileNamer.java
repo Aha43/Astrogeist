@@ -4,10 +4,10 @@ import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 
-import aha.common.guard.Guards;
+import aha.common.guard.ObjectGuards;
 
 public final class SunSketchFileNamer {
-	private SunSketchFileNamer() { Guards.throwStaticClassInstantiateError(); }
+	private SunSketchFileNamer() { ObjectGuards.throwStaticClassInstantiateError(); }
 	
     private static final DateTimeFormatter SAFE_ISO =
         DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH-mm-ss'Z'")

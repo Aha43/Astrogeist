@@ -18,13 +18,13 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import aha.common.guard.Guards;
+import aha.common.guard.ObjectGuards;
 import aha.common.tuple.Tuple2;
 import astrogeist.engine.abstraction.timeline.TimelineValuePool;
 import astrogeist.engine.timeline.TimelineValue;
 
 public final class NameValueMapXml {
-	private NameValueMapXml() { Guards.throwStaticClassInstantiateError(); }
+	private NameValueMapXml() { ObjectGuards.throwStaticClassInstantiateError(); }
 	
 	private final static Tuple2<Document, Element> newDocumentWithRoot() 
 		throws Exception {

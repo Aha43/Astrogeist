@@ -1,7 +1,7 @@
 package aha.common.util;
 
-import static aha.common.guard.Guards.requireNonNegative;
-import static aha.common.guard.Guards.throwStaticClassInstantiateError;
+import static aha.common.guard.ObjectGuards.throwStaticClassInstantiateError;
+import static aha.common.guard.NumberGuards.requireNonNegative;
 
 import java.util.ArrayList;
 import java.util.Arrays;

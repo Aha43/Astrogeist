@@ -9,6 +9,14 @@ import java.util.Set;
 
 import aha.common.util.Strings;
 
+import static aha.common.numbers.UnitType.ANGLE;
+import static aha.common.numbers.UnitType.LENGTH;
+import static aha.common.numbers.UnitType.RESOLUTION;
+import static aha.common.numbers.UnitType.TIME;
+import static aha.common.numbers.UnitType.VOID;
+import static aha.common.numbers.UnitType.WEIGHT;
+import static aha.common.numbers.UnitType.SPECTRAL;
+
 /**
  * <p>
  *   Common units.
@@ -21,44 +29,46 @@ import aha.common.util.Strings;
  * </p>
  */
 public enum Unit {
-	NO_UNIT("", UnitType.VOID),
+	NO_UNIT("", VOID),
 	
     // --- Length units ---
-    MM("mm", UnitType.LENGTH, "millimeter", "millimetre"),
-    CM("cm", UnitType.LENGTH, "centimeter", "centimetre"),
-    M("m", UnitType.LENGTH, "meter", "metre"),
-    INCH("inch", UnitType.LENGTH, "in"),
-    FOOT("ft", UnitType.LENGTH, "foot", "feet"),
+    MM("mm", LENGTH, "millimeter", "millimetre"),
+    CM("cm", LENGTH, "centimeter", "centimetre"),
+    M("m", LENGTH, "meter", "metre"),
+    INCH("inch", LENGTH, "in"),
+    FOOT("ft", LENGTH, "foot", "feet"),
 
     // --- Angle units ---
-    DEG("deg", "degree", "degrees"),
-    RAD("rad", "radian", "radians"),
-    ARCSEC("arcsec", "arcsecond", "as"),
-    ARC_MIN("arcmin", "arcminute", "am"),
+    DEG("deg", ANGLE, "degree", "degrees"),
+    RAD("rad", ANGLE, "radian", "radians"),
+    ARCSEC("arcsec", ANGLE, "arcsecond", "as"),
+    ARC_MIN("arcmin", ANGLE, "arcminute", "am"),
 
     // --- Pixel / resolution ---
-    PIXEL("px", "pixel"),
-    SUBPIXEL("spx", "subpixel"),
+    PIXEL("px", RESOLUTION, "pixel"),
+    SUBPIXEL("spx", RESOLUTION, "subpixel"),
 
     // --- Time units ---
-    MS("ms", UnitType.TIME, "millisecond"),
-    S("s", UnitType.TIME, "sec", "second"),
-    MIN("min", UnitType.TIME, "minute"),
-    HOUR("h", UnitType.TIME, "hr", "hour"),
+    MS("ms", TIME, "millisecond"),
+    S("s", TIME, "sec", "second"),
+    MIN("min", TIME, "minute"),
+    HOUR("h", TIME, "hr", "hour"),
 
     // --- Spectral units ---
-    NM("nm", "nanometer", "nanometre"),
-    ANGSTROM("Å", "angstrom"),
+    NM("nm", SPECTRAL, "nanometer", "nanometre"),
+    ANGSTROM("Å", SPECTRAL, "angstrom"),
 
     // --- Weight units ---
-    KG("kg", "kilogram"),
-    G("g", "gram");
+    KG("kg", WEIGHT, "kilogram"),
+    G("g", WEIGHT, "gram");
 
 	private final UnitType type;
     private final String canonical;
     private final Set<String> aliases;
 
-    Unit(String canonical, UnitType type, String... aliases) {
+    private Unit(UnitType type) { this(Strings.EMPTY, type); }
+    
+    private Unit(String canonical, UnitType type, String... aliases) {
         this.type = type;
     	this.canonical = canonical;
         Set<String> a = new HashSet<>();
@@ -93,6 +103,7 @@ public enum Unit {
      */
     public final static Unit fromString(String s) {
         s = (s == null) ? Strings.EMPTY : s.trim();
+        if (s.length() == 0) return Unit.NO_UNIT;
         Unit u = LOOKUP.get(s.toLowerCase());
         if (u == null) {
             throw new IllegalArgumentException("Unknown unit: " + s);
@@ -113,7 +124,7 @@ public enum Unit {
      * </p>
      */
     public static Optional<Unit> tryParse(String s) {
-        if (s == null || s.isBlank()) return Optional.empty();
+        if (s == null || s.isBlank()) return Optional.of(Unit.NO_UNIT);
         return Optional.ofNullable(LOOKUP.get(s.toLowerCase()));
     }
     

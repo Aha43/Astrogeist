@@ -1,6 +1,6 @@
 package aha.common.util;
 
-import static aha.common.guard.Guards.requireNonEmpty;
+import static aha.common.guard.StringGuards.requireNonEmpty;
 import static aha.common.util.Cast.as;
 import static aha.common.util.Strings.quote;
 import static java.lang.Boolean.parseBoolean;

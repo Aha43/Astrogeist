@@ -1,6 +1,6 @@
 package aha.common.exceptions.runtime;
 
-import static aha.common.guard.Guards.requireNonEmpty;
+import static aha.common.guard.StringGuards.requireNonEmpty;
 import static aha.common.util.Strings.quote;
 
 /**

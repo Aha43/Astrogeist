@@ -1,7 +1,7 @@
 package aha.common.taskrunner;
 
-import static aha.common.guard.Guards.requireNonEmpty;
-import static aha.common.guard.Guards.requirePositive;
+import static aha.common.guard.NumberGuards.requirePositive;
+import static aha.common.guard.StringGuards.requireNonEmpty;
 
 import java.util.UUID;
 

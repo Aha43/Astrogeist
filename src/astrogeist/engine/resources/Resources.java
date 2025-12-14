@@ -6,11 +6,11 @@ import java.net.URL;
 import java.nio.file.Path;
 import java.time.Instant;
 
-import aha.common.guard.Guards;
+import aha.common.guard.ObjectGuards;
 import aha.common.util.Instants;
 
 public final class Resources {
-	private Resources() { Guards.throwStaticClassInstantiateError(); }
+	private Resources() { ObjectGuards.throwStaticClassInstantiateError(); }
 	
 	private static boolean _dev = true;
 	

@@ -1,6 +1,6 @@
 package aha.common.ui.swing;
 
-import static aha.common.guard.Guards.throwStaticClassInstantiateError;
+import static aha.common.guard.ObjectGuards.throwStaticClassInstantiateError;
 import static javax.swing.SwingUtilities.isEventDispatchThread;
 
 /**

@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
-import aha.common.guard.Guards;
+import aha.common.guard.ObjectGuards;
 import astrogeist.engine.abstraction.Solution;
 import astrogeist.engine.issues.Issue;
 
@@ -23,5 +23,5 @@ public final class Solutions {
 		return solution == null ? Optional.empty() : Optional.of(solution.getSolutionDescription(issue)); 
 	}
 	
-	private Solutions() { Guards.throwStaticClassInstantiateError(); }
+	private Solutions() { ObjectGuards.throwStaticClassInstantiateError(); }
 }

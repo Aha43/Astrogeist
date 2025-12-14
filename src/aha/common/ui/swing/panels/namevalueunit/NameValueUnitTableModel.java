@@ -23,7 +23,7 @@ public final class NameValueUnitTableModel extends AbstractTableModel {
         var entry = rows.get(rowIndex);
         return switch (columnIndex) {
             case 0 -> entry.getName();
-            case 1 -> entry.getValue().number();
+            case 1 -> entry.getValue().value();
             case 2 -> entry.getUnit();
             default -> null;
         };

@@ -8,7 +8,7 @@ import javax.swing.ListCellRenderer;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
-import aha.common.guard.Guards;
+import aha.common.guard.ObjectGuards;
 import astrogeist.engine.timeline.TimelineValue;
 
 public final class TimelineValueRenderers {
@@ -46,6 +46,6 @@ public final class TimelineValueRenderers {
         };
     }
     
-    private TimelineValueRenderers() { Guards.throwStaticClassInstantiateError(); }
+    private TimelineValueRenderers() { ObjectGuards.throwStaticClassInstantiateError(); }
 }
 

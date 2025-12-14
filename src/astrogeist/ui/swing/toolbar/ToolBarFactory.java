@@ -2,11 +2,11 @@ package astrogeist.ui.swing.toolbar;
 
 import javax.swing.JToolBar;
 
-import aha.common.guard.Guards;
+import aha.common.guard.ObjectGuards;
 import astrogeist.ui.swing.App;
 
 public final class ToolBarFactory {
-	private ToolBarFactory() { Guards.throwStaticClassInstantiateError(); }
+	private ToolBarFactory() { ObjectGuards.throwStaticClassInstantiateError(); }
 	
 	public static JToolBar createToolBar(App app) {
 		var toolBar = new JToolBar();

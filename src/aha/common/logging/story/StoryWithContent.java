@@ -1,6 +1,6 @@
 package aha.common.logging.story;
 
-import static aha.common.guard.Guards.requireNonEmpty;
+import static aha.common.guard.StringGuards.requireNonEmpty;
 import static java.lang.System.lineSeparator;
 
 import java.util.ArrayList;

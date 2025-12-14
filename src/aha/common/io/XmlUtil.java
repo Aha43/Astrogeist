@@ -9,7 +9,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.w3c.dom.Document;
 
-import aha.common.guard.Guards;
+import aha.common.guard.ObjectGuards;
 
 /**
  * <p>
@@ -17,7 +17,7 @@ import aha.common.guard.Guards;
  * </p> 
  */
 public final class XmlUtil {
-	private XmlUtil() { Guards.throwStaticClassInstantiateError(); }
+	private XmlUtil() { ObjectGuards.throwStaticClassInstantiateError(); }
 	
 	public static final DocumentBuilder newDocumentBuilder() throws Exception {
 		var f = DocumentBuilderFactory.newInstance();

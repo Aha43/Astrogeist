@@ -1,6 +1,6 @@
 package aha.common.unittest.fluentassert;
 
-import static aha.common.guard.Guards.throwStaticClassInstantiateError;;
+import static aha.common.guard.ObjectGuards.throwStaticClassInstantiateError;;
 
 public final class AssertThat {
 	private AssertThat() { throwStaticClassInstantiateError(); }

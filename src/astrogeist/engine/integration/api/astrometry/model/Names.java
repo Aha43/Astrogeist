@@ -1,9 +1,9 @@
 package astrogeist.engine.integration.api.astrometry.model;
 
-import aha.common.guard.Guards;
+import aha.common.guard.ObjectGuards;
 
 public final class Names {
-	private Names() { Guards.throwStaticClassInstantiateError(); }
+	private Names() { ObjectGuards.throwStaticClassInstantiateError(); }
 	
 	public static final String STATUS = "status";
 	public static final String ORIGINAL_FILENAME = "original_filename";

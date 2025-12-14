@@ -1,6 +1,6 @@
 package aha.common.io.inventory;
 
-import static aha.common.guard.Guards.requireNonEmpty;
+import static aha.common.guard.StringGuards.requireNonEmpty;
 import static aha.common.util.Strings.quote;
 
 import java.util.ArrayList;
@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.Set;
 
 public final class Configuration {
-	
 	private final Map<String, List<String>> items = new LinkedHashMap<>();
 	
 	public Configuration add(String part, String item) {

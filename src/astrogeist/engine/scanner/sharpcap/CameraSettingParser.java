@@ -8,11 +8,11 @@ import java.util.LinkedHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import aha.common.guard.Guards;
+import aha.common.guard.ObjectGuards;
 import aha.common.logging.Log;
 
 public final class CameraSettingParser {
-	private CameraSettingParser() { Guards.throwStaticClassInstantiateError(); }
+	private CameraSettingParser() { ObjectGuards.throwStaticClassInstantiateError(); }
 	
 	private static Logger _logger = Log.get(CameraSettingParser.class);
 	

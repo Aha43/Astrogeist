@@ -1,6 +1,6 @@
 package aha.common.util;
 
-import aha.common.guard.ObjectGuards;
+import static aha.common.guard.ObjectGuards.throwStaticClassInstantiateError;
 
 /**
  * <p>
@@ -14,9 +14,7 @@ import aha.common.guard.ObjectGuards;
  *   given type.
  * </p>
  */
-public final class Cast {
-	private Cast() { ObjectGuards.throwStaticClassInstantiateError(); }
-	
+public final class Cast { private Cast() { throwStaticClassInstantiateError(); }
 	/**
 	 * <p>
      *   Safe cast similar to C# "as" operator.
@@ -32,7 +30,7 @@ public final class Cast {
 	
 	/**
 	 * <p>
-     *   Safe cast similar to C# "as" operator throws an exception if can not
+     *   Safe cast similar to C# "as" operator. Throws exception if can not 
      *   cast.
      * </p> 
 	 * @param <T> the type to cast to.

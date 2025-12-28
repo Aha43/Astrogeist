@@ -3,20 +3,15 @@ package aha.common.exceptions.runtime;
 import static aha.common.guard.StringGuards.requireNonEmpty;
 import static aha.common.util.Strings.quote;
 
-/**
- * <p>
- *   Runtime exception thrown when something required to exist is not found.
- * </p>
- */
-public final class NotFoundException extends RuntimeException {
+public final class DuplicateException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
-
+	
 	/**
 	 * <p>
 	 *   Constructor.
 	 * </p>
 	 */
-	public NotFoundException() {}
+	public DuplicateException() {}
 	
 	/**
 	 * <p>
@@ -26,6 +21,6 @@ public final class NotFoundException extends RuntimeException {
 	 * @throws IllegalArgumentException if {@code msg} is {@code null} or is the
 	 *         empty string.
 	 */
-	public NotFoundException(String name) {
-		super(quote(requireNonEmpty(name, "name")) + " not found"); }
+	public DuplicateException(String name) {
+		super("duplicate : " + quote(requireNonEmpty(name, "name"))); }
 }

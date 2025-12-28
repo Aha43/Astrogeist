@@ -1,20 +1,34 @@
-package astrogeist.engine.Observatory;
+package astrogeist.engine.observatory;
 
-import aha.common.numbers.Unit;
-import aha.common.numbers.UnitNumber;
+import static aha.common.guard.StringGuards.requireNonEmpty;
+import static java.util.Objects.requireNonNull;
+
 import aha.common.util.AttributeBase;
+import aha.common.util.Strings;
 
 public final class Instrument extends AttributeBase<Instrument> {
-	public Instrument(String name) { this.set("name", name); }
-	public Instrument(Instrument o) { super(o); }
-	public String name() { return this.getAsString("name"); }
+	private final String name;
 	
-	public final Instrument description(String desc) {
-		return super.set("description", desc); }
-	public final Instrument serialNumber(String sn) {
-		return super.set("serial-number", sn); }
-	public final Instrument apperature(int mm) {
-		return super.set("apperature", new UnitNumber(mm, Unit.MM)); }
-	public final Instrument focalLength(int mm) {
-		return super.set("focal-length", new UnitNumber(mm, Unit.MM)); }
+	public Instrument(String name) {
+		this.name = requireNonEmpty(name, "name"); }
+	
+	public Instrument(Instrument o) { 
+		super(requireNonNull(o, "o"));
+		this.name = o.name();
+	}
+	
+	public String name() { return this.name; }
+	
+	public Instrument description(String description) {
+		return super.set("description", 
+			requireNonEmpty(description, "description")); }
+	
+	public String description() {
+		return super.getAsString("description", Strings.EMPTY); }
+	
+	public Instrument serialNumber(String sn) {
+		return super.set("serial-nr", requireNonEmpty(sn, "serial-nr")); }
+	
+	public String serialNumber() { 
+		return super.getAsString("serial-nr", Strings.EMPTY); }
 }

@@ -22,7 +22,7 @@ public final class Safe {
 	 * @param s the {@code string} to access safely.
 	 * @return {@code String} to access.
 	 */
-	public final static String string(String s) { return string(s, null); }
+	public final static String string(String s) { return s == null ? "" : s; }
 	
 	/**
 	 * <p>
@@ -36,7 +36,21 @@ public final class Safe {
 	 * @return {@code String} to access.
 	 */
 	public final static String string(String s, Character c) {
-		return s == null ? (c == null ? "" : c.toString()) : s; } 
+		return s == null ? (c == null ? "" : c.toString()) : s; }
+	
+	/**
+	 * <p>
+	 *   Returns the empty 
+	 *   {@code String} (case where {@code c == null}) or a 
+	 *   {@code String} of an optional string if {@code s == null}.
+	 * </p>
+	 * @param s the {@code string} to access safely.
+	 * @param d the {@code String} to return as a 
+	 *          if {@code s == null}, may be {@code null}.
+	 * @return {@code String} to access.
+	 */
+	public final static String string(String s, String d) {
+		return s == null ? (d == null ? "" : d) : s; }
 	
 	/**
 	 * <p>

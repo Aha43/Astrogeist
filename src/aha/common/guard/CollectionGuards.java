@@ -4,7 +4,12 @@ import static aha.common.guard.ObjectGuards.throwStaticClassInstantiateError;
 import static java.util.Objects.requireNonNull;
 
 import java.util.Collection;
-import java.util.Map; 
+import java.util.Map;
+
+import aha.common.collection.IndexedMap;
+import aha.common.exceptions.runtime.DuplicateException;
+import aha.common.exceptions.runtime.NotFoundException;
+import aha.common.util.Safe; 
 
 /**
  * <p>
@@ -29,8 +34,8 @@ public final class CollectionGuards {
 		
 		requireNonNull(value, name);
 		
-		if (value.isEmpty()) throw new IllegalArgumentException(name +
-			" is empty");
+		if (value.isEmpty()) throw new IllegalArgumentException(
+			Safe.string(name) + " is empty");
 		return value;
 	}
 	
@@ -38,7 +43,7 @@ public final class CollectionGuards {
 		requireNonNull(value, name);
 		
 	    if (value.length == 0)
-	        throw new IllegalArgumentException(name + " is empty");
+	        throw new IllegalArgumentException(Safe.string(name) + " is empty");
 	    return value;
 	}
 	
@@ -60,7 +65,8 @@ public final class CollectionGuards {
 	    int i = 0;
 	    for (T element : value) {
 	        if (element == null)
-	            throw new NullPointerException(name + "[" + i + "] is null");
+	            throw new NullPointerException(Safe.string(name) + 
+	            	"[" + i + "] is null");
 	        i++;
 	    }
 	    return value;
@@ -79,7 +85,8 @@ public final class CollectionGuards {
         requireNonNull(value, name);
         for (int i = 0; i < value.length; i++) {
             if (value[i] == null)
-                throw new NullPointerException(name + "[" + i + "] is null");
+                throw new NullPointerException(Safe.string(name)
+                	+ "[" + i + "] is null");
         }
         return value;
     }
@@ -112,10 +119,10 @@ public final class CollectionGuards {
 	 * @return the {@code map}.
 	 */
 	public static <K, V> K requireKeyExists(K key, Map<K, V> map, String name) {
+		requireNonNull(key, name);
 		
 		if (map.containsKey(key)) return key;
-		name = (name == null) ? "key" : name;
-		throw new IllegalArgumentException(name + " not found");
+		throw new NotFoundException(Safe.string(name, "key"));
 	}
 	
 	/**
@@ -150,9 +157,99 @@ public final class CollectionGuards {
 	public static <K, V> K requireKeyNotExists(K key, Map<K, V> map, 
 		String name) {
 		
+		requireNonNull(key, name);
+		throw new DuplicateException(Safe.string(name, "key"));
+	}
+	
+	/**
+	 * <p> 
+	 *   Throws
+	 *   {@link IllegalArgumentException} if map does not have given key.
+	 * </p>
+	 * @param <K> the key type.
+	 * @param <V> the value type.
+	 * * @param key the key.
+	 * @param map the map.
+	 * @return the {@code key}.
+	 */
+	public static <K, V> K requireKeyExists(K key, IndexedMap<K, V> map){
+		return requireKeyExists(key, map, null); }
+	
+	/**
+	 * <p> 
+	 *   Throws
+	 *   {@link IllegalArgumentException} if map does not have given key.
+	 * </p>
+	 * @param <K> the key type.
+	 * @param <V> the value type.
+	 * @param key the key. 
+	 * @param map the map.
+	 * @param name the name used in exception to refer to {@code key} 
+	 *             (typically a method parameter name).
+	 * @return the {@code map}.
+	 */
+	public static <K, V> K requireKeyExists(K key, IndexedMap<K, V> map, 
+		String name) {
+		
+		requireNonNull(key, name);
+		if (map.containsKey(key)) return key;
+		throw new NotFoundException(Safe.string(name, "key"));
+	}
+	
+	/**
+	 * <p> 
+	 *   Throws
+	 *   {@link IllegalArgumentException} if map does have given key.
+	 * </p>
+	 * @param <K> the key type.
+	 * @param <V> the value type.
+	 * @param key the key. 
+	 * @param map the map.
+	 * @param name the name used in exception to refer to {@code key} 
+	 *             (typically a method parameter name).
+	 * @return the {@code key}.
+	 */
+	public static <K, V> K requireKeyNotExists(K key, IndexedMap<K, V> map) {
+		return requireKeyNotExists(key, map, null); }
+	
+	/**
+	 * <p> 
+	 *   Throws
+	 *   {@link IllegalArgumentException} if map does have given key.
+	 * </p>
+	 * @param <K> the key type.
+	 * @param <V> the value type.
+	 * @param key the key.
+	 * @param map the map.
+	 * @param name the name used in exception to refer to {@code key} 
+	 *             (typically a method parameter name).
+	 * @return the {@code key}.
+	 */
+	public static <K, V> K requireKeyNotExists(K key, IndexedMap<K, V> map, 
+		String name) {
+		
 		if (!map.containsKey(key)) return key;
-		name = (name == null) ? "key" : name;
-		throw new IllegalArgumentException(name + " exists");
+		throw new DuplicateException(Safe.string(name, "key"));
+	}
+	
+	public static <E> E requireContains(E e, Collection<E> c, String name) {
+		if (c.contains(requireNonNull(e, name))) return e;
+		throw new NotFoundException(name);
+	}
+	
+	public static <E> E requireContains(E e, Collection<E> c) {
+		if (c.contains(requireNonNull(e))) return e;
+		throw new NotFoundException();
+	}
+	
+	public static <E> E requireNoDuplicate(E e, Collection<E> c) {
+		if (!c.contains(requireNonNull(e))) return e;
+		throw new DuplicateException();
+	}
+	
+	public static <E> E requireNoDuplicate(E e, Collection<E> c, String name) {
+		if (!c.contains(requireNonNull(e, name))) return e;
+		throw new DuplicateException(name);
 	}
 	
 }

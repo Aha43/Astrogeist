@@ -1,8 +1,8 @@
 package aha.common.util;
 
-import java.text.DecimalFormat;
+import static aha.common.guard.ObjectGuards.throwStaticClassInstantiateError;
 
-import aha.common.guard.ObjectGuards;
+import java.text.DecimalFormat;
 
 /**
  * <p>
@@ -10,7 +10,7 @@ import aha.common.guard.ObjectGuards;
  * </p>
  */
 public final class DecimalFormats {
-	private DecimalFormats() { ObjectGuards.throwStaticClassInstantiateError(); }
+	private DecimalFormats() { throwStaticClassInstantiateError(); }
 	
 	public static final DecimalFormat DF6 = new DecimalFormat("0.000000");
 	public static final DecimalFormat DF3 = new DecimalFormat("0.000");

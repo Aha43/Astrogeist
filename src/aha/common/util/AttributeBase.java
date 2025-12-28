@@ -9,12 +9,16 @@ import static java.lang.Float.parseFloat;
 import static java.lang.Integer.parseInt;
 import static java.lang.Long.parseLong;
 import static java.lang.Short.parseShort;
+import static java.util.Collections.synchronizedMap;
 import static java.util.Objects.requireNonNull;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
+import aha.common.abstraction.Named;
 import aha.common.exceptions.runtime.NotFoundException;
 import aha.common.exceptions.runtime.ReadOnlyException;
 
@@ -53,9 +57,49 @@ public abstract class AttributeBase<T extends AttributeBase<T>> {
 	@SuppressWarnings("unchecked")
 	private final T self() { return (T) this; }
 	
-	private final ConcurrentHashMap<String, Object> data;
+	private final Map<String, Object> data = 
+		synchronizedMap(new LinkedHashMap<>());
 	
 	private boolean readonly = false;
+	
+	/**
+	 * <p>
+	 *   Creates an empty attribute object with no initial entries.
+	 * </p>
+	 */
+	protected AttributeBase() {}
+	
+	/**
+	 * <p>
+	 *   Copy constructor.
+	 * </p>
+	 * @param o Other to copy.
+	 */
+	protected AttributeBase(AttributeBase<T> o) {
+		this.data.putAll(requireNonNull(o, "o").data); }
+	
+	/**
+	 * <p>
+	 *   Creates an attribute object initialized from a map of string
+	 *   attributes.
+	 * </p>
+	 * <p>
+	 *   Each entry in {@code data} is copied into this object using the same 
+	 *   key, and the associated value is stored as a {@link String}. The map
+	 *   must not contain {@code null} keys or values, and keys must be 
+	 *   non-empty.
+	 * </p>
+	 * @param data the initial key–value pairs to populate this object with
+	 * @throws NullPointerException if {@code data} or any value in it is
+	 *         {@code null}
+	 * @throws IllegalArgumentException if a key in {@code data} is empty
+	 */
+	protected AttributeBase(Map<String, String> data) {
+		this();
+	    for (var entry : requireNonNull(data, "data").entrySet())
+	        this.data.put(requireNonEmpty(entry.getKey(), "key"), 
+	        	requireNonNull(entry.getValue(), "value"));
+	}
 	
 	/**
 	 * <p>
@@ -76,54 +120,22 @@ public abstract class AttributeBase<T extends AttributeBase<T>> {
 	 */
 	public final boolean readonly() { return this.readonly; }
 	
-	private T requireNotReadonly() {
-		if (readonly) throw new ReadOnlyException();
-		return self();
-	}
+	/**
+	 * <p>
+	 *   Gets number of parameters this have.
+	 * </p>
+	 * @return the parameter count.
+	 */
+	public final int size() { return this.data.size(); }
 	
 	/**
 	 * <p>
-	 *   Creates an empty attribute object with no initial entries.
+	 *   Gets list of attribute names.
 	 * </p>
+	 * @return the list of attribute names.
 	 */
-	protected AttributeBase() { this.data = new ConcurrentHashMap<>(); }
-	
-	/**
-	 * <p>
-	 *   Copy constructor.
-	 * </p>
-	 * @param o Other to copy.
-	 */
-	protected AttributeBase(AttributeBase<T> o) {
-		requireNonNull(o, "o");
-		this.data = new ConcurrentHashMap<>(o.data);
-	}
-	
-	/**
-	 * <p>
-	 *   Creates an attribute object initialized from a map of string
-	 *   attributes.
-	 * </p>
-	 * <p>
-	 *   Each entry in {@code data} is copied into this object using the same 
-	 *   key, and the associated value is stored as a {@link String}. The map
-	 *   must not contain {@code null} keys or values, and keys must be 
-	 *   non-empty.
-	 * </p>
-	 * @param data the initial key–value pairs to populate this object with
-	 * @throws NullPointerException if {@code data} or any value in it is
-	 *         {@code null}
-	 * @throws IllegalArgumentException if a key in {@code data} is empty
-	 */
-	protected AttributeBase(Map<String, String> data) {
-		this();
-		requireNonNull(data, "data");
-	    for (var entry : data.entrySet()) {
-	        requireNonEmpty(entry.getKey(), "key");
-	        requireNonNull(entry.getValue(), "value");
-	        this.data.put(entry.getKey(), entry.getValue());
-	    }
-	}
+	public final List<String> names() {
+		return new ArrayList<>(this.data.keySet()); }
 	
 	/**
 	 * <p>
@@ -136,9 +148,7 @@ public abstract class AttributeBase<T extends AttributeBase<T>> {
 	 * @throws NullPointerException if {@code name} is {@code null}
 	 */
 	public final boolean exists(String name) {
-		requireNonEmpty(name, "name");
-		return this.data.containsKey(name);
-	}
+		return this.data.containsKey(requireNonEmpty(name, "name")); }
 	
 	/**
 	 * <p>
@@ -155,10 +165,7 @@ public abstract class AttributeBase<T extends AttributeBase<T>> {
 	 * @throws NullPointerException if {@code type} is null
 	 */
 	public final <V> boolean exists(Class<V> type) {
-        requireNonNull(type, "type");
-        var name = type.getName();
-        return exists(name);
-    }
+        return exists(requireNonNull(type, "type").getName()); }
 	
 	/**
 	 * <p>
@@ -177,9 +184,8 @@ public abstract class AttributeBase<T extends AttributeBase<T>> {
 	 * @throws ReadOnlyException If {@code #readonly() == true}. 
 	 */
 	public final boolean remove(String name) {
-		requireNonEmpty(name, "name");
 		requireNotReadonly();
-		return this.data.remove(name) != null;
+		return this.data.remove(requireNonEmpty(name, "name")) != null;
 	}
 	
 	/**
@@ -198,10 +204,8 @@ public abstract class AttributeBase<T extends AttributeBase<T>> {
 	 * @throws ReadOnlyException If {@code #readonly() == true}. 
 	 */
 	public final <V> boolean remove(Class<V> type) {
-        requireNonNull(type, "type");
         requireNotReadonly();
-        var name = type.getName();
-        return remove(name);
+        return remove(requireNonNull(type, "type").getName());
     }
 	
 	/**
@@ -231,9 +235,9 @@ public abstract class AttributeBase<T extends AttributeBase<T>> {
 	 * @throws ReadOnlyException If {@code #readonly() == true}.
 	 */
 	public final T set(Object value) {
-		requireNonNull(value, "value");
 		requireNotReadonly();
-		var name = value.getClass().getName();
+		var named = as(Named.class, requireNonNull(value, "value"));
+		var name = named == null ? value.getClass().getName() : named.name();
 		return set(name, value);
 	}
 	
@@ -246,10 +250,8 @@ public abstract class AttributeBase<T extends AttributeBase<T>> {
 	 * @return {@code true} if is equal, {@code false} if is not.
 	 */
 	public final boolean equals(String name, Object value) {
-		requireNonEmpty(name, "name");
-		requireNonNull(value, "value");
-		return this.get(name).equals(value);
-	}
+		return this.get(requireNonEmpty(name, "name"))
+			.equals(requireNonNull(value, "value")); }
 	
 	/**
 	 * <p>
@@ -273,10 +275,7 @@ public abstract class AttributeBase<T extends AttributeBase<T>> {
 	 *         type.
 	 */
 	public final <V> V get(Class<V> type) {
-		requireNonNull(type, "type");
-		var name = type.getName();
-		return get(name, type);
-	}
+		return get(requireNonNull(type, "type").getName(), type); }
 	
 	/**
 	 * <p>
@@ -291,38 +290,43 @@ public abstract class AttributeBase<T extends AttributeBase<T>> {
 	 * @throws ReadOnlyException If {@code #readonly() == true}. 
 	 */
 	public final T set(String name, Object value) {
-		requireNonEmpty(name, "name");
-		requireNonNull(value, "value");
 		requireNotReadonly();
-		this.data.put(name, value);
+		this.data.put(requireNonEmpty(name, "name"),
+			requireNonNull(value, "value"));
 		return self();
 	}
 	
 	/**
 	 * <p>
-	 *   
+	 *   Gets object indexed by {@code name}.
 	 * </p>
-	 * @param name
-	 * @return
+	 * @param name the name.
+	 * @return the object indexed by {@code name}.
+	 * @throws NotFoundException if no object indexed by {@code name}.
 	 */
 	public final Object get(String name) {
-		requireNonEmpty(name, "name");
-		if (!this.exists(name)) throw new NotFoundException(name); 
+		if (!this.exists(requireNonEmpty(name, "name")))
+			throw new NotFoundException(name); 
 		return data.get(name);
 	}
 	
+	/**
+	 * <p>
+	 *   Gets object indexed by {@code name} or {@code def} if not found.
+	 * </p>
+	 * @param name the name.
+	 * @param def  the default name, required not to be {@code null}.
+	 * @return the object.
+	 */
 	public final Object get(String name, Object def) {
 		requireNonEmpty(name, "name");
 		requireNonNull(def, "def");
-		
-		var o = this.data.get(name);
-		return o == null ? def : o;
+		var retVal = this.data.get(name);
+		return retVal == null ? def : retVal;
 	}
 	
 	public final String getAsString(String name) {
-		requireNonEmpty(name, "name");
-		return this.get(name).toString(); 
-	}
+		return this.get(requireNonEmpty(name, "name")).toString(); }
 	
 	public final String getAsString(String name, String def) {
 		requireNonEmpty(name, "name");
@@ -449,5 +453,17 @@ public abstract class AttributeBase<T extends AttributeBase<T>> {
 	
 	public final Map<String, Object> asMap() { return Map.copyOf(this.data); }
 	
+	// Index based lookup
+	
+	// Objects override
+	
 	public @Override String toString() { return this.data.toString(); }
+	
+	// Private
+	
+	// Used internally check if is not read only in "write" methods.
+	private T requireNotReadonly() {
+		if (readonly) throw new ReadOnlyException();
+		return self();
+	}
 }

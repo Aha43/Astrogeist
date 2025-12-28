@@ -1,39 +1,62 @@
-package astrogeist.engine.Observatory;
+package astrogeist.engine.observatory;
 
-import static java.util.Objects.requireNonNull;
-import static aha.common.util.Strings.padding;
 import static aha.common.guard.CollectionGuards.requireKeyNotExists;
-import static java.lang.String.join;
+import static aha.common.util.Strings.padding;
 import static java.lang.System.lineSeparator;
+import static java.util.Objects.requireNonNull;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
+import aha.common.collection.IndexedMap;
 
 public final class Configuration {
-	private final InstrumentNode root;
+	private final InventoryNode root;
 	
-	private final Map<String, List<Instrument>> cofigurations = new HashMap<>();
+	private final String code;
 	
-	public Configuration(InstrumentNode root) {
-		requireNonNull(root, "root");
-		this.root = root;
+	private final IndexedMap<String, ObservatorySystem> systems = 
+		new IndexedMap<>();
+	
+	public Configuration(String code, InventoryNode root) {
+		this.code = requireNonNull(code, "code");
+		this.root = requireNonNull(root, "root"); 
 	}
 	
-	public Configuration addSystem(String system) {
-		requireKeyNotExists(system, this.cofigurations, "system");
-		var instruments = root.system(system);
-		this.cofigurations.put(system, instruments);
+	public final String code() { return this.code; }
+	
+	public final Configuration addSystem(String systemName) {
+		return this.addSystem(systemName, null); }
+	
+	public final Configuration addSystem(String systemName,
+		String displayName) {	
+		
+		requireKeyNotExists(systemName, this.systems, "systemName");
+		var system = root.system(systemName, displayName);
+		this.systems.put(systemName, system);
 		return this;
 	}
 	
-	public final String name() { 
-		return join(".", this.cofigurations.keySet()); }
+	public final int size() { return this.systems.size(); }
+	
+	public final ObservatorySystem getByName(String name) { 
+		return this.systems.get(name); }
+	
+	public final ObservatorySystem getByIndex(int idx) {
+		return this.systems.getAt(idx); }
+	
+	public final int indexOf(ObservatorySystem o) { 
+		return this.systems.indexOf(o); }
+	
+	public final List<String> names(){
+		return new ArrayList<>(this.systems.keySet()); }
+	
+	//@Override public final String toString() { return code; }
 	
 	@Override public final String toString() {
 		var ls = lineSeparator();
-		var stbu = new StringBuilder(this.name()).append(ls);
-		for (var e : this.cofigurations.entrySet())
+		var stbu = new StringBuilder();
+		for (var e : this.systems.entrySet())
 			stbu.append(padding(2))
 				.append(e.getKey())
 				.append(ls)

@@ -7,6 +7,8 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.Optional;
 
+import aha.common.abstraction.Presentable;
+
 /**
  * <p>
  *   Models a number with unit.
@@ -16,10 +18,20 @@ import java.util.Optional;
  *   {@code isUnitless() -> true}.
  * </p>
  */
-public record UnitNumber(double value, Unit unit) {
-	
-	
-    /**
+public record UnitNumber(double value, Unit unit) implements Presentable {
+	/**
+     * <p>
+     *   Constructor.
+     * </p>
+     * @param val  Value.
+     * @param unit Unit.
+     */
+    public UnitNumber(double value, Unit unit) {
+    	this.unit = requireNonNull(unit, "unit"); 
+    	this.value = value; 
+    }
+    
+	/**
      * <p>
      *   If is an integer return value as such.
      * </p>
@@ -48,16 +60,6 @@ public record UnitNumber(double value, Unit unit) {
         }
         return (long) value;
     }
-    
-    /**
-     * <p>
-     *   Constructor.
-     * </p>
-     * @param val  Value.
-     * @param unit Unit.
-     */
-    public UnitNumber(double value, Unit unit) {
-    	this.unit = requireNonNull(unit, "unit"); this.value = value; }
     
     /**
      * <p>
@@ -108,5 +110,8 @@ public record UnitNumber(double value, Unit unit) {
         var unitNumber = new UnitNumber(number, unit);
         return Optional.of(unitNumber);
     }
+
+	@Override public final String presentation() {
+		return Double.toString(this.value) + " " + this.unit.canonical(); }
     
 }

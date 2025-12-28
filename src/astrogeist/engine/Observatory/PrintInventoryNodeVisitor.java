@@ -1,8 +1,8 @@
-package astrogeist.engine.Observatory;
+package astrogeist.engine.observatory;
 
 import static aha.common.util.Strings.padding;
 
-public class PrintInstrumentNodeVisitor implements InstrumentNodeVisitor {
+public class PrintInventoryNodeVisitor implements InventoryNodeVisitor {
 
 	private final String ls = System.lineSeparator();
 	
@@ -10,7 +10,7 @@ public class PrintInstrumentNodeVisitor implements InstrumentNodeVisitor {
 	
 	public final void clear() { this.sb.setLength(0); }
 	
-	@Override public final void visit(int level, InstrumentNode node) {
+	@Override public final void visit(int level, InventoryNode node) {
 		sb.
 			append(padding(level)).
 			append(node.instrument()).

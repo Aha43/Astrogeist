@@ -10,6 +10,8 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
+// TODO: Should be moved to static method in panel class.
+
 /**
  * <p>
  *   Modal dialog for inspecting memory usage.

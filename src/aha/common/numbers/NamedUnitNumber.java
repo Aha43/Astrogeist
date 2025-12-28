@@ -7,6 +7,7 @@ import static java.util.Objects.requireNonNull;
 
 import aha.common.abstraction.Named;
 import aha.common.abstraction.Presentable;
+import aha.common.util.DisplayNameUtil;
 
 import static aha.common.util.Cast.as;
 
@@ -20,6 +21,7 @@ public class NamedUnitNumber implements Named, Presentable {
 	}
 	
 	@Override public final String name() { return this.name; }
+	@Override public final String displayName() { return DisplayNameUtil.toDisplayName(this.name); }
 	
 	public final UnitNumber number() { return this.number; }
 	public final double value() { return this.number.value(); }

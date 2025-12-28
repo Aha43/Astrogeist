@@ -1,6 +1,10 @@
 package astrogeist.engine.observatory;
 
+import astrogeist.engine.observatory.constants.OpticalDesign;
+import astrogeist.engine.observatory.types.MountCapasity;
 import astrogeist.engine.observatory.types.TelescopeAperture;
+import astrogeist.engine.observatory.types.TelescopeFocalLength;
+import astrogeist.engine.observatory.types.TelescopeWeight;
 
 public final class AhaObservatory extends Observatory {
 
@@ -9,7 +13,10 @@ public final class AhaObservatory extends Observatory {
 	@Override protected final void buildInventory(InventoryNode root) {
 		root.with("Telescopes")
 			.with("LS60MT")
+				.having("Optical Design", OpticalDesign.REFRACTOR)
 				.having(new TelescopeAperture(70))
+				.having(new TelescopeFocalLength(420))
+				.having(new TelescopeWeight(3.20))
 				.description("Lunt 60mm modular solar telescope")
 			.with("B1200").description("Bloking filter")
 			.with("LS60Ha").serialNumber("0000977")
@@ -44,7 +51,7 @@ public final class AhaObservatory extends Observatory {
 		.description("Tele Vue Powermates 2.5x / 1.25");
 	var pentaxZoomEyepiece = new Instrument("Pentax Zoom 8-24mm");
 	
-	var solarQuest = new Instrument("SolarQuest");
+	var solarQuest = new Instrument("SolarQuest").set(new MountCapasity(5));
 	
 	root.with("Visual");
 	

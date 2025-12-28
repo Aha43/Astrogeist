@@ -8,6 +8,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
+import aha.common.abstraction.Named;
 import aha.common.abstraction.Presentable;
 
 public final class TheTableCellrenderer extends DefaultTableCellRenderer {
@@ -20,13 +21,24 @@ public final class TheTableCellrenderer extends DefaultTableCellRenderer {
 	@Override public final Component getTableCellRendererComponent(JTable t, 
 		Object v, boolean selected, boolean focus, int row, int col) {
 		
-		return super.getTableCellRendererComponent(t, getValue(v), selected,
-			focus, row, col);
+		return super.getTableCellRendererComponent(t, getValue(v, col), 
+			selected, focus, row, col);
 	}
 
-	public static Object getValue(Object v) {
+	public static Object getValue(Object v, int col) {
 		if (v == null) return null;
-		var presentation = as(Presentable.class, v);
-		return presentation == null ? v : presentation.presentation(); 
+		
+		if (col == 0) {
+			var c = v.getClass();
+			var named = as(Named.class, v);
+			if (named != null) return named.displayName();
+		}
+		else if (col == 1) {
+			var c = v.getClass();
+			var presentation = as(Presentable.class, v);
+			if (presentation != null) return presentation.presentation();
+		}
+		
+		return v;
 	}
 }

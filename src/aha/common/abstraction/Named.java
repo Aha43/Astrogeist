@@ -13,4 +13,12 @@ public interface Named {
 	 * @return the name.
 	 */
 	String name();
+	
+	/**
+	 * <p>
+	 *   Gets name usable for end user presentation.
+	 * </p>
+	 * @return the display name.
+	 */
+	String displayName();
 }

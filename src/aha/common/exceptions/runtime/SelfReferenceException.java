@@ -12,14 +12,14 @@ public class SelfReferenceException extends RuntimeException {
 	
 	/**
 	 * <p>
-	 *   Constructor.
+	 *   Creates exception with no message.
 	 * </p>
 	 */
 	public SelfReferenceException() {}
 	
 	/**
 	 * <p>
-	 *   Constructor.
+	 *   Creates exception with message.
 	 * </p>
 	 * @param msg the error message.
 	 */

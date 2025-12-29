@@ -1,6 +1,7 @@
 package astrogeist.engine.observatory;
 
 import astrogeist.engine.observatory.types.TelescopeAperture;
+import astrogeist.ui.swing.component.observatory.ConfigurationPanel;
 
 public class Demo {
 

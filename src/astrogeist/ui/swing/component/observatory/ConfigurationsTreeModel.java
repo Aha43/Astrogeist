@@ -1,9 +1,14 @@
-package astrogeist.engine.observatory;
+package astrogeist.ui.swing.component.observatory;
 
 import static aha.common.util.Cast.as;
 import static java.util.Objects.requireNonNull;
 
 import aha.common.ui.swing.tree.AbstractTreeModel;
+import astrogeist.engine.observatory.Configuration;
+import astrogeist.engine.observatory.Configurations;
+import astrogeist.engine.observatory.Instrument;
+import astrogeist.engine.observatory.Observatory;
+import astrogeist.engine.observatory.ObservatorySystem;
 
 public final class ConfigurationsTreeModel extends AbstractTreeModel {
 

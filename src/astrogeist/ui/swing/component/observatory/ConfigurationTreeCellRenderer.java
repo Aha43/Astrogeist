@@ -1,4 +1,4 @@
-package astrogeist.engine.observatory;
+package astrogeist.ui.swing.component.observatory;
 
 import static aha.common.util.Cast.as;
 
@@ -7,6 +7,10 @@ import java.awt.Component;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeCellRenderer;
+
+import astrogeist.engine.observatory.Configuration;
+import astrogeist.engine.observatory.Instrument;
+import astrogeist.engine.observatory.ObservatorySystem;
 
 public final class ConfigurationTreeCellRenderer 
 	extends DefaultTreeCellRenderer {

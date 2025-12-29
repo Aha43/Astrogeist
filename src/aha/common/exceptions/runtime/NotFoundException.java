@@ -5,7 +5,7 @@ import static aha.common.util.Strings.quote;
 
 /**
  * <p>
- *   Runtime exception thrown when something required to exist is not found.
+ *   Thrown when something required to exist is not found.
  * </p>
  */
 public final class NotFoundException extends RuntimeException {

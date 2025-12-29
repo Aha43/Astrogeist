@@ -1,4 +1,4 @@
-package astrogeist.engine.observatory;
+package astrogeist.ui.swing.component.observatory;
 
 import static javax.swing.SwingUtilities.invokeLater;
 import static aha.common.util.Cast.as;
@@ -12,6 +12,8 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 
 import aha.common.ui.swing.panels.AttributeBasePanel;
+import astrogeist.engine.observatory.Instrument;
+import astrogeist.engine.observatory.Observatory;
 
 public final class ConfigurationPanel extends JPanel 
 	implements TreeSelectionListener {

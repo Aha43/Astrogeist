@@ -1,4 +1,4 @@
-package astrogeist.engine.observatory;
+package astrogeist.ui.swing.component.observatory;
 
 import static java.util.Objects.requireNonNull;
 import static javax.swing.SwingUtilities.invokeLater;
@@ -10,6 +10,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.event.TreeSelectionListener;
+
+import astrogeist.engine.observatory.Observatory;
 
 public final class ConfigurationTreePanel extends JPanel {
 	private static final long serialVersionUID = 1L;

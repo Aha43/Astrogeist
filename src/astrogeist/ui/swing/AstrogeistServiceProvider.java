@@ -14,6 +14,8 @@ import astrogeist.engine.appdata.settings.SettingsAppDataReader;
 import astrogeist.engine.appdata.settings.SettingsAppDataWriter;
 import astrogeist.engine.appdata.userdatadefinitions.UserDataDefinitionsAppDataReader;
 import astrogeist.engine.appdats.scannerconfig.ScannerConfigAppDataReader;
+import astrogeist.engine.observatory.AhaObservatory;
+import astrogeist.engine.observatory.Observatory;
 import astrogeist.engine.scanner.DefaultTimelineNames;
 import astrogeist.engine.timeline.DefaultTimeline;
 import astrogeist.engine.timeline.DefaultTimelineValuePool;
@@ -28,6 +30,8 @@ import astrogeist.ui.selection.DefaultSnapshotSelectionService;
  */
 public final class AstrogeistServiceProvider implements ServiceProvider {
 	@Override public final <T> T get(Class<? extends T> clazz) {
+		if (clazz == Observatory.class)
+			return clazz.cast(this.observatory);
 		if (clazz == Timeline.class) 
 			return clazz.cast(this.timeline);
 		if (clazz == UserDataIo.class) 
@@ -44,6 +48,7 @@ public final class AstrogeistServiceProvider implements ServiceProvider {
 			clazz.getName());
 	}
 	
+	private final Observatory observatory = new AhaObservatory();
 	private final TypeResolver typeResolver = new DefaultTypeResolver(); 
 	private final TimelineValuePool timelineValuePool =
 		new DefaultTimelineValuePool(this.typeResolver); 

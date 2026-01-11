@@ -2,6 +2,7 @@ package astrogeist.engine.observatory;
 
 import astrogeist.engine.observatory.constants.OpticalDesign;
 import astrogeist.engine.observatory.types.MountCapasity;
+import astrogeist.engine.observatory.types.OuterDiameter;
 import astrogeist.engine.observatory.types.TelescopeAperture;
 import astrogeist.engine.observatory.types.TelescopeFocalLength;
 import astrogeist.engine.observatory.types.TelescopeWeight;
@@ -17,13 +18,16 @@ public final class AhaObservatory extends Observatory {
 				.having(new TelescopeAperture(70))
 				.having(new TelescopeFocalLength(420))
 				.having(new TelescopeWeight(3.20))
+				.having(new OuterDiameter(950))
 				.description("Lunt 60mm modular solar telescope")
 			.with("B1200").description("Bloking filter")
 			.with("LS60Ha").serialNumber("0000977")
 				.having(new TelescopeAperture(60))
 			.isSystem("LS60MT-SS")
 				.description("Single stacked for H-Alpha observing / imagining")
-			.with("LS60FHa").serialNumber("0000753")
+			.with("LS60FHa")
+				.serialNumber("0000753")
+				.having(new OuterDiameter(950))
 			.isSystem("LS60MT-DS")
 				.description("Double stacked for H-Alpha observing / imagining");
 		

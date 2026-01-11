@@ -1,5 +1,12 @@
 package astrogeist.ui.swing;
 
+import static aha.common.guard.CollectionGuards.requireKeyNotExists;
+import static aha.common.util.Cast.as;
+import static java.util.Objects.requireNonNull;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import aha.common.abstraction.io.appdata.AppDataManager;
 import aha.common.io.appdata.DefaultAppDataManager;
 import astrogeist.engine.abstraction.ServiceProvider;
@@ -29,23 +36,48 @@ import astrogeist.ui.selection.DefaultSnapshotSelectionService;
  * </p>
  */
 public final class AstrogeistServiceProvider implements ServiceProvider {
+	private final Map<Class<?>, Object> some = new HashMap<>();
+	
 	@Override public final <T> T get(Class<? extends T> clazz) {
+		T retVal = null;
+		
 		if (clazz == Observatory.class)
-			return clazz.cast(this.observatory);
+			retVal = as(clazz, this.observatory);
 		if (clazz == Timeline.class) 
-			return clazz.cast(this.timeline);
+			retVal = as(clazz, this.timeline);
 		if (clazz == UserDataIo.class) 
-			return clazz.cast(this.userDataIo);
+			retVal = as(clazz, this.userDataIo);
 		if (clazz == TimelineValuePool.class)
-			return clazz.cast(this.timelineValuePool);
+			retVal = as(clazz, this.timelineValuePool);
 		if (clazz == TimelineNames.class)
-			return clazz.cast(this.timelineNames);
+			retVal = as(clazz, this.timelineNames);
 		if (clazz == SnapshotSelectionService.class)
-			return clazz.cast(this.snapshotSelectionService);
+			retVal = as(clazz, this.snapshotSelectionService);
 		if (clazz == AppDataManager.class)
-			return clazz.cast(this.astrogeistStorageManager);
-		throw new IllegalArgumentException("Unsupported service type: " + 
-			clazz.getName());
+			retVal = as(clazz, this.astrogeistStorageManager);
+		
+		retVal = retVal == null ? as(clazz, this.some.get(clazz)) : retVal;
+		
+		if (retVal == null)
+			throw new IllegalArgumentException("Unsupported service type: " + 
+					clazz.getName());
+		
+		return retVal;
+	}
+	
+	public void singleton(Object service, Class<?>...classes) {
+		var key = requireKeyNotExists(requireNonNull(service).getClass(),
+			this.some);
+		this.some.put(key, service);
+		if (classes != null && classes.length > 0) {
+			for (var c : classes) {
+				var o = as(c, service);
+				if (o == null)
+					throw new IllegalArgumentException(
+						"service not a " + c.getName());
+				this.some.put(c, service);
+			}
+		}
 	}
 	
 	private final Observatory observatory = new AhaObservatory();

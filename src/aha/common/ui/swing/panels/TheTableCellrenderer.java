@@ -29,12 +29,10 @@ public final class TheTableCellrenderer extends DefaultTableCellRenderer {
 		if (v == null) return null;
 		
 		if (col == 0) {
-			var c = v.getClass();
 			var named = as(Named.class, v);
 			if (named != null) return named.displayName();
 		}
 		else if (col == 1) {
-			var c = v.getClass();
 			var presentation = as(Presentable.class, v);
 			if (presentation != null) return presentation.presentation();
 		}

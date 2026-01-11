@@ -453,7 +453,7 @@ public abstract class AttributeBase<T extends AttributeBase<T>> {
 	
 	public final Map<String, Object> asMap() { return Map.copyOf(this.data); }
 	
-	// Index based lookup
+	// TODO: Index based lookup
 	
 	// Objects override
 	

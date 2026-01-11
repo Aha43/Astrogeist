@@ -16,21 +16,15 @@ import astrogeist.ui.swing.component.data.timeline.view.AbstractTimelineViewTabl
 public final class TimelineTableModel extends AbstractTimelineViewTableModel {
 	private static final long serialVersionUID = 1L;
 	
-	private Timeline timeline;
+	private Timeline timeline = null;
 	
-	@Override public final TimelineView getTimelineView() {
-		return this.timeline(); }
-	
-	/**
-	 * <p>
-	 *   Constructor to show.
-	 * </p>
-	 * @param timeline Time line to show.
-	 */
 	public final void timeline(Timeline timeline) { 
 		this.timeline = timeline;
 		initialize();
 	}
+	
+	@Override public final TimelineView getTimelineView() {
+		return this.timeline(); }
 	
 	public final Timeline timeline() { return this.timeline; }
 	
@@ -40,15 +34,19 @@ public final class TimelineTableModel extends AbstractTimelineViewTableModel {
 		for (var e : values.entrySet()) {
 	        var key = e.getKey();
 	        var tlv = e.getValue();
-	        if (tlv == TimelineValue.Empty) {
-	            timeline.remove(time, key);
-	        } else {
-	            timeline.upsert(time, key, tlv);
-	        }
+	        if (tlv == TimelineValue.Empty) timeline.remove(time, key);
+	        else                            timeline.upsert(time, key, tlv);
 	    }
 
 	    int rowIndex = super.timestamps.indexOf(time);
 	    if (rowIndex >= 0) fireTableRowsUpdated(rowIndex, rowIndex);
 	}
 	
+	public final void update(Instant time, String name, TimelineValue tlv) {
+		if (tlv == TimelineValue.Empty) timeline.remove(time, name);
+		else                            timeline.upsert(time, name, tlv);
+		        
+		int rowIndex = super.timestamps.indexOf(time);
+		if (rowIndex >= 0) fireTableRowsUpdated(rowIndex, rowIndex);
+	}
 }

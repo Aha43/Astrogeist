@@ -10,7 +10,7 @@ import astrogeist.engine.observatory.Instrument;
 import astrogeist.engine.observatory.Observatory;
 import astrogeist.engine.observatory.ObservatorySystem;
 
-public final class ConfigurationsTreeModel extends AbstractTreeModel {
+final class ConfigurationsTreeModel extends AbstractTreeModel {
 
 	private final Configurations configurations;
 	
@@ -18,6 +18,9 @@ public final class ConfigurationsTreeModel extends AbstractTreeModel {
 		super(requireNonNull(observatory, "observatory"));
 		this.configurations = observatory.configurations();
 	}
+	
+	public Configuration getByCode(String code) {
+		return this.configurations.getByCode(requireNonNull(code, "code")); }
 
 	@Override public final Object getChild(Object parent, int idx) {
 		if (parent == super.getRoot()) return this.configurations.get(idx);

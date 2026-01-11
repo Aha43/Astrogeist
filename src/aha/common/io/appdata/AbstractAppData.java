@@ -42,5 +42,4 @@ public abstract class AbstractAppData implements AppData  {
 		this.format = requireNonEmpty(format, "format");
 		this.type = requireNonNull(type, "type");
 	}
-
 }

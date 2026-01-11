@@ -1,9 +1,11 @@
 package aha.common.io.appdata;
 
+import static java.nio.file.Files.createDirectories;
+import static java.util.Objects.requireNonNull;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.logging.Logger;
 
@@ -31,10 +33,11 @@ public abstract class DiskAppDataAccessor implements AppDataAccessor {
 	 * </p>
 	 * @param folder Root folder for application data.
 	 */
-	protected DiskAppDataAccessor(Path folder) { this.folder = folder; }
+	protected DiskAppDataAccessor(Path folder) { 
+		this.folder = requireNonNull(folder, "folder"); }
 	
 	private final File getFile(AppData data) throws Exception {
-		Files.createDirectories(this.folder);
+		createDirectories(this.folder);
 		var name = data.type().getSimpleName();
 		var format = data.format();
 		var fileName = name + '.' + format;
@@ -51,7 +54,7 @@ public abstract class DiskAppDataAccessor implements AppDataAccessor {
 	public final Path folder() { return this.folder; }
 
 	@Override public final Object load(AppDataReader reader) throws Exception {
-		var file = this.getFile(reader);
+		var file = this.getFile(requireNonNull(reader, "reader"));
 		
 		this.logger.info("load from file : '" + file.getCanonicalPath() +
 			"' using reader of type : '" + reader.getClass().getName() + "'");
@@ -65,8 +68,10 @@ public abstract class DiskAppDataAccessor implements AppDataAccessor {
 			return reader.read(in); }
 	}
 
-	@Override public final void save(AppDataWriter writer, Object data) throws Exception {
-		var file = this.getFile(writer);
+	@Override public final void save(AppDataWriter writer, Object data)
+		throws Exception {
+		
+		var file = this.getFile(requireNonNull(writer, "writer"));
 		
 		this.logger.info("save to file : '" + file.getCanonicalPath() +
 			"' using writer of type : '" + writer.getClass().getName() + "'");
@@ -74,5 +79,4 @@ public abstract class DiskAppDataAccessor implements AppDataAccessor {
 		try (var out = new FileOutputStream(file)) {
 			writer.write(out, data); }
 	}
-	
 }

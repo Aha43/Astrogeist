@@ -47,6 +47,11 @@ public final class Snapshot {
 		return v == null ? TimelineValue.Empty : v;
 	}
 	
+	public String valueAsString(String name) {
+		var tlv = this.value(name);
+		return tlv == null ? null : tlv.value();
+	}
+	
 	public List<TimelineValue> getOfType(Type type){
 		var retVal = this.snap.values().stream().filter(
 			v -> Type.isA(v.type(), type)).collect(Collectors.toList()); 

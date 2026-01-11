@@ -42,7 +42,7 @@ public final class FilteredTimelineViewTablePanel
 		super.northPanel.add(filters);
 	}
 	
-	public final void timelineView(TimelineView view) {
+	public final void timeline(TimelineView view) {
 		var model = this.model();
 		model.setTimeline(view);
 		super.postSetData();

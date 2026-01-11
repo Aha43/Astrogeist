@@ -20,13 +20,14 @@ final class AttributeBaseTableModel extends AbstractTableModel {
 	
 	public AttributeBaseTableModel(AttributeBase<?> data) { this.data(data); }
 	
-	public void data(AttributeBase<?> data) {
+	public final void data(AttributeBase<?> data) {
 		this.data = requireNonNull(data);
 		this.names = data.names();
 		super.fireTableDataChanged();
 	}
 	
-	public void clear() { this.data = null; super.fireTableDataChanged(); } 
+	public final void clear() { 
+		this.data = null; super.fireTableDataChanged(); } 
 
 	@Override public final int getRowCount() {
 		return this.data == null ? 0 : this.names.size(); }

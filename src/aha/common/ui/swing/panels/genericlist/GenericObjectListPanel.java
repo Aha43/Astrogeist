@@ -63,7 +63,7 @@ public final class GenericObjectListPanel<T> extends JPanel {
         add(buttonPanel, BorderLayout.SOUTH);
     }
 
-    private void onAdd() {
+    private final void onAdd() {
         var parentWindow = SwingUtilities.getWindowAncestor(this);
         var item = handler.createNew(parentWindow);
         if (item != null) {
@@ -76,7 +76,7 @@ public final class GenericObjectListPanel<T> extends JPanel {
         }
     }
 
-    private void onEdit() {
+    private final void onEdit() {
         int index = list.getSelectedIndex();
         if (index < 0) {
             JOptionPane.showMessageDialog(
@@ -99,7 +99,7 @@ public final class GenericObjectListPanel<T> extends JPanel {
         }
     }
 
-    private void onRemove() {
+    private final void onRemove() {
         int index = list.getSelectedIndex();
         if (index < 0) {
             JOptionPane.showMessageDialog(
@@ -122,7 +122,7 @@ public final class GenericObjectListPanel<T> extends JPanel {
 
     // --- Public API ---
 
-    public void setItems(List<T> items) {
+    public final void setItems(List<T> items) {
         listModel.clear();
         if (items != null) {
             for (T item : items) {

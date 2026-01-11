@@ -14,7 +14,9 @@ import static aha.common.guard.ObjectGuards.throwStaticClassInstantiateError;
  *   given type.
  * </p>
  */
-public final class Cast { private Cast() { throwStaticClassInstantiateError(); }
+public final class Cast { 
+	private Cast() { throwStaticClassInstantiateError(); }
+	
 	/**
 	 * <p>
      *   Safe cast similar to C# "as" operator.

@@ -33,16 +33,7 @@ public final class ObjectGuards {
 	public final static void throwStaticClassInstantiateError() {
 		throw new AssertionError("Can not instantiate static class"); }
 	
-	/**
-	 * <p>
-	 *   Throws 
-	 *   {@link RuntimeException} if given boolean value is {@code true}.
-	 * </p>
-	 * @param v   the value to check.
-	 * @param msg the error message.
-	 */
-	public final static void throwIf(boolean v, String msg) {
-		if (v) throw new RuntimeException(msg); }
+	
 	
 	/**
 	 * <p>

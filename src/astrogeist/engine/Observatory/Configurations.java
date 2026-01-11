@@ -1,6 +1,7 @@
 package astrogeist.engine.observatory;
 
 import static aha.common.guard.CollectionGuards.requireNoDuplicate;
+import static aha.common.guard.StringGuards.requireNonEmpty;
 import static java.util.Objects.requireNonNull;
 
 import java.util.ArrayList;
@@ -23,4 +24,11 @@ public final class Configurations {
 	public final int indexOf(Configuration configuration) {
 		return this.configurations.indexOf(
 			requireNonNull(configuration, "configuration")); }
+	
+	public final Configuration getByCode(String code) {
+		requireNonEmpty(code, "code");
+		for (var conf : this.configurations) 
+			if (conf.code().equals(code)) return conf;
+		return null;
+	}
 }

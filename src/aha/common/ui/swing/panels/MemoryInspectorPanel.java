@@ -1,16 +1,15 @@
 package aha.common.ui.swing.panels;
 
+import static java.lang.System.gc;
+
 import java.awt.GridLayout;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
-import aha.common.util.MemoryUtil;
-
 import javax.swing.Timer;
 
-import static java.lang.System.gc;
+import aha.common.util.MemoryUtil;
 
 /**
  * <p>
@@ -38,7 +37,7 @@ public final class MemoryInspectorPanel extends JPanel {
         new Timer(2000, e -> updateLabels()).start();
     }
 
-    private void updateLabels() {
+    private final void updateLabels() {
         usedLabel.setText("Used heap: " + 
         	MemoryUtil.formatMB(MemoryUtil.usedHeapMB()));
         maxLabel.setText("Max heap: " +

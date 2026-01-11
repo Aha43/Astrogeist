@@ -12,5 +12,4 @@ public final class LoggingMenu extends JMenu {
 		super.add(new GlobalLoggingControlAction(parent));
 		super.add(new PackageLoggingControlAction(parent));
 	}
-
 }

@@ -1,5 +1,7 @@
 package astrogeist.ui.swing.component.data.timeline;
 
+import static astrogeist.ui.swing.dialog.message.MessageDialogs.showError;
+
 import java.time.Instant;
 import java.util.LinkedHashMap;
 
@@ -13,11 +15,12 @@ import astrogeist.engine.timeline.TimelineValue;
 import astrogeist.engine.userdata.UserDataIo;
 import astrogeist.ui.swing.App;
 import astrogeist.ui.swing.component.data.timeline.view.AbstractTimelineViewTablePanel;
-import astrogeist.ui.swing.dialog.data.userdata.UserDataDialog;
-import astrogeist.ui.swing.dialog.message.MessageDialogs;
+import astrogeist.ui.swing.component.data.userdata.UserDataDialog;
+import astrogeist.ui.swing.component.observatory.SelectSnapshotConfigurationAction;
 import astrogeist.ui.swing.dialog.timeline.mapping.TimelineMappingDialog;
 
 public final class TimelineTablePanel extends AbstractTimelineViewTablePanel {
+	
 	private static final long serialVersionUID = 1L;
 	
 	private final AppDataManager astrogeistStorageManager;
@@ -50,6 +53,11 @@ public final class TimelineTablePanel extends AbstractTimelineViewTablePanel {
 		model.update(t, values); 
 	}
 	
+	public final void update(Instant t, String name, TimelineValue value) {
+		var model = (TimelineTableModel)super.model;
+		model.update(t, name, value);
+	}
+	
 	private final void addButtons() {
 		var mappingButton = new JButton("Mapping");
 		mappingButton.addActionListener(
@@ -59,6 +67,10 @@ public final class TimelineTablePanel extends AbstractTimelineViewTablePanel {
 		var userPropsButton = new JButton("User Data");
 		userPropsButton.addActionListener(e -> editUserData());
 		super.southPanel.add(userPropsButton);
+		
+		var configurations = new JButton(
+			new SelectSnapshotConfigurationAction(this.app));
+		super.southPanel.add(configurations);
 	}
 	
 	private final void editUserData() {
@@ -72,8 +84,7 @@ public final class TimelineTablePanel extends AbstractTimelineViewTablePanel {
 			UserDataDialog.show(this.app, this.astrogeistStorageManager, t,
 				this.userDataIo, userData);
 		} catch(Exception x) {
-			MessageDialogs.showError(this, "Failed to load user data", x);
-		}
+			showError(this, "Failed to load user data", x); }
 	}
 
 	public final void timeline(Timeline data) {

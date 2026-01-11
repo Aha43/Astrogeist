@@ -14,6 +14,7 @@ import javax.swing.JTabbedPane;
 
 import aha.common.abstraction.io.appdata.AppDataManager;
 import astrogeist.engine.abstraction.ServiceProvider;
+import astrogeist.engine.abstraction.TimelineManager;
 import astrogeist.engine.abstraction.selection.SnapshotSelectionService;
 import astrogeist.engine.abstraction.timeline.Timeline;
 import astrogeist.engine.abstraction.timeline.TimelineNames;
@@ -29,54 +30,69 @@ import astrogeist.ui.swing.scanning.ShowScanningDialogAction;
 import astrogeist.ui.swing.toolbar.ToolBarFactory;
 
 public final class App {
-	private final ServiceProvider services = new AstrogeistServiceProvider();
+	private final AstrogeistServiceProvider services =
+		new AstrogeistServiceProvider();
 	
-	private JFrame frame = null;
+	private final JFrame frame = new JFrame("Astrogeist");
 	
-	private final MetadataTablePanel metadataPanel = new MetadataTablePanel(
-		this.services.get(SnapshotSelectionService.class));
-	
-	private final FilesTypeGroupComponentPanel filesPanel = 
-			new FilesTypeGroupComponentPanel(
-		this,
-		this.services.get(SnapshotSelectionService.class));
-	
-	private final TimelineTablePanel timelinePanel = new TimelineTablePanel(
-		this,
-		this.services.get(AppDataManager.class),
-		this.services.get(UserDataIo.class),
-		this.services.get(TimelineNames.class), 
-		this.services.get(SnapshotSelectionService.class));
-	
-	private final FilteredTimelineViewTablePanel searchPanel =
-			new FilteredTimelineViewTablePanel(
-		this,
-		this.services.get(AppDataManager.class),
-		this.services.get(TimelineNames.class),
-		this.services.get(SnapshotSelectionService.class));
-	
-	// TODO: Find way to refactor so not expose internal components.
-	public final TimelineTablePanel getTimelinePanel() { 
-		return this.timelinePanel; }
-	
-	// TODO: Find way to refactor so not expose internal components.
-	public final FilteredTimelineViewTablePanel getSearchPanel() { 
-		return this.searchPanel; }
+	private final MetadataTablePanel metadataPanel; 
+	private final FilesTypeGroupComponentPanel filesPanel; 
+	private final TimelineTablePanel timelinePanel;
+	private final FilteredTimelineViewTablePanel searchPanel;
 	
 	// Actions
-	public final Action ScanAction = new ShowScanningDialogAction(
-		this,
-		this.services.get(AppDataManager.class),
-		this.services.get(Timeline.class),
-		this.services.get(TimelineValuePool.class));
+	public final Action ScanAction; 
+	
+	public App() {
+		this.metadataPanel = new MetadataTablePanel(
+			this.services.get(SnapshotSelectionService.class));
+		
+		this.filesPanel = new FilesTypeGroupComponentPanel(
+			this,
+			this.services.get(SnapshotSelectionService.class));
+		
+		this.timelinePanel = new TimelineTablePanel(
+			this,
+			this.services.get(AppDataManager.class),
+			this.services.get(UserDataIo.class),
+			this.services.get(TimelineNames.class), 
+			this.services.get(SnapshotSelectionService.class));
+		
+		this.searchPanel = new FilteredTimelineViewTablePanel(
+			this,
+			this.services.get(AppDataManager.class),
+			this.services.get(TimelineNames.class),
+			this.services.get(SnapshotSelectionService.class));
+		
+		var timelineManager = 
+			new DefaultTimelineManager(searchPanel, timelinePanel);
+		this.services.singleton(timelineManager, TimelineManager.class);
+			
+		this.ScanAction = new ShowScanningDialogAction(
+			this,
+			this.services.get(AppDataManager.class),
+			this.services.get(Timeline.class),
+			this.services.get(TimelineValuePool.class));
+	}
+	
+	public final ServiceProvider serviceProvider() { return this.services; }
+	
+	/**
+	 * <p>
+	 *   Convenient method to get service from
+	 *   {@link #serviceProvider() service provider}.
+	 * </p>
+	 * @param <T>   Type of service to get.
+	 * @param clazz Class of service to get.
+	 * @return the service.
+	 */
+	public final <T> T service(Class<? extends T> clazz) { 
+		return this.services.get(clazz); }
 	
 	public final void createGUI() {
-		var title = "Astrogeist";
-		
-		if (Resources.isDevelopmentMode()) title += " (development)";
-		
-		this.frame = new JFrame(title);
-		
+		if (Resources.isDevelopmentMode())
+			this.frame.setTitle(this.frame.getTitle() + " (development)");
+			
 		this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.frame.setSize(1200, 800);
 		this.frame.setLayout(new BorderLayout());
@@ -114,7 +130,7 @@ public final class App {
 		
 		URL url = Resources.getLogoUrl(this);
 		var icon = new ImageIcon(url).getImage().getScaledInstance(16, 16,
-			Image.SCALE_SMOOTH);;
+			Image.SCALE_SMOOTH);
 		this.frame.setIconImage(icon);
 
 		this.frame.setVisible(true);

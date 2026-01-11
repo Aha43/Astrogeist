@@ -25,32 +25,37 @@ public final class UserDataEditor extends JPanel {
 	private final JTable table;
     private final UserDataDefinitionsTableModel model;
 
-    public UserDataEditor(List<UserDataDefinition> definitions, LinkedHashMap<String, TimelineValue> currentValues) {
+    public UserDataEditor(List<UserDataDefinition> definitions, 
+    		LinkedHashMap<String, TimelineValue> currentValues) {
         super(new BorderLayout());
         
-        this.model = new UserDataDefinitionsTableModel(definitions, currentValues);
+        this.model = 
+        	new UserDataDefinitionsTableModel(definitions, currentValues);
         this.table = new JTableWithPerRowEditor(model, definitions);
         this.table.setFillsViewportHeight(true);
         
-        this.table.setDefaultRenderer(TimelineValue.class, TimelineValueRenderers.tableCellRenderer());
+        this.table.setDefaultRenderer(TimelineValue.class, 
+        	TimelineValueRenderers.tableCellRenderer());
 
         add(new JScrollPane(table), BorderLayout.CENTER);
     }
 
-    public LinkedHashMap<String, TimelineValue> getValues() { return model.getValues(); }
+    public final LinkedHashMap<String, TimelineValue> getValues() { 
+    	return model.getValues(); }
 
     // Custom JTable that installs per-row editors
     private static final class JTableWithPerRowEditor extends JTable {
         private static final long serialVersionUID = 1L;
 		private final List<UserDataDefinition> defs;
 
-        public JTableWithPerRowEditor(UserDataDefinitionsTableModel model, List<UserDataDefinition> defs) {
-            super(model);
+        public JTableWithPerRowEditor(UserDataDefinitionsTableModel model, 
+        	List<UserDataDefinition> defs) {
+            
+        	super(model);
             this.defs = defs;
         }
         
-        @Override
-        public TableCellEditor getCellEditor(int row, int col){
+        @Override public final TableCellEditor getCellEditor(int row, int col){
         	if (col != 1) return super.getCellEditor();
         	
         	var def = defs.get(row);
@@ -59,8 +64,8 @@ public final class UserDataEditor extends JPanel {
         		var textField = new JTextField();
         	    return new DefaultCellEditor(textField) {
         	        private static final long serialVersionUID = 1L;
-					@Override
-        	        public Object getCellEditorValue() {
+        	        
+					@Override public final Object getCellEditorValue() {
         	            String text = textField.getText().trim();
         	            return new TimelineValue(text, Type.Text());
         	        }
@@ -69,40 +74,45 @@ public final class UserDataEditor extends JPanel {
         	
         	var comboValues = new ArrayList<TimelineValue>();
         	comboValues.add(TimelineValue.Empty);
-        	def.values().forEach(v -> comboValues.add(new TimelineValue(v, Type.Text())));
-        	var combo = new JComboBox<>(comboValues.toArray(TimelineValue.EmptyArray));
+        	def.values().forEach(v -> comboValues.add(
+        		new TimelineValue(v, Type.Text())));
+        	var combo = 
+        		new JComboBox<>(comboValues.toArray(TimelineValue.EmptyArray));
         	combo.setRenderer(TimelineValueRenderers.listCellRenderer());
+        	
         	return new DefaultCellEditor(combo) {
         	    private static final long serialVersionUID = 1L;
 
-        	    @Override
-        	    public Object getCellEditorValue() {
-        	        return combo.getSelectedItem(); // This returns the actual TimelineValue
-        	    }
+        	    @Override public final Object getCellEditorValue() {
+        	        return combo.getSelectedItem(); }
         	};
         }
     }
 
-    private static final class UserDataDefinitionsTableModel extends AbstractTableModel {
+    private static final class UserDataDefinitionsTableModel 
+    	extends AbstractTableModel {
         private static final long serialVersionUID = 1L;
         
 		private final List<UserDataDefinition> defs;
         private final LinkedHashMap<String, TimelineValue> values;
 
-        public UserDataDefinitionsTableModel(List<UserDataDefinition> defs, LinkedHashMap<String, TimelineValue> initialValues) {
-            this.defs = defs;
+        public UserDataDefinitionsTableModel(List<UserDataDefinition> defs,
+        	LinkedHashMap<String, TimelineValue> initialValues) {
+            
+        	this.defs = defs;
             this.values = new LinkedHashMap<>();
             for (var def : defs) {
                 var name = def.name();
-                var initialValue = initialValues.getOrDefault(name, TimelineValue.Empty); 
+                var initialValue = initialValues.getOrDefault(name,
+                	TimelineValue.Empty); 
                 values.put(name, initialValue);
             }
         }
 
-        @Override public int getRowCount() { return defs.size(); }
-        @Override public int getColumnCount() { return 2; }
+        @Override public final int getRowCount() { return defs.size(); }
+        @Override public final int getColumnCount() { return 2; }
 
-        @Override public Object getValueAt(int row, int col) {
+        @Override public final Object getValueAt(int row, int col) {
             var def = defs.get(row);
             
             if (col == 0) return def.name();
@@ -111,7 +121,7 @@ public final class UserDataEditor extends JPanel {
             return tlv;
         }
 
-        @Override public void setValueAt(Object value, int row, int col) {
+        @Override public final void setValueAt(Object value, int row, int col) {
             if (col != 1) return;
             
             var def = defs.get(row);
@@ -122,21 +132,26 @@ public final class UserDataEditor extends JPanel {
             }
                 
             var svalue = value == null ? "" : value.toString().trim();
-            var tlv = svalue.length() == 0 ? TimelineValue.Empty : new TimelineValue(svalue, Type.Text());
+            var tlv = svalue.length() == 0 ?
+            	TimelineValue.Empty : new TimelineValue(svalue, Type.Text());
                 
             values.put(def.name(), tlv);
         }
 
-        @Override public boolean isCellEditable(int row, int col) { return col == 1; }
-        @Override public String getColumnName(int col) { return (col == 0) ? "Name" : "Value"; }
-        @Override public Class<?> getColumnClass(int col) { return (col == 0) ? String.class : TimelineValue.class; }
+        @Override public final boolean isCellEditable(int row, int col) {
+        	return col == 1; }
+        @Override public final String getColumnName(int col) {
+        	return (col == 0) ? "Name" : "Value"; }
+        @Override public final Class<?> getColumnClass(int col) {
+        	return (col == 0) ? String.class : TimelineValue.class; }
 
-        public LinkedHashMap<String, TimelineValue> getValues() {
+        public final LinkedHashMap<String, TimelineValue> getValues() {
             LinkedHashMap<String, TimelineValue> cleaned = new LinkedHashMap<>();
             for (var def : defs) {
                 String name = def.name();
                 TimelineValue tvl = values.get(name);
-                if (tvl != null && tvl.value() != null && !tvl.value().isBlank()) {
+                if (tvl != null && tvl.value() != null && 
+                	!tvl.value().isBlank()) {
                     cleaned.put(name, tvl);
                 }
             }

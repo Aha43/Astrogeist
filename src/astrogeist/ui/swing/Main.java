@@ -11,6 +11,8 @@ import astrogeist.ui.swing.dialog.launch.LaunchDialog;
 import astrogeist.ui.swing.dialog.message.MessageDialogs;
 
 public final class Main {
+	private Main() { ObjectGuards.throwStaticClassInstantiateError(); }
+	
 	public static void main(String[] args) {
 		try {
 	        UIManager.setLookAndFeel(new FlatDarculaLaf());
@@ -39,6 +41,4 @@ public final class Main {
 		Resources.ensureAstrogeistDirectoryExist();
 		//SettingsIo.loadOrCreate();
 	}
-	
-	private Main() { ObjectGuards.throwStaticClassInstantiateError(); }
 }

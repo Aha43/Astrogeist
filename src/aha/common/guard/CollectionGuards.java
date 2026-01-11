@@ -158,6 +158,7 @@ public final class CollectionGuards {
 		String name) {
 		
 		requireNonNull(key, name);
+		if (!map.containsKey(key)) return key;
 		throw new DuplicateException(Safe.string(name, "key"));
 	}
 	

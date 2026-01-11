@@ -36,6 +36,8 @@ public final class DefaultTimelineNames implements TimelineNames {
 		AddMapping("Subject");
 		AddMapping("Telescope");
 		AddMapping("CaptureType", "FrameType");
+		
+		AddMapping("Configuration");
 	} 
 	
 	private final void AddMapping(String normalized, String ...synonyms) {

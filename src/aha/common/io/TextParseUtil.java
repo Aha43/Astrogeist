@@ -1,6 +1,7 @@
 package aha.common.io;
 
-import aha.common.guard.ObjectGuards;
+import static aha.common.guard.ObjectGuards.throwStaticClassInstantiateError;
+
 import aha.common.util.Strings;
 
 /**
@@ -9,7 +10,7 @@ import aha.common.util.Strings;
  * </p>
  */
 public final class TextParseUtil {
-	private TextParseUtil() { ObjectGuards.throwStaticClassInstantiateError(); }
+	private TextParseUtil() { throwStaticClassInstantiateError(); }
 	
 	/**
 	 * <p>
@@ -18,7 +19,7 @@ public final class TextParseUtil {
 	 * @param line the line.
 	 * @return the line stripped of comment text.
 	 */
-	public static String stripComment(String line) {
+	public static final String stripComment(String line) {
         String trimmed = line.stripLeading();
         if (trimmed.isEmpty()) return Strings.EMPTY;
         int idx = trimmed.indexOf('#');

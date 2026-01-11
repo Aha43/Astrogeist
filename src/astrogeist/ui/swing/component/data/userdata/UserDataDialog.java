@@ -1,4 +1,6 @@
-package astrogeist.ui.swing.dialog.data.userdata;
+package astrogeist.ui.swing.component.data.userdata;
+
+import static astrogeist.ui.swing.dialog.message.MessageDialogs.showError;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -9,13 +11,12 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import aha.common.abstraction.io.appdata.AppDataManager;
+import astrogeist.engine.abstraction.TimelineManager;
 import astrogeist.engine.appdata.userdatadefinitions.UserDataDefinitions;
 import astrogeist.engine.timeline.TimelineValue;
 import astrogeist.engine.userdata.UserDataIo;
 import astrogeist.ui.swing.App;
-import astrogeist.ui.swing.component.data.userdata.UserDataEditor;
 import astrogeist.ui.swing.dialog.ModalDialogBase;
-import astrogeist.ui.swing.dialog.message.MessageDialogs;
 
 public final class UserDataDialog extends ModalDialogBase {
 	private static final long serialVersionUID = 1L;
@@ -28,7 +29,7 @@ public final class UserDataDialog extends ModalDialogBase {
 	
 	private UserDataDialog(
 		App app, 
-		AppDataManager astrogeistStorageManager,
+		AppDataManager appDataManager,
 		Instant time, 
 		UserDataIo userDataIo,
 		LinkedHashMap<String, TimelineValue> userData) {
@@ -40,15 +41,15 @@ public final class UserDataDialog extends ModalDialogBase {
 		this.userDataIo = userDataIo;
 		
 		try {
-			this.userDataDefs = astrogeistStorageManager.load(UserDataDefinitions.class);
+			this.userDataDefs = appDataManager.load(UserDataDefinitions.class);
 			
-			this.editor = new UserDataEditor(this.userDataDefs.getUserDataDefinitions(), userData);
+			this.editor = new UserDataEditor(
+				this.userDataDefs.getUserDataDefinitions(), userData);
 			super.add(this.editor, BorderLayout.CENTER);
 			this.createButtons();
 			super.pack();
 		} catch (Exception x) {
-			MessageDialogs.showError(this, "Failed to open user data definition file", x); 
-		}
+			showError(this, "Failed to open user data definition file", x); }
 	}
 	
 	private final void createButtons() {
@@ -69,19 +70,20 @@ public final class UserDataDialog extends ModalDialogBase {
 		try {
 			var values = this.editor.getValues();
 			this.userDataIo.save(this.time, values);
-			super.app.getTimelinePanel().update(this.time, values);
+			//super.app.getTimelinePanel().update(this.time, values);
+			super.app.service(TimelineManager.class).update(this.time, values);
 		} catch (Exception x) {
-			MessageDialogs.showError(this, "Failed to save user data", x); 
-		}
+			showError(this, "Failed to save user data", x); }
 	}
 	
 	public static void show(
 		App app,
-		AppDataManager astrogeistStorageManager,
+		AppDataManager appDataManager,
 		Instant t, 
 		UserDataIo userDataIo,
 		LinkedHashMap<String, TimelineValue> userData) { 
 		
-		new UserDataDialog(app, astrogeistStorageManager, t, userDataIo, userData).setVisible(true);
+		new UserDataDialog(app, appDataManager, t, userDataIo, userData)
+			.setVisible(true);
 	}
 }

@@ -3,13 +3,10 @@ package aha.common.ui.swing.panels;
 import static java.util.Objects.requireNonNull;
 import static javax.swing.SwingUtilities.invokeLater;
 
-import java.awt.BorderLayout;
-
 import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import aha.common.ui.swing.PanelWithNorthLabelAndSouthButtons;
 import aha.common.util.AttributeBase;
 
 /**
@@ -19,8 +16,10 @@ import aha.common.util.AttributeBase;
  *   values in second.
  * </p>
  */
-public final class AttributeBasePanel extends JPanel {
-	private static final long serialVersionUID = 17751852767793219L;
+public final class AttributeBasePanel 
+	extends PanelWithNorthLabelAndSouthButtons {
+	
+	private static final long serialVersionUID = 1L;
 
 	private final AttributeBaseTableModel model = new AttributeBaseTableModel();
 	private final JTable table = new JTable(this.model);
@@ -31,11 +30,7 @@ public final class AttributeBasePanel extends JPanel {
 	 * </p>
 	 */
 	public AttributeBasePanel() {
-		super.setLayout(new BorderLayout());
-		super.add(new JScrollPane(this.table), BorderLayout.CENTER);
-		this.table.setDefaultRenderer(Object.class,
-			TheTableCellrenderer.INSTANCE);
-	}
+		super.contentInScroll(this.table).label("Attributes"); }
 	
 	/**
 	 * <p>
@@ -63,7 +58,7 @@ public final class AttributeBasePanel extends JPanel {
 	 *   Removes data shown.
 	 * </p>
 	 */
-	public void clear() { this.model.clear(); }
+	public final void clear() { this.model.clear(); }
 	
 	/**
 	 * <p>
@@ -75,7 +70,7 @@ public final class AttributeBasePanel extends JPanel {
 	 * </p>
 	 * @param o the object to show.
 	 */
-	public static void showDialog(AttributeBase<?> o) {
+	public static final void showDialog(AttributeBase<?> o) {
 		var panel = new AttributeBasePanel(o);
 		var dlg = new JDialog();
 		dlg.add(panel);

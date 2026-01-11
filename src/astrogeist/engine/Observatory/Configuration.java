@@ -51,8 +51,6 @@ public final class Configuration {
 	public final List<String> names(){
 		return new ArrayList<>(this.systems.keySet()); }
 	
-	//@Override public final String toString() { return code; }
-	
 	@Override public final String toString() {
 		var ls = lineSeparator();
 		var stbu = new StringBuilder();

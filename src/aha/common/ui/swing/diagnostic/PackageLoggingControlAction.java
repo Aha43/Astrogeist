@@ -17,5 +17,6 @@ public final class PackageLoggingControlAction extends AbstractAction {
 		this.parent = parent;
 	}
 
-	@Override public void actionPerformed(ActionEvent e) { show(this.parent); }
+	@Override public final void actionPerformed(ActionEvent e) {
+		show(this.parent); }
 }

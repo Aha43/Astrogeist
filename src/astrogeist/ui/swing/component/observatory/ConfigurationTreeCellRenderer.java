@@ -12,7 +12,7 @@ import astrogeist.engine.observatory.Configuration;
 import astrogeist.engine.observatory.Instrument;
 import astrogeist.engine.observatory.ObservatorySystem;
 
-public final class ConfigurationTreeCellRenderer 
+final class ConfigurationTreeCellRenderer 
 	extends DefaultTreeCellRenderer {
 	private static final long serialVersionUID = 1L;
 	

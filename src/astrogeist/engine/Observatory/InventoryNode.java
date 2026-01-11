@@ -46,6 +46,11 @@ public final class InventoryNode {
 	public final InventoryNode parent() { return this.parent; }
 	public final boolean isRoot() { return this.parent == null; }
 	public final boolean isLeaf() { return this.children.isEmpty(); }
+	public final int getChildCount() { return this.children.size(); }
+	public final InventoryNode getChild(int idx) {
+		return this.children.get(idx); }
+	public final int getIndexOfChild(InventoryNode child) {
+		return this.children.indexOf(child); }
 	
 	public final InventoryNode from(String name) {
 		var retVal = this.find(name);
@@ -151,7 +156,10 @@ public final class InventoryNode {
 		for (var child : this.children) child.dfs(level, visitor);
 	}
 	
-	@Override public String toString() { return this.instrument.toString(); }
+	@Override public String toString() { 
+		return this.instrument == null ? 
+			this.name : this.instrument.toString();
+	}
 	
 	public final static InventoryNode createRoot(String name) { 
 		return new InventoryNode(name); }

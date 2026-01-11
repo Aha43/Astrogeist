@@ -19,3 +19,8 @@ deg
 mm
 misc
 spectral
+popup
+namespace
+refactor
+var
+arg

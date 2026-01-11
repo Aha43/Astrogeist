@@ -15,23 +15,30 @@ public final class UserDataIo {
 	public UserDataIo(TimelineValuePool timelineValuePool) {
 		this.timelineValuePool = timelineValuePool; }
 	
-	public final LinkedHashMap<String, TimelineValue> load(Instant t) throws Exception {
+	public final LinkedHashMap<String, TimelineValue> load(Instant t) 
+		throws Exception {
+		
 		var file = Resources.getUserDataFile(t);
 		if (!file.exists()) {
 			file.createNewFile();
 		}
-		var retVal = NameValueMapXml.loadTimeLineValues(this.timelineValuePool, file);
+		var retVal = NameValueMapXml.loadTimeLineValues(this.timelineValuePool,
+			file);
 		return retVal;
 	}
 	
-	public final void save(Instant t, LinkedHashMap<String, TimelineValue> userData) throws Exception {
+	public final void save(Instant t, LinkedHashMap<String, TimelineValue> 
+		userData) throws Exception {
+		
 		var file = Resources.getUserDataFile(t);
 		var valuesToSave = new LinkedHashMap<>(userData);
 		removeDeleted(valuesToSave);
 		NameValueMapXml.saveTimelineValues(valuesToSave, file);
 	}
 	
-	private static void removeDeleted(LinkedHashMap<String, TimelineValue> userData) {
+	private static void removeDeleted(LinkedHashMap<String, 
+		TimelineValue> userData) {
+		
 		var keys = new ArrayList<String>();
 		for (var e : userData.entrySet()) {
 			if (e.getValue().noData()) keys.add(e.getKey());

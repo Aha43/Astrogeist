@@ -1,5 +1,7 @@
 package aha.common.io;
 
+import static aha.common.guard.ObjectGuards.throwStaticClassInstantiateError;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -9,15 +11,13 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.w3c.dom.Document;
 
-import aha.common.guard.ObjectGuards;
-
 /**
  * <p>
  *   Utility methods of use when parsing XML.
  * </p> 
  */
 public final class XmlUtil {
-	private XmlUtil() { ObjectGuards.throwStaticClassInstantiateError(); }
+	private XmlUtil() { throwStaticClassInstantiateError(); }
 	
 	public static final DocumentBuilder newDocumentBuilder() throws Exception {
 		var f = DocumentBuilderFactory.newInstance();
@@ -44,5 +44,4 @@ public final class XmlUtil {
       var retVal = builder.parse(is);
       return retVal;
 	}
-	
 }

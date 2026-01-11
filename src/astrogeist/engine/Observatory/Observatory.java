@@ -21,7 +21,7 @@ public abstract class Observatory {
 	protected abstract void createConfigurations(InventoryNode root, 
 		Configurations configurations);
 
-	protected final InventoryNode root() { return this.root; }
+	public final InventoryNode root() { return this.root; }
 	
 	public final Configurations configurations() { return this.configurations; }
 	

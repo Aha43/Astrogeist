@@ -7,7 +7,8 @@ import java.util.stream.Collectors;
 public final class UserDataDefinitions {
     final List<UserDataDefinition> userDataDefinitions = new ArrayList<>();
 
-    public List<UserDataDefinition> getUserDataDefinitions() { return userDataDefinitions; }
+    public List<UserDataDefinition> getUserDataDefinitions() { 
+    	return userDataDefinitions; }
     
     public List<String> getUserDataNames(){
     	var names = this.userDataDefinitions.stream()

@@ -13,9 +13,7 @@ public final class GlobalLoggingControlDialog extends JDialog {
     private GlobalLoggingControlDialog(Frame parent) {
     	super(parent, "Logging");
     	super.setModal(true);
-        
     	setContentPane(new GlobalLoggingPanel(this::dispose));
-        
         pack();
     }
     
@@ -25,5 +23,4 @@ public final class GlobalLoggingControlDialog extends JDialog {
     	if (_dialog == null) _dialog = new GlobalLoggingControlDialog(parent);
     	_dialog.setVisible(true);
     }
-    
 }

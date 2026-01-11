@@ -1,5 +1,7 @@
 package astrogeist.ui.swing.scanning;
 
+import static astrogeist.ui.swing.dialog.message.MessageDialogs.showError;
+
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
@@ -7,11 +9,11 @@ import java.util.concurrent.CompletableFuture;
 import javax.swing.AbstractAction;
 import javax.swing.SwingUtilities;
 
+import astrogeist.engine.abstraction.TimelineManager;
 import astrogeist.engine.abstraction.timeline.Timeline;
 import astrogeist.engine.jobs.DefaultJobRunner;
 import astrogeist.engine.jobs.JobProgress;
 import astrogeist.ui.swing.App;
-import astrogeist.ui.swing.dialog.message.MessageDialogs;
 import astrogeist.ui.swing.progress.JobProgressDialog;
 import astrogeist.ui.swing.progress.JobToProgressAdapter;
 
@@ -25,7 +27,6 @@ public final class ScanAction extends AbstractAction {
 	private final Timeline timeline;
 	
 	public ScanAction(App app, Timeline timeline, ScannersSelectionPanel ssp) {
-		
 		super("Scan");
 		
 		this.app = app;
@@ -39,8 +40,9 @@ public final class ScanAction extends AbstractAction {
 			
 	        this.timeline.clear();
 	        
-	        this.app.getSearchPanel().timelineView(this.timeline);
-	        this.app.getTimelinePanel().timeline(this.timeline);
+	        var timelineManager = this.app.service(TimelineManager.class);
+	        
+	        timelineManager.timeline(timeline);
 	        
 	        // --- New: show progress dialog
 	        var dlg = new JobProgressDialog(this.app.getFrame(), "Scanning…");
@@ -67,15 +69,11 @@ public final class ScanAction extends AbstractAction {
 	        CompletableFuture
 	            .allOf(allFutures.toArray(CompletableFuture[]::new))
 	            .whenCompleteAsync((v, exAll) -> {
-	            	this.app.getSearchPanel().timelineView(timeline);
-	            	this.app.getTimelinePanel().timeline(timeline);
-	                try { runner.close(); } catch (Exception ignore) {}
+	                timelineManager.timeline(timeline);
+	            	try { runner.close(); } catch (Exception ignore) {}
 	            }, SwingUtilities::invokeLater);    
 	        
-		} catch (Exception x) {
-			MessageDialogs.showError("Failed to scan", x);
-		}
-		
+		} catch (Exception x) { showError("Failed to scan", x); }
 	}
 
 }

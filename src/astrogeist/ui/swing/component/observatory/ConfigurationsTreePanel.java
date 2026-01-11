@@ -1,15 +1,14 @@
 package astrogeist.ui.swing.component.observatory;
 
+import static aha.common.ui.swing.AhaSwingUtil.treePath;
 import static aha.common.util.Cast.as;
 import static aha.common.util.Strings.isNullOrBlank;
 import static java.util.Objects.requireNonNull;
 import static javax.swing.SwingUtilities.invokeLater;
-import static aha.common.ui.swing.AhaSwingUtil.treePath;
 
 import javax.swing.JDialog;
 import javax.swing.JTree;
 import javax.swing.event.TreeSelectionListener;
-import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
 import aha.common.ui.swing.PanelWithNorthLabelAndSouthButtons;

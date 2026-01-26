@@ -5,10 +5,10 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 import aha.common.collection.IndexedMap;
 import aha.common.exceptions.runtime.DuplicateException;
-import aha.common.exceptions.runtime.NotFoundException;
 import aha.common.util.Safe; 
 
 /**
@@ -122,7 +122,7 @@ public final class CollectionGuards {
 		requireNonNull(key, name);
 		
 		if (map.containsKey(key)) return key;
-		throw new NotFoundException(Safe.string(name, "key"));
+		throw new NoSuchElementException(Safe.string(name, "key"));
 	}
 	
 	/**
@@ -194,7 +194,7 @@ public final class CollectionGuards {
 		
 		requireNonNull(key, name);
 		if (map.containsKey(key)) return key;
-		throw new NotFoundException(Safe.string(name, "key"));
+		throw new NoSuchElementException(Safe.string(name, "key"));
 	}
 	
 	/**
@@ -235,12 +235,12 @@ public final class CollectionGuards {
 	
 	public static <E> E requireContains(E e, Collection<E> c, String name) {
 		if (c.contains(requireNonNull(e, name))) return e;
-		throw new NotFoundException(name);
+		throw new NoSuchElementException(name);
 	}
 	
 	public static <E> E requireContains(E e, Collection<E> c) {
 		if (c.contains(requireNonNull(e))) return e;
-		throw new NotFoundException();
+		throw new NoSuchElementException();
 	}
 	
 	public static <E> E requireNoDuplicate(E e, Collection<E> c) {

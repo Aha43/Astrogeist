@@ -1,10 +1,10 @@
-package astrogeist.ui.swing.component.observatory;
+package astrogeist.ui.swing.component.observatory1;
 
 import static java.util.Objects.requireNonNull;
 
 import aha.common.ui.swing.tree.AbstractTreeModel;
-import astrogeist.engine.observatory.InventoryNode;
-import astrogeist.engine.observatory.Observatory;
+import astrogeist.engine.observatory1.InventoryNode;
+import astrogeist.engine.observatory1.Observatory;
 
 public final class InventoryTreeModel extends AbstractTreeModel {
 	public InventoryTreeModel(Observatory observatory) {

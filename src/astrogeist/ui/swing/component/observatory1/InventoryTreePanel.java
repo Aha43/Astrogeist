@@ -1,4 +1,4 @@
-package astrogeist.ui.swing.component.observatory;
+package astrogeist.ui.swing.component.observatory1;
 
 import static java.util.Objects.requireNonNull;
 import static javax.swing.SwingUtilities.invokeLater;
@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JTree;
 
 import aha.common.ui.swing.PanelWithNorthLabelAndSouthButtons;
-import astrogeist.engine.observatory.Observatory;
+import astrogeist.engine.observatory1.Observatory;
 
 public final class InventoryTreePanel
 	extends PanelWithNorthLabelAndSouthButtons {

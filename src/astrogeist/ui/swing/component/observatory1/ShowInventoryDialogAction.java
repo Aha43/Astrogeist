@@ -1,6 +1,6 @@
-package astrogeist.ui.swing.component.observatory;
+package astrogeist.ui.swing.component.observatory1;
 
-import static astrogeist.ui.swing.component.observatory.InventoryTreePanel.showDialog;
+import static astrogeist.ui.swing.component.observatory1.InventoryTreePanel.showDialog;
 import static java.util.Objects.requireNonNull;
 
 import java.awt.Frame;
@@ -8,7 +8,7 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import astrogeist.engine.observatory.Observatory;
+import astrogeist.engine.observatory1.Observatory;
 
 public final class ShowInventoryDialogAction extends AbstractAction {
 private static final long serialVersionUID = 1L;

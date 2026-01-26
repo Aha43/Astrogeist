@@ -1,4 +1,4 @@
-package astrogeist.ui.swing.component.observatory;
+package astrogeist.ui.swing.component.observatory1;
 
 import static aha.common.ui.swing.AhaSwingUtil.treePath;
 import static aha.common.util.Cast.as;
@@ -12,8 +12,8 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreeSelectionModel;
 
 import aha.common.ui.swing.PanelWithNorthLabelAndSouthButtons;
-import astrogeist.engine.observatory.Configuration;
-import astrogeist.engine.observatory.Observatory;
+import astrogeist.engine.observatory1.Configuration;
+import astrogeist.engine.observatory1.Observatory;
 
 public final class ConfigurationsTreePanel
 	extends PanelWithNorthLabelAndSouthButtons

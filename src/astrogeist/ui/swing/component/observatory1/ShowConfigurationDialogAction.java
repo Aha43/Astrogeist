@@ -1,6 +1,6 @@
-package astrogeist.ui.swing.component.observatory;
+package astrogeist.ui.swing.component.observatory1;
 
-import static astrogeist.ui.swing.component.observatory.ConfigurationsPanel.showDialog;
+import static astrogeist.ui.swing.component.observatory1.ConfigurationsPanel.showDialog;
 import static java.util.Objects.requireNonNull;
 
 import java.awt.Frame;
@@ -9,8 +9,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 
-import astrogeist.engine.observatory.Configuration;
-import astrogeist.engine.observatory.Observatory;
+import astrogeist.engine.observatory1.Configuration;
+import astrogeist.engine.observatory1.Observatory;
 
 /**
  * <p>

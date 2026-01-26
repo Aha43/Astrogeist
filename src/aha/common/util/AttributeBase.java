@@ -17,9 +17,9 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 import aha.common.abstraction.Named;
-import aha.common.exceptions.runtime.NotFoundException;
 import aha.common.exceptions.runtime.ReadOnlyException;
 
 /**
@@ -306,7 +306,7 @@ public abstract class AttributeBase<T extends AttributeBase<T>> {
 	 */
 	public final Object get(String name) {
 		if (!this.exists(requireNonEmpty(name, "name")))
-			throw new NotFoundException(name); 
+			throw new NoSuchElementException(name); 
 		return data.get(name);
 	}
 	

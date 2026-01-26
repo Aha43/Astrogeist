@@ -1,4 +1,4 @@
-package astrogeist.engine.observatory;
+package astrogeist.engine.observatory1;
 
 import static aha.common.guard.ObjectGuards.requireNotSame;
 import static aha.common.guard.StringGuards.requireNonEmpty;
@@ -6,9 +6,9 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Stack;
 
-import aha.common.exceptions.runtime.NotFoundException;
 import aha.common.util.Strings;
 
 public final class InventoryNode {
@@ -55,7 +55,7 @@ public final class InventoryNode {
 	public final InventoryNode from(String name) {
 		var retVal = this.find(name);
 		if (retVal != null) return retVal;
-		throw new NotFoundException(name);
+		throw new NoSuchElementException(name);
 	}
 	
 	/**
@@ -115,7 +115,7 @@ public final class InventoryNode {
 	
 	public final ObservatorySystem system(String name, String displayName) {
 		var node = find(name);
-		if (node == null) throw new NotFoundException(name);
+		if (node == null) throw new NoSuchElementException(name);
 		
 		var stack = new Stack<InventoryNode>();
 		while (node != null) {

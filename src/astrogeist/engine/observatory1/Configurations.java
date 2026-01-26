@@ -1,4 +1,4 @@
-package astrogeist.engine.observatory;
+package astrogeist.engine.observatory1;
 
 import static aha.common.guard.CollectionGuards.requireNoDuplicate;
 import static aha.common.guard.StringGuards.requireNonEmpty;

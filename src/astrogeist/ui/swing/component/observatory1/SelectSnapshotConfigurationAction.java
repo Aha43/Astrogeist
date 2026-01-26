@@ -1,4 +1,4 @@
-package astrogeist.ui.swing.component.observatory;
+package astrogeist.ui.swing.component.observatory1;
 
 import static java.util.Objects.requireNonNull;
 
@@ -15,7 +15,7 @@ import astrogeist.engine.abstraction.TimelineManager;
 import astrogeist.engine.abstraction.selection.SnapshotListener;
 import astrogeist.engine.abstraction.selection.SnapshotSelectionService;
 import astrogeist.engine.abstraction.timeline.TimelineValuePool;
-import astrogeist.engine.observatory.Configuration;
+import astrogeist.engine.observatory1.Configuration;
 import astrogeist.engine.timeline.Snapshot;
 import astrogeist.ui.swing.App;
 

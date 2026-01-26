@@ -1,4 +1,4 @@
-package astrogeist.ui.swing.component.observatory;
+package astrogeist.ui.swing.component.observatory1;
 
 import static aha.common.util.Cast.as;
 import static javax.swing.SwingUtilities.invokeLater;
@@ -20,8 +20,8 @@ import javax.swing.event.TreeSelectionListener;
 
 import aha.common.ui.swing.panels.AttributeBasePanel;
 import aha.common.util.AttributeBase;
-import astrogeist.engine.observatory.Configuration;
-import astrogeist.engine.observatory.Observatory;
+import astrogeist.engine.observatory1.Configuration;
+import astrogeist.engine.observatory1.Observatory;
 
 /**
  * <p>

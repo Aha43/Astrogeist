@@ -1,4 +1,4 @@
-package astrogeist.engine.observatory;
+package astrogeist.engine.observatory1;
 
 import static aha.common.guard.StringGuards.requireNonEmpty;
 import static java.util.Objects.requireNonNull;
@@ -7,7 +7,6 @@ import aha.common.util.AttributeBase;
 import aha.common.util.Strings;
 
 public final class Instrument extends AttributeBase<Instrument> {
-	
 	private final String name;
 	
 	public Instrument(String name) {
@@ -33,4 +32,3 @@ public final class Instrument extends AttributeBase<Instrument> {
 	public String serialNumber() { 
 		return super.getAsString("serial-nr", Strings.EMPTY); }
 }
-

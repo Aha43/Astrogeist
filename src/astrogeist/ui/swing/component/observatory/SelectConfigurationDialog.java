@@ -1,33 +1,24 @@
 package astrogeist.ui.swing.component.observatory;
 
 import static java.util.Objects.requireNonNull;
-import static javax.swing.SwingUtilities.isLeftMouseButton;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Frame;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
-import javax.swing.KeyStroke;
 
 import astrogeist.engine.observatory.Configuration;
 import astrogeist.engine.observatory.ConfigurationMatcher;
 import astrogeist.engine.observatory.Observatory;
 
 /**
- * Modal dialog for selecting a configuration using the 3-panel selection UI.
- *
- * OK is enabled when either:
- *  - the user explicitly confirms a selection (click/double-click/Enter), or
- *  - there is exactly one candidate AND the user confirms (see note)
- *
- * Rationale: even if the UI auto-selects the first row, we usually want
- * an explicit user action to avoid accidental acceptance.
+ * <p>
+ *   Modal dialog for selecting a configuration using the 3-panel selection UI.
+ * </p>
  */
 public final class SelectConfigurationDialog extends JDialog {
 	private static final long serialVersionUID = 1L;
@@ -38,7 +29,6 @@ public final class SelectConfigurationDialog extends JDialog {
 	private final JButton cancelButton = new JButton("Cancel");
 
 	private Configuration selectedConfiguration;
-	private boolean userConfirmedSelection = false;
 
 	SelectConfigurationDialog(Frame owner, Observatory observatory,
 		ConfigurationMatcher matcher) {
@@ -53,7 +43,6 @@ public final class SelectConfigurationDialog extends JDialog {
 		buildUi();
 		wireUi();
 
-		// Initial state
 		okButton.setEnabled(false);
 
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -91,12 +80,6 @@ public final class SelectConfigurationDialog extends JDialog {
 		add(buttons, BorderLayout.SOUTH);
 
 		getRootPane().setDefaultButton(okButton);
-
-		// ESC closes (cancel)
-		getRootPane().registerKeyboardAction(
-			e -> onCancel(),
-			KeyStroke.getKeyStroke("ESCAPE"),
-			JPanel.WHEN_IN_FOCUSED_WINDOW);
 	}
 
 	private void wireUi() {
@@ -110,56 +93,11 @@ public final class SelectConfigurationDialog extends JDialog {
 
 		okButton.addActionListener(e -> onOk());
 		cancelButton.addActionListener(e -> onCancel());
-
-		// User confirmation gestures:
-		// We don’t have direct access to the JTable here unless you expose it.
-		// Easiest: treat any mouse click anywhere in the selection panel that
-		// results in a non-null selection as confirmation.
-		//
-		// This is robust and requires zero changes to your panels.
-		selectionPanel.addMouseListener(new MouseAdapter() {
-			public void mousePressed(MouseEvent e) {
-				// If user clicked inside the dialog and there is a selection,
-				// consider it confirmed.
-				if (selectionPanel.getSelectedConfiguration() != null) {
-					userConfirmedSelection = true;
-					//updateOkEnabled();
-				}
-			}
-		});
-
-		// Also treat double-click as “confirm and OK”
-		selectionPanel.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				if (e.getClickCount() == 2 && isLeftMouseButton(e)) {
-					var c = selectionPanel.getSelectedConfiguration();
-					if (c != null) {
-						userConfirmedSelection = true;
-						selectedConfiguration = c;
-						onOk();
-					}
-				}
-			}
-		});
-
-		// Enter key should confirm if there is a selection
-		getRootPane().registerKeyboardAction(
-			e -> {
-				var c = selectionPanel.getSelectedConfiguration();
-				if (c != null) {
-					userConfirmedSelection = true;
-					selectedConfiguration = c;
-					onOk();
-				}
-			},
-			KeyStroke.getKeyStroke("ENTER"),
-			JPanel.WHEN_IN_FOCUSED_WINDOW
-		);
 	}
 
 	private void updateOkEnabled() {
 		boolean hasSelection = selectedConfiguration != null;
-		okButton.setEnabled(hasSelection /*&& userConfirmedSelection*/);
+		okButton.setEnabled(hasSelection);
 	}
 
 	private void onOk() { if (!okButton.isEnabled()) return; dispose(); }

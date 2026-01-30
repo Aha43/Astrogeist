@@ -42,7 +42,6 @@ public final class ConfigurationMatchTablePanel extends JPanel {
 	private final JLabel headerLabel = new JLabel("Configurations");
 
 	private final List<MatchSelectionListener> listeners = new ArrayList<>();
-	//private boolean programmaticSelectionChange = false;
 
 	public ConfigurationMatchTablePanel() {
 		super(new BorderLayout(6, 6));
@@ -67,8 +66,6 @@ public final class ConfigurationMatchTablePanel extends JPanel {
 			
 			public void valueChanged(ListSelectionEvent e) {
 				if (e.getValueIsAdjusting()) return;
-				//if (programmaticSelectionChange) return;
-
 				int row = table.getSelectedRow();
 				var selected = (row >= 0) ? model.getAt(row) : null;
 				fireSelectionChanged(selected);
@@ -82,24 +79,11 @@ public final class ConfigurationMatchTablePanel extends JPanel {
 	 *   Optionally sets header text (e.g. "Showing all").
 	 * </p>
 	 */
-	public final void setMatches(String headerText,
-		List<Match> matches) {
-    
+	public final void setMatches(String headerText, List<Match> matches) {
 		requireNonNull(matches, "matches");
 		headerLabel.setText(Objects.requireNonNullElse(headerText, 
 			"Configurations"));
 		model.setMatches(matches);
-
-		// Auto-select first row when results exist
-		//programmaticSelectionChange = true;
-		//try {
-		//	if (!matches.isEmpty()) table.setRowSelectionInterval(0, 0);
-		//	else                    table.clearSelection();
-		//} finally {
-		//	programmaticSelectionChange = false;
-		//}
-
-		fireSelectionChanged(model.getRowCount() > 0 ? model.getAt(0) : null);
 	}
 
 	public final Match getSelectedMatch() {
@@ -170,4 +154,3 @@ public final class ConfigurationMatchTablePanel extends JPanel {
 	}
 	
 }
-

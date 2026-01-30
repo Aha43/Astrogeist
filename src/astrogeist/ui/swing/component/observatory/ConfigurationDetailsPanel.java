@@ -1,7 +1,5 @@
 package astrogeist.ui.swing.component.observatory;
 
-import static java.util.Objects.requireNonNull;
-
 import java.awt.BorderLayout;
 import java.util.Objects;
 
@@ -12,8 +10,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import astrogeist.engine.observatory.ConfigurationMatcher;
-import astrogeist.engine.observatory.ConfigurationMatcher.InstrumentNamesProvider;
+import astrogeist.engine.observatory.Match;
 
 // This is intentionally simple in V1 (no color highlighting yet).
 /**
@@ -26,17 +23,14 @@ import astrogeist.engine.observatory.ConfigurationMatcher.InstrumentNamesProvide
 public final class ConfigurationDetailsPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
-	private final InstrumentNamesProvider namesProvider;
-
 	private final JLabel titleLabel = new JLabel("No configuration selected");
 	private final JLabel summaryLabel = new JLabel(" ");
 
 	private final DefaultListModel<String> listModel = new DefaultListModel<>();
 	private final JList<String> instrumentList = new JList<>(listModel);
 
-	public ConfigurationDetailsPanel(InstrumentNamesProvider namesProvider) {
+	public ConfigurationDetailsPanel() {
 		super(new BorderLayout(6, 6));
-		this.namesProvider = requireNonNull(namesProvider, "namesProvider");
 
 		setBorder(BorderFactory.createTitledBorder("Configuration details"));
 
@@ -57,7 +51,7 @@ public final class ConfigurationDetailsPanel extends JPanel {
 		listModel.clear();
 	}
 
-	public final void setMatch(ConfigurationMatcher.Match match) {
+	public final void setMatch(Match match) {
 		if (match == null) { clear(); return; }
 
 		var c = match.configuration();
@@ -68,12 +62,12 @@ public final class ConfigurationDetailsPanel extends JPanel {
 			+ "    Jaccard: " + round3(match.jaccard()));
 
 		listModel.clear();
-		for (var n : namesProvider.getInstrumentNames(c))
-			listModel.addElement(n);
+		for (var n : c.instrumentNames()) listModel.addElement(n);
 	}
 
 	private static String round3(double v) {
 		double r = Math.round(v * 1000.0) / 1000.0;
 		return Double.toString(r);
 	}
+	
 }

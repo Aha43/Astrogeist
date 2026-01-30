@@ -20,7 +20,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 
 import astrogeist.engine.observatory.Configuration;
-import astrogeist.engine.observatory.ConfigurationMatcher;
+import astrogeist.engine.observatory.Match;
 
 /**
  * <p>
@@ -37,15 +37,12 @@ import astrogeist.engine.observatory.ConfigurationMatcher;
 public final class ConfigurationMatchTablePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
-	public interface SelectionListener {
-		void selectionChanged(ConfigurationMatcher.Match selectedMatch); }
-
 	private final MatchTableModel model = new MatchTableModel();
 	private final JTable table = new JTable(model);
 	private final JLabel headerLabel = new JLabel("Configurations");
 
-	private final List<SelectionListener> listeners = new ArrayList<>();
-	private boolean programmaticSelectionChange = false;
+	private final List<MatchSelectionListener> listeners = new ArrayList<>();
+	//private boolean programmaticSelectionChange = false;
 
 	public ConfigurationMatchTablePanel() {
 		super(new BorderLayout(6, 6));
@@ -68,13 +65,12 @@ public final class ConfigurationMatchTablePanel extends JPanel {
 		table.getSelectionModel().addListSelectionListener(
 			new ListSelectionListener() {
 			
-			@Override public void valueChanged(ListSelectionEvent e) {
+			public void valueChanged(ListSelectionEvent e) {
 				if (e.getValueIsAdjusting()) return;
-				if (programmaticSelectionChange) return;
+				//if (programmaticSelectionChange) return;
 
 				int row = table.getSelectedRow();
-				ConfigurationMatcher.Match selected = (row >= 0) ? 
-					model.getAt(row) : null;
+				var selected = (row >= 0) ? model.getAt(row) : null;
 				fireSelectionChanged(selected);
 			}
 		});
@@ -87,7 +83,7 @@ public final class ConfigurationMatchTablePanel extends JPanel {
 	 * </p>
 	 */
 	public final void setMatches(String headerText,
-		List<ConfigurationMatcher.Match> matches) {
+		List<Match> matches) {
     
 		requireNonNull(matches, "matches");
 		headerLabel.setText(Objects.requireNonNullElse(headerText, 
@@ -95,35 +91,34 @@ public final class ConfigurationMatchTablePanel extends JPanel {
 		model.setMatches(matches);
 
 		// Auto-select first row when results exist
-		programmaticSelectionChange = true;
-		try {
-			if (!matches.isEmpty()) table.setRowSelectionInterval(0, 0);
-			else                    table.clearSelection();
-		} finally {
-			programmaticSelectionChange = false;
-		}
+		//programmaticSelectionChange = true;
+		//try {
+		//	if (!matches.isEmpty()) table.setRowSelectionInterval(0, 0);
+		//	else                    table.clearSelection();
+		//} finally {
+		//	programmaticSelectionChange = false;
+		//}
 
 		fireSelectionChanged(model.getRowCount() > 0 ? model.getAt(0) : null);
 	}
 
-	public final ConfigurationMatcher.Match getSelectedMatch() {
+	public final Match getSelectedMatch() {
 		int row = table.getSelectedRow();
 		return row >= 0 ? model.getAt(row) : null;
 	}
 
-	public final void addSelectionListener(SelectionListener l) {
+	public final void addSelectionListener(MatchSelectionListener l) {
 		listeners.add(requireNonNull(l, "listener")); }
 
-	public final void removeSelectionListener(SelectionListener l) {
+	public final void removeSelectionListener(MatchSelectionListener l) {
 		listeners.remove(requireNonNull(l, "listener")); }
 
-	private void fireSelectionChanged(ConfigurationMatcher.Match selected) {
+	private void fireSelectionChanged(Match selected) {
 		if (isEventDispatchThread()) {
-			for (SelectionListener l : listeners) l.selectionChanged(selected);
+			for (var l : listeners) l.selectionChanged(selected);
 		} else {
 			invokeLater(() -> {
-				for (SelectionListener l : listeners)
-					l.selectionChanged(selected);
+				for (var l : listeners) l.selectionChanged(selected);
 			});
 		}
 	}
@@ -136,22 +131,20 @@ public final class ConfigurationMatchTablePanel extends JPanel {
 		private static final String[] COLS = 
 			{ "Name", "Missing", "Extra", "Jaccard" };
 
-		private List<ConfigurationMatcher.Match> matches = List.of();
+		private List<Match> matches = List.of();
 
-		void setMatches(List<ConfigurationMatcher.Match> matches) {
+		void setMatches(List<Match> matches) {
 			this.matches = List.copyOf(matches);
 			fireTableDataChanged();
 		}
 
-		ConfigurationMatcher.Match getAt(int row) { return matches.get(row); }
+		Match getAt(int row) { return matches.get(row); }
 
-		@Override public int getRowCount() { return matches.size(); }
+		public int getRowCount() { return matches.size(); }
+		public int getColumnCount() { return COLS.length; }
+		public String getColumnName(int col) { return COLS[col]; }
 
-		@Override public int getColumnCount() { return COLS.length; }
-
-		@Override public String getColumnName(int col) { return COLS[col]; }
-
-		@Override public Class<?> getColumnClass(int col) {
+		public Class<?> getColumnClass(int col) {
 			return switch (col) {
 				case 0 -> String.class;
 				case 1, 2 -> Integer.class;
@@ -160,8 +153,8 @@ public final class ConfigurationMatchTablePanel extends JPanel {
 			};
 		}
 
-		@Override public Object getValueAt(int row, int col) {
-			ConfigurationMatcher.Match m = matches.get(row);
+		public Object getValueAt(int row, int col) {
+			Match m = matches.get(row);
 			Configuration c = m.configuration();
 			return switch (col) {
 				case 0 -> c.name();
@@ -175,5 +168,6 @@ public final class ConfigurationMatchTablePanel extends JPanel {
 		private static double round3(double v) {
 			return Math.round(v * 1000.0) / 1000.0; }
 	}
+	
 }
 

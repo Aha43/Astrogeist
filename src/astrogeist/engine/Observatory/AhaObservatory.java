@@ -43,12 +43,12 @@ public final class AhaObservatory extends Observatory {
 		
 		this.newConfiguration("c1")
 		
-			.addInstrument("B1200a")
+			.addInstrument("B1200HaD")
 			.addInstrument("LS60MT")
 			.addInstrument("LS60Ha");
 		
 		this.newConfiguration("c2", "c1")
-			.replaceInstrument("B1200a", "B1800a");
+			.replaceInstrument("B1200HaD", "B1800HaS");
 		
 	}
 	

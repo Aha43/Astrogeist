@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 import java.util.Set;
 
 import javax.swing.BorderFactory;
@@ -144,4 +143,5 @@ public final class InstrumentPickerPanel extends JPanel {
 		var snapshot = List.copyOf(selectedNames);
 		invokeLater(() -> listeners.forEach(l -> l.selectionChanged(snapshot)));
 	}
+	
 }

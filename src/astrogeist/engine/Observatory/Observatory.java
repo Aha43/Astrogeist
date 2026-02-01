@@ -1,11 +1,13 @@
 package astrogeist.engine.observatory;
 
+import static aha.common.guard.StringGuards.requireNonEmpty;
 import static aha.common.util.Strings.padding;
 import static aha.common.util.Strings.quote;
+import static java.util.Objects.requireNonNull;
 
+import java.util.HashSet;
 import java.util.List;
-
-import static aha.common.guard.StringGuards.requireNonEmpty;
+import java.util.Set;
 
 import aha.common.util.NamedList;
 
@@ -26,7 +28,7 @@ public class Observatory {
 	public final String name() { return this.name; }
 	
 	public final Observatory addInstrument(Instrument instrument) {
-		this.instruments.add(instrument);
+		this.instruments.add(requireNonNull(instrument, "instrument"));
 		return this;
 	}
 	
@@ -36,24 +38,48 @@ public class Observatory {
 	public final List<String> instrumentNames() {
 		return this.instruments.names(); }
 	
+	public final Set<String> allTags() {
+		var tmp = new HashSet<String>();
+		for (var curr : this.instruments) tmp.addAll(curr.tags());
+		return Set.copyOf(tmp);
+	}
+	
 	public final Configuration newConfiguration(String name) {
-		var retVal = new Configuration(this, name);
+		var retVal = new Configuration(this, requireNonEmpty(name, "name"));
+		this.configurations.add(retVal);
+		return retVal;
+	}
+	
+	public final Configuration newConfiguration(String name,
+		Configuration base) {
+		
+		if (base.observatory() != this)
+			throw new IllegalArgumentException(
+				"Base configuration must belong to this observatory");
+		
+		var retVal = new Configuration(requireNonNull(base, "base"),
+			requireNonEmpty(name, "name"));
 		this.configurations.add(retVal);
 		return retVal;
 	}
 	
 	public final Configuration newConfiguration(String name, String base) {
-		var baseConfiguration = this.configurations.getOrThrow(base);
-		var retVal = new Configuration(baseConfiguration, name);
-		this.configurations.add(retVal);
-		return retVal;
+		var baseConfiguration = this.configurations.getOrThrow(
+			requireNonNull(base, "base"));
+		return newConfiguration(name, baseConfiguration);
 	}
 	
 	public final List<Configuration> configurations() {
 		return this.configurations.values(); }
 	
 	public final Instrument getInstrument(String name) { 
-		return this.instruments.getOrThrow(name); }
+		return this.instruments.getOrThrow(requireNonEmpty(name, "name")); }
+	
+	public final boolean hasInstrument(Instrument instrument) {
+		var found = this.getInstrument(
+			requireNonNull(instrument, "instrument").name());
+		return found == instrument;
+	}
 	
 	@Override public final String toString() {
 		var ls = System.lineSeparator();
@@ -71,4 +97,5 @@ public class Observatory {
 		}
 		return sb.toString();
 	}
+	
 }

@@ -14,6 +14,7 @@ import astrogeist.engine.observatory.Configuration;
 import astrogeist.engine.observatory.ConfigurationMatcher;
 import astrogeist.engine.observatory.Match;
 import astrogeist.engine.observatory.Observatory;
+import astrogeist.ui.swing.component.observatory.events.ConfigurationSelectionListener;
 
 /**
  * 3-panel selection UI:
@@ -63,14 +64,16 @@ public final class ConfigurationSelectionPanel extends JPanel {
 		add(all, BorderLayout.CENTER);
 
 		wire();
-		loadInitialData();
+		loadData();
 		refreshMatches();
 	}
 
 	public final void addSelectionListener(ConfigurationSelectionListener l) {
 		this.selectionListeners.add(requireNonNull(l, "l")); }
 	
-	public final void removeSelectionListener(ConfigurationSelectionListener l) {
+	public final void removeSelectionListener(
+		ConfigurationSelectionListener l) {
+		
 		this.selectionListeners.remove(requireNonNull(l, "l")); }
 
 	public final Configuration getSelectedConfiguration() {
@@ -91,17 +94,15 @@ public final class ConfigurationSelectionPanel extends JPanel {
 		});
 	}
 	
-	
-
-	private void loadInitialData() {
-		// Assumes your Observatory can expose instrument names in registry order.
-		// If you have observatory.instruments().names(), use that.
-		instrumentPicker.setInstrumentNames(observatory.instrumentNames());
+	private void loadData() {
+		this.instrumentPicker.setInstrumentNames(
+			this.observatory.instrumentNames());
 	}
-
+	
 	private void refreshMatches() {
 		var selected = instrumentPicker.getSelectedInstrumentNames();
-		var allConfigs = observatory.configurations();
+		
+		var allConfigs = observatory.configurations().stream().toList();
 
 		List<Match> matches;
 		String header;
@@ -138,7 +139,7 @@ public final class ConfigurationSelectionPanel extends JPanel {
 		// No matches: suggest closest
 		matches = matcher.suggestClosest(allConfigs, selected, 10);
 		header = "No direct matches — showing closest suggestions (" + 
-			matches.size() + ")";
+				matches.size() + ")";
 		matchTable.setMatches(header, matches);
 	}
 
@@ -147,8 +148,7 @@ public final class ConfigurationSelectionPanel extends JPanel {
 		
 		// missing = empty, extra = all instruments in config
 		// intersection = 0, selectedCount = 0, configCount = size
-		List<String> configNames = (detailsPanel == null) ? List.of() : 
-			c.instrumentNames();
+		List<String> configNames = c.instrumentNames();
 		
 		// For empty selection, "extra" is config names, "missing" empty.
 		return new Match(

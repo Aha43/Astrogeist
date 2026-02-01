@@ -21,6 +21,7 @@ import javax.swing.table.AbstractTableModel;
 
 import astrogeist.engine.observatory.Configuration;
 import astrogeist.engine.observatory.Match;
+import astrogeist.ui.swing.component.observatory.events.MatchSelectionListener;
 
 /**
  * <p>
@@ -65,7 +66,7 @@ public final class ConfigurationMatchTablePanel extends JPanel {
 			new ListSelectionListener() {
 			
 			public void valueChanged(ListSelectionEvent e) {
-				if (e.getValueIsAdjusting()) return;
+				//if (e.getValueIsAdjusting()) return;
 				int row = table.getSelectedRow();
 				var selected = (row >= 0) ? model.getAt(row) : null;
 				fireSelectionChanged(selected);

@@ -41,6 +41,42 @@ public final class StringGuards {
 	}
 	
 	/**
+	 * <p>
+	 *   Ensures that the given string does not contain any of the specified
+	 *   forbidden characters.
+	 * </p>
+	 * <p>
+	 *   This is typically used to enforce lexical constraints on identifiers
+	 *   that will be embedded in structured formats (such as signatures,
+	 *   configuration keys, or DSL-like strings).
+	 * </p>
+	 * @param forbiddenChars a string whose characters are all forbidden
+	 * @param s              the string to validate.
+	 * @param name           the logical name of the value being validated (for
+	 *                       error messages).
+	 * @return {@code s}, if it contains none of the forbidden characters.
+	 * @throws IllegalArgumentException if {@code forbiddenChars} or {@code s}
+	 *         is {@code null} or the empty {@code String}.
+	 * @throws IllegalArgumentException if {@code s} contains any forbidden 
+	 *         character.
+	 */
+	public static String requireNotHaveAny(String forbiddenChars, String s,
+		String name) {
+		
+		requireNonEmpty(forbiddenChars, "forbiddenChars");
+		requireNonEmpty(s, name);
+
+		for (int i = 0; i < forbiddenChars.length(); i++) {
+			char c = forbiddenChars.charAt(i);
+			if (s.indexOf(c) >= 0) {
+				throw new IllegalArgumentException(name +
+					" must not contain '" + c + "': " + quote(s));
+		    }
+		}
+		return s;
+	}
+	
+	/**
      * <p>
      *   Guard for a
      *   {@link String} is a valid file name. 

@@ -1,18 +1,20 @@
 package astrogeist.ui.swing.component.observatory;
 
 import static java.util.Objects.requireNonNull;
-import static javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION;
-import static javax.swing.SwingUtilities.invokeLater;
+import static javax.swing.ListSelectionModel.SINGLE_SELECTION;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
+import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -21,14 +23,14 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import astrogeist.ui.swing.component.observatory.events.InstrumentSelectionListener;
+
 public final class InstrumentPickerPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
-
-	public interface SelectionListener {
-		void selectionChanged(List<String> selectedInstrumentNames); }
 
 	private final JTextField filterField = new JTextField();
 	private final DefaultListModel<String> listModel = new DefaultListModel<>();
@@ -40,9 +42,8 @@ public final class InstrumentPickerPanel extends JPanel {
 	private final List<String> allInstrumentNamesOrdered = new ArrayList<>();
 	private final Set<String> selectedNames = new LinkedHashSet<>();
 
-	private final List<SelectionListener> listeners = new ArrayList<>();
-
-	private boolean programmatic = false;
+	private final List<InstrumentSelectionListener> listeners =
+		new ArrayList<>();
 
 	public InstrumentPickerPanel() {
 		super(new BorderLayout(6, 6));
@@ -53,9 +54,59 @@ public final class InstrumentPickerPanel extends JPanel {
 		top.add(filterField, BorderLayout.CENTER);
 		top.setBorder(BorderFactory.createEmptyBorder(6, 6, 0, 6));
 
-		instrumentList.setSelectionMode(MULTIPLE_INTERVAL_SELECTION);
+		instrumentList.setSelectionMode(SINGLE_SELECTION);
 		var scroll = new JScrollPane(instrumentList);
 		scroll.setPreferredSize(new Dimension(260, 400));
+		
+		instrumentList.setCellRenderer(
+			(list, value, index, isSelected, cellHasFocus) -> {
+				var cb = new javax.swing.JCheckBox(value);
+				cb.setSelected(selectedNames.contains(value));
+				cb.setOpaque(true);
+				cb.setBackground(isSelected ?
+					list.getSelectionBackground() : list.getBackground());
+				cb.setForeground(isSelected ?
+					list.getSelectionForeground() : list.getForeground());
+				return cb;
+			});
+		
+		instrumentList.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+			    int idx = instrumentList.locationToIndex(e.getPoint());
+			    if (idx < 0) return;
+
+			    // Ensure the row becomes the list's selected row (focus)
+			    instrumentList.setSelectedIndex(idx);
+
+			    var name = listModel.get(idx);
+			    if (selectedNames.contains(name)) selectedNames.remove(name);
+			    else selectedNames.add(name);
+
+			    instrumentList.repaint(instrumentList.getCellBounds(idx, idx));
+			    updateCount();
+			    fire();
+
+			    // Prevent default selection behavior from interfering
+			    e.consume();
+			  }
+			});
+		
+		instrumentList.getInputMap().put(
+			KeyStroke.getKeyStroke("SPACE"), "toggle");
+		instrumentList.getActionMap().put("toggle", new AbstractAction() {
+		  private static final long serialVersionUID = 1L;
+
+		  public void actionPerformed(java.awt.event.ActionEvent e) {
+		    int idx = instrumentList.getSelectedIndex();
+		    if (idx < 0) return;
+		    String name = listModel.get(idx);
+		    if (selectedNames.contains(name)) selectedNames.remove(name);
+		    else selectedNames.add(name);
+		    instrumentList.repaint(instrumentList.getCellBounds(idx, idx));
+		    updateCount();
+		    fire();
+		  }
+		});
 
 		var bottom = new JPanel(new FlowLayout(FlowLayout.LEFT, 6, 6));
 		bottom.add(selectedCountLabel);
@@ -81,8 +132,11 @@ public final class InstrumentPickerPanel extends JPanel {
 	public final List<String> getSelectedInstrumentNames() {
 		return List.copyOf(selectedNames); }
 
-	public final void addSelectionListener(SelectionListener l) {
+	public final void addSelectionListener(InstrumentSelectionListener l) {
 		listeners.add(requireNonNull(l)); }
+	
+	public final void removeSelectionListener(InstrumentSelectionListener l) {
+		listeners.remove(requireNonNull(l)); }
 
 	// ---- internals ----
 
@@ -91,15 +145,6 @@ public final class InstrumentPickerPanel extends JPanel {
 			public void insertUpdate(DocumentEvent e) { refreshModel(); }
 			public void removeUpdate(DocumentEvent e) { refreshModel(); }
 			public void changedUpdate(DocumentEvent e) { refreshModel(); }
-		});
-
-		instrumentList.addListSelectionListener(e -> {
-			if (e.getValueIsAdjusting() || programmatic) return;
-			selectedNames.clear();
-			for (var s : instrumentList.getSelectedValuesList()) {
-				selectedNames.add(s); }
-			updateCount();
-			fire();
 		});
 
 		clearButton.addActionListener(e -> {
@@ -119,18 +164,10 @@ public final class InstrumentPickerPanel extends JPanel {
 	}
 
 	private void applySelection() {
-		programmatic = true;
-		try {
-			instrumentList.clearSelection();
-			List<Integer> idx = new ArrayList<>();
-			for (int i = 0; i < listModel.size(); i++)
-				if (selectedNames.contains(listModel.get(i))) idx.add(i);
-			instrumentList.setSelectedIndices(idx.stream().mapToInt(
-				Integer::intValue).toArray());
-			updateCount();
-		} finally {
-			programmatic = false;
-		}
+		// keep selection stable if you like; 
+		// but checkbox state is renderer-driven
+		instrumentList.repaint();
+		updateCount();
 	}
 
 	private void purgeMissingSelections() {
@@ -141,7 +178,7 @@ public final class InstrumentPickerPanel extends JPanel {
 
 	private void fire() {
 		var snapshot = List.copyOf(selectedNames);
-		invokeLater(() -> listeners.forEach(l -> l.selectionChanged(snapshot)));
+		for (var l : listeners) l.selectionChanged(snapshot);
 	}
 	
 }

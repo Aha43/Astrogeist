@@ -143,8 +143,7 @@ public final class ConfigurationSelectionPanel extends JPanel {
 		matchTable.setMatches(header, matches);
 	}
 
-	private Match directMatchForEmptySelection(
-		Configuration c) {
+	private Match directMatchForEmptySelection(Configuration c) {
 		
 		// missing = empty, extra = all instruments in config
 		// intersection = 0, selectedCount = 0, configCount = size

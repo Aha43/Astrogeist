@@ -89,25 +89,25 @@ public final class MenuBarFactory {
 	
 	private final static JMenu createHelpMenu(App app) {
 		var retVal = new JMenu("Help");
-		retVal.add(createObservatoryMenu(app));
+		//retVal.add(createObservatoryMenu(app));
 		retVal.add(createAboutItem(app));
 		return retVal;
 	}
 	
-	private final static JMenu createObservatoryMenu(App app) {
-		var observatory = app.serviceProvider().get(Observatory.class);
-		
-		var f = app.getFrame();
-		var confAction = new ShowConfigurationDialogAction(f, observatory);
-		var invAction = new ShowInventoryDialogAction(f, observatory);
-		
-		
-		var retVal = new JMenu("Observatory");
-		retVal.add(confAction);
-		retVal.add(invAction);
-		
-		return retVal;
-	}
+//	private final static JMenu createObservatoryMenu(App app) {
+//		var observatory = app.serviceProvider().get(Observatory.class);
+//		
+//		var f = app.getFrame();
+//		var confAction = new ShowConfigurationDialogAction(f, observatory);
+//		var invAction = new ShowInventoryDialogAction(f, observatory);
+//		
+//		
+//		var retVal = new JMenu("Observatory");
+//		retVal.add(confAction);
+//		retVal.add(invAction);
+//		
+//		return retVal;
+//	}
 	
 	private final static JMenuItem createAboutItem(App app) {
 		var retVal = new JMenuItem("About...");

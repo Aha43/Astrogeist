@@ -18,6 +18,7 @@ import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -60,7 +61,7 @@ public final class InstrumentPickerPanel extends JPanel {
 		
 		instrumentList.setCellRenderer(
 			(list, value, index, isSelected, cellHasFocus) -> {
-				var cb = new javax.swing.JCheckBox(value);
+				var cb = new JCheckBox(value);
 				cb.setSelected(selectedNames.contains(value));
 				cb.setOpaque(true);
 				cb.setBackground(isSelected ?

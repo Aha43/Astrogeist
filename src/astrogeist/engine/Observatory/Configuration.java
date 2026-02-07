@@ -25,6 +25,10 @@ public final class Configuration {
 	
 	private final NamedList<Instrument> instruments;
 	
+	private final Set<String> tags = new HashSet<>();
+	
+	private final Set<String> erasedTags = new HashSet<>();
+	
 	private final String name;
 	
 	private final Configuration base;
@@ -60,16 +64,34 @@ public final class Configuration {
 	    	", id=" + id);
 	}
 	
+	public Configuration tag(String tag) {
+		this.tags.add(normalize(tag));
+		return this;
+	}
+	
 	public final Set<String> tags() {
 		var tmp = new HashSet<String>();
-		for (var curr : instruments.values()) {
-			tmp.addAll(curr.tags());
-		}
+		for (var curr : instruments.values()) tmp.addAll(this.findTags(curr));
 		return Set.copyOf(tmp);
+	}
+	
+	private final Set<String> findTags(Instrument instrument) {
+		var retVal = new HashSet<>(this.tags);
+		var itags = instrument.tags();
+		for (var curr : itags) {
+			if (this.erasedTags.contains(curr)) continue;
+			retVal.add(curr);
+		}
+		return retVal;
 	}
 
 	public final boolean hasTag(String tag) {
 		return tags().contains(normalize(tag)); }
+	
+	public final Configuration eraseTag(String tag) {
+		this.erasedTags.add(normalize(tag));
+		return this;
+	}
 	
 	public final String name() { return this.name; }
 	

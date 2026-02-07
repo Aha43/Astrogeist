@@ -4,9 +4,13 @@ import static aha.common.guard.StringGuards.requireNonEmpty;
 import static aha.common.util.Strings.padding;
 import static aha.common.util.Strings.quote;
 import static java.util.Objects.requireNonNull;
+import static aha.common.guard.LogicGuards.throwIf;
+import static aha.common.guard.LogicGuards.throwIfNot;
 
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import aha.common.util.NamedList;
@@ -20,6 +24,8 @@ public class Observatory {
 	private final NamedList<Configuration> configurations =
 		new NamedList<>(Configuration::name);
 	
+	private Map<String, Configuration> indexedConfigurations = null;
+	
 	public Observatory() { this("Unnamed"); }
 	
 	public Observatory(String name) { 
@@ -28,6 +34,7 @@ public class Observatory {
 	public final String name() { return this.name; }
 	
 	public final Observatory addInstrument(Instrument instrument) {
+		requireNotClosed();
 		this.instruments.add(requireNonNull(instrument, "instrument"));
 		return this;
 	}
@@ -45,6 +52,7 @@ public class Observatory {
 	}
 	
 	public final Configuration newConfiguration(String name) {
+		requireNotClosed();
 		var retVal = new Configuration(this, requireNonEmpty(name, "name"));
 		this.configurations.add(retVal);
 		return retVal;
@@ -52,6 +60,8 @@ public class Observatory {
 	
 	public final Configuration newConfiguration(String name,
 		Configuration base) {
+		
+		requireNotClosed();
 		
 		if (base.observatory() != this)
 			throw new IllegalArgumentException(
@@ -64,10 +74,14 @@ public class Observatory {
 	}
 	
 	public final Configuration newConfiguration(String name, String base) {
+		requireNotClosed();
 		var baseConfiguration = this.configurations.getOrThrow(
 			requireNonNull(base, "base"));
 		return newConfiguration(name, baseConfiguration);
 	}
+	
+	public final Configuration getConfiguration(String name) {
+		return this.configurations.get(requireNonEmpty(name, "name")); }
 	
 	public final List<Configuration> configurations() {
 		return this.configurations.values(); }
@@ -79,6 +93,28 @@ public class Observatory {
 		var found = this.getInstrument(
 			requireNonNull(instrument, "instrument").name());
 		return found == instrument;
+	}
+	
+	public final void close() {
+		requireNotClosed();
+		this.indexedConfigurations =
+			new LinkedHashMap<>(this.configurations.size());
+		for (var curr : this.configurations)
+			this.indexedConfigurations.put(curr.id(), curr);
+	}
+	
+	public final Configuration configurationById(String id) {
+		requireNonEmpty(id, "id");
+		requireClosed();
+		return this.indexedConfigurations.get(id);
+	}
+	
+	private final void requireClosed() { 
+		throwIf(this.indexedConfigurations == null, "Not closed");
+	}
+	
+	private final void requireNotClosed() { 
+		throwIfNot(this.indexedConfigurations == null, "Closed");
 	}
 	
 	@Override public final String toString() {

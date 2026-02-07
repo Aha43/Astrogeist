@@ -16,6 +16,7 @@ public final class Tag {
 	
 	public static final String SOLAR = "solar";
 	public static final String HALPHA = "halpha";
+	public static final String CAK = "cak";
 	public static final String WHITE = "white";
 	public static final String NIGHT = "night";
 }

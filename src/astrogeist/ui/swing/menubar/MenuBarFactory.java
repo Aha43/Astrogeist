@@ -11,10 +11,7 @@ import aha.common.ui.swing.diagnostic.LoggingMenu;
 import aha.common.ui.swing.panels.MemoryInspectorAction;
 import astrogeist.engine.abstraction.selection.SnapshotSelectionService;
 import astrogeist.engine.abstraction.timeline.TimelineNames;
-import astrogeist.engine.observatory1.Observatory;
 import astrogeist.ui.swing.App;
-import astrogeist.ui.swing.component.observatory1.ShowConfigurationDialogAction;
-import astrogeist.ui.swing.component.observatory1.ShowInventoryDialogAction;
 import astrogeist.ui.swing.dialog.about.AboutDialog;
 import astrogeist.ui.swing.dialog.settings.SettingsDialog;
 import astrogeist.ui.swing.integration.runconfig.RunConfigurationsMenu;
@@ -89,31 +86,14 @@ public final class MenuBarFactory {
 	
 	private final static JMenu createHelpMenu(App app) {
 		var retVal = new JMenu("Help");
-		//retVal.add(createObservatoryMenu(app));
 		retVal.add(createAboutItem(app));
 		return retVal;
 	}
-	
-//	private final static JMenu createObservatoryMenu(App app) {
-//		var observatory = app.serviceProvider().get(Observatory.class);
-//		
-//		var f = app.getFrame();
-//		var confAction = new ShowConfigurationDialogAction(f, observatory);
-//		var invAction = new ShowInventoryDialogAction(f, observatory);
-//		
-//		
-//		var retVal = new JMenu("Observatory");
-//		retVal.add(confAction);
-//		retVal.add(invAction);
-//		
-//		return retVal;
-//	}
 	
 	private final static JMenuItem createAboutItem(App app) {
 		var retVal = new JMenuItem("About...");
 		retVal.addActionListener(e -> AboutDialog.show(app));
 		return retVal;
 	}
-	
 	
 }

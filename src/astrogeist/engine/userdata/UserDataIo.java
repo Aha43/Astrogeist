@@ -1,5 +1,8 @@
 package astrogeist.engine.userdata;
 
+import static aha.common.guard.StringGuards.requireNonEmpty;
+import static java.util.Objects.requireNonNull;
+
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -18,20 +21,31 @@ public final class UserDataIo {
 	public final LinkedHashMap<String, TimelineValue> load(Instant t) 
 		throws Exception {
 		
-		var file = Resources.getUserDataFile(t);
-		if (!file.exists()) {
-			file.createNewFile();
-		}
+		var file = Resources.getUserDataFile(requireNonNull(t, "t"));
+		if (!file.exists()) file.createNewFile();
 		var retVal = NameValueMapXml.loadTimeLineValues(this.timelineValuePool,
 			file);
 		return retVal;
 	}
 	
-	public final void save(Instant t, LinkedHashMap<String, TimelineValue> 
-		userData) throws Exception {
+	public final void save(Instant t, String name, TimelineValue tv)
+		throws Exception {
 		
-		var file = Resources.getUserDataFile(t);
-		var valuesToSave = new LinkedHashMap<>(userData);
+		requireNonNull(t, "t");
+		requireNonEmpty(name, "name");
+		requireNonNull(tv, "tv");
+		
+		var data = this.load(t);
+		data.put( name, tv);
+		this.save(t,data);
+	}
+	
+	public final void save(Instant t, 
+		LinkedHashMap<String, TimelineValue> userData) throws Exception {
+		
+		var file = Resources.getUserDataFile(requireNonNull(t, "t"));
+		var valuesToSave =
+			new LinkedHashMap<>(requireNonNull(userData, "userData"));
 		removeDeleted(valuesToSave);
 		NameValueMapXml.saveTimelineValues(valuesToSave, file);
 	}
@@ -40,9 +54,8 @@ public final class UserDataIo {
 		TimelineValue> userData) {
 		
 		var keys = new ArrayList<String>();
-		for (var e : userData.entrySet()) {
+		for (var e : userData.entrySet())
 			if (e.getValue().noData()) keys.add(e.getKey());
-		}
 		for (var k : keys) userData.remove(k);
 	}
 }

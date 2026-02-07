@@ -70,7 +70,6 @@ public final class UserDataDialog extends ModalDialogBase {
 		try {
 			var values = this.editor.getValues();
 			this.userDataIo.save(this.time, values);
-			//super.app.getTimelinePanel().update(this.time, values);
 			super.app.service(TimelineManager.class).update(this.time, values);
 		} catch (Exception x) {
 			showError(this, "Failed to save user data", x); }

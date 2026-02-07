@@ -1,6 +1,5 @@
 package astrogeist.ui.swing.component.observatory;
 
-import static aha.common.guard.StringGuards.requireNonEmpty;
 import static java.util.Objects.requireNonNull;
 
 import java.awt.BorderLayout;

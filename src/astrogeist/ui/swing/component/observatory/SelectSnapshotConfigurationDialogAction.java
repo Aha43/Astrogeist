@@ -2,6 +2,7 @@ package astrogeist.ui.swing.component.observatory;
 
 import static java.util.Objects.requireNonNull;
 
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.time.Instant;
 import java.util.logging.Level;
@@ -19,6 +20,7 @@ import astrogeist.engine.observatory.Configuration;
 import astrogeist.engine.observatory.DefaultConfigurationMatcher;
 import astrogeist.engine.observatory.Observatory;
 import astrogeist.engine.timeline.Snapshot;
+import astrogeist.engine.userdata.UserDataIo;
 import astrogeist.ui.swing.App;
 
 public final class SelectSnapshotConfigurationDialogAction extends AbstractAction {
@@ -28,20 +30,27 @@ public final class SelectSnapshotConfigurationDialogAction extends AbstractActio
 
 	// Injected
 	private final App app;
+	private final Frame frame;
+	private final Observatory observatory;
 	private final TimelineValuePool timelineValuePool;
 	private final SnapshotSelectionService snapshotSelectionService;
+	//private final TimelineManager timelineManager;
+	private final UserDataIo userDataIo;
 	// detcejnI
 	
 	private Tuple2<Instant, Snapshot> current = null;
 	
 	public SelectSnapshotConfigurationDialogAction(App app) {
-		
 		super("Configuration");
 		this.app = requireNonNull(app, "app");
 
+		this.frame = app.getFrame();
+		this.observatory = app.service(Observatory.class);
 		this.timelineValuePool = app.service(TimelineValuePool.class);
 		this.snapshotSelectionService =
 			app.service(SnapshotSelectionService.class);
+		//this.timelineManager = app.service(TimelineManager.class);
+		this.userDataIo = app.service(UserDataIo.class);
 
 		super.setEnabled(false);
 		this.setSnapshotListener();
@@ -68,21 +77,23 @@ public final class SelectSnapshotConfigurationDialogAction extends AbstractActio
 		var snapshot = this.current.second();
 		var code = snapshot.valueAsString("Configuration");
 
-		var frame = this.app.getFrame();
-		var observatory = this.app.service(Observatory.class);
-		var selected = SelectConfigurationDialog.showDialog(frame, observatory, 
-			new DefaultConfigurationMatcher(), code);
+		var selected = SelectConfigurationDialog.showDialog(this.frame, 
+			observatory, new DefaultConfigurationMatcher(), code);
 		
 		if (selected != null) updateSnapshot(selected);
 	}
 	
 	private final void updateSnapshot(Configuration selected) {
-		var timelineManager = app.service(TimelineManager.class);
-
-		var t = this.current.first();
-		var name = "Configuration";
-		var tlv = this.timelineValuePool.get(name, selected.id());
-		timelineManager.update(t, name, tlv);
+		try {
+			var timelineManager = this.app.service(TimelineManager.class);
+			var t = this.current.first();
+			var name = "Configuration";
+			var tlv = this.timelineValuePool.get(name, selected.id());
+			timelineManager.update(t, name, tlv);
+			this.userDataIo.save(t, "Configuration", tlv);
+		} catch (Exception x) {
+			
+		}
 	}
 
 }

@@ -71,7 +71,7 @@ public final class SelectSnapshotConfigurationDialogAction extends AbstractActio
 		var frame = this.app.getFrame();
 		var observatory = this.app.service(Observatory.class);
 		var selected = SelectConfigurationDialog.showDialog(frame, observatory, 
-			new DefaultConfigurationMatcher());
+			new DefaultConfigurationMatcher(), code);
 		
 		if (selected != null) updateSnapshot(selected);
 	}

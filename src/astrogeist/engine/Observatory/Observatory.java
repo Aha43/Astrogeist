@@ -103,7 +103,7 @@ public class Observatory {
 			this.indexedConfigurations.put(curr.id(), curr);
 	}
 	
-	public final Configuration configurationById(String id) {
+	public final Configuration getConfigurationById(String id) {
 		requireNonEmpty(id, "id");
 		requireClosed();
 		return this.indexedConfigurations.get(id);

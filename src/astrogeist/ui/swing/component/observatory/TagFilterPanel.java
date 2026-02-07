@@ -1,7 +1,6 @@
 package astrogeist.ui.swing.component.observatory;
 
 import static java.util.Objects.requireNonNull;
-import static javax.swing.SwingUtilities.invokeLater;
 
 import java.awt.FlowLayout;
 import java.util.ArrayList;

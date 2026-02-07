@@ -1,6 +1,7 @@
 package astrogeist.ui.swing.component.observatory;
 
 import static java.util.Objects.requireNonNull;
+import static aha.common.util.Strings.isNullOrBlank;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -49,6 +50,11 @@ public final class SelectConfigurationDialog extends JDialog {
 		setSize(1100, 650);
 		setLocationRelativeTo(owner);
 	}
+	
+	private void setSelected(String id) {
+		if (isNullOrBlank(id)) return;
+		this.selectionPanel.setSelected(id.trim());
+	}
 
 	/**
 	 * <p> 
@@ -57,9 +63,10 @@ public final class SelectConfigurationDialog extends JDialog {
 	 * </p>
 	 */
 	static Configuration showDialog(Frame owner, Observatory observatory,
-		ConfigurationMatcher matcher) {
+		ConfigurationMatcher matcher, String selected) {
 
 		var d = new SelectConfigurationDialog(owner, observatory, matcher);
+		d.setSelected(selected);
 		d.setVisible(true);
 		return d.selectedConfiguration;
 	}

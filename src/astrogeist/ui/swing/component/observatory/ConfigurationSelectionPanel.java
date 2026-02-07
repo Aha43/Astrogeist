@@ -1,5 +1,6 @@
 package astrogeist.ui.swing.component.observatory;
 
+import static aha.common.guard.StringGuards.requireNonEmpty;
 import static java.util.Objects.requireNonNull;
 
 import java.awt.BorderLayout;
@@ -66,6 +67,18 @@ public final class ConfigurationSelectionPanel extends JPanel {
 		wire();
 		loadData();
 		refreshMatches();
+	}
+	
+	public final void setSelected(String code) {
+		requireNonNull(code, "code");
+		
+		var conf = this.observatory.getConfigurationById(code);
+		if (conf == null) return;
+		
+		var names = conf.instrumentNames();
+		if (names == null || names.isEmpty()) return;
+		
+		this.instrumentPicker.setSelectedInstrumentNames(names);
 	}
 
 	public final void addSelectionListener(ConfigurationSelectionListener l) {

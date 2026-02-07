@@ -9,6 +9,7 @@ import java.awt.FlowLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
@@ -138,6 +139,35 @@ public final class InstrumentPickerPanel extends JPanel {
 	
 	public final void removeSelectionListener(InstrumentSelectionListener l) {
 		listeners.remove(requireNonNull(l)); }
+	
+	/**
+	 * Replaces the current selection with the given instrument names.
+	 * <p>
+	 * Names not present in the current instrument universe are ignored.
+	 * </p>
+	 *
+	 * @param instrumentNames names to select (order is preserved in the internal set)
+	 * @throws NullPointerException if {@code instrumentNames} is null
+	 */
+	public final void setSelectedInstrumentNames(List<String> instrumentNames) {
+	  requireNonNull(instrumentNames, "instrumentNames");
+
+	  selectedNames.clear();
+
+	  // Keep the selection order stable and consistent with the list order:
+	  // iterate over allInstrumentNamesOrdered, selecting those requested.
+	  var requested = new HashSet<>(instrumentNames);
+	  for (var n : allInstrumentNamesOrdered) {
+	    if (requested.contains(n)) selectedNames.add(n);
+	  }
+
+	  // Optionally: clear filter so user sees selected items
+	  filterField.setText("");
+
+	  applySelection();
+	  fire();
+	}
+
 
 	// ---- internals ----
 

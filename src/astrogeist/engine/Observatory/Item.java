@@ -11,24 +11,24 @@ import java.util.Set;
 import aha.common.util.AttributeBase;
 import aha.common.util.Strings;
 
-public final class Instrument extends AttributeBase<Instrument> {
+public final class Item extends AttributeBase<Item> {
 	private final String name;
 	
 	private final Set<String> tags = new HashSet<>();
 	
-	public Instrument(String name) {
+	public Item(String name) {
 		name = requireNonEmpty(name, "name").trim();
 		name = requireNotHaveAny("| ", name, "name");
 		this.name = name;
 	}
 	
-	public Instrument(Instrument o) { 
+	public Item(Item o) { 
 		super(requireNonNull(o, "o"));
 		this.name = o.name();
 		this.tags.addAll(o.tags);
 	}
 	
-	public final Instrument tag(String tag) {
+	public final Item tag(String tag) {
 		this.tags.add(normalize(tag));
 		return this;
 	}
@@ -40,7 +40,7 @@ public final class Instrument extends AttributeBase<Instrument> {
 	
 	public final String name() { return this.name; }
 	
-	public final Instrument description(String description) {
+	public final Item description(String description) {
 		return super.set("description", 
 			requireNonEmpty(description, "description")); }
 	

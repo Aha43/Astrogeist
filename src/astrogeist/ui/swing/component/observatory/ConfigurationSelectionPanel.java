@@ -19,13 +19,13 @@ import astrogeist.ui.swing.component.observatory.events.ConfigurationSelectionLi
 
 /**
  * 3-panel selection UI:
- * - left: InstrumentPickerPanel
+ * - left: ItemPickerPanel
  * - middle: ConfigurationMatchTablePanel
  * - right: ConfigurationDetailsPanel
  *
  * Behavior:
- * - if no instruments selected: show all configurations (no "missing" filtering)
- * - if selected instruments exist: show "must include all" matches
+ * - if no items selected: show all configurations (no "missing" filtering)
+ * - if selected items exist: show "must include all" matches
  * - if none match: show closest suggestions
  */
 public final class ConfigurationSelectionPanel extends JPanel {
@@ -34,8 +34,8 @@ public final class ConfigurationSelectionPanel extends JPanel {
 	private final Axis axis;
 	private final ConfigurationMatcher matcher;
 
-	private final InstrumentPickerPanel instrumentPicker = 
-		new InstrumentPickerPanel();
+	private final ItemPickerPanel itemPicker = new ItemPickerPanel();
+	
 	private final ConfigurationMatchTablePanel matchTable =
 		new ConfigurationMatchTablePanel();
 	private final ConfigurationDetailsPanel detailsPanel;
@@ -64,7 +64,7 @@ public final class ConfigurationSelectionPanel extends JPanel {
 			matchTable, detailsPanel);
 		middleRight.setResizeWeight(0.55);
 
-		var all = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, instrumentPicker,
+		var all = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, itemPicker,
 			middleRight);
 		all.setResizeWeight(0.28);
 
@@ -81,10 +81,10 @@ public final class ConfigurationSelectionPanel extends JPanel {
 		var conf = this.axis.getConfigurationById(code);
 		if (conf == null) return;
 		
-		var names = conf.instrumentNames();
+		var names = conf.itemNames();
 		if (names == null || names.isEmpty()) return;
 		
-		this.instrumentPicker.setSelectedInstrumentNames(names);
+		this.itemPicker.setSelectedItemNames(names);
 	}
 
 	public final void addSelectionListener(ConfigurationSelectionListener l) {
@@ -103,7 +103,7 @@ public final class ConfigurationSelectionPanel extends JPanel {
 	// ---- wiring ----
 
 	private void wire() {
-		instrumentPicker.addSelectionListener(
+		itemPicker.addSelectionListener(
 			selectedNames -> refreshMatches());
 
 		matchTable.addSelectionListener(match -> {
@@ -114,12 +114,12 @@ public final class ConfigurationSelectionPanel extends JPanel {
 	}
 	
 	private void loadData() {
-		this.instrumentPicker.setInstrumentNames(
-			this.axis.instrumentNames());
+		this.itemPicker.setItemNames(
+			this.axis.itemNames());
 	}
 	
 	private void refreshMatches() {
-		var selected = instrumentPicker.getSelectedInstrumentNames();
+		var selected = itemPicker.getSelectedItemNames();
 		
 		var allConfigs = this.axis.configurations().stream().toList();
 
@@ -142,7 +142,7 @@ public final class ConfigurationSelectionPanel extends JPanel {
 				.sorted((a, b) -> a.configuration().name()
 					.compareToIgnoreCase(b.configuration().name())).toList();
 
-			header = "No instruments selected — showing all configurations (" + 
+			header = "No items selected — showing all configurations (" + 
 				matches.size() + ")";
 			matchTable.setMatches(header, matches);
 			return;
@@ -164,9 +164,9 @@ public final class ConfigurationSelectionPanel extends JPanel {
 
 	private Match directMatchForEmptySelection(Configuration c) {
 		
-		// missing = empty, extra = all instruments in config
+		// missing = empty, extra = all items in config
 		// intersection = 0, selectedCount = 0, configCount = size
-		List<String> configNames = c.instrumentNames();
+		List<String> configNames = c.itemNames();
 		
 		// For empty selection, "extra" is config names, "missing" empty.
 		return new Match(

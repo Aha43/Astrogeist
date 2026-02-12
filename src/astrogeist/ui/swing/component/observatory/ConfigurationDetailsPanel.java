@@ -16,7 +16,7 @@ import astrogeist.engine.observatory.Match;
 /**
  * <p>
  *   Shows details for the selected configuration:
- *   - ordered instrument chain
+ *   - ordered item chain
  *   - missing/extra summary relative to current selection
  * </p>
  */
@@ -27,7 +27,7 @@ public final class ConfigurationDetailsPanel extends JPanel {
 	private final JLabel summaryLabel = new JLabel(" ");
 
 	private final DefaultListModel<String> listModel = new DefaultListModel<>();
-	private final JList<String> instrumentList = new JList<>(listModel);
+	private final JList<String> itemList = new JList<>(listModel);
 
 	public ConfigurationDetailsPanel() {
 		super(new BorderLayout(6, 6));
@@ -40,7 +40,7 @@ public final class ConfigurationDetailsPanel extends JPanel {
 		top.add(summaryLabel, BorderLayout.SOUTH);
 
 		add(top, BorderLayout.NORTH);
-		add(new JScrollPane(instrumentList), BorderLayout.CENTER);
+		add(new JScrollPane(itemList), BorderLayout.CENTER);
 
 		clear();
 	}
@@ -62,7 +62,7 @@ public final class ConfigurationDetailsPanel extends JPanel {
 			+ "    Jaccard: " + round3(match.jaccard()));
 
 		listModel.clear();
-		for (var n : c.instrumentNames()) listModel.addElement(n);
+		for (var n : c.itemNames()) listModel.addElement(n);
 	}
 
 	private static String round3(double v) {

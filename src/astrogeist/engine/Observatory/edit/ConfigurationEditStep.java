@@ -1,8 +1,8 @@
 package astrogeist.engine.observatory.edit;
 
-import astrogeist.engine.observatory.Instrument;
+import astrogeist.engine.observatory.Item;
 
 public interface ConfigurationEditStep {
 	EditAction action();
-	Instrument instrument();
+	Item item();
 }

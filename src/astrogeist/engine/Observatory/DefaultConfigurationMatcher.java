@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Matches configurations against a selected set of instrument names.
+ * Matches configurations against a selected set of item names.
  *
  * <p>
  *   This matcher is intentionally "simple and explainable":
@@ -26,10 +26,10 @@ public final class DefaultConfigurationMatcher implements ConfigurationMatcher {
 	
 	public final List<Match> findMustIncludeAll(
 		Collection<Configuration> configurations,
-		Collection<String> selectedInstrumentNames) {
+		Collection<String> selectedItemNames) {
 
 		requireNonNull(configurations, "configurations");
-		Set<String> selected = normalizeToSet(selectedInstrumentNames);
+		Set<String> selected = normalizeToSet(selectedItemNames);
 
 		List<Match> matches = new ArrayList<>();
 		for (var c : configurations) {
@@ -47,10 +47,10 @@ public final class DefaultConfigurationMatcher implements ConfigurationMatcher {
 
 	public final List<Match> findExactSetMatches(
 		Collection<Configuration> configurations,
-		Collection<String> selectedInstrumentNames) {
+		Collection<String> selectedItemNames) {
 
 		requireNonNull(configurations, "configurations");
-		Set<String> selected = normalizeToSet(selectedInstrumentNames);
+		Set<String> selected = normalizeToSet(selectedItemNames);
 
 		List<Match> matches = new ArrayList<>();
 		for (Configuration c : configurations) {
@@ -64,13 +64,13 @@ public final class DefaultConfigurationMatcher implements ConfigurationMatcher {
 
 	public final List<Match> suggestClosest(
 		Collection<Configuration> configurations,
-		Collection<String> selectedInstrumentNames,
+		Collection<String> selectedItemNames,
 		int limit) {
 
 		requireNonNull(configurations, "configurations");
 		if (limit <= 0) throw new IllegalArgumentException("limit must be > 0");
 
-		Set<String> selected = normalizeToSet(selectedInstrumentNames);
+		Set<String> selected = normalizeToSet(selectedItemNames);
 
 		List<Match> matches = new ArrayList<>();
 		for (var c : configurations) matches.add(matchOne(c, selected));
@@ -88,7 +88,7 @@ public final class DefaultConfigurationMatcher implements ConfigurationMatcher {
 	// ---- internals ----
 
 	private Match matchOne(Configuration configuration, Set<String> selected) {
-		List<String> configNamesOrdered = configuration.instrumentNames();
+		List<String> configNamesOrdered = configuration.itemNames();
 		Set<String> configSet = new LinkedHashSet<>(configNamesOrdered);
 
 		// Missing: selected - config
@@ -120,11 +120,10 @@ public final class DefaultConfigurationMatcher implements ConfigurationMatcher {
 		Set<String> set = new LinkedHashSet<>();
 		for (var n : names) {
 			if (n == null) throw new NullPointerException(
-				"selectedInstrumentNames contains null");
+				"selectedItemNames contains null");
 			set.add(n.trim());
 		}
 		return set;
 	}
   
 }
-

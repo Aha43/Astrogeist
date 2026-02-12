@@ -30,25 +30,23 @@ public class Observatory {
 	
 	public final String name() { return this.name; }
 	
-	// - Instruments -
+	// - Items -
 	
-	public final Observatory addInstrument(Instrument instrument) {
-		this.defaultAxis().addInstrument(
-			requireNonNull(instrument, "instrument"));
+	public final Observatory addItem(Item item) {
+		this.defaultAxis().addItem(requireNonNull(item, "item"));
 		return this;
 	}
 	
-	public final List<Instrument> instruments() {
-		return this.defaultAxis().instruments(); }
+	public final List<Item> item() { return this.defaultAxis().items(); }
 	
-	public final List<String> instrumentNames() {
-		return this.defaultAxis().instrumentNames(); }
+	public final List<String> itemNames() {
+		return this.defaultAxis().itemNames(); }
 	
-	public final Instrument getInstrument(String name) { 
-		return this.defaultAxis().getInstrument(name); }
+	public final Item getItem(String name) { 
+		return this.defaultAxis().getItem(name); }
 	
-	public final boolean hasInstrument(Instrument instrument) {
-		return this.defaultAxis().hasInstrument(instrument); }
+	public final boolean hasItem(Item item) {
+		return this.defaultAxis().hasItem(item); }
 	
 	// - Configurations (default axis) -
 
@@ -106,9 +104,9 @@ public class Observatory {
 //		var ls = System.lineSeparator();
 //		var sb = new StringBuilder();
 //		sb.append("name : ").append(quote(this.name()));
-//		if (!this.instruments.isEmpty()) {
-//			sb.append(ls).append("Instruments :");
-//			for (var ins : this.instruments)
+//		if (!this.items.isEmpty()) {
+//			sb.append(ls).append("Items :");
+//			for (var ins : this.items)
 //				sb.append(ls).append(padding(4)).append(ins.name());
 //		}
 //		sb.append(this.defaultAxis());

@@ -34,7 +34,6 @@ public final class SelectSnapshotConfigurationDialogAction extends AbstractActio
 	private final Observatory observatory;
 	private final TimelineValuePool timelineValuePool;
 	private final SnapshotSelectionService snapshotSelectionService;
-	//private final TimelineManager timelineManager;
 	private final UserDataIo userDataIo;
 	// detcejnI
 	
@@ -49,7 +48,6 @@ public final class SelectSnapshotConfigurationDialogAction extends AbstractActio
 		this.timelineValuePool = app.service(TimelineValuePool.class);
 		this.snapshotSelectionService =
 			app.service(SnapshotSelectionService.class);
-		//this.timelineManager = app.service(TimelineManager.class);
 		this.userDataIo = app.service(UserDataIo.class);
 
 		super.setEnabled(false);

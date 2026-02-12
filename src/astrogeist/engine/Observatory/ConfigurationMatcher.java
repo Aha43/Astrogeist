@@ -6,7 +6,7 @@ import java.util.List;
 public interface ConfigurationMatcher {
 	/**
 	 * <p>
-	 *   Finds configurations that contain ALL selected instruments (set-based),
+	 *   Finds configurations that contain ALL selected items (set-based),
 	 *   then ranks them by:
 	 * </p>
 	 * <ol>
@@ -17,23 +17,23 @@ public interface ConfigurationMatcher {
 	 */
 	List<Match> findMustIncludeAll(
 		Collection<Configuration> configurations,
-		Collection<String> selectedInstrumentNames);
+		Collection<String> selectedItemNames);
 	
 	/**
 	 * <p>
-	 *   Finds configurations whose instrument set equals the selected instrument
-	 *   set (exact set match).
+	 *   Finds configurations whose items set equals the selected item set
+	 *   (exact set match).
 	 *   Order is not considered for equality in this Phase 1 matcher.
 	 * </p>
 	 */
 	List<Match> findExactSetMatches(
 		Collection<Configuration> configurations,
-		Collection<String> selectedInstrumentNames);
+		Collection<String> selectedItemNames);
 	
 	/**
 	 * <p>
 	 *   Suggests the closest configurations even if they do not contain all
-	 *   selected instruments.
+	 *   selected items.
 	 *   This is used when filtering yields 0 results.
 	 * </p>
 	 * <p>
@@ -48,7 +48,6 @@ public interface ConfigurationMatcher {
 	 */
 	List<Match> suggestClosest(
 		Collection<Configuration> configurations,
-		Collection<String> selectedInstrumentNames,
+		Collection<String> selectedItemNames,
 		int limit);
-
 }

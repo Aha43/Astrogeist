@@ -7,11 +7,11 @@ import java.util.List;
 /**
  * <p>
  *   Match result containing both the configuration and the explanation of
- *   how it differs from the user's selected instrument set.
+ *   how it differs from the user's selected item set.
  * </p>
  * <p>
  *   Ordering of {@code missing} and {@code extra} follows the configuration's
- *   instrument order where possible (because order matters in your domain).
+ *   item order where possible (because order matters in your domain).
  * </p>
  */
 public final class Match {
@@ -42,13 +42,12 @@ public final class Match {
 	public final Configuration configuration() { return configuration; }
 
 	/** 
-	 * Instrument names selected by the user but missing from the configuration. 
+	 * Item names selected by the user but missing from the configuration. 
 	 */
 	public final List<String> missing() { return missing; }
 
 	/** 
-	 * Instrument names present in the configuration but not selected by the
-	 * user.
+	 * Item names present in the configuration but not selected by the user.
 	 */
 	public final List<String> extra() { return extra; }
 
@@ -70,8 +69,7 @@ public final class Match {
 	 * <p>
 	 *   Coverage of selection (0..1): how much of the user's selection the 
 	 *   config contains.
-	 *   When user ticks a few instruments, this tends to feel good as a
-	 *   ranking.
+	 *   When user ticks a few items, this tends to feel good as a ranking.
 	 */
 	public final double selectionCoverage() {
 		if (selectedCount == 0) return 1.0;
@@ -80,7 +78,7 @@ public final class Match {
 
 	/**
 	 * <p>
-	 *   True if config instrument set equals selected instrument set.
+	 *   True if config item set equals selected item set.
 	 * </p>
 	 */
 	public final boolean isExactSetMatch() {

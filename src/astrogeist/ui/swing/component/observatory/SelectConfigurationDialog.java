@@ -110,5 +110,4 @@ public final class SelectConfigurationDialog extends JDialog {
 	private void onOk() { if (!okButton.isEnabled()) return; dispose(); }
 
 	private void onCancel() { selectedConfiguration = null; dispose(); }
-	
 }

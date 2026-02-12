@@ -20,8 +20,7 @@ public final class Axis {
 	
 	private final Observatory observatory;
 	
-	private final NamedList<Instrument> instruments = 
-		new NamedList<>(Instrument::name);
+	private final NamedList<Item> items = new NamedList<>(Item::name);
 	
 	private final NamedList<Configuration> configurations =
 		new NamedList<>(Configuration::name);
@@ -37,32 +36,29 @@ public final class Axis {
 	
 	public final Observatory observatory() { return this.observatory; }
 	
-	// - Instruments -
+	// - Items -
 	
-	public final Axis addInstrument(Instrument instrument) {
-		this.instruments.add(requireNonNull(instrument, "instrument"));
+	public final Axis addItem(Item item) { 
+		this.items.add(requireNonNull(item, "item"));
 		return this;
 	}
 	
-	public final List<Instrument> instruments() {
-		return this.instruments.values(); }
+	public final List<Item> items() { return this.items.values(); }
 	
-	public final List<String> instrumentNames() {
-		return this.instruments.names(); }
+	public final List<String> itemNames() { return this.items.names(); }
 	
 	public final Set<String> allTags() {
 		var tmp = new HashSet<String>();
-		for (var curr : this.instruments) tmp.addAll(curr.tags());
+		for (var curr : this.items) tmp.addAll(curr.tags());
 		return Set.copyOf(tmp);
 	}
 	
-	public final Instrument getInstrument(String name) { 
-		return this.instruments.getOrThrow(requireNonEmpty(name, "name")); }
+	public final Item getItem(String name) { 
+		return this.items.getOrThrow(requireNonEmpty(name, "name")); }
 	
-	public final boolean hasInstrument(Instrument instrument) {
-		var found = this.getInstrument(
-			requireNonNull(instrument, "instrument").name());
-		return found == instrument;
+	public final boolean hasItem(Item item) {
+		var found = this.getItem(requireNonNull(item, "item").name());
+		return found == item;
 	}
 	
 	// - Configurations -
@@ -78,10 +74,6 @@ public final class Axis {
 		Configuration base) {
 		
 		requireNotClosed();
-		
-		//if (base.observatory() != this.observatory)
-		//	throw new IllegalArgumentException(
-		//		"Base configuration must belong to this observatory");
 		
 		var retVal = new Configuration(requireNonNull(base, "base"),
 			requireNonEmpty(name, "name"));
@@ -117,12 +109,10 @@ public final class Axis {
 	}
 	
 	private final void requireClosed() { 
-		throwIf(this.indexedConfigurations == null, "Not closed");
-	}
+		throwIf(this.indexedConfigurations == null, "Not closed"); }
 	
 	private final void requireNotClosed() { 
-		throwIfNot(this.indexedConfigurations == null, "Closed");
-	}
+		throwIfNot(this.indexedConfigurations == null, "Closed"); }
 	
 	// - Overrides -
 	

@@ -11,10 +11,10 @@ import java.util.List;
 import java.util.Set;
 
 import aha.common.util.NamedList;
-import astrogeist.engine.observatory.edit.AddedInstrument;
+import astrogeist.engine.observatory.edit.AddedItem;
 import astrogeist.engine.observatory.edit.ConfigurationEditStep;
-import astrogeist.engine.observatory.edit.RemovedInstrument;
-import astrogeist.engine.observatory.edit.ReplacedInstrument;
+import astrogeist.engine.observatory.edit.RemovedItem;
+import astrogeist.engine.observatory.edit.ReplacedItem;
 
 public final class Configuration {
 	private static final String SIG_VER = "cfgsig:v1";
@@ -23,7 +23,7 @@ public final class Configuration {
 	
 	private final List<ConfigurationEditStep> edits = new ArrayList<>();
 	
-	private final NamedList<Instrument> instruments;
+	private final NamedList<Item> items;
 	
 	private final Set<String> tags = new HashSet<>();
 	
@@ -36,14 +36,14 @@ public final class Configuration {
 	Configuration(Axis axis, String name) {
 		this.axis = requireNonNull(axis, "axis"); 
 		this.name = requireNonEmpty(name, "name").trim();
-		this.instruments = new NamedList<>(Instrument::name);
+		this.items = new NamedList<>(Item::name);
 		this.base = null;
 	}
 	
 	Configuration(Configuration other, String name) {
 		this.axis = requireNonNull(other, "other").axis;
 		this.name = requireNonEmpty(name, "name").trim();
-		this.instruments = new NamedList<>(other.instruments);
+		this.items = new NamedList<>(other.items);
 		this.base = other;
 	}
 	
@@ -53,7 +53,7 @@ public final class Configuration {
 	
 	public final String id() {
 		if (id == null)
-			id = SIG_VER + '|' + join("|", instruments.names());
+			id = SIG_VER + '|' + join("|", items.names());
 	    return id;
 	}
 	
@@ -71,13 +71,13 @@ public final class Configuration {
 	
 	public final Set<String> tags() {
 		var tmp = new HashSet<String>();
-		for (var curr : instruments.values()) tmp.addAll(this.findTags(curr));
+		for (var curr : items.values()) tmp.addAll(this.findTags(curr));
 		return Set.copyOf(tmp);
 	}
 	
-	private final Set<String> findTags(Instrument instrument) {
+	private final Set<String> findTags(Item item) {
 		var retVal = new HashSet<>(this.tags);
-		var itags = instrument.tags();
+		var itags = item.tags();
 		for (var curr : itags) {
 			if (this.erasedTags.contains(curr)) continue;
 			retVal.add(curr);
@@ -99,50 +99,46 @@ public final class Configuration {
 	
 	public final Axis axis() { return this.axis; }
 	
-	//public final Observatory observatory() { return this.axis.observatory(); }
+	public final List<Item> items() { return this.items.values(); }
 	
-	public final List<Instrument> instruments() { 
-		return this.instruments.values(); }
+	public final List<String> itemNames() { return this.items.names(); } 
 	
-	public final List<String> instrumentNames() { 
-		return this.instruments.names(); } 
-	
-	public final Configuration addInstrument(String name) {
+	public final Configuration addItem(String name) {
 		this.requireNotSealed();
-		var instrument = this.axis.getInstrument(name);
-		this.instruments.add(instrument);
-		this.edits.add(new AddedInstrument(instrument));
+		var item = this.axis.getItem(name);
+		this.items.add(item);
+		this.edits.add(new AddedItem(item));
 		return this;
 	}
 	
-	public final Configuration addInstrumentBefore(String before, String name) {
+	public final Configuration addItemBefore(String before, String name) {
 		this.requireNotSealed();
-		var instrument = this.axis.getInstrument(name);
-		this.instruments.addBeforeNamed(before, instrument);
-		this.edits.add(new AddedInstrument(instrument));
+		var item = this.axis.getItem(name);
+		this.items.addBeforeNamed(before, item);
+		this.edits.add(new AddedItem(item));
 		return this;
 	}
 	
-	public final Configuration addInstrumentAfter(String after, String name) {
+	public final Configuration addItemAfter(String after, String name) {
 		this.requireNotSealed();
-		var instrument = this.axis.getInstrument(name);	
-		this.instruments.addAfterNamed(after, instrument);
-		this.edits.add(new AddedInstrument(instrument));
+		var item = this.axis.getItem(name);	
+		this.items.addAfterNamed(after, item);
+		this.edits.add(new AddedItem(item));
 		return this;
 	}
 	
-	public final Configuration removeInstrument(String name) {
+	public final Configuration removeItem(String name) {
 		this.requireNotSealed();
-		var removed = this.instruments.removeAndReturn(name);
-		this.edits.add(new RemovedInstrument(removed));
+		var removed = this.items.removeAndReturn(name);
+		this.edits.add(new RemovedItem(removed));
 		return this;
 	}
 	
-	public final Configuration replaceInstrument(String old, String name) {
+	public final Configuration replaceItem(String old, String name) {
 		this.requireNotSealed();
-		var instrument = this.axis.getInstrument(name);
-		var replaced = this.instruments.replaceNamed(old, instrument);
-		this.edits.add(new ReplacedInstrument(instrument, replaced));
+		var item = this.axis.getItem(name);
+		var replaced = this.items.replaceNamed(old, item);
+		this.edits.add(new ReplacedItem(item, replaced));
 		return this;
 	}
 	
@@ -152,7 +148,7 @@ public final class Configuration {
 		var tags = this.tags();
 		if (tags.size() > 0) 
 			sb.append(" (").append(join(",", tags)).append(")");
-		var names = this.instruments.names();
+		var names = this.items.names();
 		if (!names.isEmpty())
 			sb.append(" : ").append(join(" - ", names));
 		return sb.toString();

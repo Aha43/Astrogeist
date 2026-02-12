@@ -39,7 +39,7 @@ public final class SelectConfigurationOptions {
 	
 	public Configuration show() {
 		var matcher = this.matcher == null ? 
-			new DefaultConfigurationMatcher() : this.matcher;
+			DefaultConfigurationMatcher.INSTANCE : this.matcher;
 		return showDialog(this.frame, this.observatory, matcher, this.selected);
 	}
 	

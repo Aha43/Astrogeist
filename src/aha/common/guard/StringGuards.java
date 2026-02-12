@@ -22,21 +22,22 @@ public final class StringGuards {
 	/**
 	 * <p>
 	 *   Throws 
-	 *   {@link IllegalArgumentException} if 
-	 *   {@code value} is the empty string (only blank characters or of length
-	 *   zero) or {@code null}.   
+	 *   {@link NullPointerException} if {@code value} is {@code null} or
+	 *   {@link IllegalArgumentException} if {@code value} is the empty string
+	 *   (only blank characters or of length zero).   
 	 * </p>
 	 * @param value the value to check.
 	 * @param name  the name used in exception to refer to {@code value}
 	 *              (typically a method parameter name).
 	 * @return the {@code value}.
-	 * @throws IllegalArgumentException If {@code value} is {@code null}, of
-	 *         length zero or composed of blank characters only.
+	 * @throws NullPointerException if {@code value} is {@code null}.
+	 * @throws IllegalArgumentException If {@code value} is of length zero or
+	 *         composed of blank characters only.
 	 */
 	public static String requireNonEmpty(String value, String name) {
-	    if (value == null || value.isEmpty())
-	        throw new IllegalArgumentException(name +
-	        	" must not be null or empty");
+		if (value == null) throw new NullPointerException(name);
+	    if (value.isEmpty())
+	    	throw new IllegalArgumentException(name + " must not be empty");
 	    return value;
 	}
 	

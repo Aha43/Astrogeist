@@ -19,7 +19,7 @@ import astrogeist.engine.observatory.edit.ReplacedInstrument;
 public final class Configuration {
 	private static final String SIG_VER = "cfgsig:v1";
 	
-	private final Observatory observatory;
+	private final Axis axis;
 	
 	private final List<ConfigurationEditStep> edits = new ArrayList<>();
 	
@@ -33,15 +33,15 @@ public final class Configuration {
 	
 	private final Configuration base;
 	
-	Configuration(Observatory observatory, String name) {
-		this.observatory = requireNonNull(observatory, "observatory"); 
+	Configuration(Axis axis, String name) {
+		this.axis = requireNonNull(axis, "axis"); 
 		this.name = requireNonEmpty(name, "name").trim();
 		this.instruments = new NamedList<>(Instrument::name);
 		this.base = null;
 	}
 	
 	Configuration(Configuration other, String name) {
-		this.observatory = requireNonNull(other, "other").observatory;
+		this.axis = requireNonNull(other, "other").axis;
 		this.name = requireNonEmpty(name, "name").trim();
 		this.instruments = new NamedList<>(other.instruments);
 		this.base = other;
@@ -97,7 +97,9 @@ public final class Configuration {
 	
 	public final Configuration base() { return this.base; }
 	
-	public final Observatory observatory() { return this.observatory; }
+	public final Axis axis() { return this.axis; }
+	
+	//public final Observatory observatory() { return this.axis.observatory(); }
 	
 	public final List<Instrument> instruments() { 
 		return this.instruments.values(); }
@@ -107,7 +109,7 @@ public final class Configuration {
 	
 	public final Configuration addInstrument(String name) {
 		this.requireNotSealed();
-		var instrument = this.observatory.getInstrument(name);
+		var instrument = this.axis.getInstrument(name);
 		this.instruments.add(instrument);
 		this.edits.add(new AddedInstrument(instrument));
 		return this;
@@ -115,7 +117,7 @@ public final class Configuration {
 	
 	public final Configuration addInstrumentBefore(String before, String name) {
 		this.requireNotSealed();
-		var instrument = this.observatory.getInstrument(name);
+		var instrument = this.axis.getInstrument(name);
 		this.instruments.addBeforeNamed(before, instrument);
 		this.edits.add(new AddedInstrument(instrument));
 		return this;
@@ -123,7 +125,7 @@ public final class Configuration {
 	
 	public final Configuration addInstrumentAfter(String after, String name) {
 		this.requireNotSealed();
-		var instrument = this.observatory.getInstrument(name);	
+		var instrument = this.axis.getInstrument(name);	
 		this.instruments.addAfterNamed(after, instrument);
 		this.edits.add(new AddedInstrument(instrument));
 		return this;
@@ -138,7 +140,7 @@ public final class Configuration {
 	
 	public final Configuration replaceInstrument(String old, String name) {
 		this.requireNotSealed();
-		var instrument = this.observatory.getInstrument(name);
+		var instrument = this.axis.getInstrument(name);
 		var replaced = this.instruments.replaceNamed(old, instrument);
 		this.edits.add(new ReplacedInstrument(instrument, replaced));
 		return this;

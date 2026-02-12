@@ -19,6 +19,10 @@ import java.util.Set;
  * </p>
  */
 public final class DefaultConfigurationMatcher implements ConfigurationMatcher {
+	private DefaultConfigurationMatcher() {}
+	
+	public final static DefaultConfigurationMatcher INSTANCE =
+		new DefaultConfigurationMatcher();
 	
 	public final List<Match> findMustIncludeAll(
 		Collection<Configuration> configurations,

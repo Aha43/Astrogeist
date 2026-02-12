@@ -3,6 +3,7 @@ package aha.common.util;
 import static aha.common.util.Strings.quote;
 import static java.util.Collections.unmodifiableList;
 import static java.util.Objects.requireNonNull;
+import static aha.common.guard.StringGuards.requireNonEmpty;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -164,6 +165,18 @@ public final class NamedList<T> implements Iterable<T> {
   
   /**
    * <p>
+   *   Tells if contains element with given name (key).
+   * </p>
+   * @param name the name to check.
+   * @return {@code true} if contains else {@code false}.
+   * @throws NullPointerException if {@code name} is {@code null}.
+   * @throws IllegalArgumentException if {@code name} is the empty string.
+   */
+  public final boolean containsKey(String name) {
+	  return this.byName.containsKey(requireNonEmpty(name, "name")); }
+  
+  /**
+   * <p>
    *   Gets first element of this list.
    * </p>
    * @return First element.
@@ -199,7 +212,7 @@ public final class NamedList<T> implements Iterable<T> {
    * @throws NullPointerException if {@code name} is {@code null}
    */
   public final T get(String name) {
-	  return this.byName.get(requireNonNull(name, "name")); }
+	  return this.byName.get(requireNonEmpty(name, "name")); }
   
   /**
    * <p>

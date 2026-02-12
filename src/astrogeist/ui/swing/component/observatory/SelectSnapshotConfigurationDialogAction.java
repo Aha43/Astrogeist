@@ -78,7 +78,7 @@ public final class SelectSnapshotConfigurationDialogAction extends AbstractActio
 		var code = snapshot.valueAsString("Configuration");
 
 		var selected = SelectConfigurationDialog.showDialog(this.frame, 
-			observatory, new DefaultConfigurationMatcher(), code);
+			observatory, DefaultConfigurationMatcher.INSTANCE, code);
 		
 		if (selected != null) updateSnapshot(selected);
 	}

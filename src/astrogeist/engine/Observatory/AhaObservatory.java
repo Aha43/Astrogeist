@@ -108,6 +108,9 @@ public final class AhaObservatory extends Observatory {
 			.addInstrumentAfter(zwoAsi174mm.name(), caK.name())
 			.eraseTag(Tag.WHITE);
 		
+		var sitesAxis = this.newAxis("Sites");
+		//sitesAxis.addInstrument()
+		
 		this.close();
 	}
 	

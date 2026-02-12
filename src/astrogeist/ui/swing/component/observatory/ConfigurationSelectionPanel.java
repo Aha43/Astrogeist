@@ -10,6 +10,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
+import astrogeist.engine.observatory.Axis;
 import astrogeist.engine.observatory.Configuration;
 import astrogeist.engine.observatory.ConfigurationMatcher;
 import astrogeist.engine.observatory.Match;
@@ -30,7 +31,7 @@ import astrogeist.ui.swing.component.observatory.events.ConfigurationSelectionLi
 public final class ConfigurationSelectionPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
-	private final Observatory observatory;
+	private final Axis axis;
 	private final ConfigurationMatcher matcher;
 
 	private final InstrumentPickerPanel instrumentPicker = 
@@ -41,12 +42,18 @@ public final class ConfigurationSelectionPanel extends JPanel {
 
 	private List<ConfigurationSelectionListener> selectionListeners =
 		new ArrayList<>();
+	
+	public ConfigurationSelectionPanel(Observatory observatory, 
+			ConfigurationMatcher matcher) { 
+		
+		this(observatory.defaultAxis(), matcher); 
+	}
 
-	public ConfigurationSelectionPanel(Observatory observatory,
+	public ConfigurationSelectionPanel(Axis axis, 
 		ConfigurationMatcher matcher) {
 
 		super(new BorderLayout(8, 8));
-		this.observatory = requireNonNull(observatory, "observatory");
+		this.axis = requireNonNull(axis, "configuration");
 		this.matcher = requireNonNull(matcher, "matcher");
 		this.detailsPanel = new ConfigurationDetailsPanel();
 
@@ -71,7 +78,7 @@ public final class ConfigurationSelectionPanel extends JPanel {
 	public final void setSelected(String code) {
 		requireNonNull(code, "code");
 		
-		var conf = this.observatory.getConfigurationById(code);
+		var conf = this.axis.getConfigurationById(code);
 		if (conf == null) return;
 		
 		var names = conf.instrumentNames();
@@ -108,13 +115,13 @@ public final class ConfigurationSelectionPanel extends JPanel {
 	
 	private void loadData() {
 		this.instrumentPicker.setInstrumentNames(
-			this.observatory.instrumentNames());
+			this.axis.instrumentNames());
 	}
 	
 	private void refreshMatches() {
 		var selected = instrumentPicker.getSelectedInstrumentNames();
 		
-		var allConfigs = observatory.configurations().stream().toList();
+		var allConfigs = this.axis.configurations().stream().toList();
 
 		List<Match> matches;
 		String header;

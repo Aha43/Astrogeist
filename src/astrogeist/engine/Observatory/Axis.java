@@ -7,9 +7,11 @@ import static aha.common.util.Strings.padding;
 import static aha.common.util.Strings.quote;
 import static java.util.Objects.requireNonNull;
 
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import aha.common.util.NamedList;
 
@@ -18,8 +20,11 @@ public final class Axis {
 	
 	private final Observatory observatory;
 	
+	private final NamedList<Instrument> instruments = 
+		new NamedList<>(Instrument::name);
+	
 	private final NamedList<Configuration> configurations =
-			new NamedList<>(Configuration::name);
+		new NamedList<>(Configuration::name);
 		
 	private Map<String, Configuration> indexedConfigurations = null;
 	
@@ -32,12 +37,39 @@ public final class Axis {
 	
 	public final Observatory observatory() { return this.observatory; }
 	
+	// - Instruments -
+	
+	public final Axis addInstrument(Instrument instrument) {
+		this.instruments.add(requireNonNull(instrument, "instrument"));
+		return this;
+	}
+	
+	public final List<Instrument> instruments() {
+		return this.instruments.values(); }
+	
+	public final List<String> instrumentNames() {
+		return this.instruments.names(); }
+	
+	public final Set<String> allTags() {
+		var tmp = new HashSet<String>();
+		for (var curr : this.instruments) tmp.addAll(curr.tags());
+		return Set.copyOf(tmp);
+	}
+	
+	public final Instrument getInstrument(String name) { 
+		return this.instruments.getOrThrow(requireNonEmpty(name, "name")); }
+	
+	public final boolean hasInstrument(Instrument instrument) {
+		var found = this.getInstrument(
+			requireNonNull(instrument, "instrument").name());
+		return found == instrument;
+	}
+	
 	// - Configurations -
 	
 	public final Configuration newConfiguration(String name) {
 		requireNotClosed();
-		var retVal = new Configuration(this.observatory, 
-			requireNonEmpty(name, "name"));
+		var retVal = new Configuration(this, requireNonEmpty(name, "name"));
 		this.configurations.add(retVal);
 		return retVal;
 	}
@@ -47,9 +79,9 @@ public final class Axis {
 		
 		requireNotClosed();
 		
-		if (base.observatory() != this.observatory)
-			throw new IllegalArgumentException(
-				"Base configuration must belong to this observatory");
+		//if (base.observatory() != this.observatory)
+		//	throw new IllegalArgumentException(
+		//		"Base configuration must belong to this observatory");
 		
 		var retVal = new Configuration(requireNonNull(base, "base"),
 			requireNonEmpty(name, "name"));

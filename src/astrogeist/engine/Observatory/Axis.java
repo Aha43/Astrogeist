@@ -43,6 +43,14 @@ public final class Axis {
 		return this;
 	}
 	
+	public final Axis addItemAlsoAsConfiguration(Item item) {
+		this.items.add(requireNonNull(item, "item"));
+		var name = item.name();
+		var conf = this.newConfiguration(name);
+		conf.addItem(name);
+		return this;
+	}
+	
 	public final List<Item> items() { return this.items.values(); }
 	
 	public final List<String> itemNames() { return this.items.names(); }

@@ -109,6 +109,8 @@ public final class AhaObservatory extends Observatory {
 			.eraseTag(Tag.WHITE);
 		
 		var sitesAxis = this.newAxis("Sites");
+		var nr10 = new Item("Home");
+		sitesAxis.addItemAlsoAsConfiguration(nr10);
 		
 		this.close();
 	}

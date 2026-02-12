@@ -6,6 +6,7 @@ import static javax.swing.ListSelectionModel.SINGLE_SELECTION;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -59,12 +60,16 @@ public final class ItemPickerPanel extends JPanel {
 		var scroll = new JScrollPane(itemList);
 		scroll.setPreferredSize(new Dimension(260, 400));
 
-		itemList.setCellRenderer((list, value, index, isSelected, cellHasFocus) -> {
-			var cb = new JCheckBox(value);
+		itemList.setCellRenderer((list, value, index, isSelected, cellHasFocus) 
+			-> {
+			
+				var cb = new JCheckBox(value);
 			cb.setSelected(selectedNames.contains(value));
 			cb.setOpaque(true);
-			cb.setBackground(isSelected ? list.getSelectionBackground() : list.getBackground());
-			cb.setForeground(isSelected ? list.getSelectionForeground() : list.getForeground());
+			cb.setBackground(isSelected ? 
+				list.getSelectionBackground() : list.getBackground());
+			cb.setForeground(isSelected ? 
+				list.getSelectionForeground() : list.getForeground());
 			return cb;
 		});
 
@@ -96,7 +101,7 @@ public final class ItemPickerPanel extends JPanel {
 		itemList.getActionMap().put("toggle", new AbstractAction() {
 			private static final long serialVersionUID = 1L;
 
-			public void actionPerformed(java.awt.event.ActionEvent e) {
+			public void actionPerformed(ActionEvent e) {
 				int idx = itemList.getSelectedIndex();
 				if (idx < 0)
 					return;
@@ -133,16 +138,12 @@ public final class ItemPickerPanel extends JPanel {
 	}
 
 	public final List<String> getSelectedItemNames() {
-		return List.copyOf(selectedNames);
-	}
-
+		return List.copyOf(selectedNames); }
+	
 	public final void addSelectionListener(ItemSelectionListener l) {
-		listeners.add(requireNonNull(l));
-	}
-
+		listeners.add(requireNonNull(l)); }
 	public final void removeSelectionListener(ItemSelectionListener l) {
-		listeners.remove(requireNonNull(l));
-	}
+		listeners.remove(requireNonNull(l)); }
 
 	/**
 	 * <p>
@@ -178,17 +179,9 @@ public final class ItemPickerPanel extends JPanel {
 
 	private void wire() {
 		filterField.getDocument().addDocumentListener(new DocumentListener() {
-			public void insertUpdate(DocumentEvent e) {
-				refreshModel();
-			}
-
-			public void removeUpdate(DocumentEvent e) {
-				refreshModel();
-			}
-
-			public void changedUpdate(DocumentEvent e) {
-				refreshModel();
-			}
+			public void insertUpdate(DocumentEvent e) { refreshModel(); }
+			public void removeUpdate(DocumentEvent e) { refreshModel(); }
+			public void changedUpdate(DocumentEvent e) { refreshModel(); }
 		});
 
 		clearButton.addActionListener(e -> {
@@ -215,12 +208,10 @@ public final class ItemPickerPanel extends JPanel {
 	}
 
 	private void purgeMissingSelections() {
-		selectedNames.removeIf(n -> !allItemNamesOrdered.contains(n));
-	}
+		selectedNames.removeIf(n -> !allItemNamesOrdered.contains(n)); }
 
 	private void updateCount() {
-		selectedCountLabel.setText("Selected: " + selectedNames.size());
-	}
+		selectedCountLabel.setText("Selected: " + selectedNames.size()); }
 
 	private void fire() {
 		var snapshot = List.copyOf(selectedNames);

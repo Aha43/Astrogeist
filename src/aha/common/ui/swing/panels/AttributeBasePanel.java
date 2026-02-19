@@ -50,7 +50,7 @@ public final class AttributeBasePanel
 	 * @throws NullPointerException if {@code data} is {@code null} (use
 	 * {@link #clear()} to remove data shown.
 	 */
-	public void data(AttributeBase<?> data) { 
+	public final void data(AttributeBase<?> data) { 
 		this.model.data(requireNonNull(data, "data")); }
 	
 	/**
@@ -71,11 +71,12 @@ public final class AttributeBasePanel
 	 * @param o the object to show.
 	 */
 	public static final void showDialog(AttributeBase<?> o) {
-		var panel = new AttributeBasePanel(o);
+		var panel = new AttributeBasePanel(requireNonNull(o, "o"));
 		var dlg = new JDialog();
 		dlg.add(panel);
 		dlg.pack();
 		invokeLater(new Runnable() {
 			public void run() { dlg.setVisible(true); } });
 	}
+	
 }

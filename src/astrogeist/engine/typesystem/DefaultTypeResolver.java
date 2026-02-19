@@ -9,11 +9,12 @@ import astrogeist.engine.abstraction.TypeResolver;
 
 public final class DefaultTypeResolver implements TypeResolver {
 	private final Map<String, Function<String, Type>> rules = Map.of(
-		"file",       v -> Type.DiskFile().resolve(v),	
-		"binning",    v -> Type.Binning(),
-		"exposure",   v -> Type.Exposure().resolve(v),
-		"gain",       v -> Type.Gain(),
-		"framecount", v -> Type.FrameCount()
+		TypeKeywords.FILE.word(),          v -> Type.DiskFile().resolve(v),	
+		TypeKeywords.BINNING.word(),       v -> Type.Binning(),
+		TypeKeywords.EXPOSURE.word(),      v -> Type.Exposure().resolve(v),
+		TypeKeywords.GAIN.word(),          v -> Type.Gain(),
+		TypeKeywords.FRAMECOUNT.word(),    v -> Type.FrameCount(),
+		TypeKeywords.CONFIGURATION.word(), v -> Type.Configuration()
 	);
 	
 	@Override public final Type resolve(String name, String value) {

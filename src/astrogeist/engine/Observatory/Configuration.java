@@ -10,13 +10,20 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import aha.common.abstraction.IndexedAndNamed;
 import aha.common.util.NamedList;
 import astrogeist.engine.observatory.edit.AddedItem;
 import astrogeist.engine.observatory.edit.ConfigurationEditStep;
 import astrogeist.engine.observatory.edit.RemovedItem;
 import astrogeist.engine.observatory.edit.ReplacedItem;
 
-public final class Configuration {
+/**
+ * <p>
+ *   A configuration of
+ *   {@link Item}s.
+ * </p>
+ */
+public final class Configuration implements IndexedAndNamed {
 	private static final String SIG_VER = "cfgsig:v1";
 	
 	private final Axis axis;
@@ -29,7 +36,7 @@ public final class Configuration {
 	
 	private final Set<String> erasedTags = new HashSet<>();
 	
-	private final String name;
+	private String name;
 	
 	private final Configuration base;
 	
@@ -51,6 +58,16 @@ public final class Configuration {
 	
 	private String id = null;
 	
+	/**
+	 * <p>
+	 *   Gets the stable id.
+	 * </p>
+	 * <p>
+	 *   This seals this
+	 *   {@link Configuration}, meaning items now are fixed since id is
+	 *   constructed from items.
+	 * </p>
+	 */
 	public final String id() {
 		if (id == null)
 			id = SIG_VER + '|' + join("|", items.names());
@@ -93,7 +110,28 @@ public final class Configuration {
 		return this;
 	}
 	
+	/**
+	 * <p>
+	 *   Gets the name of configuration that.
+	 * </p>
+	 * <p>
+	 *   While the
+	 *   {@link #id() id} is stable this can change and is for end user eyes.
+	 * </p>
+	 * @return the name.
+	 */
 	public final String name() { return this.name; }
+	
+	/**
+	 * <p>
+	 *   Sets the name.
+	 * </p>
+	 * @param name the new name.
+	 * @throws NullPointerException if {@code name == null}.
+	 * @throws IllegalArgumentException if {@code name} is the empty string.
+	 */
+	public final void name(String name) {
+		this.name = requireNonEmpty(name, "name"); }
 	
 	public final Configuration base() { return this.base; }
 	

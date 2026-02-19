@@ -67,6 +67,14 @@ public abstract class Type {
 			return s == null ? null : (s.trim().length() == 0 ? null : this); }
 	}
 	
+	private static final Configuration CONFIGURATION_INSTANCE =
+		new Configuration();
+	public static final Configuration Configuration() {
+		return CONFIGURATION_INSTANCE; } 
+	public static final class Configuration extends Type {
+		protected Configuration() {}
+	}
+	
 	private static final Number NUMBER_INSTANCE = new Number();
 	public static final Number Number() { return NUMBER_INSTANCE; }
 	public static class Number extends Type { 

@@ -1,5 +1,7 @@
 package astrogeist.engine.timeline;
 
+import static aha.common.util.Strings.quote;
+
 import java.nio.file.Path;
 import java.time.Instant;
 import java.util.Collections;
@@ -52,8 +54,9 @@ public final class DefaultTimeline implements Timeline {
     	this.timeline.clear();
     }
 
-    @Override public void put(Instant time, Path file) {
-    	this.logger.info("put at time : '" + time + "' file : '" + file + "'");
+    @Override public final void put(Instant time, Path file) {
+    	this.logger.info("put at time : " + quote(time) + " file : " +
+    		quote(file));
     	
         var fileTlv = this.pool.getFileValue(file);
         
@@ -63,8 +66,8 @@ public final class DefaultTimeline implements Timeline {
     }
     
     @Override public final void put(Instant time, String name, String value) {
-    	this.logger.info("put at time : '" + time + "' : '" + name + "' = '" +
-    		value + "'");
+    	this.logger.info("put at time : " + quote(time) + " : " + quote(name) + 
+    		" = " + quote(value));
     	
     	var nk = this.timelineNames.getTimelineName(name);
     	if (nk == null) return;
@@ -123,11 +126,8 @@ public final class DefaultTimeline implements Timeline {
             var v = (tlv == null ? null : tlv.value());
 
             // Treat null/blank/"-" as delete
-            if (v == null || v.isBlank() || "-".equals(v)) {
-                snap.remove(nk);
-            } else {
-                snap.put(nk, tlv);
-            }
+            if (v == null || v.isBlank() || "-".equals(v)) snap.remove(nk);
+            else                                           snap.put(nk, tlv);
         }
     }
 
@@ -143,11 +143,10 @@ public final class DefaultTimeline implements Timeline {
             if (nk == null) continue;
 
             var raw = e.getValue();
-            if (raw == null || raw.isBlank() || "-".equals(raw)) {
-                snap.remove(nk);
-            } else {
+            if (raw == null || raw.isBlank() || "-".equals(raw)) 
+            	snap.remove(nk);
+            else 
                 snap.put(nk, pool.get(nk, raw));  // canonicalize via pool
-            }
         }
     }
 
@@ -162,11 +161,8 @@ public final class DefaultTimeline implements Timeline {
         if (snap == null) return;
 
         var v = (value == null ? null : value.value());
-        if (v == null || v.isBlank() || "-".equals(v)) {
-            snap.remove(nk);
-        } else {
-            snap.put(nk, value);
-        }
+        if (v == null || v.isBlank() || "-".equals(v)) snap.remove(nk);
+        else                                           snap.put(nk, value);
     }
 
     @Override public final void remove(Instant t, String key) {

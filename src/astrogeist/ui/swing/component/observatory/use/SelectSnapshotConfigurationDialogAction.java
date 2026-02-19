@@ -1,4 +1,4 @@
-package astrogeist.ui.swing.component.observatory;
+package astrogeist.ui.swing.component.observatory.use;
 
 import static java.util.Objects.requireNonNull;
 
@@ -16,14 +16,16 @@ import astrogeist.engine.abstraction.TimelineManager;
 import astrogeist.engine.abstraction.selection.SnapshotListener;
 import astrogeist.engine.abstraction.selection.SnapshotSelectionService;
 import astrogeist.engine.abstraction.timeline.TimelineValuePool;
-import astrogeist.engine.observatory.Configuration;
-import astrogeist.engine.observatory.DefaultConfigurationMatcher;
 import astrogeist.engine.observatory.Observatory;
+import astrogeist.engine.observatory.Selection;
 import astrogeist.engine.timeline.Snapshot;
+import astrogeist.engine.typesystem.Type;
 import astrogeist.engine.userdata.UserDataIo;
 import astrogeist.ui.swing.App;
 
-public final class SelectSnapshotConfigurationDialogAction extends AbstractAction {
+public final class SelectSnapshotConfigurationDialogAction
+	extends AbstractAction {
+	
 	private static final long serialVersionUID = 1L;
 	
 	private final Logger log = Log.get(this);
@@ -68,30 +70,68 @@ public final class SelectSnapshotConfigurationDialogAction extends AbstractActio
 
 	@Override public final void actionPerformed(ActionEvent e) {
 		if (this.current == null) {
-			this.log.log(Level.SEVERE, "no snapshot at update time");
+			Log.error(this.log, "no snapshot at update time");
 			return;
 		}
 
-		var snapshot = this.current.second();
-		var code = snapshot.valueAsString("Configuration");
-
-		var selected = SelectConfigurationDialog.showDialog(this.frame, 
-			observatory, DefaultConfigurationMatcher.INSTANCE, code);
+		//var snapshot = this.current.second();
+		//var code = snapshot.valueAsString("Configuration");
 		
-		if (selected != null) updateSnapshot(selected);
+		var selected = AxisConfigurationSelectionDialog.showDialog(this.app);
+		
+		if (!selected.isEmpty()) this.updateSnapshot(selected);
+
+		//var selected = SelectConfigurationDialog.showDialog(this.frame, 
+		//	observatory, DefaultConfigurationMatcher.INSTANCE, code);
+		
+		//if (selected != null) updateSnapshot(selected);
 	}
 	
-	private final void updateSnapshot(Configuration selected) {
+	private final void updateSnapshot(Selection selected) {
 		try {
 			var timelineManager = this.app.service(TimelineManager.class);
 			var t = this.current.first();
-			var name = "Configuration";
-			var tlv = this.timelineValuePool.get(name, selected.id());
-			timelineManager.update(t, name, tlv);
-			this.userDataIo.save(t, "Configuration", tlv);
-		} catch (Exception x) {
 			
+			//
+			// For every Axis (id) there is selected a configuration for:
+			//
+			//  1 get a TimeLineValue object which Type is Configuration and
+			//    value is the id of the Configuration (encoding the items of
+			//    the Configuration).
+			//  2 Add the TimeLineValue object to the timeline at the current
+			//    (selected) time indexed (name) by the axis id.
+			//  3 Persist the TimeLineValue at the current (selected) time 
+			//    indexed (name) by the axis id.
+			//
+			
+			for (var axisId : selected.getAxisIds()) {
+				// 1:
+				var conf = selected.getConfigurationById(axisId);
+				var tlv = this.timelineValuePool.get(Type.Configuration(),
+					conf.id());
+				// 2:
+				timelineManager.update(t, axisId, tlv);
+				// 3:
+				this.userDataIo.save(t, axisId, tlv);
+			}
+		} catch (Exception x) {
+			Log.error(this.log, "Failed to set selection of configurations", x);
 		}
 	}
+	
+//	private final void updateSnapshot(Configuration selected) {
+//		try {
+//			var timelineManager = this.app.service(TimelineManager.class);
+//			var t = this.current.first();
+//			var name = "Configuration";
+//			var tlv = this.timelineValuePool.get(name, selected.id());
+//			timelineManager.update(t, name, tlv);
+//			this.userDataIo.save(t, "Configuration", tlv);
+//		} catch (Exception x) {
+//			
+//		}
+//	}
+	
+	
 
 }

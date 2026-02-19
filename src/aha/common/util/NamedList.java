@@ -167,7 +167,7 @@ public final class NamedList<T> implements Iterable<T> {
    * <p>
    *   Tells if contains element with given name (key).
    * </p>
-   * @param name the name to check.
+   * @param the name the name to check.
    * @return {@code true} if contains else {@code false}.
    * @throws NullPointerException if {@code name} is {@code null}.
    * @throws IllegalArgumentException if {@code name} is the empty string.
@@ -207,7 +207,7 @@ public final class NamedList<T> implements Iterable<T> {
    * <p>
    *   Returns the element with the given name.
    * </p>
-   * @param name element name
+   * @param name the element name
    * @return the element if found else {@code null}
    * @throws NullPointerException if {@code name} is {@code null}
    */
@@ -234,7 +234,7 @@ public final class NamedList<T> implements Iterable<T> {
    * <p>
    *   Adds an element to the end of the list.
    * </p>
-   * @param element element to add.
+   * @param element the element to add.
    * @return {@code true} (as specified by {@link Collection#add}).
    * @throws IllegalArgumentException if an element with the same name
    *                                  already exists
@@ -257,7 +257,7 @@ public final class NamedList<T> implements Iterable<T> {
    * <p>
    *   Removes the element with the given name, if present.
    * </p>
-   * @param name element name.
+   * @param name the element name.
    * @return {@code true} if an element was removed.
    * @throws NullPointerException if {@code name} is {@code null}.
    */
@@ -293,7 +293,7 @@ public final class NamedList<T> implements Iterable<T> {
    * <p>
    *   Removes the specified element from the list, if present.
    * </p>
-   * @param element element to remove
+   * @param element the element to remove
    * @return {@code true} if the element was removed.
    * @throws NullPointerException if {@code element} is {@code null}.
    */
@@ -320,8 +320,8 @@ public final class NamedList<T> implements Iterable<T> {
    *   Inserts {@code element} immediately after the element currently
    *   registered under {@code existingName}.
    * </p>
-   * @param existingName name of the anchor element.
-   * @param element      element to insert.
+   * @param existingName the name of the anchor element.
+   * @param element      the element to insert.
    * @throws NoSuchElementException   if {@code existingName} does not exist.
    * @throws IllegalArgumentException if {@code element}'s name collides with an
    *                                  existing name.
@@ -335,8 +335,8 @@ public final class NamedList<T> implements Iterable<T> {
    *   Inserts {@code element} immediately before the element currently
    *   registered under {@code existingName}.
    * </p>
-   * @param existingName name of the anchor element.
-   * @param element      element to insert.
+   * @param existingName the name of the anchor element.
+   * @param element      the element to insert.
    * @throws NoSuchElementException   if {@code existingName} does not exist.
    * @throws IllegalArgumentException if {@code element}'s name collides with an
    *                                  existing name.
@@ -377,7 +377,7 @@ public final class NamedList<T> implements Iterable<T> {
    *   The name under which the replacement is indexed is derived from the
    *   replacement object using the configured name extractor.
    * </p>
-   * @param name the name of the element to replace.
+   * @param name        the name of the element to replace.
    * @param replacement the new element.
    * @return the element that was replaced.
    * @throws NoSuchElementException   if no element with {@code name} exists.

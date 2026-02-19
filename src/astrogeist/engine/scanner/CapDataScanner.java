@@ -18,7 +18,7 @@ import astrogeist.engine.abstraction.timeline.Timeline;
  * </p>
  */
 public abstract class CapDataScanner extends AbstractScanner {
-	@Override public void run(
+	@Override public final void run(
 		Timeline input,
 		JobProgressListener listener, 
 		CancellationToken token) throws Exception {

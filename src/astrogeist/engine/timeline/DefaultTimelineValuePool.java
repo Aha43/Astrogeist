@@ -11,24 +11,31 @@ import astrogeist.engine.typesystem.Type;
 public final class DefaultTimelineValuePool implements TimelineValuePool {
 	private final TypeResolver typeResolver;
 	
-	private final ConcurrentMap<PoolKey, TimelineValue> pool = new ConcurrentHashMap<>();
+	private final ConcurrentMap<PoolKey, TimelineValue> pool =
+		new ConcurrentHashMap<>();
 	
-	public DefaultTimelineValuePool(TypeResolver typeResolver) { this.typeResolver = typeResolver; }
+	public DefaultTimelineValuePool(TypeResolver typeResolver) { 
+		this.typeResolver = typeResolver; }
 	
 	@Override public final TimelineValue get(String name, String value) {
 		var type = this.typeResolver.resolve(name, value);
-		return get(value, type);
+		return get(type, value);
 	}
 
 	@Override public final TimelineValue getFileValue(Path path) {
 		path = path.toAbsolutePath().normalize();
 		var type = this.typeResolver.resolveFileType(path);
-		return get(path.toString(), type);
+		return get(type, path.toString());
 	}
 	
-	private final TimelineValue get(String value, Type type) {
-		var canon = value == null ? "" : value.trim(); // maybe more canonicalization later
-	    var key = new PoolKey(type, canon);
-	    return this.pool.computeIfAbsent(key, k -> new TimelineValue(k.value(), k.type()));
+	@Override public final TimelineValue get(Type type, String value) {
+		// maybe more canonicalization later of canon
+		var canon = value == null ? "" : value.trim();
+		var key = new PoolKey(type, canon);
+	    var retVal = this.pool.computeIfAbsent(
+	    	key, 
+	    	k -> new TimelineValue(k.value(), k.type()));
+	    return retVal;
 	}
+	
 }

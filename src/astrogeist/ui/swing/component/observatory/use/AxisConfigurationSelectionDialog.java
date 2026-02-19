@@ -1,4 +1,4 @@
-package astrogeist.ui.swing.component.observatory;
+package astrogeist.ui.swing.component.observatory.use;
 
 import static java.util.Objects.requireNonNull;
 
@@ -11,27 +11,46 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
+import aha.common.abstraction.IdNames;
+import aha.common.util.DefaultIdNames;
 import astrogeist.engine.observatory.AhaObservatory;
 import astrogeist.engine.observatory.ConfigurationMatcher;
 import astrogeist.engine.observatory.DefaultConfigurationMatcher;
 import astrogeist.engine.observatory.Observatory;
-import astrogeist.engine.observatory.Setup;
+import astrogeist.engine.observatory.Selection;
 import astrogeist.ui.swing.App;
 
 public final class AxisConfigurationSelectionDialog extends JDialog {
 	private static final long serialVersionUID = 1L;
 	
+	private IdNames idNames;
+	
 	private AxisConfigurationSelectionPanel axisConfigurationSelectionPanel;
 	
-	private Setup selected = new Setup();
+	private Selection selected = null;
 	
 	public AxisConfigurationSelectionDialog(App app) {
+		super(requireNonNull(app, "app").getFrame()); this.init(app); }
+	
+	public AxisConfigurationSelectionDialog(App app, Selection selected) {
 		super(requireNonNull(app, "app").getFrame());
-		buildUi(app.service(Observatory.class), null); 
+		this.selected = requireNonNull(selected, "selected");
+		this.init(app);
+		this.axisConfigurationSelectionPanel.setSelection(selected);
 	}
 	
-	public AxisConfigurationSelectionDialog(Observatory observatory) {	
-		buildUi(observatory, null); }
+	private void init(App app) {
+		this.idNames = app.service(IdNames.class);
+		this.buildUi(app.service(Observatory.class), null);
+	}
+	
+	// Constructor used only by test main.
+	private AxisConfigurationSelectionDialog(IdNames idNames, 
+		Observatory observatory) {	
+		
+		this.idNames = requireNonNull(idNames, "idNames");
+		this.buildUi(observatory, null);
+	}
 	
 	private void buildUi(Observatory observatory,
 		ConfigurationMatcher matcher) {
@@ -45,7 +64,7 @@ public final class AxisConfigurationSelectionDialog extends JDialog {
 			DefaultConfigurationMatcher.INSTANCE : matcher;
 		
 		this.axisConfigurationSelectionPanel = 
-			new AxisConfigurationSelectionPanel(observatory,
+			new AxisConfigurationSelectionPanel(this.idNames, observatory,
 				DefaultConfigurationMatcher.INSTANCE);
 		super.add(this.axisConfigurationSelectionPanel, BorderLayout.CENTER);
 			
@@ -54,7 +73,7 @@ public final class AxisConfigurationSelectionDialog extends JDialog {
 		buttons.add(ok);
 		ok.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				selected = axisConfigurationSelectionPanel.getSetup();
+				selected = axisConfigurationSelectionPanel.getSelection();
 				setVisible(false);
 			} 
 		});
@@ -63,25 +82,35 @@ public final class AxisConfigurationSelectionDialog extends JDialog {
 		super.pack();
 	}
 	
-	public final Setup selected() { return new Setup(this.selected); }
+	public final Selection selected() { return new Selection(this.selected); }
 	
-	public final static Setup showDialog(Observatory observatory) {
-		var dlg = new AxisConfigurationSelectionDialog(observatory);
+	public final static Selection showDialog(Observatory observatory,
+		IdNames idNames) {
+		
+		var dlg = new AxisConfigurationSelectionDialog(idNames, observatory);
 		return showDialog(dlg);
 	}
 	
-	public final static Setup showDialog(App app) {
+	public final static Selection showDialog(App app) {
 		var dlg = new AxisConfigurationSelectionDialog(app);
 		return showDialog(dlg);
 	}
 	
-	private static Setup showDialog(AxisConfigurationSelectionDialog dlg) {
+	private static Selection showDialog(AxisConfigurationSelectionDialog dlg) {
 		dlg.setVisible(true);
 		return dlg.selected();
 	}
 	
+	/**
+	 * <p>
+	 *   Demo / test program.
+	 * </p>
+	 * @param args Command line arguments not used.
+	 */
 	public static void main(String[] args) {
-		var setup = showDialog(new AhaObservatory());
+		var idNames = new DefaultIdNames();
+		var selection = showDialog(new AhaObservatory(idNames), idNames);
+		System.out.println(selection);
 	}
 
 }

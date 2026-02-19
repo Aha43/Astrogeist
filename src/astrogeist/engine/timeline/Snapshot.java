@@ -1,5 +1,7 @@
 package astrogeist.engine.timeline;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -36,29 +38,35 @@ public final class Snapshot {
 	 *             {@link TimelineValue} objects representing the named
 	 *             observation value. 
 	 */
-	public Snapshot(Map<String, TimelineValue> snap) { this.snap = snap; }
+	public Snapshot(Map<String, TimelineValue> snap) {
+		this.snap = requireNonNull(snap, "snap"); }
 	
+	/**
+	 * <p>
+	 *   Get as 
+	 * </p>
+	 * @return
+	 */
+	public final Map<String, TimelineValue> asMap(){ 
+		return Map.copyOf(this.snap); }
 	
-	public Map<String, TimelineValue> asMap(){
-		return new HashMap<>(this.snap); }
-	
-	public TimelineValue value(String name) { 
+	public final TimelineValue value(String name) { 
 		var v = this.snap.get(name);
 		return v == null ? TimelineValue.Empty : v;
 	}
 	
-	public String valueAsString(String name) {
+	public final String valueAsString(String name) {
 		var tlv = this.value(name);
 		return tlv == null ? null : tlv.value();
 	}
 	
-	public List<TimelineValue> getOfType(Type type){
+	public final List<TimelineValue> getOfType(Type type){
 		var retVal = this.snap.values().stream().filter(
 			v -> Type.isA(v.type(), type)).collect(Collectors.toList()); 
 		return retVal;
 	}
 		
-	public Map<String, TimelineValue> getExcludingTypeMap(Type type) {
+	public final Map<String, TimelineValue> getExcludingTypeMap(Type type) {
 		Map<String, TimelineValue> result = new LinkedHashMap<>();
 		for (Entry<String, TimelineValue> entry : this.snap.entrySet()) {
 			if (!Type.isA(entry.getValue().type(), type))

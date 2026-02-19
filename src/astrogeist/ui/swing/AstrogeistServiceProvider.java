@@ -7,8 +7,10 @@ import static java.util.Objects.requireNonNull;
 import java.util.HashMap;
 import java.util.Map;
 
+import aha.common.abstraction.IdNames;
 import aha.common.abstraction.io.appdata.AppDataManager;
 import aha.common.io.appdata.DefaultAppDataManager;
+import aha.common.util.DefaultIdNames;
 import astrogeist.engine.abstraction.ServiceProvider;
 import astrogeist.engine.abstraction.TypeResolver;
 import astrogeist.engine.abstraction.selection.SnapshotSelectionService;
@@ -39,24 +41,24 @@ public final class AstrogeistServiceProvider implements ServiceProvider {
 	private final Map<Class<?>, Object> some = new HashMap<>();
 	
 	@Override public final <T> T get(Class<? extends T> clazz) {
-		T retVal = null;
-		
 		if (clazz == Observatory.class)
-			retVal = as(clazz, this.observatory);
+			return as(clazz, this.observatory);
+		if (clazz == IdNames.class)
+			return as(clazz, this.idNames);
 		if (clazz == Timeline.class) 
-			retVal = as(clazz, this.timeline);
+			return as(clazz, this.timeline);
 		if (clazz == UserDataIo.class) 
-			retVal = as(clazz, this.userDataIo);
+			return as(clazz, this.userDataIo);
 		if (clazz == TimelineValuePool.class)
-			retVal = as(clazz, this.timelineValuePool);
+			return as(clazz, this.timelineValuePool);
 		if (clazz == TimelineNames.class)
-			retVal = as(clazz, this.timelineNames);
+			return as(clazz, this.timelineNames);
 		if (clazz == SnapshotSelectionService.class)
-			retVal = as(clazz, this.snapshotSelectionService);
+			return as(clazz, this.snapshotSelectionService);
 		if (clazz == AppDataManager.class)
-			retVal = as(clazz, this.astrogeistStorageManager);
+			return as(clazz, this.astrogeistStorageManager);
 		
-		retVal = retVal == null ? as(clazz, this.some.get(clazz)) : retVal;
+		T retVal = as(clazz, this.some.get(clazz));
 		
 		if (retVal == null)
 			throw new IllegalArgumentException("Unsupported service type: " + 
@@ -80,7 +82,8 @@ public final class AstrogeistServiceProvider implements ServiceProvider {
 		}
 	}
 	
-	private final Observatory observatory = new AhaObservatory();
+	private final IdNames idNames = new DefaultIdNames();
+	private final Observatory observatory = new AhaObservatory(this.idNames);
 	private final TypeResolver typeResolver = new DefaultTypeResolver(); 
 	private final TimelineValuePool timelineValuePool =
 		new DefaultTimelineValuePool(this.typeResolver); 

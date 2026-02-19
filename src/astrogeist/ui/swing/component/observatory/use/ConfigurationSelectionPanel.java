@@ -1,5 +1,6 @@
-package astrogeist.ui.swing.component.observatory;
+package astrogeist.ui.swing.component.observatory.use;
 
+import static aha.common.guard.StringGuards.requireNonEmpty;
 import static java.util.Objects.requireNonNull;
 
 import java.awt.BorderLayout;
@@ -13,20 +14,23 @@ import javax.swing.JSplitPane;
 import astrogeist.engine.observatory.Axis;
 import astrogeist.engine.observatory.Configuration;
 import astrogeist.engine.observatory.ConfigurationMatcher;
+import astrogeist.engine.observatory.DefaultConfigurationMatcher;
 import astrogeist.engine.observatory.Match;
-import astrogeist.engine.observatory.Observatory;
 import astrogeist.ui.swing.component.observatory.events.ConfigurationSelectionListener;
 
 /**
- * 3-panel selection UI:
- * - left: ItemPickerPanel
- * - middle: ConfigurationMatchTablePanel
- * - right: ConfigurationDetailsPanel
- *
- * Behavior:
- * - if no items selected: show all configurations (no "missing" filtering)
- * - if selected items exist: show "must include all" matches
- * - if none match: show closest suggestions
+ * <p>
+ *   3-panel selection UI:
+ *   - left: ItemPickerPanel
+ *   - middle: ConfigurationMatchTablePanel
+ *   - right: ConfigurationDetailsPanel
+ * </p>
+ * <p>
+ *   Behavior:
+ *   - if no items selected: show all configurations (no "missing" filtering)
+ *   - if selected items exist: show "must include all" matches
+ *   - if none match: show closest suggestions
+ * </p>
  */
 public final class ConfigurationSelectionPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -40,21 +44,42 @@ public final class ConfigurationSelectionPanel extends JPanel {
 		new ConfigurationMatchTablePanel();
 	private final ConfigurationDetailsPanel detailsPanel;
 
-	private List<ConfigurationSelectionListener> selectionListeners =
+	private final List<ConfigurationSelectionListener> selectionListeners =
 		new ArrayList<>();
-	
-	public ConfigurationSelectionPanel(Observatory observatory, 
-			ConfigurationMatcher matcher) { 
-		
-		this(observatory.defaultAxis(), matcher); 
-	}
 
+	/**
+	 * <p>
+	 *   Constructor.
+	 * </p>
+	 * <p>
+	 *   Uses the
+	 *   {@link DefaultConfigurationMatcher}.
+	 * </p>
+	 * @param axis {@link Axis} which 
+	 *             {@link Configuration}s are to be selected.
+	 */
+	public ConfigurationSelectionPanel(Axis axis) { this(axis, null); }
+	
+	/**
+	 * <p>
+	 *   Constructor.
+	 * </p>
+	 * @param axis    {@link Axis} which 
+	 *                {@link Configuration}s are to be selected.
+	 * @param matcher {@link ConfigurationMatcher} implementation to use, if
+	 *                {@code null} uses
+	 *                {@link DefaultConfigurationMatcher}.
+	 * @throws NullPointerException if either {@code axis}.
+	 */
 	public ConfigurationSelectionPanel(Axis axis, 
 		ConfigurationMatcher matcher) {
-
+		
 		super(new BorderLayout(8, 8));
+		
+		this.matcher = matcher == null ? 
+			DefaultConfigurationMatcher.INSTANCE : matcher;
+
 		this.axis = requireNonNull(axis, "configuration");
-		this.matcher = requireNonNull(matcher, "matcher");
 		this.detailsPanel = new ConfigurationDetailsPanel();
 
 		setBorder(BorderFactory.createEmptyBorder(6, 6, 6, 6));
@@ -75,30 +100,88 @@ public final class ConfigurationSelectionPanel extends JPanel {
 		refreshMatches();
 	}
 	
-	public final void setSelected(String code) {
-		requireNonNull(code, "code");
+	/**
+	 * <p>
+	 *   Gets the 
+	 *   {@link Axis} this select 
+	 *   {@link Configuration}s from.
+	 * </p>
+	 * @return {@link Axis}.
+	 */
+	public final Axis axis() { return this.axis; }
+	
+	/**
+	 * <p>
+	 *   Sets selected
+	 *   {@link Configuration}.
+	 * </p>
+	 * @param id the id of
+	 *           {@link Configuration} to set as selected.
+	 * @throws NullPointerException if {@code id == null}.
+	 * @throws IllegalArgumentException if {@code id} is the empty string.
+	 */
+	public final void setSelected(String id) {
+		requireNonEmpty(id, "id");
 		
-		var conf = this.axis.getConfigurationById(code);
+		var conf = this.axis.getConfigurationById(id);
 		if (conf == null) return;
+		
+		this.setSelected(conf);
+	}
+	
+	/**
+	 * <p>
+	 *   Sets selected
+	 *   {@link Configuration}.
+	 * </p>
+	 * @param conf the
+	 *             {@link Configuration} to set as selected.
+	 * @throws NullPointerException if {@code conf == null}.
+	 */
+	public final void setSelected(Configuration conf) {
+		requireNonNull(conf, "conf");
 		
 		var names = conf.itemNames();
 		if (names == null || names.isEmpty()) return;
 		
 		this.itemPicker.setSelectedItemNames(names);
 	}
-
-	public final void addSelectionListener(ConfigurationSelectionListener l) {
-		this.selectionListeners.add(requireNonNull(l, "l")); }
 	
-	public final void removeSelectionListener(
-		ConfigurationSelectionListener l) {
-		
-		this.selectionListeners.remove(requireNonNull(l, "l")); }
-
+	/**
+	 * <p>
+	 *   Gets the selected (either programmatically or by user) 
+	 *   {@link Configuration}.
+	 * </p>
+	 * @return {@link Configuration} or {@code null} if none selected.
+	 */
 	public final Configuration getSelectedConfiguration() {
 		var m = matchTable.getSelectedMatch();
 		return m != null ? m.configuration() : null;
 	}
+
+	/**
+	 * <p>
+	 *   Adds
+	 *   {@link ConfigurationSelectionListener}.
+	 * </p>
+	 * @param l the listener to add.
+	 * @throws NullPointerException if {@code l == null}.
+	 */
+	public final void addSelectionListener(ConfigurationSelectionListener l) {
+		this.selectionListeners.add(requireNonNull(l, "l")); }
+	
+	/**
+	 * <p>
+	 *   Removes
+	 *   {@link ConfigurationSelectionListener}.
+	 * </p>
+	 * @param l the listener to remove.
+	 * @throws NullPointerException if {@code l == null}.
+	 */
+	public final void removeSelectionListener(
+		ConfigurationSelectionListener l) {
+		
+		this.selectionListeners.remove(requireNonNull(l, "l")); }
 
 	// ---- wiring ----
 

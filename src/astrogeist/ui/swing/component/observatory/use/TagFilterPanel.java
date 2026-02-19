@@ -1,4 +1,4 @@
-package astrogeist.ui.swing.component.observatory;
+package astrogeist.ui.swing.component.observatory.use;
 
 import static java.util.Objects.requireNonNull;
 

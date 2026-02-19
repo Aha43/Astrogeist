@@ -66,7 +66,7 @@ public final class Strings {
 	 * @return a CSV-formatted string containing one field per list element,
 	 *         or an empty string if the input is {@code null} or empty
 	 */
-	public static String toCsv(List<?> list) {
+	public final static String toCsv(List<?> list) {
 	    if (list == null || list.isEmpty()) return "";
 
 	    var sb = new StringBuilder();

@@ -1,78 +1,30 @@
 package astrogeist.engine.observatory;
 
+import static java.util.Objects.requireNonNull;
 import static aha.common.guard.CollectionGuards.requireKeyNotExists;
 import static aha.common.guard.StringGuards.requireNonEmpty;
-import static aha.common.util.Default.orDefault;
-import static java.util.Objects.requireNonNull;
 
 import java.util.List;
 
+import aha.common.abstraction.IdNames;
 import aha.common.util.NamedList;
 
 public class Observatory {
 	
-	private final NamedList<Axis> axises = new NamedList<>(Axis::name);
+	private final IdNames idNames;
+	
+	private final NamedList<Axis> axises = new NamedList<>(Axis::id);
 	
 	private final String name;
 	
-	private final String defaultAxisName;
+	public Observatory(IdNames idNames) { this("Unnamed", idNames); }
 	
-	public Observatory() { this("Unnamed", null); }
-	
-	public Observatory(String name) { this(name, null); }
-	
-	public Observatory(String name, String defaultAxisName) { 
-		this.name = requireNonEmpty(name, "name");
-		this.defaultAxisName = orDefault(defaultAxisName, "Optical");
-		var defaultAxis = new Axis(this.defaultAxisName, this);
-		this.axises.add(defaultAxis);
+	public Observatory(String name, IdNames idNames) {
+		this.idNames = requireNonNull(idNames, "idNames");
+		this.name = requireNonEmpty(name, "name"); 
 	}
 	
 	public final String name() { return this.name; }
-	
-	// - Items -
-	
-	public final Observatory addItem(Item item) {
-		this.defaultAxis().addItem(requireNonNull(item, "item"));
-		return this;
-	}
-	
-	public final List<Item> item() { return this.defaultAxis().items(); }
-	
-	public final List<String> itemNames() {
-		return this.defaultAxis().itemNames(); }
-	
-	public final Item getItem(String name) { 
-		return this.defaultAxis().getItem(name); }
-	
-	public final boolean hasItem(Item item) {
-		return this.defaultAxis().hasItem(item); }
-	
-	// - Configurations (default axis) -
-
-	public final Axis defaultAxis() {
-		return this.axises.get(this.defaultAxisName); }
-	
-	public final Configuration newConfiguration(String name) {
-		return this.defaultAxis().newConfiguration(name); }
-	
-	public final Configuration newConfiguration(String name,
-			Configuration base) {
-		return this.defaultAxis().newConfiguration(name, base); }
-	
-	public final Configuration newConfiguration(String name, String base) {
-		return this.defaultAxis().newConfiguration(name, base); }
-	
-	public final Configuration getConfiguration(String name) {
-		return this.defaultAxis().getConfiguration(name); }
-	
-	public final List<Configuration> configurations() {
-		return this.defaultAxis().configurations(); }
-	
-	public final void close() { this.defaultAxis().close(); }
-	
-	public final Configuration getConfigurationById(String id) {
-		return this.defaultAxis().getConfigurationById(id); }
 	
 	// - Axis -
 	
@@ -91,10 +43,11 @@ public class Observatory {
 	public final int getIndexOfAxis(Axis axis) { 
 		return this.axises.indexOf(axis); }
 	
-	public final Axis newAxis(String name) {
-		requireKeyNotExists(name, this.axises, "name");
-		var retVal = new Axis(name, this);
+	public final Axis newAxis(String id, String name) {
+		requireKeyNotExists(id, this.axises, "id");
+		var retVal = new Axis(id, name, this);
 		this.axises.add(retVal);
+		this.idNames.register(retVal);
 		return retVal;
 	}
 	

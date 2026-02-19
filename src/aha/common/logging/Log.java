@@ -164,6 +164,8 @@ public final class Log {
     	root.log(Level.FINE, msg, t); }
     
     // Error convenience
+    public final static void error(Logger logger, String msg) {
+    	logger.log(Level.SEVERE, msg); }
     public final static void error(Logger logger, Throwable t) {
     	error(logger, "Severe error", t); }
     public final static void error(Logger logger, String msg, Throwable t) {

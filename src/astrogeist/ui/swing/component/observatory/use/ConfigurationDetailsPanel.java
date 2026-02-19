@@ -1,4 +1,4 @@
-package astrogeist.ui.swing.component.observatory;
+package astrogeist.ui.swing.component.observatory.use;
 
 import java.awt.BorderLayout;
 import java.util.Objects;

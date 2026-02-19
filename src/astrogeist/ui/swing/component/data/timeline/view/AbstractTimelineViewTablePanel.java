@@ -5,6 +5,7 @@ import static aha.common.util.Cast.as;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -18,6 +19,7 @@ import aha.common.util.Strings;
 import astrogeist.engine.abstraction.selection.SnapshotSelectionService;
 import astrogeist.engine.abstraction.timeline.TimelineNames;
 import astrogeist.engine.appdata.settings.Settings;
+import astrogeist.engine.observatory.Observatory;
 import astrogeist.engine.timeline.Snapshot;
 import astrogeist.ui.swing.App;
 import astrogeist.ui.swing.component.data.timeline.selectionaction.AbstractSelectionAction;
@@ -87,13 +89,23 @@ public abstract class AbstractTimelineViewTablePanel  extends JPanel {
 		
 		this.settings = loadSettings();
 		
-		this.model.setColumnsToShow(
-			settings.getCsv(Settings.TABLE_COLUMNS, Strings.EMPTY));
+		this.model.setColumnsToShow(this.GetColumns());
 		
 		populateNorthPanel();
 		populateSouthPanel();
 		
 		this.addaptEventSource();
+	}
+	
+	private final List<String> GetColumns() {
+		var retVal = new ArrayList<String>();
+		var observatory = this.app.service(Observatory.class);
+		if (observatory == null || observatory.getAxisCount() == 0) 
+			return retVal;
+		retVal.addAll(observatory.getAxisNames());
+		retVal.addAll(
+			this.settings.getCsv(Settings.TABLE_COLUMNS, Strings.EMPTY));
+		return retVal;
 	}
 	
 	private final Settings loadSettings() {

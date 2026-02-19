@@ -13,9 +13,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import aha.common.abstraction.IndexedAndNamed;
 import aha.common.util.NamedList;
 
-public final class Axis {
+public final class Axis implements IndexedAndNamed {
+	private final String id;
+	
 	private final String name;
 	
 	private final Observatory observatory;
@@ -27,10 +30,13 @@ public final class Axis {
 		
 	private Map<String, Configuration> indexedConfigurations = null;
 	
-	Axis(String name, Observatory observatory) {
+	Axis(String id, String name, Observatory observatory) {
+		this.id = requireNonEmpty(id, "id");
 		this.name = requireNonEmpty(name, "name");
 		this.observatory = requireNonNull(observatory, "observatory");
 	}
+	
+	public final String id() { return this.id; }
 	
 	public final String name() { return this.name; }
 	

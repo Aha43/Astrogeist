@@ -16,7 +16,7 @@ import astrogeist.engine.userdata.UserDataIo;
 import astrogeist.ui.swing.App;
 import astrogeist.ui.swing.component.data.timeline.view.AbstractTimelineViewTablePanel;
 import astrogeist.ui.swing.component.data.userdata.UserDataDialog;
-import astrogeist.ui.swing.component.observatory.SelectSnapshotConfigurationDialogAction;
+import astrogeist.ui.swing.component.observatory.use.SelectSnapshotConfigurationDialogAction;
 import astrogeist.ui.swing.dialog.timeline.mapping.TimelineMappingDialog;
 
 public final class TimelineTablePanel extends AbstractTimelineViewTablePanel {

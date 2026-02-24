@@ -5,7 +5,7 @@ import static astrogeist.ui.swing.dialog.message.MessageDialogs.showError;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.time.Instant;
-import java.util.LinkedHashMap;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -32,7 +32,7 @@ public final class UserDataDialog extends ModalDialogBase {
 		AppDataManager appDataManager,
 		Instant time, 
 		UserDataIo userDataIo,
-		LinkedHashMap<String, TimelineValue> userData) {
+		Map<String, TimelineValue> userData) {
 		
 		super(app, "User Data");
 		
@@ -80,7 +80,7 @@ public final class UserDataDialog extends ModalDialogBase {
 		AppDataManager appDataManager,
 		Instant t, 
 		UserDataIo userDataIo,
-		LinkedHashMap<String, TimelineValue> userData) { 
+		Map<String, TimelineValue> userData) { 
 		
 		new UserDataDialog(app, appDataManager, t, userDataIo, userData)
 			.setVisible(true);

@@ -16,11 +16,12 @@ public final class TextParseUtil {
 	 * <p>
 	 *   Strips comment (text that start with '#') out of the passed line.
 	 * </p>
-	 * @param line the line.
+	 * @param line the line. 
 	 * @return the line stripped of comment text.
 	 */
 	public static final String stripComment(String line) {
-        String trimmed = line.stripLeading();
+		if (line == null) return Strings.EMPTY;
+        var trimmed = line.stripLeading();
         if (trimmed.isEmpty()) return Strings.EMPTY;
         int idx = trimmed.indexOf('#');
         if (idx == 0) return Strings.EMPTY;

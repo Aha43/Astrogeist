@@ -41,7 +41,8 @@ public final class ShowScanningDialogAction extends AbstractAction {
 	
 	@Override public final void actionPerformed(ActionEvent e) {
 		try {
-			var dlg = new ScanningDialog(this.app, this.astrogeistStorageManager, this.timeline, this.tvp);
+			var dlg = new ScanningDialog(this.app, 
+				this.astrogeistStorageManager, this.timeline, this.tvp);
 			dlg.showIt();
 		} catch (Exception ex) {
 			MessageDialogs.showError(app.getFrame(), "Failed", ex);

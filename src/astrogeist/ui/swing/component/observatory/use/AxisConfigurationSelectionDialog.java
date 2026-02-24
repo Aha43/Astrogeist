@@ -44,13 +44,7 @@ public final class AxisConfigurationSelectionDialog extends JDialog {
 		this.buildUi(app.service(Observatory.class), null);
 	}
 	
-	// Constructor used only by test main.
-	private AxisConfigurationSelectionDialog(IdNames idNames, 
-		Observatory observatory) {	
-		
-		this.idNames = requireNonNull(idNames, "idNames");
-		this.buildUi(observatory, null);
-	}
+	
 	
 	private void buildUi(Observatory observatory,
 		ConfigurationMatcher matcher) {
@@ -82,23 +76,56 @@ public final class AxisConfigurationSelectionDialog extends JDialog {
 		super.pack();
 	}
 	
-	public final Selection selected() { return new Selection(this.selected); }
+	public Selection showDialog() { 
+		this.setVisible(true); return this.selected; }
 	
-	public final static Selection showDialog(Observatory observatory,
+//	public final static Selection showDialog(App app, Selection selection) {
+//		requireNonNull(app, "app");
+//		requireNonNull(selection, "selection");
+//		var dlg = new AxisConfigurationSelectionDialog(app, selection);
+//		return showDialog(dlg);
+//	}
+//	
+//	public final static Selection showDialog(App app) {
+//		requireNonNull(app, "app");
+//		var dlg = new AxisConfigurationSelectionDialog(app);
+//		return showDialog(dlg);
+//	}
+	
+//	private static Selection showDialog(AxisConfigurationSelectionDialog dlg) {
+//		dlg.setVisible(true);
+//		return dlg.selected;
+//	}
+	
+	// -- Demo / test
+	
+	/**
+	 * <p>
+	 *   Constructor used only by demo / test main.
+	 * </p>
+	 * @param observatory {@link Observatory} that owns axis to select from. 
+	 * @param idNames     the map from id to names for the end user.
+	 */
+	private AxisConfigurationSelectionDialog(IdNames idNames, 
+		Observatory observatory) {	
+			
+		this.idNames = requireNonNull(idNames, "idNames");
+		this.buildUi(observatory, null);
+	}
+	
+	/**
+	 * <p>
+	 *   Show method for demo / test main only.
+	 * </p>
+	 * @param observatory {@link Observatory} that owns axis to select from. 
+	 * @param idNames     the map from id to names for the end user. 
+	 * @return            {@link Selection} done.
+	 */
+	private final static Selection showDialog(Observatory observatory, 
 		IdNames idNames) {
-		
+			
 		var dlg = new AxisConfigurationSelectionDialog(idNames, observatory);
-		return showDialog(dlg);
-	}
-	
-	public final static Selection showDialog(App app) {
-		var dlg = new AxisConfigurationSelectionDialog(app);
-		return showDialog(dlg);
-	}
-	
-	private static Selection showDialog(AxisConfigurationSelectionDialog dlg) {
-		dlg.setVisible(true);
-		return dlg.selected();
+		return dlg.showDialog();
 	}
 	
 	/**

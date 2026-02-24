@@ -87,12 +87,14 @@ public final class DefaultTimeline implements Timeline {
     }
 
     @Override public final void putTimelineValues(Instant time,
-    	LinkedHashMap<String, TimelineValue> values) {
+    	Map<String, TimelineValue> values) {
         
     	var snap = this.timeline.computeIfAbsent(time, t -> newSnapshotMap());
         for (var e : values.entrySet()) {
+        	var key = e.getKey();
+        	
         	// keep normalization consistent
-        	var nk = this.timelineNames.getTimelineName(e.getKey());
+        	var nk = this.timelineNames.getTimelineName(key);
             
         	if (nk == null) continue;
             snap.put(nk, e.getValue());

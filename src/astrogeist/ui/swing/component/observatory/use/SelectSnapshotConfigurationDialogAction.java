@@ -2,14 +2,13 @@ package astrogeist.ui.swing.component.observatory.use;
 
 import static java.util.Objects.requireNonNull;
 
-import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.time.Instant;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.AbstractAction;
 
+import aha.common.abstraction.IdNames;
 import aha.common.logging.Log;
 import aha.common.tuple.Tuple2;
 import astrogeist.engine.abstraction.TimelineManager;
@@ -32,7 +31,7 @@ public final class SelectSnapshotConfigurationDialogAction
 
 	// Injected
 	private final App app;
-	private final Frame frame;
+	private final IdNames idNames;
 	private final Observatory observatory;
 	private final TimelineValuePool timelineValuePool;
 	private final SnapshotSelectionService snapshotSelectionService;
@@ -44,8 +43,9 @@ public final class SelectSnapshotConfigurationDialogAction
 	public SelectSnapshotConfigurationDialogAction(App app) {
 		super("Configuration");
 		this.app = requireNonNull(app, "app");
+		
+		this.idNames = app.service(IdNames.class);
 
-		this.frame = app.getFrame();
 		this.observatory = app.service(Observatory.class);
 		this.timelineValuePool = app.service(TimelineValuePool.class);
 		this.snapshotSelectionService =
@@ -74,17 +74,17 @@ public final class SelectSnapshotConfigurationDialogAction
 			return;
 		}
 
-		//var snapshot = this.current.second();
-		//var code = snapshot.valueAsString("Configuration");
+		var snapshot = this.current.second();
 		
-		var selected = AxisConfigurationSelectionDialog.showDialog(this.app);
+		var selection = new Selection(this.idNames, snapshot, this.observatory);
+		
+		var dlg = selection.isEmpty() ?
+			new AxisConfigurationSelectionDialog(app) :
+			new AxisConfigurationSelectionDialog(app, selection);
+		
+		var selected = dlg.showDialog();
 		
 		if (!selected.isEmpty()) this.updateSnapshot(selected);
-
-		//var selected = SelectConfigurationDialog.showDialog(this.frame, 
-		//	observatory, DefaultConfigurationMatcher.INSTANCE, code);
-		
-		//if (selected != null) updateSnapshot(selected);
 	}
 	
 	private final void updateSnapshot(Selection selected) {
@@ -119,19 +119,4 @@ public final class SelectSnapshotConfigurationDialogAction
 		}
 	}
 	
-//	private final void updateSnapshot(Configuration selected) {
-//		try {
-//			var timelineManager = this.app.service(TimelineManager.class);
-//			var t = this.current.first();
-//			var name = "Configuration";
-//			var tlv = this.timelineValuePool.get(name, selected.id());
-//			timelineManager.update(t, name, tlv);
-//			this.userDataIo.save(t, "Configuration", tlv);
-//		} catch (Exception x) {
-//			
-//		}
-//	}
-	
-	
-
 }

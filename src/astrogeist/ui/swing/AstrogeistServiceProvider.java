@@ -100,7 +100,8 @@ public final class AstrogeistServiceProvider implements ServiceProvider {
     		new SettingsAppDataWriter(),
     		new RunConfigurationsAppDataReader());
     private final TimelineNames timelineNames =
-    	new DefaultTimelineNames(this.astrogeistStorageManager);
+    	new DefaultTimelineNames(this.astrogeistStorageManager,
+    	this.observatory);
     private final Timeline timeline =
     	new DefaultTimeline(this.timelineValuePool, this.timelineNames);
 }

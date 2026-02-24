@@ -11,8 +11,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import aha.common.abstraction.io.appdata.AppDataReader;
-import aha.common.io.XmlUtil;
 import aha.common.io.appdata.AbstractAppData;
+import aha.common.io.xml.dom.DomXmlUtil;
 
 public final class ScannerConfigAppDataReader extends AbstractAppData
 	implements AppDataReader {
@@ -31,7 +31,7 @@ public final class ScannerConfigAppDataReader extends AbstractAppData
 	private final Map<String, List<String>> readXml(InputStream in) 
 		throws Exception {
         
-		var doc = XmlUtil.parse(in);
+		var doc = DomXmlUtil.parse(in);
         doc.getDocumentElement().normalize();
 
         Map<String, List<String>> map = new LinkedHashMap<>(); // preserve order

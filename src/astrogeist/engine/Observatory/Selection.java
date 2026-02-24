@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Map;
 
 import aha.common.abstraction.IdNames;
+import astrogeist.engine.timeline.Snapshot;
+import astrogeist.engine.typesystem.Type;
 
 /**
  * <p>
@@ -46,6 +48,25 @@ public final class Selection {
 		requireNonNull(o, "o");
 		this.idNames = o.idNames;
 		this.configurations.putAll(o.configurations);
+	}
+	
+	public Selection(IdNames idNames, Snapshot snapshot, Observatory o) {
+		requireNonNull(idNames, "idNames");
+		requireNonNull(snapshot, "snapshot");
+		requireNonNull(o, "o");
+		
+		this.idNames = idNames;
+		
+		var tlvs = snapshot.asMapWithType(Type.Configuration());
+		for (var e : tlvs.entrySet()) {
+			var axisId = e.getKey();
+			var configId = e.getValue().value();
+			var axis = o.getAxisById(axisId);
+			if (axis != null) {
+				var config = axis.getConfigurationById(configId);
+				if (config != null) this.add(config);
+			}
+		}
 	}
 	
 	/**

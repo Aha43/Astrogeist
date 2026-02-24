@@ -7,8 +7,8 @@ import java.util.List;
 import org.w3c.dom.Element;
 
 import aha.common.abstraction.io.appdata.AppDataReader;
-import aha.common.io.XmlUtil;
 import aha.common.io.appdata.AbstractAppData;
+import aha.common.io.xml.dom.DomXmlUtil;
 
 public final class UserDataDefinitionsAppDataReader extends AbstractAppData
 	implements AppDataReader {
@@ -20,7 +20,7 @@ public final class UserDataDefinitionsAppDataReader extends AbstractAppData
 		return new UserDataDefinitions(); }
 
 	@Override public final Object read(InputStream in) throws Exception {
-		var doc = XmlUtil.parse(in);
+		var doc = DomXmlUtil.parse(in);
 		
         var defs = new UserDataDefinitions();
         

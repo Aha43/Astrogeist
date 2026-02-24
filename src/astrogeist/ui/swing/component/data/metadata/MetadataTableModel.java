@@ -19,7 +19,7 @@ public final class MetadataTableModel extends AbstractTableModel {
     public void setData(Snapshot data) {
         this.entries.clear();
         if (data != null) {
-        	var withNoFiles = data.getExcludingTypeMap(Type.DiskFile());
+        	var withNoFiles = data.asMapWithoutType(Type.DiskFile());
             this.entries.addAll(withNoFiles.entrySet());
         }
         fireTableDataChanged();

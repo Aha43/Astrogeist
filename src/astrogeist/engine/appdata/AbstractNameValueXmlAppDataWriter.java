@@ -5,7 +5,7 @@ import java.util.Map;
 
 import aha.common.abstraction.io.appdata.AppDataWriter;
 import aha.common.io.appdata.AbstractAppData;
-import astrogeist.engine.util.io.NameValueMapXml;
+import astrogeist.engine.util.io.NameValueXml;
 
 public abstract class AbstractNameValueXmlAppDataWriter extends AbstractAppData
 	implements AppDataWriter {
@@ -15,6 +15,6 @@ public abstract class AbstractNameValueXmlAppDataWriter extends AbstractAppData
 	protected final void write(OutputStream out, Map<String, Object> data)
 		throws Exception {
 		
-		NameValueMapXml.save(data, out); 
+		NameValueXml.INSTANCE.serialize(data, out); 
 	}
 }

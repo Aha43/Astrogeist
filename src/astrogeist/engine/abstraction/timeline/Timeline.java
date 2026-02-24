@@ -23,8 +23,7 @@ public interface Timeline extends TimelineView {
 	void put(Instant time, Path path);
 	void put(Instant time, String name, String value);
 	void put(Instant time, LinkedHashMap<String, String> values);
-	void putTimelineValues(Instant time,
-		LinkedHashMap<String, TimelineValue> values);
+	void putTimelineValues(Instant time, Map<String, TimelineValue> values);
 	
 	/**
 	 * <p>

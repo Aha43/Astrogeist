@@ -58,7 +58,8 @@ public abstract class AbstractTimelineViewTableModel
 		var view = this.getTimelineView();
 		var snapshot = view.snapshot(timestamp);
 		var tlv = snapshot.value(column);
-		return tlv == null ? Strings.EMPTY : tlv.value();
+		var retVal = tlv == null ? Strings.EMPTY : tlv.value();
+		return retVal;
 	}
 
 	public final Instant getTimestampAt(int row) {

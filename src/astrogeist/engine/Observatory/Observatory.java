@@ -28,7 +28,7 @@ public class Observatory {
 	
 	// - Axis -
 	
-	public final Axis getAxis(String name) {
+	public final Axis getAxisById(String name) {
 		return this.axises.get(requireNonEmpty(name, "name")); }
 	
 	public final List<String> getAxisNames() { return this.axises.names(); }

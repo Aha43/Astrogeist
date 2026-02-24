@@ -35,11 +35,12 @@ public final class ScanningDialog extends ModalDialogBase {
 		
 		super.addCloseButton(true);
 		super.addButton(new RefreshAction(scannersSelectionPanel));
-		super.addOkButton(new ScanAction(app, timeline, scannersSelectionPanel));
+		super.addOkButton(new ScanAction(app, timeline, 
+			scannersSelectionPanel));
 	}
 	
-	private final List<Scanner> loadScanners(TimelineValuePool tvp) throws 
-		Exception {
+	private final List<Scanner> loadScanners(TimelineValuePool tvp)
+		throws Exception {
 		
 		var config = this.appDataManager.load(
 			ScanningConfiguration.class);

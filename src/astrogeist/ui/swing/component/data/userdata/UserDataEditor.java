@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
@@ -26,7 +27,7 @@ public final class UserDataEditor extends JPanel {
     private final UserDataDefinitionsTableModel model;
 
     public UserDataEditor(List<UserDataDefinition> definitions, 
-    		LinkedHashMap<String, TimelineValue> currentValues) {
+    		Map<String, TimelineValue> currentValues) {
         super(new BorderLayout());
         
         this.model = 
@@ -97,7 +98,7 @@ public final class UserDataEditor extends JPanel {
         private final LinkedHashMap<String, TimelineValue> values;
 
         public UserDataDefinitionsTableModel(List<UserDataDefinition> defs,
-        	LinkedHashMap<String, TimelineValue> initialValues) {
+        	Map<String, TimelineValue> initialValues) {
             
         	this.defs = defs;
             this.values = new LinkedHashMap<>();

@@ -108,6 +108,13 @@ public abstract class AbstractTimelineViewTablePanel  extends JPanel {
 		return retVal;
 	}
 	
+	protected final void postSetData() {
+		this.snapshotSelectionService.cleared();
+		var columns = this.GetColumns();
+		this.model.setColumnsToShow(columns);
+		this.table.getColumnModel().getColumn(0).setPreferredWidth(150);
+	}
+	
 	private final Settings loadSettings() {
     	try {
     		var retVal = this.appDataManager.load(Settings.class);
@@ -174,13 +181,6 @@ public abstract class AbstractTimelineViewTablePanel  extends JPanel {
 		} catch (Exception x) {
 			MessageDialogs.showError(null, "Failed saving selection", x);
 		}	
-	}
-	
-	protected final void postSetData() {
-		this.snapshotSelectionService.cleared();
-		this.model.setColumnsToShow(this.settings.getCsv(
-			Settings.TABLE_COLUMNS, Strings.EMPTY));
-		this.table.getColumnModel().getColumn(0).setPreferredWidth(150);
 	}
 	
 	// TODO: replace with event infrastructure

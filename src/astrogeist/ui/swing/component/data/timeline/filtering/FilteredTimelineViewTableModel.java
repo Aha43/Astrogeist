@@ -10,6 +10,7 @@ import astrogeist.engine.abstraction.timeline.TimelineView;
 import astrogeist.engine.abstraction.timeline.TimelineViewFilter;
 import astrogeist.engine.timeline.TimelineValue;
 import astrogeist.engine.timeline.view.FilteredTimeline;
+import astrogeist.ui.swing.App;
 import astrogeist.ui.swing.component.data.timeline.view.AbstractTimelineViewTableModel;
 
 /**
@@ -27,6 +28,8 @@ public final class FilteredTimelineViewTableModel
 	private FilteredTimeline filteredView = new FilteredTimeline();
 	
 	private final ArrayList<TimelineViewFilter> filters = new ArrayList<>();
+	
+	public FilteredTimelineViewTableModel(App app) { super(app); }
 
 	@Override protected TimelineView getTimelineView() {
 		return this.filteredView; }

@@ -34,7 +34,7 @@ public final class TimelineTablePanel extends AbstractTimelineViewTablePanel {
 		TimelineNames timelineNames,
 		SnapshotSelectionService snapshotSelectionService) {
 		
-		super(app, astrogeistStorageManager, new TimelineTableModel(), 
+		super(app, astrogeistStorageManager, new TimelineTableModel(app), 
 			timelineNames, snapshotSelectionService);
 		
 		this.astrogeistStorageManager = astrogeistStorageManager;

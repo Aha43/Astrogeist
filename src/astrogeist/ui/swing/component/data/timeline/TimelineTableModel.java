@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import astrogeist.engine.abstraction.timeline.Timeline;
 import astrogeist.engine.abstraction.timeline.TimelineView;
 import astrogeist.engine.timeline.TimelineValue;
+import astrogeist.ui.swing.App;
 import astrogeist.ui.swing.component.data.timeline.view.AbstractTimelineViewTableModel;
 
 /**
@@ -17,6 +18,8 @@ public final class TimelineTableModel extends AbstractTimelineViewTableModel {
 	private static final long serialVersionUID = 1L;
 	
 	private Timeline timeline = null;
+	
+	public TimelineTableModel(App app) { super(app); }
 	
 	public final void timeline(Timeline timeline) { 
 		this.timeline = timeline;

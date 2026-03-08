@@ -28,7 +28,7 @@ public final class FilteredTimelineViewTablePanel
 		TimelineNames timelineNames,
 		SnapshotSelectionService sss) { 
 		super(app, astrogeistStorageManager,
-			new FilteredTimelineViewTableModel(), timelineNames, sss);
+			new FilteredTimelineViewTableModel(app), timelineNames, sss);
 		this.createButtons();
 	}
 	

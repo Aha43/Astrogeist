@@ -1,5 +1,6 @@
 package aha.common.abstraction;
 
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -21,7 +22,20 @@ import java.util.Optional;
  * </p>
  */
 public interface IdNames {
-    /**
+	/**
+	 * <p>
+	 *   Returns a read-only view of the registered id-to-name mappings.
+	 * </p>
+	 *
+	 * <p>
+	 *   Intended primarily for diagnostics, inspection, and tooling.
+	 * </p>
+	 *
+	 * @return unmodifiable map of id → name mappings
+	 */
+	Map<String,String> entries();
+    
+	/**
      * <p>
      *   Tries to resolve a display name for the given id.
      * </p>

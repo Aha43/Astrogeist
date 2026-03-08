@@ -1,8 +1,10 @@
 package aha.common.util;
 
 import static aha.common.guard.StringGuards.requireNonEmpty;
-import static java.util.Objects.requireNonNull;
+import static aha.common.util.Strings.isNullOrBlank;
 import static aha.common.util.Strings.quote;
+import static java.util.Collections.unmodifiableMap;
+import static java.util.Objects.requireNonNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -82,7 +84,7 @@ public final class DefaultIdNames implements IdNames {
     }
     
     @Override public final String labelOrSelf(String idOrLabel) {
-		requireNonEmpty(idOrLabel, "idOrLabel");
+    	if (isNullOrBlank(idOrLabel)) return Strings.EMPTY;
 		return map.getOrDefault(idOrLabel, idOrLabel);
 	}
 
@@ -113,4 +115,7 @@ public final class DefaultIdNames implements IdNames {
 
     @Override public final boolean contains(String id) {
         return this.map.containsKey(requireNonEmpty(id, "id")); }
+    
+    @Override public final Map<String,String> entries() {
+        return unmodifiableMap(this.map); }
 }

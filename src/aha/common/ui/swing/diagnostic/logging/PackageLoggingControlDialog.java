@@ -1,4 +1,4 @@
-package aha.common.ui.swing.diagnostic;
+package aha.common.ui.swing.diagnostic.logging;
 
 import java.awt.BorderLayout;
 import java.awt.Dialog;

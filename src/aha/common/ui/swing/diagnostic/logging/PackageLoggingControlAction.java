@@ -1,6 +1,6 @@
-package aha.common.ui.swing.diagnostic;
+package aha.common.ui.swing.diagnostic.logging;
 
-import static aha.common.ui.swing.diagnostic.PackageLoggingControlDialog.show;
+import static aha.common.ui.swing.diagnostic.logging.PackageLoggingControlDialog.show;
 
 import java.awt.Frame;
 import java.awt.event.ActionEvent;

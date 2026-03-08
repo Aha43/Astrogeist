@@ -80,6 +80,11 @@ public final class DefaultIdNames implements IdNames {
         return name != null ? name : (this.unmappedPrefix + key + 
         	this.unmappedSuffix);
     }
+    
+    @Override public final String labelOrSelf(String idOrLabel) {
+		requireNonEmpty(idOrLabel, "idOrLabel");
+		return map.getOrDefault(idOrLabel, idOrLabel);
+	}
 
     @Override public final IdNames register(String id, String name) {
         var key = requireNonEmpty(id, "id");

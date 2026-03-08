@@ -56,6 +56,25 @@ public interface IdNames {
      * @throws IllegalArgumentException if {@code id} is null/blank.
      */
     String label(String id);
+    
+    /**
+     * <p>
+     *   Resolves a display label if the given string is a registered id;
+     *   otherwise returns the string unchanged.
+     * </p>
+     * <p>
+     *   This is useful when values may either be stable ids or already
+     *   human-readable labels. If the value corresponds to a registered id,
+     *   the mapped label is returned; otherwise the value is assumed to
+     *   already be a label and is returned as-is.
+     * </p>
+     *
+     * @param idOrLabel id or already-resolved label.
+     * @return resolved label if {@code idOrLabel} is a known id; otherwise
+     *         {@code idOrLabel} itself.
+     * @throws IllegalArgumentException if {@code idOrLabel} is null/blank.
+     */
+    String labelOrSelf(String idOrLabel);
 
     /**
      * <p>

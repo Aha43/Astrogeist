@@ -26,6 +26,8 @@ public class Observatory {
 	
 	public final String name() { return this.name; }
 	
+	public final IdNames idNames() { return this.idNames; }
+	
 	// - Axis -
 	
 	public final Axis getAxisById(String name) {

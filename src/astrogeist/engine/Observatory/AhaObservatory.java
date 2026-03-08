@@ -218,6 +218,8 @@ public final class AhaObservatory extends Observatory {
 			.addItemAfter(zwoAsi174mm.name(), caK.name())
 			.eraseTag(Tag.WHITE);
 		
+		axis.close();
+		
 		return o;
 	}
 	

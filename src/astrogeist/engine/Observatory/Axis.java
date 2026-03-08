@@ -99,7 +99,8 @@ public final class Axis implements IndexedAndNamed {
 		requireNotClosed();
 		var baseConfiguration = this.configurations.getOrThrow(
 			requireNonNull(base, "base"));
-		return newConfiguration(name, baseConfiguration);
+		var retVal = newConfiguration(name, baseConfiguration);
+		return retVal;
 	}
 	
 	public final Configuration getConfiguration(String name) {
@@ -112,8 +113,11 @@ public final class Axis implements IndexedAndNamed {
 		requireNotClosed();
 		this.indexedConfigurations =
 			new LinkedHashMap<>(this.configurations.size());
-		for (var curr : this.configurations)
+		var idNames = this.observatory.idNames();
+		for (var curr : this.configurations) {
+			idNames.register(curr);
 			this.indexedConfigurations.put(curr.id(), curr);
+		}
 	}
 	
 	public final Configuration getConfigurationById(String id) {

@@ -3,7 +3,7 @@ package astrogeist.engine.integration.api.astrometry.model.builder;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.JsonNode; 
 
 import astrogeist.engine.integration.api.astrometry.model.Annotation;
 import astrogeist.engine.integration.api.astrometry.model.Names;

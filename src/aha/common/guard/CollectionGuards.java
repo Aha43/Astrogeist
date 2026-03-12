@@ -8,7 +8,6 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
-import aha.common.collection.IndexedMap;
 import aha.common.exceptions.runtime.DuplicateException;
 import aha.common.util.NamedList;
 import aha.common.util.Safe; 
@@ -241,77 +240,6 @@ public final class CollectionGuards {
 		String name) {
 		
 		requireNonEmpty(key, "key");
-		if (!map.containsKey(key)) return key;
-		throw new DuplicateException(Safe.string(name, "key"));
-	}
-	
-	/**
-	 * <p> 
-	 *   Throws
-	 *   {@link IllegalArgumentException} if map does not have given key.
-	 * </p>
-	 * @param <K> the key type.
-	 * @param <V> the value type.
-	 * @param key the key.
-	 * @param map the map.
-	 * @return the {@code key}.
-	 */
-	public static <K, V> K requireKeyExists(K key, IndexedMap<K, V> map){
-		return requireKeyExists(key, map, null); }
-	
-	/**
-	 * <p> 
-	 *   Throws
-	 *   {@link IllegalArgumentException} if map does not have given key.
-	 * </p>
-	 * @param <K>  the key type.
-	 * @param <V>  the value type.
-	 * @param key  the key. 
-	 * @param map  the map.
-	 * @param name the name used in exception to refer to {@code key} 
-	 *             (typically a method parameter name).
-	 * @return the {@code map}.
-	 */
-	public static <K, V> K requireKeyExists(K key, IndexedMap<K, V> map, 
-		String name) {
-		
-		requireNonNull(key, name);
-		if (map.containsKey(key)) return key;
-		throw new NoSuchElementException(Safe.string(name, "key"));
-	}
-	
-	/**
-	 * <p> 
-	 *   Throws
-	 *   {@link IllegalArgumentException} if map does have given key.
-	 * </p>
-	 * @param <K>  the key type.
-	 * @param <V>  the value type.
-	 * @param key  the key. 
-	 * @param map  the map.
-	 * @param name the name used in exception to refer to {@code key} 
-	 *             (typically a method parameter name).
-	 * @return the {@code key}.
-	 */
-	public static <K, V> K requireKeyNotExists(K key, IndexedMap<K, V> map) {
-		return requireKeyNotExists(key, map, null); }
-	
-	/**
-	 * <p> 
-	 *   Throws
-	 *   {@link IllegalArgumentException} if map does have given key.
-	 * </p>
-	 * @param <K>  the key type.
-	 * @param <V>  the value type.
-	 * @param key  the key.
-	 * @param map  the map.
-	 * @param name the name used in exception to refer to {@code key} 
-	 *             (typically a method parameter name).
-	 * @return the {@code key}.
-	 */
-	public static <K, V> K requireKeyNotExists(K key, IndexedMap<K, V> map, 
-		String name) {
-		
 		if (!map.containsKey(key)) return key;
 		throw new DuplicateException(Safe.string(name, "key"));
 	}

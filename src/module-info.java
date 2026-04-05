@@ -8,5 +8,6 @@ module Astrogeist {
 	requires java.logging;
 	requires com.formdev.flatlaf;
 	requires java.net.http;
-	requires com.fasterxml.jackson.databind;
+	requires aha.common.guard;
+	//requires com.fasterxml.jackson.databind;
 }

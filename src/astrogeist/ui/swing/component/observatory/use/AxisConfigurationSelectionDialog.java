@@ -13,11 +13,11 @@ import javax.swing.JPanel;
 
 import aha.common.abstraction.IdNames;
 import aha.common.util.DefaultIdNames;
-import astrogeist.engine.observatory.AhaObservatory;
-import astrogeist.engine.observatory.ConfigurationMatcher;
-import astrogeist.engine.observatory.DefaultConfigurationMatcher;
-import astrogeist.engine.observatory.Observatory;
-import astrogeist.engine.observatory.Selection;
+import astrogeist.engine.Observatory.AhaObservatory;
+import astrogeist.engine.Observatory.ConfigurationMatcher;
+import astrogeist.engine.Observatory.DefaultConfigurationMatcher;
+import astrogeist.engine.Observatory.Observatory;
+import astrogeist.engine.Observatory.Selection;
 import astrogeist.ui.swing.App;
 
 public final class AxisConfigurationSelectionDialog extends JDialog {

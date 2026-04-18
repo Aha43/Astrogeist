@@ -1,4 +1,4 @@
-package astrogeist.engine.observatory;
+package astrogeist.engine.Observatory;
 
 import static aha.common.guard.LogicGuards.throwIf;
 import static aha.common.guard.LogicGuards.throwIfNot;

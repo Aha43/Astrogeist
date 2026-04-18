@@ -1,6 +1,6 @@
-package astrogeist.engine.observatory.edit;
+package astrogeist.engine.Observatory.edit;
 
-import astrogeist.engine.observatory.Item;
+import astrogeist.engine.Observatory.Item;
 
 public interface ConfigurationEditStep {
 	EditAction action();

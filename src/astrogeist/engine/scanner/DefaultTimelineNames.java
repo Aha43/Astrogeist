@@ -9,7 +9,7 @@ import java.util.Set;
 import aha.common.abstraction.io.appdata.AppDataManager;
 import astrogeist.engine.abstraction.timeline.TimelineNames;
 import astrogeist.engine.appdata.userdatadefinitions.UserDataDefinitions;
-import astrogeist.engine.observatory.Observatory;
+import astrogeist.engine.Observatory.Observatory;
 
 public final class DefaultTimelineNames implements TimelineNames {
 	private final LinkedHashMap<String, String> mapping = new LinkedHashMap<>();

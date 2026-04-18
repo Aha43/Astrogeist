@@ -1,4 +1,4 @@
-package astrogeist.engine.observatory.constants;
+package astrogeist.engine.Observatory.constants;
 
 public enum OpticalDesign {
     REFRACTOR,

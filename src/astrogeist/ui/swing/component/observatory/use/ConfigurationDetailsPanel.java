@@ -10,7 +10,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import astrogeist.engine.observatory.Match;
+import astrogeist.engine.Observatory.Match;
 
 // This is intentionally simple in V1 (no color highlighting yet).
 /**

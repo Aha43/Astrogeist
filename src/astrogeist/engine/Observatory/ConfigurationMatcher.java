@@ -1,4 +1,4 @@
-package astrogeist.engine.observatory;
+package astrogeist.engine.Observatory;
 
 import java.util.Collection;
 import java.util.List;

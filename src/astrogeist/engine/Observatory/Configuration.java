@@ -1,7 +1,7 @@
-package astrogeist.engine.observatory;
+package astrogeist.engine.Observatory;
 
 import static aha.common.guard.StringGuards.requireNonEmpty;
-import static astrogeist.engine.observatory.Tag.normalize;
+import static astrogeist.engine.Observatory.Tag.normalize;
 import static java.lang.String.join;
 import static java.util.Objects.requireNonNull;
 
@@ -12,10 +12,10 @@ import java.util.Set;
 
 import aha.common.abstraction.IndexedAndNamed;
 import aha.common.util.NamedList;
-import astrogeist.engine.observatory.edit.AddedItem;
-import astrogeist.engine.observatory.edit.ConfigurationEditStep;
-import astrogeist.engine.observatory.edit.RemovedItem;
-import astrogeist.engine.observatory.edit.ReplacedItem;
+import astrogeist.engine.Observatory.edit.AddedItem;
+import astrogeist.engine.Observatory.edit.ConfigurationEditStep;
+import astrogeist.engine.Observatory.edit.RemovedItem;
+import astrogeist.engine.Observatory.edit.ReplacedItem;
 
 /**
  * <p>

@@ -1,4 +1,4 @@
-package astrogeist.engine.observatory;
+package astrogeist.engine.Observatory;
 
 import static java.util.Objects.requireNonNull;
 

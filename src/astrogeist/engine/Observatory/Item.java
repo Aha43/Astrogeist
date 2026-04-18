@@ -1,8 +1,8 @@
-package astrogeist.engine.observatory;
+package astrogeist.engine.Observatory;
 
 import static aha.common.guard.StringGuards.requireNonEmpty;
 import static aha.common.guard.StringGuards.requireNotHaveAny;
-import static astrogeist.engine.observatory.Tag.normalize;
+import static astrogeist.engine.Observatory.Tag.normalize;
 import static java.util.Objects.requireNonNull;
 
 import java.util.HashSet;

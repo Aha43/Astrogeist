@@ -1,4 +1,4 @@
-package astrogeist.engine.Observatory.constants;
+package astrogeist.engine.observatory.constants;
 
 public enum TelescopeType {
     SOLAR_DEDICATED,   // H-alpha, CaK, white-light solar instruments

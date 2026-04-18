@@ -1,14 +1,14 @@
-package astrogeist.engine.Observatory;
+package astrogeist.engine.observatory;
 
 import aha.common.abstraction.IdNames;
 import aha.common.util.DefaultIdNames;
-import astrogeist.engine.Observatory.constants.OpticalDesign;
-import astrogeist.engine.Observatory.types.Description;
-import astrogeist.engine.Observatory.types.Maker;
-import astrogeist.engine.Observatory.types.SerialNumber;
-import astrogeist.engine.Observatory.types.TelescopeAperture;
-import astrogeist.engine.Observatory.types.TelescopeFocalLength;
-import astrogeist.engine.Observatory.types.TelescopeWeight;
+import astrogeist.engine.observatory.constants.OpticalDesign;
+import astrogeist.engine.observatory.types.Description;
+import astrogeist.engine.observatory.types.Maker;
+import astrogeist.engine.observatory.types.SerialNumber;
+import astrogeist.engine.observatory.types.TelescopeAperture;
+import astrogeist.engine.observatory.types.TelescopeFocalLength;
+import astrogeist.engine.observatory.types.TelescopeWeight;
 
 public final class AhaObservatory extends Observatory {
 	

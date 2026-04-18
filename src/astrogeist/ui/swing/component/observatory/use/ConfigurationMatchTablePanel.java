@@ -19,8 +19,8 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 
-import astrogeist.engine.Observatory.Configuration;
-import astrogeist.engine.Observatory.Match;
+import astrogeist.engine.observatory.Configuration;
+import astrogeist.engine.observatory.Match;
 import astrogeist.ui.swing.component.observatory.events.MatchSelectionListener;
 
 /**

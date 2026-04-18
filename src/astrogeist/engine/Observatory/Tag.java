@@ -1,4 +1,4 @@
-package astrogeist.engine.Observatory;
+package astrogeist.engine.observatory;
 
 import static aha.common.guard.ObjectGuards.throwStaticClassInstantiateError;
 

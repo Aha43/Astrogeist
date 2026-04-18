@@ -19,7 +19,7 @@ import aha.common.util.Strings;
 import astrogeist.engine.abstraction.selection.SnapshotSelectionService;
 import astrogeist.engine.abstraction.timeline.TimelineNames;
 import astrogeist.engine.appdata.settings.Settings;
-import astrogeist.engine.Observatory.Observatory;
+import astrogeist.engine.observatory.Observatory;
 import astrogeist.engine.timeline.Snapshot;
 import astrogeist.ui.swing.App;
 import astrogeist.ui.swing.component.data.timeline.selectionaction.AbstractSelectionAction;

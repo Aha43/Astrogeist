@@ -10,12 +10,12 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 import aha.common.abstraction.IdNames;
-import astrogeist.engine.Observatory.Axis;
-import astrogeist.engine.Observatory.Configuration;
-import astrogeist.engine.Observatory.ConfigurationMatcher;
-import astrogeist.engine.Observatory.DefaultConfigurationMatcher;
-import astrogeist.engine.Observatory.Observatory;
-import astrogeist.engine.Observatory.Selection;
+import astrogeist.engine.observatory.Axis;
+import astrogeist.engine.observatory.Configuration;
+import astrogeist.engine.observatory.ConfigurationMatcher;
+import astrogeist.engine.observatory.DefaultConfigurationMatcher;
+import astrogeist.engine.observatory.Observatory;
+import astrogeist.engine.observatory.Selection;
 
 /**
  * <p>

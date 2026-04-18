@@ -1,9 +1,9 @@
-package astrogeist.engine.Observatory.edit;
+package astrogeist.engine.observatory.edit;
 
 import static aha.common.util.Strings.quote;
 import static java.util.Objects.requireNonNull;
 
-import astrogeist.engine.Observatory.Item;
+import astrogeist.engine.observatory.Item;
 
 public final class RemovedItem implements ConfigurationEditStep {
 	private final Item removed;

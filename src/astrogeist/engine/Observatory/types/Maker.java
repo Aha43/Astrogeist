@@ -1,4 +1,4 @@
-package astrogeist.engine.Observatory.types;
+package astrogeist.engine.observatory.types;
 
 import static aha.common.guard.StringGuards.requireNonEmpty;
 

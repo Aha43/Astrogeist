@@ -56,8 +56,7 @@ public final class DefaultTimelineNames implements TimelineNames {
 	}
 	
 	public final String getTimelineName(String key) { 
-		return this.mapping.get(key); 
-	}
+		return this.mapping.get(key); }
 	
 	public final Set<String> getDataTimelineNames() {
 		return this.mapping.keySet(); }

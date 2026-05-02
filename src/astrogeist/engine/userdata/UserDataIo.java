@@ -35,8 +35,8 @@ public final class UserDataIo {
 		requireNonNull(tv, "tv");
 		
 		var data = this.load(t);
-		data.put( name, tv);
-		this.save(t,data);
+		data.put(name, tv);
+		this.save(t, data);
 	}
 	
 	public final void save(Instant t, Map<String, TimelineValue> userData)
@@ -51,8 +51,8 @@ public final class UserDataIo {
 		UserDataXml.serialize(valuesToSave, file);
 	}
 	
-	private static void removeDeleted(LinkedHashMap<String, 
-		TimelineValue> userData) {
+	private static void removeDeleted(
+		LinkedHashMap<String, TimelineValue> userData) {
 		
 		var keys = new ArrayList<String>();
 		for (var e : userData.entrySet())

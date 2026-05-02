@@ -47,6 +47,8 @@ public final class UserDataXml {
 		requireNonNull(pool, "pool");
 		requireNonNull(f, "f");
 		
+		if (f.length() == 0) return new LinkedHashMap<>();
+		
 		try (var is = new FileInputStream(f)) { return parse(pool, is); }
 	}
 	

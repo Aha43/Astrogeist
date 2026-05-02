@@ -30,7 +30,7 @@ public final class UserDataXml {
 	
 	/**
 	 * <p>
-	 *   
+	 *   Parse a xml file containing user entered data for an observation.
 	 * </p>
 	 * @param pool {@link TimelineValuePool} to fetch / create
 	 *             {@link TimelineValue} objects in from parsed data.
@@ -54,7 +54,7 @@ public final class UserDataXml {
 	
 	/**
 	 * <p>
-	 *   
+	 *   Parse xml containing user entered data for an observation.
 	 * </p>
 	 * @param pool {@link TimelineValuePool} to fetch / create
 	 *             {@link TimelineValue} objects in from parsed data.
@@ -90,14 +90,40 @@ public final class UserDataXml {
 	    return retVal;
 	}
 	
+	/**
+	 * <p>
+	 *   Serialize data entered to by user for an observation to given file.
+	 * </p>
+	 * @param data the data to save, a map where keys are name of the value and 
+	 *             values are the 
+	 *             {@link TimelineValue} objects associated with name.
+	 * @param f    the file to save to.
+	 * @throws Exception if saving to file fails.
+	 */
 	public final static void serialize(Map<String, TimelineValue> data, File f)
 		throws Exception {
+		
+		requireNonNull(data, "data");
+		requireNonNull(f, "f");
 		
 		try (var os = new FileOutputStream(f)) { serialize(data, os); } 
 	}
 	
+	/**
+	 * <p>
+	 *   Serialize data entered to by user for an observation to given.
+	 * </p>
+	 * @param data the data to save, a map where keys are name of the value and 
+	 *             values are the 
+	 *             {@link TimelineValue} objects associated with name.
+	 * @param os   the stream to save to.
+	 * @throws Exception if saving to file fails.
+	 */
 	public final static void serialize(Map<String, TimelineValue> data,
 		OutputStream os) throws Exception {
+		
+		requireNonNull(data, "data");
+		requireNonNull(os, "os");
 		
 		var doc = createDocument(data);
 		DomXmlUtil.serialize(doc, os);
